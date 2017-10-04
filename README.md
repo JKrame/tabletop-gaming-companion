@@ -1,6 +1,6 @@
 # Tabletop-Gaming-Companion
 
-### Project Description
+####Created By:
 
 Michael Garro
 
@@ -9,3 +9,6 @@ Jeremy Kramer
 Andrew Maida
 
 Austin Shipley
+
+### Project Description
+
