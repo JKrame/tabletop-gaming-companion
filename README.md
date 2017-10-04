@@ -1,5 +1,7 @@
 # Tabletop-Gaming-Companion
 
+### Project Description
+
 Michael Garro
 
 Jeremy Kramer
