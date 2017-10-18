@@ -1,4 +1,4 @@
-# Tabletop-Gaming-Companion
+# Tabletop Gaming Companion
 
 #### Created By:
 
