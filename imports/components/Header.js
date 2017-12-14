@@ -11,7 +11,7 @@ export default class Header extends React.Component{
     render(){
         return(
             <header>
-                <nav className="navbar navbar-inverse">
+                <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <button className="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapsibleNavbarContent" aria-controls="collapsibleNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,7 +19,7 @@ export default class Header extends React.Component{
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            <NavLink to='/' className='navbar-brand'><img src='images/logo-inverse.png'/></NavLink>
+                            <NavLink to='/' className='navbar-brand'><img src='images/primoHorizontal.png'/></NavLink>
                         </div>                
                             
                         <div className="collapse navbar-collapse pull-right" id="collapsibleNavbarContent" >
