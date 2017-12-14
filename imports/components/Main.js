@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Signin from './Signin'
 import Signup from './Signup'
 
-
 export default class Main extends React.Component{
     render(){
         return(
