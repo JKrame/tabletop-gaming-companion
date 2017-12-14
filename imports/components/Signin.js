@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 export default class Signin extends React.Component{
     render(){
@@ -18,8 +19,9 @@ export default class Signin extends React.Component{
                                 </label>
                             </div>
                             <button className="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
-                            <button className="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
                         </form>  
+                        <button className="btn btn-lg btn-primary btn-block"><NavLink to='/Signup' className='nav-item nav-link nav-font-styles' style={{"fontSize":"20"}}>Signup</NavLink></button>
+                        
                     </div>
                 </div>
             </div>
