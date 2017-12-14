@@ -20,6 +20,7 @@ export default class Signin extends React.Component{
               this.setState({error: 'Unable to login. Check email and password.'});
             } else {
               this.setState({error: ''});
+              this.props.history.push('/Home');
             }
           });
     }
@@ -33,7 +34,10 @@ export default class Signin extends React.Component{
                         <div className="col-sm-12" >
                             <img src='images/primoLogo.png' className="col-sm-6 col-sm-offset-3" style={{"marginBottom":"20px"}}/>
                         </div>
-                        <form className="form-signin col-sm-12">
+
+                        {this.state.error ? <p>{this.state.error}</p> : undefined}
+                        
+                        <form onSubmit={this.onSubmit.bind(this)} noValidate className="form-signin col-sm-12">
                             <label htmlFor="inputEmail" className="sr-only">Email address</label>
                             <input type="email" ref="email" id="inputEmail" className="form-control margin-5" placeholder="Email address" required autoFocus style={{"width":"100%", "margin-left":"0"}}/>
                             <label htmlFor="inputPassword" className="sr-only">Password</label>
@@ -44,7 +48,7 @@ export default class Signin extends React.Component{
                                 </label>
                             </div>
                             <div style={{"float":"right"}} className="margin-5">
-                                <NavLink to='/Home' className='nav-item nav-link'><button type="submit" style={{"float":"right", "color": "#000000", "marginRight": "0px"}} className="margin-5 nav-item nav-link">Sign In</button></NavLink>
+                                <button type="submit" style={{"float":"right", "color": "#000000", "marginRight": "0px"}} className="margin-5 nav-item nav-link">Sign In</button>
                                 <NavLink to='/Signup' className='nav-item nav-link'><button className="margin-5" style={{"float":"right", "color": "#000000"}}>Signup</button></NavLink>
                             </div>
                         </form> 
