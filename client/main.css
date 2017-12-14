@@ -36,6 +36,7 @@ body{
     margin:10px;
 }
 
+
 .margin-5 {
     margin: 5px;
 }
@@ -57,3 +58,7 @@ body{
     padding-top: 15px;
   }
   .navbar-nav:last-child{ border-right:0}
+
+  .cancel-button{
+      background-color:rgba(255, 64, 76, 1);
+  }
