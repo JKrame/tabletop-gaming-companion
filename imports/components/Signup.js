@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Accounts } from 'meteor/accounts-base'
+import { NavLink } from 'react-router-dom'
 
 export default class Signup extends React.Component{
 
@@ -33,21 +34,28 @@ export default class Signup extends React.Component{
     render(){
         return(
             <div className="container">
-                <div className="col-lg-8 col-lg-offset-2 main-content-panel verticalCenter">
+                <div className="col-lg-4 main-content-panel verticalCenter">
                     <div>
-                        <form className="form-signin" onSubmit={this.onSubmit.bind(this)} noValidate>
-                            <h2 className="form-signin-heading">Please sign in</h2>
+                        <div style={{"height":"15px"}}></div>
+                        <div className="col-sm-12" >
+                            <img src='images/primoLogo.png' className="col-sm-6 col-sm-offset-3" style={{"marginBottom":"20px"}}/>
+                        </div>
+                        <form className="form-signin col-sm-12" onSubmit={this.onSubmit.bind(this)} noValidate>
                             <label htmlFor="inputEmail" className="sr-only">Email address</label>
-                            <input type="email" ref="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus/>
+                            <input type="email" ref="email" id="inputEmail" className="form-control margin-5" placeholder="Email address" required autoFocus style={{"width":"100%", "marginLeft":"0"}}/>
                             <label htmlFor="inputPassword" className="sr-only">Password</label>
-                            <input type="password" ref="password" id="inputPassword" className="form-control" placeholder="Password" required/>
-                            <div className="checkbox">
+                            <input type="password" ref="password" id="inputPassword" className="form-control margin-5" placeholder="Password" required style={{"width":"100%", "marginLeft":"0"}}/>
+                            <div className="checkbox" style={{"float":"left"}}>
                                 <label>
                                 <input type="checkbox" value="remember-me"/> Remember me
                                 </label>
                             </div>
-                            <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                            <div style={{"float":"right"}} className="margin-5">
+                                <button type="submit" style={{"float":"right", "color": "#000000", "marginRight": "0px"}} className="margin-5 nav-item nav-link">Sign Up</button>
+                                <NavLink to='/' className='nav-item nav-link'><button className="margin-5" style={{"float":"right", "color": "#000000"}}>Cancel</button></NavLink>
+                            </div>
                         </form>  
+                        <div style={{"height":"20px", "clear":"both"}}></div>
                     </div>
                 </div>
             </div>
