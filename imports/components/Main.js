@@ -9,6 +9,7 @@ export default class Main extends React.Component{
             <main>
                 <div>
                     <Switch>
+                        <Route exact path='/' component={Signup}/>
                         <Route exact path='/' component={Signin}/>
                         <Route exact path='/Signup' component={Signup}/>
                     </Switch>
