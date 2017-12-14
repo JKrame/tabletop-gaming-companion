@@ -35,15 +35,9 @@ export default class Signin extends React.Component{
                         </div>
                         <form className="form-signin col-sm-12">
                             <label htmlFor="inputEmail" className="sr-only">Email address</label>
-<<<<<<< HEAD
-                            <input type="email" id="inputEmail" className="form-control margin-5" placeholder="Email address" required autoFocus style={{"width":"100%", "marginLeft":"0"}}/>
-                            <label htmlFor="inputPassword" className="sr-only">Password</label>
-                            <input type="password" id="inputPassword" className="form-control margin-5" placeholder="Password" required style={{"width":"100%", "marginLeft":"0"}}/>
-=======
                             <input type="email" ref="email" id="inputEmail" className="form-control margin-5" placeholder="Email address" required autoFocus style={{"width":"100%", "margin-left":"0"}}/>
                             <label htmlFor="inputPassword" className="sr-only">Password</label>
                             <input type="password" ref="password" id="inputPassword" className="form-control margin-5" placeholder="Password" required style={{"width":"100%", "margin-left":"0"}}/>
->>>>>>> 458d9c9115ea1c43a7260dd15757ebbfb87350a1
                             <div className="checkbox" style={{"float":"left"}}>
                                 <label>
                                 <input type="checkbox" value="remember-me"/> Remember me
