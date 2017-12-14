@@ -1,6 +1,28 @@
 import React from 'react'
 
 export default class Signin extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            error: ''
+        };
+    }
+
+    onSubmit(e){
+        e.preventDefault();
+
+        let email = this.refs.email.value.trim();
+        let password = this.refs.password.value.trim();
+
+        Meteor.loginWithPassword({email}, password, (err) => {
+            if (err) {
+              this.setState({error: 'Unable to login. Check email and password.'});
+            } else {
+              this.setState({error: ''});
+            }
+          });
+    }
+
     render(){
         return(
             <div className="container">
