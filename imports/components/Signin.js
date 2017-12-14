@@ -22,8 +22,8 @@ export default class Signin extends React.Component{
                                 </label>
                             </div>
                             <div style={{"float":"right"}} className="margin-5">
-                                <button type="submit" style={{"float":"right"}} className="margin-5">Sign In</button>
-                                <NavLink to='/Signup' className='nav-item nav-link'><button className="margin-5" style={{"float":"right"}}>Signup</button></NavLink>
+                                <button type="submit" style={{"float":"right", "color": "#000000", "margin-right": "0px"}} className="margin-5 nav-item nav-link">Sign In</button>
+                                <NavLink to='/Signup' className='nav-item nav-link'><button className="margin-5" style={{"float":"right", "color": "#000000"}}>Signup</button></NavLink>
                             </div>
                         </form> 
 
