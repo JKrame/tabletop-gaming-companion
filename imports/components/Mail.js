@@ -4,7 +4,7 @@ export default class Mail extends React.Component{
   render() {
     return(
         <div>
-          <h1>Logged in, bitches </h1>
+          <h1>Mail </h1>
         </div>
     );
   }
