@@ -1,11 +1,35 @@
 /* CSS declarations go here */
 *{
-    color:#c4c4c4;
+    color: #606060;
+}
+
+hr{
+    padding:0;
+    margin-top:5px;
+    border-top: 8px solid #fff;
+    
+}
+
+h3{
+    padding:0 !important;
+    margin:0 !important;
+}
+
+a{
+    color: #606060;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #606060;
+}
+
+a.hover{
+    color: #000;
 }
 
 .nav-font-styles{
     font-size: 16px;
-    color: #c4c4c4;
+    color: #606060;
 }
 
 body{
@@ -65,3 +89,29 @@ body{
   .cancel-button{
       background-color:rgba(255, 64, 76, 1);
   }
+
+  .page-wrapper{
+      margin-top:20px;
+  }
+
+  .page-content{
+    background-color: rgba(255, 255, 255, 0.801);
+    margin:6px;
+    color: #012C40;
+    padding:10px;
+}
+
+  
+  .page-content-half{
+    background-color: rgba(255, 255, 255, 0.801);
+    margin:6px;
+    color: #012C40;
+    height:430px;
+    padding:10px;
+}
+
+.col-lg-6{
+    margin:0px;
+    padding-right:0px;
+    padding-left:0px;
+}
