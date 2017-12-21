@@ -20,7 +20,7 @@ export default class Signin extends React.Component{
               this.setState({error: 'Unable to login. Check email and password.'});
             } else {
               this.setState({error: ''});
-              this.props.history.push('/Home');
+              this.props.history.push('/home');
             }
           });
     }
