@@ -6,7 +6,8 @@ export default class CampaignScreen extends React.Component{
       <div className="page-wrapper">
           <div className="col-lg-8 col-lg-offset-2">
             <div className="page-content">
-              <h1>Campaign Screen</h1>
+              <h3>Campaign Screen >></h3>
+              <hr/>
             </div>
           </div>
         </div>

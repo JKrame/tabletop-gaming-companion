@@ -6,7 +6,8 @@ export default class NearbyPlayers extends React.Component{
       <div className="page-wrapper">
           <div className="col-lg-8 col-lg-offset-2">
             <div className="page-content">
-              <h1>Nearby Players</h1>
+              <h3>Nearby Players >></h3>
+              <hr/>
             </div>
           </div>
         </div>
