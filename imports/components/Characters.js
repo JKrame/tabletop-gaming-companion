@@ -6,6 +6,6 @@ export default class Characters extends React.Component{
         <div>
           <h1>Characters</h1>
         </div>
-    );
+    );  
   }
 }  

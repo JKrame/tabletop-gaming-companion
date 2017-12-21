@@ -11,6 +11,14 @@ export default class Header extends React.Component{
     render(){
         return(
             <header>
+                <ul>
+                <li><a>Home</a></li>
+                <li><a>Adventure Board</a></li>
+                <li><a>Binder</a></li>
+                <li><a>Mail</a></li>
+                <li><a>Settings</a></li>
+                </ul>
+
                 <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
                     <div className="container-fluid">
                         <div className="navbar-header">

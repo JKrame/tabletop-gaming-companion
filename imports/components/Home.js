@@ -5,6 +5,7 @@ export default class Home extends React.Component{
     return(
         <div>
           <h1>Home </h1>
+          <div className="item"></div>
         </div>
     );
   }
