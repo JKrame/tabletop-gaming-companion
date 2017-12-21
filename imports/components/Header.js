@@ -17,8 +17,8 @@ export default class Header extends React.Component{
         if(!!Meteor.userId())
         {
             return(
-                <header>
-                    <nav className="navbar navbar-toggleable-md navbar-default">
+                <header className="navbar">
+                    <nav className="navbar-inner">
                         <div className="container-fluid">
                             <div className="navbar-header">
                                 <button className="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapsibleNavbarContent" aria-controls="collapsibleNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
