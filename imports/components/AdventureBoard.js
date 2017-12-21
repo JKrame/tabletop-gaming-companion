@@ -1,5 +1,4 @@
 import React from 'react'
-import AdventureBoardCollection from '../api/AdventureBoard';
 
 export default class AdventureBoard extends React.Component{
   render() {
