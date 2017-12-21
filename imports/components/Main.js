@@ -13,37 +13,37 @@ import NearbyPlayers from './NearbyPlayers';
 import Settings from './Settings';
 import Signin from './Signin';
 import Signup from './Signup';
-
-
-
 import createBrowserHistory from '../../node_modules/history/createBrowserHistory';
+import { Meteor } from 'meteor/meteor'
 
 const browserHistory = createBrowserHistory();
 
-const unauthenticatedPages = ['/', '/Signup'];
-const authenticatedPages = ['/Home'];
+const unauthenticatedPages = ['/', '/signin', '/signup'];
+const authenticatedPages = ['/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
+                            '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
+
 const onEnterPublicPage = () => {
-  if (Meteor.userId()) {
-    browserHistory.replace('/Home');
-  }
+    if (Meteor.userId()) {
+        browserHistory.replace('/home');
+    }
 };
 
 const onEnterPrivatePage = () => {
-  if (!Meteor.userId()) {
-    browserHistory.replace('/');
-  }
+    if (!Meteor.userId()) {
+        browserHistory.replace('/signin');
+    }
 };
 
 export const onAuthChange = (isAuthenticated) => {
-  const pathname = browserHistory.location.pathname;
-  const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
-  const isAuthenticatedPage = authenticatedPages.includes(pathname);
+    const pathname = browserHistory.location.pathname;
+    const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
+    const isAuthenticatedPage = authenticatedPages.includes(pathname);
 
-  if (isUnauthenticatedPage && isAuthenticated) {
-    browserHistory.replace('/Home');
-  } else if (isAuthenticatedPage && !isAuthenticated) {
-    browserHistory.replace('/');
-  }
+    if (isUnauthenticatedPage && isAuthenticated) {
+        browserHistory.replace('/home');
+    } else if (isAuthenticatedPage && !isAuthenticated) {
+        window.location.assign('/signin');
+    }
 };
 
 export class Main extends React.Component{
@@ -64,10 +64,11 @@ export class Main extends React.Component{
                         <Route exact path='/nearbyplayers' component={NearbyPlayers}/>
                         <Route exact path='/settings' component={Settings}/>
                         <Route exact path='/' component={Signin}/>
+                        <Route exact path='/signin' component={Signin}/>
                         <Route exact path='/signup' component={Signup}/>
                     </Switch>
                 </div>
             </main>
         );  
     }
-}    
+}

@@ -7,6 +7,8 @@ import { onAuthChange } from '../imports/components/Main';
 
 Tracker.autorun(() => {
   const isAuthenticated = !!Meteor.userId();
+  console.log("auth change baby!" + isAuthenticated);
+  
   onAuthChange(isAuthenticated);
 });
 

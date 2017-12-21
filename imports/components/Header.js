@@ -2,12 +2,17 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Template } from 'meteor/templating'
 import { Blaze } from 'meteor/blaze'
+import {Accounts} from 'meteor/accounts-base';
 //import logo from '../../images/logo.png';
 
 // The Header creates links that can be used to navigate
 // between routes.
 export default class Header extends React.Component{
-    
+
+    logOut(){
+        Accounts.logout();
+    }
+
     render(){
         return(
             <header>
@@ -17,6 +22,7 @@ export default class Header extends React.Component{
                 <li><a>Binder</a></li>
                 <li><a>Mail</a></li>
                 <li><a>Settings</a></li>
+                <button onClick={this.logOut}><li><a>Log Out</a></li></button>
                 </ul>
 
                 <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
