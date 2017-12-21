@@ -44,13 +44,11 @@ export default class Header extends React.Component{
                     </nav>
                 </header>
             );
-        
         }
         else{
             return(
                 <header></header>
             );
         }
-       
     }
 }
