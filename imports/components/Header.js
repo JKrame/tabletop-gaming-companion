@@ -9,33 +9,43 @@ import { Blaze } from 'meteor/blaze'
 export default class Header extends React.Component{
     
     render(){
-        return(
-            <header>
-                <ul>
-                <li><a>Home</a></li>
-                <li><a>Adventure Board</a></li>
-                <li><a>Binder</a></li>
-                <li><a>Mail</a></li>
-                <li><a>Settings</a></li>
-                </ul>
-
-                <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <button className="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapsibleNavbarContent" aria-controls="collapsibleNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
-                            <NavLink to='/' className='navbar-brand'><img src='images/primoHorizontal.png'/></NavLink>
-                        </div>                
-                            
-                        <div className="collapse navbar-collapse pull-right" id="collapsibleNavbarContent" >
-
+        if(!!Meteor.userId())
+        {
+            return(
+                <header>
+                    <ul>
+                    <li><a>Home</a></li>
+                    <li><a>Adventure Board</a></li>
+                    <li><a>Binder</a></li>
+                    <li><a>Mail</a></li>
+                    <li><a>Settings</a></li>
+                    </ul>
+    
+                    <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+                        <div className="container-fluid">
+                            <div className="navbar-header">
+                                <button className="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapsibleNavbarContent" aria-controls="collapsibleNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"></span>
+                                </button>
+                                <NavLink to='/' className='navbar-brand'><img src='images/primoHorizontal.png'/></NavLink>
+                            </div>                
+                                
+                            <div className="collapse navbar-collapse pull-right" id="collapsibleNavbarContent" >
+    
+                            </div>
                         </div>
-                    </div>
-                </nav>
-            </header>
-        );
+                    </nav>
+                </header>
+            );
+        
+        }
+        else{
+            return(
+                <header></header>
+            );
+        }
+       
     }
 }
