@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default class YourCampaigns extends React.Component{
+export default class Binder extends React.Component{
   render() {
     return(
         <div>
-          <h1>Your Campaigns </h1>
+          <h1>Binder</h1>
         </div>
     );
   }

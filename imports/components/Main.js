@@ -39,9 +39,19 @@ export class Main extends React.Component{
             <main>
                 <div>
                     <Switch>
+                        <Route exact path='/adventureboard' component={AdventureBoard}/>
+                        <Route exact path='/campaign/*' component={CampaignScreen}/>
+                        <Route exact path='/campaign/edit/*' component={CampaignSetup}/>
+                        <Route exact path='/characters' component={Characters}/>
+                        <Route exact path='/characters/edit/*' component={CharacterSheets}/>
+                        <Route exact path='/home' component={Home}/>
+                        <Route exact path='/mail' component={Mail}/>
+                        <Route exact path='/nearbyplayers' component={NearbyPlayers}/>
                         <Route exact path='/' component={Signin}/>
-                        <Route exact path='/Signup' component={Signup}/>
-                        <Route exact path='/Home' component={Home}/>
+                        <Route exact path='/signup' component={Signup}/>
+                        <Route exact path='/settings' component={Settings}/>
+                        <Route exact path='/campaigns' component={Campaigns}/>
+                        <Route exact path='/binder' component={Binder}/>
                     </Switch>
                 </div>
             </main>

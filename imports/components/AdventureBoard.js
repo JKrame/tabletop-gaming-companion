@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class PlayersNearYou extends React.Component{
+export default class AdventureBoard extends React.Component{
   render() {
     return(
         <div>
