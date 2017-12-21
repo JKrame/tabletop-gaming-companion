@@ -10,7 +10,7 @@ import {Accounts} from 'meteor/accounts-base';
 export default class Header extends React.Component{
 
     logOut(){
-        Accounts.logout();
+        Meteor.logout();
     }
 
     render(){
@@ -27,17 +27,17 @@ export default class Header extends React.Component{
                                     <span className="icon-bar"></span>
                                 </button>
         
-                                <NavLink to='/' className='navbar-brand' style={{"margin-top":"-10px"}}><img src='images/primoHorizontal.png'/></NavLink>
+                                <NavLink to='/' className='navbar-brand' style={{"marginTop":"-10px"}}><img src='images/primoHorizontal.png'/></NavLink>
                               
                             </div>                
                             <div className="collapse navbar-collapse pull-right" id="collapsibleNavbarContent" >
                                 <ul className="nav navbar-nav mr-auto">
-                                    <li ><a  href="#">Home</a></li>
-                                    <li ><a  href="#">Adventure Board</a></li>
-                                    <li ><a  href="#">Binder</a></li>
-                                    <li ><a  href="#">Mail</a></li>
-                                    <li ><a  href="#">Settings</a></li>
-                                    <li ><a  href="#" onClick={this.logOut}>Log Out</a></li>
+                                    <li ><NavLink to="/home">Home</NavLink></li>
+                                    <li ><NavLink to="/adventureboard">Adventure Board</NavLink></li>
+                                    <li ><NavLink to="/binder">Binder</NavLink></li>
+                                    <li ><NavLink to="/mail">Mail</NavLink></li>
+                                    <li ><NavLink to="/settings">Settings</NavLink></li>
+                                    <li ><a onClick={this.logOut}>Log Out</a></li>
                                 </ul>
                             </div>
                         </div>
