@@ -1,8 +1,21 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import AdventureBoard from './AdventureBoard';
+import Binder from './Binder';
+import Campaigns from './Campaigns';
+import CampaignScreen from './CampaignScreen';
+import CampaignSetup from './CampaignSetup';
+import Characters from './Characters';
+import CharacterSheets from './CharacterSheets';
+import Home from './Home';
+import Mail from './Mail';
+import NearbyPlayers from './NearbyPlayers';
+import Settings from './Settings';
 import Signin from './Signin';
 import Signup from './Signup';
-import Home from './Home';
+
+
+
 import createBrowserHistory from '../../node_modules/history/createBrowserHistory';
 
 const browserHistory = createBrowserHistory();
