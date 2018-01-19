@@ -13,8 +13,7 @@ export default class Home extends React.Component{
     //checks if value exists
     if (characterName) {
       Characters.insert({ characterName });
-      //This is broken
-      //this.refs.charactersName.value = '';
+      this.refs.characterName.value = '';
     }
   }
 
