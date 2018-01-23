@@ -6,6 +6,7 @@ import {Characters} from '../api/character';
 
 export default class Home extends React.Component {
     onSubmit(e) {
+        console.log("onsubmit");
         //gets the character name
         const characterName = this.refs.characterName.value.trim();
         e.preventDefault();
@@ -24,7 +25,7 @@ export default class Home extends React.Component {
         }
 
         console.log(characterID);
-        window.location.href = ("localhost:3000/character/edit/?characterID=" + characterID);
+        window.location.assign('/character/edit/' + characterID);
     }
 
     render() {
