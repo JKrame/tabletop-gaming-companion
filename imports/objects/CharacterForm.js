@@ -18,6 +18,8 @@ export default class CharacterForm extends React.Component{
     }
     
     render() {
+        console.log(this.props.characterID);
+        
         return(
             <form onSubmit={this.onSubmit.bind(this)}>
 
