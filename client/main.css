@@ -6,13 +6,13 @@
 hr{
     padding:0;
     margin-top:5px;
-    border-top: 8px solid #fff;
+    border-top: 4px solid #fff;
     
 }
 
 .hr{
     margin:10px;
-    border-top: 4px solid #fff;
+    border-top: 2px solid #fff;
 }
 
 .hr-override{
@@ -241,7 +241,6 @@ body{
 
 .vertical-character-card-contents{
     padding:10px;
-    height:480px;
     border: solid 2px #606060;
     overflow:auto;
     border-radius: 10px 10px 10px 10px;
