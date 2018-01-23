@@ -11,7 +11,7 @@ export default class Binder extends React.Component{
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCardHalf/>);
+            cards.push(<CharacterCardHalf key={i}/>);
         }
         return <div>{cards}</div>;
     }
@@ -20,7 +20,7 @@ export default class Binder extends React.Component{
         var numcampaigns = 2;
         for (var i = 0; i < numcampaigns; i++)
         {
-            cards.push(<CampaignCardHalf/>);
+            cards.push(<CampaignCardHalf key={i}/>);
         }
         return <div>{cards}</div>;
     }
