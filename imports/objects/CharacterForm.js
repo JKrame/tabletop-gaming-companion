@@ -6,7 +6,46 @@ export default class CharacterForm extends React.Component{
     onSubmit(e){  
         //gets the character name
         const characterName = this.refs.characterName.value.trim();
+        const characterBackstory = this.refs.characterBackstory.value.trim();
+        const characterLevel = this.refs.characterLevel.value.trim();
         const characterClass = this.refs.characterClass.value.trim();
+        const characterRace = this.refs.characterRace.value.trim();
+        const characterAlignment = this.refs.characterAlignment.value.trim();
+        const characterBackground = this.refs.characterBackground.value.trim();
+        const characterAC = this.refs.characterAC.value.trim();
+        const characterMaxHP = this.refs.characterMaxHP.value.trim();
+        const characterTempHP = this.refs.characterTempHP.value.trim();
+        const characterInitiative = this.refs.characterInitiative.value.trim();
+        const characterSpeed = this.refs.characterSpeed.value.trim();
+        const characterHitDice = this.refs.characterHitDice.value.trim();
+        const characterTotalHitDice = this.refs.characterTotalHitDice.value.trim();
+        const characterTemphitDice = this.refs.characterTemphitDice.value.trim();
+        const characterDeathSaveSuccesses = this.refs.characterDeathSaveSuccesses.value.trim();
+        const characterDeathSaveFailures = this.refs.characterDeathSaveFailures.value.trim();
+        const characterStrength = this.refs.characterStrength.value.trim();
+        const characterDexterity = this.refs.characterDexterity.value.trim();
+        const characterConstitution = this.refs.characterConstitution.value.trim();
+        const characterIntelligence = this.refs.characterIntelligence.value.trim();
+        const characterWisdom = this.refs.characterWisdom.value.trim();
+        const characterCharisma = this.refs.characterCharisma.value.trim();
+        const characterProficiency = this.refs.characterProficiency.value.trim();
+        const characterInspiration = this.refs.characterInspiration.value.trim();
+        const characterPerception = this.refs.characterPerception.value.trim();
+        const characterSavingThrows = this.refs.characterSavingThrows.value.trim();
+        const characterSkills = this.refs.characterSkills.value.trim();
+        const weapon1Name = this.refs.weapon1Name.value.trim();
+        const weapon1Atk = this.refs.weapon1Atk.value.trim();
+        const weapon1DamageType = this.refs.weapon1DamageType.value.trim();
+        const weapon2Name = this.refs.weapon2Name.value.trim();
+        const weapon2Atk = this.refs.weapon2Atk.value.trim();
+        const weapon2DamageType = this.refs.weapon2DamageType.value.trim();
+        const weapon3Name = this.refs.weapon3Name.value.trim();
+        const weapon3Atk = this.refs.weapon3Atk.value.trim();
+        const weapon3DamageType = this.refs.weapon3DamageType.value.trim();
+        const attackNotes = this.refs.attackNotes.value.trim();
+        const proficiencyNotes = this.refs.proficiencyNotes.value.trim();
+        const equipmentNotes = this.refs.equipmentNotes.value.trim();
+        const featureNotes = this.refs.featureNotes.value.trim();
     
         e.preventDefault();
     
