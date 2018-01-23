@@ -1,5 +1,6 @@
 import React from 'react'
 import { Characters } from '../api/character';
+import { Meteor } from 'meteor/meteor';
 
 
 export default class CharacterForm extends React.Component{
@@ -14,7 +15,8 @@ export default class CharacterForm extends React.Component{
         //basic attributes
         characterID = null;
         campaignID = null;
-        UID = null;
+        UID = Meteor.userId();
+        //UID = null;
         //name = characterName;
         //characterClass = characterClass;
         level = null;
