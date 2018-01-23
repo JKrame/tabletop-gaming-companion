@@ -55,26 +55,26 @@ export default class Home extends React.Component {
         return(
         <div className="page-wrapper">
             <div className="col-lg-8 col-lg-offset-2">
-                    <div className="col-md-6 ">
-                        <div className="page-content-half">
-                            <h3>Characters >></h3>
-                            <hr/>
-                            <div className="page-content-scroller">
-                                {this.renderCharacterCard()}
-                                <NavLink to='/character/edit/' className='nav-item nav-link'>              
-                                    <div className="objectCardHalf ">
-                                        <div className="objectCardHalfImage">
-                                            <img src={'/images/addIcon.png'}/>
-                                        </div>
-                                        <div className="objectCardHalfInfo container-fluid">
-                                            <h4>CREATE NEW CHARACTER</h4>
-                                            <hr className="hr-override container-fluid"/>
-                                        </div>
+                <div className="col-md-6 ">
+                    <div className="page-content-half">
+                        <h3>Characters >></h3>
+                        <hr/>
+                        <div className="page-content-scroller">
+                            {this.renderCharacterCard()}
+                            <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>              
+                                <div className="objectCardHalf ">
+                                    <div className="objectCardHalfImage">
+                                        <img src={'/images/addIcon.png'}/>
                                     </div>
-                                </NavLink>
-                            </div>
+                                    <div className="objectCardHalfInfo container-fluid">
+                                        <h4>CREATE NEW CHARACTER</h4>
+                                        <hr className="hr-override container-fluid"/>
+                                    </div>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
+                </div>
                     
                 <div className="col-md-6 ">
                     <div className="page-content-half">
