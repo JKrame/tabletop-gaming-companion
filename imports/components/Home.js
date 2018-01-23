@@ -48,7 +48,7 @@ export default class Home extends React.Component {
         }
 
         console.log(characterID);
-        window.location.assign('/character/edit/' + characterID);
+        this.props.history.push('/character/edit/' + characterID);
     }
 
     render() {
