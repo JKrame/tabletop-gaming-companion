@@ -1,5 +1,4 @@
 import React from 'react'
-import { Meteor } from 'meteor/meteor'
 import { Characters } from '../api/character';
 
 export default class CharacterForm extends React.Component{

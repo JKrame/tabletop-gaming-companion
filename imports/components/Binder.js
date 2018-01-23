@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {Random} from 'meteor/random';
 
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import CampaignCardHalf from '../objects/CampaignCardHalf';
@@ -10,7 +11,7 @@ export default class Binder extends React.Component{
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCardHalf/>);
+            cards.push(<CharacterCardHalf key={i}/>);
         }
         return <div>{cards}</div>;
     }
@@ -19,9 +20,18 @@ export default class Binder extends React.Component{
         var numcampaigns = 2;
         for (var i = 0; i < numcampaigns; i++)
         {
-            cards.push(<CampaignCardHalf/>);
+            cards.push(<CampaignCardHalf key={i}/>);
         }
         return <div>{cards}</div>;
+    }
+    loadCharacter(characterID){
+        if (!characterID){
+            console.log("randomizing");
+            characterID = Random.id();
+        }
+
+        console.log(characterID);
+        window.location.assign('/character/edit/' + characterID);
     }
     render() {
         return(
@@ -35,6 +45,8 @@ export default class Binder extends React.Component{
                             <hr/>
                             <div className="scrolling-container">
                                 {this.renderCharacterCard()}
+
+                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
                                 <div className="objectCardHalf ">
                                     <div className="objectCardHalfImage">
                                         <img src={'/images/addIcon.png'} className="stretch-image"/>
@@ -44,6 +56,7 @@ export default class Binder extends React.Component{
                                         <hr className="hr-override-light"/>
                                     </div>
                                 </div>
+                                </NavLink>
                             </div>
                         </div>
 
@@ -55,7 +68,7 @@ export default class Binder extends React.Component{
                                 {this.renderCampaignCard()}
                                 <div className="objectCardHalf ">
                                     <div className="objectCardHalfImage">
-                                        <img src={'/images/pending.png'} className="stretch-image"/>
+                                        <img src={'/images/pending.png'} className="stretch-image"/>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                                     </div>
                                     <div className="objectCardHalfInfo container-fluid">
                                         <h4>PENDING INVITE</h4>
