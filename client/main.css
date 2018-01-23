@@ -18,9 +18,14 @@ hr{
 .hr-override{
     margin-top:5px !important;
     border-top: 4px solid #606060 !important;
-    width:100% !important;
     margin-bottom:5px !important;
     
+}
+
+.hr-override-light{
+    margin-top:5px !important;
+    border-top: 2px solid #606060 !important;
+    margin-bottom:5px !important;
 }
 
 nav a:hover{
@@ -156,22 +161,25 @@ body{
 
 .objectCardHalf{
     margin:10px;
+    padding:10px;
     border: solid 2px #606060;
-    overflow:auto;
+    overflow:hidden;
     border-radius: 10px 10px 10px 10px;
 }
 
 .objectCardHalfImage{
     float:left;
-    width:120px;
-    height:130px;
-    padding: 10px 10px 0px 10px;
-    
+    width:90px;
+    height:90px;
+    margin-right:10px;
 }
 
 .objectCardHalfInfo{
-    float:left;
-    height:110px;
+    margin:0px;
+}
+
+.objectCardHalfInfo p{
+    margin-top:0px;
 }
 
 .right-border{
@@ -241,6 +249,19 @@ body{
 
 .vertical-character-data{
     margin:10px;
+}
+
+.stretch-image{
+    width:100%;
+    height:100%;
+}
+
+.no-margin-override{
+    margin:0 !important;
+}
+
+.width-70{
+    width:70%;
 }
 
 @media only screen and (max-width: 800px) {

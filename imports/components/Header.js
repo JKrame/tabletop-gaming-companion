@@ -27,7 +27,7 @@ export default class Header extends React.Component{
                                     <span className="icon-bar"></span>
                                 </button>
         
-                                <NavLink to='/' className='navbar-brand' style={{"marginTop":"-10px"}}><img src='images/primoHorizontal.png'/></NavLink>
+                                <NavLink to='/Home' className='navbar-brand' style={{"marginTop":"-10px"}}><img src='images/primoHorizontal.png'/></NavLink>
                               
                             </div>                
                             <div className="collapse navbar-collapse pull-right" id="collapsibleNavbarContent" >

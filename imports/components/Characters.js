@@ -7,7 +7,7 @@ export default class Characters extends React.Component{
         var numcharacters = 7;
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCardVertical/>);
+            cards.push(<CharacterCardVertical key={i}/>);
         }
         return <div>{cards}</div>;
     }
