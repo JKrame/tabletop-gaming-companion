@@ -81,7 +81,7 @@ export default class Home extends React.Component{
                                   </div>
                               </div>
                               
-                            <NavLink to='/characters/edit/' className='nav-item nav-link'>              
+                            <NavLink to='/character/edit/' className='nav-item nav-link'>              
                                 <div className="objectCardHalf ">
                                     <div className="objectCardHalfImage">
                                         <img src={'/images/addIcon.png'}/>
@@ -135,15 +135,17 @@ export default class Home extends React.Component{
                               </div>
                           </div>
 
-                          <div className="objectCardHalf ">
-                              <div className="objectCardHalfImage">
-                                  <img src={'/images/addIcon.png'}/>
-                              </div>
-                              <div className="objectCardHalfInfo container-fluid">
-                                  <h4>CREATE NEW CAMPAIGN</h4>
-                                  <hr className="hr-override container-fluid"/>
-                              </div>
-                          </div>
+                        <NavLink to='/campaign/edit/' className='nav-item nav-link'>                                          
+                            <div className="objectCardHalf ">
+                                    <div className="objectCardHalfImage">
+                                        <img src={'/images/addIcon.png'}/>
+                                    </div>
+                                <div className="objectCardHalfInfo container-fluid">
+                                    <h4>CREATE NEW CAMPAIGN</h4>
+                                    <hr className="hr-override container-fluid"/>
+                                </div>
+                            </div>
+                        </NavLink>
                       </div>
                     </div>
               </div>
