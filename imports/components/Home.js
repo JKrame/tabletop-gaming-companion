@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {Random} from 'meteor/random'
 
 import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
