@@ -13,4 +13,4 @@ export default class CampaignSetup extends React.Component{
         </div>
     );
   }
-}  
+}
