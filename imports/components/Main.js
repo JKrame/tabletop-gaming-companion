@@ -18,17 +18,21 @@ import { Meteor } from 'meteor/meteor'
 
 const browserHistory = createBrowserHistory();
 
-const unauthenticatedPages = ['/', '/signin', '/signup'];
+const unauthenticatedPages = ['/*', '/signin', '/signup'];
 const authenticatedPages = ['/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
                             '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
 
 const onEnterPublicPage = () => {
+    console.log("onEnterPublicPage");
+    
     if (Meteor.userId()) {
         browserHistory.replace('/home');
     }
 };
 
 const onEnterPrivatePage = () => {
+    console.log("onEnterPrivatePage");
+    
     if (!Meteor.userId()) {
         browserHistory.replace('/signin');
     }
@@ -63,7 +67,7 @@ export class Main extends React.Component{
                         <Route exact path='/mail' component={Mail}/>
                         <Route exact path='/nearbyplayers' component={NearbyPlayers}/>
                         <Route exact path='/settings' component={Settings}/>
-                        <Route exact path='/' component={Signin}/>
+                        <Route exact path='/*' component={Signin}/>
                         <Route exact path='/signin' component={Signin}/>
                         <Route exact path='/signup' component={Signup}/>
                     </Switch>
