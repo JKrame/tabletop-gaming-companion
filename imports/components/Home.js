@@ -57,7 +57,9 @@ export default class Home extends React.Component {
             <div className="col-lg-8 col-lg-offset-2">
                 <div className="col-md-6 ">
                     <div className="page-content-half">
-                        <h3>Characters >></h3>
+                        <NavLink to="Characters">
+                            <h3>Characters >></h3>
+                        </NavLink>
                         <hr/>
                         <div className="page-content-scroller">
                             {this.renderCharacterCard()}

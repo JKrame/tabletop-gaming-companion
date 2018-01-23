@@ -23,6 +23,10 @@ hr{
     
 }
 
+nav a:hover{
+    text-decoration: none;
+}
+
 .p-override{
     margin:0;
     padding:0;
@@ -208,8 +212,14 @@ body{
 }
 
 .scrolling-container{
-    overflow-y:scroll;
+    overflow-y:auto;
     height:80vh;
+}
+
+.scrolling-container-smaller{
+    overflow-y:auto;
+    overflow-x:hidden;
+    height:70vh;
 }
 
 .vertical-character-image{
