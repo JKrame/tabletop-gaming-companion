@@ -9,80 +9,17 @@ export default class CharacterForm extends React.Component{
     newCharacter;
 
     onSubmit(e){  
-        //gets the character name
-        const name = this.refs.name.value.trim();
-        //const characterBackstory = this.refs.characterBackstory.value.trim();
-        const level = this.refs.level.value.trim();
-        const characterClass = this.refs.characterClass.value.trim();
-        const race = this.refs.race.value.trim();
-        const alignment = this.refs.alignment.value.trim();
-        const background = this.refs.background.value.trim();
-        const AC = this.refs.AC.value.trim();
-        const maxHP = this.refs.maxHP.value.trim();
-        const currHP = this.refs.currHP.value.trim();
-        //const characterInitiative = this.refs.characterInitiative.value.trim();
-        const speed = this.refs.speed.value.trim();
-        const hitDie = this.refs.hitDie.value.trim();
-        const maxHitDie = this.refs.maxHitDie.value.trim();
-        const currHitDie = this.refs.currHitDie.value.trim();
-        //const characterDeathSaveSuccesses = this.refs.characterDeathSaveSuccesses.value.trim();
-        //const characterDeathSaveFailures = this.refs.characterDeathSaveFailures.value.trim();
-        const str = this.refs.str.value.trim();
-        const dex = this.refs.dex.value.trim();
-        const con = this.refs.con.value.trim();
-        const int = this.refs.int.value.trim();
-        const wis = this.refs.wis.value.trim();
-        const cha = this.refs.cha.value.trim();
-        const profBonus = this.refs.profBonus.value.trim();
-        //const characterInspiration = this.refs.characterInspiration.value.trim();
-        //const characterPerception = this.refs.characterPerception.value.trim();
-        const savingThrows = this.refs.savingThrows.value.trim();
-        //const characterSkills = this.refs.characterSkills.value.trim();
-        const currWeaponName = this.refs.currWeaponName.value.trim();
-        // const weapon1Atk = this.refs.weapon1Atk.value.trim();
-        // const weapon1DamageType = this.refs.weapon1DamageType.value.trim();
-        // const weapon2Name = this.refs.weapon2Name.value.trim();
-        // const weapon2Atk = this.refs.weapon2Atk.value.trim();
-        // const weapon2DamageType = this.refs.weapon2DamageType.value.trim();
-        // const weapon3Name = this.refs.weapon3Name.value.trim();
-        // const weapon3Atk = this.refs.weapon3Atk.value.trim();
-        //const weapon3DamageType = this.refs.weapon3DamageType.value.trim();
-        //const attackNotes = this.refs.attackNotes.value.trim();
-        const proficiencies = this.refs.proficiencies.value.trim();
-        const notes = this.refs.notes.value.trim();
-    
         e.preventDefault();
 
-        if(newCharacter){
-            //db.Characters.insert({characterID: this.characterID});
-        }
-        else{
-            //Characters.update({characterID: this.characterID}, {$set:{name: "elfman", class: "druid"}});
-        }
+
 
         //basic attributes
         characterID = this.characterID;
         campaignID = null;
         UID = Meteor.userId();
-        //UID = null;
-        //name = characterName;
-        //characterClass = characterClass;
-        //level = null;
-        //background = null;
-        //race = null;
-        //alignment = null;
-        //AC = null;
-        //speed = null;
-        //maxHP = null;
-        //currHP = null;
-        //maxHitDie = level;
-        //currHitDie = null;
-        //hitDie = null;
-        //profBonus = null;
-        //notes = null;
-        //proficiencies = null;
-        attributes = [str, dex, con, int, wis, cha];
-        //savingThrows = null;
+        
+        attributes = [str=this.refs.str.value.trim(), dex=this.refs.dex.value.trim(), con=this.refs.con.value.trim(), int=this.refs.int.value.trim(), wis=this.refs.wis.value.trim(), cha=this.refs.cha.value.trim()];
+
         spellSlotsMax = null;
         spellSlotsCurr = null;
         statuses = null;
@@ -93,7 +30,7 @@ export default class CharacterForm extends React.Component{
         itemDescription = null
 
         //current weapon subdocuments
-        currWeaponName = null;
+        //currWeaponName = null;
         currWeaponType = null;
         currWeaponDamage = null;
 
@@ -101,54 +38,94 @@ export default class CharacterForm extends React.Component{
         featureName = null;
         featureDescription = null;
 
-
-
-    //checks if value exists
-    if (characterName && characterClass) {
-        Characters.insert({ 
-            characterID, 
-            campaignID,
-            UID, 
-            characterName,
-            characterClass,
-            level, 
-            background,
-            race,
-            alignment,
-            AC,
-            speed,
-            maxHP,
-            currHP,
-            maxHitDie,
-            currHitDie,
-            hitDie,
-            profBonus,
-            notes,
-            currWeapon : {
-                currWeaponName,
-                currWeaponType,
-                currWeaponDamage
-            },
-            features : {
-                featureName,
-                featureDescription
+        //checks if value exists
+        if(this.newCharacter){
+            console.log("Insert to DB");
+            this.newCharacter = false;
+            Characters.insert({ 
+                characterID : this.characterID, 
+                campaignID : campaignID,
+                UID : UID, 
+                characterName : this.refs.characterName.value.trim(),
+                characterClass : this.refs.characterClass.value.trim(),
+                level : this.refs.level.value.trim(), 
+                background : this.refs.background.value.trim(),
+                race : this.refs.race.value.trim(),
+                alignment : this.refs.alignment.value.trim(),
+                AC : this.refs.AC.value.trim(),
+                speed : this.refs.speed.value.trim(),
+                maxHP : this.refs.maxHP.value.trim(),
+                currHP : this.refs.currHP.value.trim(),
+                maxHitDie : this.refs.maxHitDie.value.trim(),
+                currHitDie : this.refs.currHitDie.value.trim(),
+                hitDie : this.refs.hitDie.value.trim(),
+                profBonus : this.refs.profBonus.value.trim(),
+                notes : this.refs.notes.value.trim(),
+                currWeapon : {
+                    currWeaponName : this.refs.currWeaponName.value.trim(),
+                    currWeaponType,
+                    currWeaponDamage
                 },
-            inventory : {
-                itemName,
-                itemDescription
+                features : {
+                    featureName,
+                    featureDescription
+                    },
+                inventory : {
+                    itemName,
+                    itemDescription
+                    },
+                proficiencies : this.refs.proficiencies.value.trim(),
+                attributes,
+                savingThrows : this.refs.savingThrows.value.trim(),
+                spellSlotsMax,
+                spellSlotsCurr,
+                statuses,
+                money
+                });
+        }
+        else{
+            console.log("Update db");
+            // Mongo auto creats a _id field on insert, and you must have that _id number in order to update
+            Characters.update({characterID : this.characterID, UID : UID}, {$set:{ 
+                campaignID : campaignID,
+                characterName : this.refs.characterName.value.trim(),
+                characterClass : this.refs.characterClass.value.trim(),
+                level : this.refs.level.value.trim(), 
+                background : this.refs.background.value.trim(),
+                race : this.refs.race.value.trim(),
+                alignment : this.refs.alignment.value.trim(),
+                AC : this.refs.AC.value.trim(),
+                speed : this.refs.speed.value.trim(),
+                maxHP : this.refs.maxHP.value.trim(),
+                currHP : this.refs.currHP.value.trim(),
+                maxHitDie : this.refs.maxHitDie.value.trim(),
+                currHitDie : this.refs.currHitDie.value.trim(),
+                hitDie : this.refs.hitDie.value.trim(),
+                profBonus : this.refs.profBonus.value.trim(),
+                notes : this.refs.notes.value.trim(),
+                currWeapon : {
+                    currWeaponName : this.refs.currWeaponName.value.trim(),
+                    currWeaponType,
+                    currWeaponDamage
                 },
-            proficiencies,
-            attributes,
-            savingThrows,
-            spellSlotsMax,
-            spellSlotsCurr,
-            statuses,
-            money
-            });
-        this.refs.characterName.value = '';
-        this.refs.characterClass.value = '';
+                features : {
+                    featureName,
+                    featureDescription
+                    },
+                inventory : {
+                    itemName,
+                    itemDescription
+                    },
+                proficiencies : this.refs.proficiencies.value.trim(),
+                attributes,
+                savingThrows : this.refs.savingThrows.value.trim(),
+                spellSlotsMax,
+                spellSlotsCurr,
+                statuses,
+                money
+                }});
+        }
     }
-  }
     
     render() {
         if (this.props.characterID == "undefined"){
@@ -176,7 +153,7 @@ export default class CharacterForm extends React.Component{
                     
                     <div className="col-sm-12">
                         <p className="p-override">NAME</p>
-                        <input className="full-width" type="text" ref="name" placeholder=""/>
+                        <input className="full-width" type="text" ref="characterName" placeholder=""/>
                     </div>
 
                     <div className="col-sm-12">
