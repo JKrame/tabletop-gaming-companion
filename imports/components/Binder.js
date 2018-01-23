@@ -37,11 +37,11 @@ export default class Binder extends React.Component{
                                 {this.renderCharacterCard()}
                                 <div className="objectCardHalf ">
                                     <div className="objectCardHalfImage">
-                                        <img src={'/images/addIcon.png'}/>
+                                        <img src={'/images/addIcon.png'} className="stretch-image"/>
                                     </div>
                                     <div className="objectCardHalfInfo container-fluid">
                                         <h4>CREATE NEW CHARACTER</h4>
-                                        <hr className="hr-override container-fluid"/>
+                                        <hr className="hr-override-light"/>
                                     </div>
                                 </div>
                             </div>
@@ -55,22 +55,22 @@ export default class Binder extends React.Component{
                                 {this.renderCampaignCard()}
                                 <div className="objectCardHalf ">
                                     <div className="objectCardHalfImage">
-                                        <img src={'/images/pending.png'}/>
+                                        <img src={'/images/pending.png'} className="stretch-image"/>
                                     </div>
                                     <div className="objectCardHalfInfo container-fluid">
                                         <h4>PENDING INVITE</h4>
-                                        <hr className="hr-override container-fluid"/>
+                                        <hr className="hr-override-light"/>
                                         <p className="p-override">Click for Details...</p>
                                     </div>
                                 </div>
 
                                 <div className="objectCardHalf ">
                                     <div className="objectCardHalfImage">
-                                        <img src={'/images/addIcon.png'}/>
+                                        <img src={'/images/addIcon.png'} className="stretch-image"/>
                                     </div>
                                     <div className="objectCardHalfInfo container-fluid">
                                         <h4>CREATE NEW CAMPAIGN</h4>
-                                        <hr className="hr-override container-fluid"/>
+                                        <hr className="hr-override-light"/>
                                     </div>
                                 </div>
                             </div>

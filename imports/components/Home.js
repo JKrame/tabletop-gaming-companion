@@ -66,11 +66,11 @@ export default class Home extends React.Component {
                             <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>              
                                 <div className="objectCardHalf ">
                                     <div className="objectCardHalfImage">
-                                        <img src={'/images/addIcon.png'}/>
+                                        <img src={'/images/addIcon.png'} className="stretch-image"/>
                                     </div>
                                     <div className="objectCardHalfInfo container-fluid">
-                                        <h4>CREATE NEW CHARACTER</h4>
-                                        <hr className="hr-override container-fluid"/>
+                                        <h4 className="no-margin-override">CREATE NEW CHARACTER</h4>
+                                        <hr className="hr-override-light"/>
                                     </div>
                                 </div>
                             </NavLink>
@@ -87,24 +87,24 @@ export default class Home extends React.Component {
                             {this.renderCampaignCard()}
                             <div className="objectCardHalf ">
                                 <div className="objectCardHalfImage">
-                                    <img src={'/images/pending.png'}/>
+                                    <img src={'/images/pending.png'} className="stretch-image"/>
                                 </div>
                                 <div className="objectCardHalfInfo container-fluid">
-                                    <h4>PENDING INVITE</h4>
-                                    <hr className="hr-override container-fluid"/>
-                                    <p className="p-override">Click for Details...</p>
+                                    <h4 className="no-margin-override">PENDING INVITE</h4>
+                                    <hr className="hr-override-light"/>
+                                    <p className="p-override no-margin-override">Click for Details...</p>
                                 </div>
                             </div>
 
                             <NavLink to='/campaign/edit/' className='nav-item nav-link'>                                          
                                 <div className="objectCardHalf ">
                                         <div className="objectCardHalfImage">
-                                            <img src={'/images/addIcon.png'}/>
+                                            <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
                                     <div className="objectCardHalfInfo container-fluid">
-                                        <h4>CREATE NEW CAMPAIGN</h4>
-                                        <hr className="hr-override container-fluid"/>
-                                        <p className="p-override">Campaign Description...</p>
+                                        <h4 className="no-margin-override">CREATE NEW CAMPAIGN</h4>
+                                        <hr className="hr-override-light"/>
+                                        <p className="p-override no-margin-override">Campaign Description...</p>
                                     </div>
                                 </div>
                             </NavLink>
