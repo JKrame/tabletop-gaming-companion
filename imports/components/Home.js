@@ -1,5 +1,6 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
+import {Random} from 'meteor/random'
 
 import {Characters} from '../api/character';
 
@@ -7,7 +8,6 @@ export default class Home extends React.Component {
     onSubmit(e) {
         //gets the character name
         const characterName = this.refs.characterName.value.trim();
-
         e.preventDefault();
 
         //checks if value exists
@@ -15,6 +15,16 @@ export default class Home extends React.Component {
             Characters.insert({characterName});
             this.refs.characterName.value = '';
         }
+    }
+
+    loadCharacter(characterID){
+        if (!characterID){
+            console.log("randomizing");
+            characterID = Random.id();
+        }
+
+        console.log(characterID);
+        window.location.href = ("localhost:3000/character/edit/?characterID=" + characterID);
     }
 
     render() {
@@ -62,20 +72,23 @@ export default class Home extends React.Component {
                                         <p className="p-override">Race: Elf</p>
                                     </div>
                                 </div>
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
-                                        <img src={'/images/placeholder.jpg'}/>
-                                    </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4>Elfman Needsaname</h4>
-                                        <hr className="hr-override container-fluid"/>
-                                        <p className="p-override">Class: Druid</p>
-                                        <p className="p-override">Level: 4</p>
-                                        <p className="p-override">Race: Elf</p>
-                                    </div>
-                                </div>
 
-                                <NavLink to='/character/edit/' className='nav-item nav-link'>
+                                <NavLink to='#1' onClick={() => this.loadCharacter("ElfMan")} className='nav-item nav-link'>
+                                    <div className="objectCardHalf ">
+                                        <div className="objectCardHalfImage">
+                                            <img src={'/images/placeholder.jpg'}/>
+                                        </div>
+                                        <div className="objectCardHalfInfo container-fluid">
+                                            <h4>Elfman Needsaname</h4>
+                                            <hr className="hr-override container-fluid"/>
+                                            <p className="p-override">Class: Druid</p>
+                                            <p className="p-override">Level: 4</p>
+                                            <p className="p-override">Race: Elf</p>
+                                        </div>
+                                    </div>
+                                </NavLink>
+
+                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>
                                     <div className="objectCardHalf ">
                                         <div className="objectCardHalfImage">
                                             <img src={'/images/addIcon.png'}/>
