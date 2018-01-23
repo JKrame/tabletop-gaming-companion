@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class CharacterCardHalf extends React.Component{
+export default class CampaignCardHalf extends React.Component{
     render() {
         return (
             <div className="objectCardHalf ">
@@ -8,11 +8,9 @@ export default class CharacterCardHalf extends React.Component{
                     <img src={'/images/placeholder.jpg'}/>
                 </div>
                 <div className="objectCardHalfInfo container-fluid">
-                    <h4>Elfman Needsaname</h4>
+                    <h4>CampaignName</h4>
                     <hr className="hr-override container-fluid"/>
-                    <p className="p-override"> Class: Druid</p>
-                    <p className="p-override"> Level: 4</p>
-                    <p className="p-override"> Race: Elf</p>
+                    <p className="p-override"> Campaign Description...</p>
                 </div>
             </div>
         );
