@@ -10,7 +10,7 @@ export default class CampaignCardVertical extends React.Component {
                     </div>
                     <div className="vertical-character-data">
                         <h3>Elfman NeedsAName</h3>
-                        <hr className="hr-override full-width"/>
+                        <hr className="hr-override-light"/>
                         <p className="p-override"> Class: Druid</p>
                         <p className="p-override"> Level: 4</p>
                         <p className="p-override"> Race: Elf</p>
