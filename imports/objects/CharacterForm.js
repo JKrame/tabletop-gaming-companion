@@ -1,68 +1,149 @@
 import React from 'react'
+import { Characters } from '../api/character';
 
 
 export default class CharacterForm extends React.Component{
     
     onSubmit(e){  
         //gets the character name
-        const characterName = this.refs.characterName.value.trim();
-        const characterBackstory = this.refs.characterBackstory.value.trim();
-        const characterLevel = this.refs.characterLevel.value.trim();
+        const name = this.refs.name.value.trim();
+        //const characterBackstory = this.refs.characterBackstory.value.trim();
+        const level = this.refs.level.value.trim();
         const characterClass = this.refs.characterClass.value.trim();
-        const characterRace = this.refs.characterRace.value.trim();
-        const characterAlignment = this.refs.characterAlignment.value.trim();
-        const characterBackground = this.refs.characterBackground.value.trim();
-        const characterAC = this.refs.characterAC.value.trim();
-        const characterMaxHP = this.refs.characterMaxHP.value.trim();
-        const characterTempHP = this.refs.characterTempHP.value.trim();
-        const characterInitiative = this.refs.characterInitiative.value.trim();
-        const characterSpeed = this.refs.characterSpeed.value.trim();
-        const characterHitDice = this.refs.characterHitDice.value.trim();
-        const characterTotalHitDice = this.refs.characterTotalHitDice.value.trim();
-        const characterTemphitDice = this.refs.characterTemphitDice.value.trim();
-        const characterDeathSaveSuccesses = this.refs.characterDeathSaveSuccesses.value.trim();
-        const characterDeathSaveFailures = this.refs.characterDeathSaveFailures.value.trim();
-        const characterStrength = this.refs.characterStrength.value.trim();
-        const characterDexterity = this.refs.characterDexterity.value.trim();
-        const characterConstitution = this.refs.characterConstitution.value.trim();
-        const characterIntelligence = this.refs.characterIntelligence.value.trim();
-        const characterWisdom = this.refs.characterWisdom.value.trim();
-        const characterCharisma = this.refs.characterCharisma.value.trim();
-        const characterProficiency = this.refs.characterProficiency.value.trim();
-        const characterInspiration = this.refs.characterInspiration.value.trim();
-        const characterPerception = this.refs.characterPerception.value.trim();
-        const characterSavingThrows = this.refs.characterSavingThrows.value.trim();
-        const characterSkills = this.refs.characterSkills.value.trim();
-        const weapon1Name = this.refs.weapon1Name.value.trim();
-        const weapon1Atk = this.refs.weapon1Atk.value.trim();
-        const weapon1DamageType = this.refs.weapon1DamageType.value.trim();
-        const weapon2Name = this.refs.weapon2Name.value.trim();
-        const weapon2Atk = this.refs.weapon2Atk.value.trim();
-        const weapon2DamageType = this.refs.weapon2DamageType.value.trim();
-        const weapon3Name = this.refs.weapon3Name.value.trim();
-        const weapon3Atk = this.refs.weapon3Atk.value.trim();
-        const weapon3DamageType = this.refs.weapon3DamageType.value.trim();
-        const attackNotes = this.refs.attackNotes.value.trim();
-        const proficiencyNotes = this.refs.proficiencyNotes.value.trim();
-        const equipmentNotes = this.refs.equipmentNotes.value.trim();
-        const featureNotes = this.refs.featureNotes.value.trim();
+        const race = this.refs.race.value.trim();
+        const alignment = this.refs.alignment.value.trim();
+        const background = this.refs.background.value.trim();
+        const AC = this.refs.AC.value.trim();
+        const maxHP = this.refs.maxHP.value.trim();
+        const currHP = this.refs.currHP.value.trim();
+        //const characterInitiative = this.refs.characterInitiative.value.trim();
+        const speed = this.refs.speed.value.trim();
+        const hitDie = this.refs.hitDie.value.trim();
+        const maxHitDie = this.refs.maxHitDie.value.trim();
+        const currHitDie = this.refs.currHitDie.value.trim();
+        //const characterDeathSaveSuccesses = this.refs.characterDeathSaveSuccesses.value.trim();
+        //const characterDeathSaveFailures = this.refs.characterDeathSaveFailures.value.trim();
+        const str = this.refs.str.value.trim();
+        const dex = this.refs.dex.value.trim();
+        const con = this.refs.con.value.trim();
+        const int = this.refs.int.value.trim();
+        const wis = this.refs.wis.value.trim();
+        const cha = this.refs.cha.value.trim();
+        const profBonus = this.refs.profBonus.value.trim();
+        //const characterInspiration = this.refs.characterInspiration.value.trim();
+        //const characterPerception = this.refs.characterPerception.value.trim();
+        const savingThrows = this.refs.savingThrows.value.trim();
+        //const characterSkills = this.refs.characterSkills.value.trim();
+        const currWeaponName = this.refs.currWeaponName.value.trim();
+        // const weapon1Atk = this.refs.weapon1Atk.value.trim();
+        // const weapon1DamageType = this.refs.weapon1DamageType.value.trim();
+        // const weapon2Name = this.refs.weapon2Name.value.trim();
+        // const weapon2Atk = this.refs.weapon2Atk.value.trim();
+        // const weapon2DamageType = this.refs.weapon2DamageType.value.trim();
+        // const weapon3Name = this.refs.weapon3Name.value.trim();
+        // const weapon3Atk = this.refs.weapon3Atk.value.trim();
+        //const weapon3DamageType = this.refs.weapon3DamageType.value.trim();
+        //const attackNotes = this.refs.attackNotes.value.trim();
+        const proficiencies = this.refs.proficiencies.value.trim();
+        const notes = this.refs.notes.value.trim();
     
         e.preventDefault();
-    
-        //checks if value exists
-        if (characterName && characterClass) {
-            Characters.insert({ name : characterName, class : characterClass });
-            //this.refs.charactersName.value = '';
-        }
+        campaignID = null;
+        UID = null;
+        //name = characterName;
+        //characterClass = characterClass;
+        //level = null;
+        //background = null;
+        //race = null;
+        //alignment = null;
+        //AC = null;
+        //speed = null;
+        //maxHP = null;
+        //currHP = null;
+        //maxHitDie = level;
+        //currHitDie = null;
+        //hitDie = null;
+        //profBonus = null;
+        //notes = null;
+        //proficiencies = null;
+        attributes = [str, dex, con, int, wis, cha];
+        //savingThrows = null;
+        spellSlotsMax = null;
+        spellSlotsCurr = null;
+        statuses = null;
+        money = [cp=null, sp=null, ep=null, gp=null];
+
+        //inventory subdocuments
+        itemName = null;
+        itemDescription = null
+
+        //current weapon subdocuments
+        currWeaponName = null;
+        currWeaponType = null;
+        currWeaponDamage = null;
+
+        //features subdocument
+        featureName = null;
+        featureDescription = null;
+
+
+
+    //checks if value exists
+    if (characterName && characterClass) {
+        Characters.insert({ 
+            characterID, 
+            campaignID,
+            UID, 
+            characterName,
+            characterClass,
+            level, 
+            background,
+            race,
+            alignment,
+            AC,
+            speed,
+            maxHP,
+            currHP,
+            maxHitDie,
+            currHitDie,
+            hitDie,
+            profBonus,
+            notes,
+            currWeapon : {
+                currWeaponName,
+                currWeaponType,
+                currWeaponDamage
+            },
+            features : {
+                featureName,
+                featureDescription
+                },
+            inventory : {
+                itemName,
+                itemDescription
+                },
+            proficiencies,
+            attributes,
+            savingThrows,
+            spellSlotsMax,
+            spellSlotsCurr,
+            statuses,
+            money
+            });
+        this.refs.characterName.value = '';
+        this.refs.characterClass.value = '';
     }
+  }
     
     render() {
+        console.log(this.props.characterID);
+        
         return(
             <form onSubmit={this.onSubmit.bind(this)}>
 
                 <div className="col-sm-12">
                     <p className="p-override">NAME</p>
-                    <input className="full-width" type="text" ref="characterName" placeholder=""/>
+                    <input className="full-width" type="text" ref="name" placeholder=""/>
                 </div>
 
                 <div className="col-sm-12">
@@ -75,7 +156,7 @@ export default class CharacterForm extends React.Component{
 
                 <div className="col-sm-4">
                     <p className="p-override">LEVEL</p>
-                    <input className="full-width" type="text" ref="characterLevel" placeholder=""/>
+                    <input className="full-width" type="text" ref="level" placeholder=""/>
                 </div>
                 <div className="col-sm-4">
                     <p className="p-override">CLASS</p>
@@ -83,18 +164,18 @@ export default class CharacterForm extends React.Component{
                 </div>
                 <div className="col-sm-4">
                     <p className="p-override">RACE</p>
-                    <input className="full-width" type="text" ref="characterRace" placeholder=""/>
+                    <input className="full-width" type="text" ref="race" placeholder=""/>
                 </div>
 
                             <div className="spacer col-sm-12"/>
 
                 <div className="col-sm-6">
                     <p className="p-override">ALIGNMENT</p>
-                    <input className="full-width" type="text" ref="characterAlignment" placeholder=""/>
+                    <input className="full-width" type="text" ref="alignment" placeholder=""/>
                 </div>
                 <div className="col-sm-6">
                     <p className="p-override">BACKGROUND</p>
-                    <input className="full-width" type="text" ref="characterBackground" placeholder=""/>
+                    <input className="full-width" type="text" ref="background" placeholder=""/>
                 </div>
 
                          <div className="spacer col-sm-12"/>
@@ -103,15 +184,15 @@ export default class CharacterForm extends React.Component{
 
                 <div className="col-sm-4">
                     <p className="p-override">AC</p>
-                    <input className="full-width" type="text" ref="characterAC" placeholder=""/>
+                    <input className="full-width" type="text" ref="AC" placeholder=""/>
                 </div>
                 <div className="col-sm-4">
                     <p className="p-override">MAX HP</p>
-                    <input className="full-width" type="text" ref="characterMaxHP" placeholder=""/>
+                    <input className="full-width" type="text" ref="maxHP" placeholder=""/>
                 </div>
                 <div className="col-sm-4">
                     <p className="p-override">TEMP HP</p>
-                    <input className="full-width" type="text" ref="characterTempHP" placeholder=""/>
+                    <input className="full-width" type="text" ref="currHP" placeholder=""/>
                 </div>
 
                             <div className="spacer col-sm-12"/>
@@ -122,7 +203,7 @@ export default class CharacterForm extends React.Component{
                 </div>
                 <div className="col-sm-4">
                     <p className="p-override">SPEED</p>
-                    <input className="full-width" type="text" ref="characterSpeed" placeholder=""/>
+                    <input className="full-width" type="text" ref="speed" placeholder=""/>
                 </div>
 
                             <div className="spacer col-sm-12"/>
@@ -131,15 +212,15 @@ export default class CharacterForm extends React.Component{
                             
                 <div className="col-sm-4">
                     <p className="p-override">HIT DICE</p>
-                    <input className="full-width" type="text" ref="characterHitDice" placeholder=""/>
+                    <input className="full-width" type="text" ref="hitDie" placeholder=""/>
                 </div>
                 <div className="col-sm-4">
                     <p className="p-override">TOTAL HIT DICE</p>
-                    <input className="full-width" type="text" ref="characterTotalHitDice" placeholder=""/>
+                    <input className="full-width" type="text" ref="maxHitDie" placeholder=""/>
                 </div>
                 <div className="col-sm-4">
                     <p className="p-override">TEMP HIT DICE</p>
-                    <input className="full-width" type="text" ref="characterTemphitDice" placeholder=""/>
+                    <input className="full-width" type="text" ref="currHitDie" placeholder=""/>
                 </div>
 
                             <div className="spacer col-sm-12"/>
@@ -160,28 +241,28 @@ export default class CharacterForm extends React.Component{
                                                         
                 <div className="col-sm-2 col-xs-4">
                     <p className="p-override">STRENGTH</p>
-                    <input className="full-width" type="text" ref="characterStrength" placeholder=""/>
+                    <input className="full-width" type="text" ref="str" placeholder=""/>
                 </div>
                 <div className="col-sm-2 col-xs-4">
                     <p className="p-override">DEXTERITY</p>
-                    <input className="full-width" type="text" ref="characterDexterity" placeholder=""/>
+                    <input className="full-width" type="text" ref="dex" placeholder=""/>
                 </div>
                 <div className="col-sm-2 col-xs-4">
                     <p className="p-override">CONSTITUTION</p>
-                    <input className="full-width" type="text" ref="characterConstitution" placeholder=""/>
+                    <input className="full-width" type="text" ref="con" placeholder=""/>
                 </div>
 
                 <div className="col-sm-2 col-xs-4">
                     <p className="p-override">INTELLIGENCE</p>
-                    <input className="full-width" type="text" ref="characterIntelligence" placeholder=""/>
+                    <input className="full-width" type="text" ref="int" placeholder=""/>
                 </div>
                 <div className="col-sm-2 col-xs-4">
                     <p className="p-override">WISDOM</p>
-                    <input className="full-width" type="text" ref="characterWisdom" placeholder=""/>
+                    <input className="full-width" type="text" ref="wis" placeholder=""/>
                 </div>
                 <div className="col-sm-2 col-xs-4">
                     <p className="p-override">CHARISMA</p>
-                    <input className="full-width" type="text" ref="characterCharisma" placeholder=""/>
+                    <input className="full-width" type="text" ref="cha" placeholder=""/>
                 </div>
 
                             <div className="spacer col-sm-12"/>
@@ -189,7 +270,7 @@ export default class CharacterForm extends React.Component{
                             
                 <div className="col-sm-4">
                     <p className="p-override">PROFICIENCY BONUS</p>
-                    <input className="full-width" type="text" ref="characterProficiency" placeholder=""/>
+                    <input className="full-width" type="text" ref="profBonus" placeholder=""/>
                 </div>
                 <div className="col-sm-4">
                     <p className="p-override">INSPIRATION</p>
@@ -205,7 +286,7 @@ export default class CharacterForm extends React.Component{
 
                 <div className="col-sm-6">
                     <p className="p-override">SAVING THROWS (ctrl+click for multi-select)</p>
-                    <select className="full-width no-scrollbar" ref="characterSavingThrows" size={6} multiple>
+                    <select className="full-width no-scrollbar" ref="savingThrows" size={6} multiple>
                         <option value="savingThrowStrength">Strength</option>
                         <option value="savingThrowDexterity">Dexterity</option>
                         <option value="savingThrowConstitution">Constitution</option>
@@ -245,7 +326,7 @@ export default class CharacterForm extends React.Component{
                 </div>
                 <div className="col-sm-5">
                     <p className="p-override">NAME</p>
-                    <input className="full-width" type="text" ref="weapon1Name" placeholder=""/>
+                    <input className="full-width" type="text" ref="currWeaponName" placeholder=""/>
                 </div>
                 <div className="col-sm-2">
                     <p className="p-override">ATK BONUS</p>
@@ -291,7 +372,7 @@ export default class CharacterForm extends React.Component{
                 </div>
                 
                 <div className="col-sm-12">
-                    <input className="full-width" type="textarea" ref="proficiencyNotes" style={{"height":200}}/>
+                    <input className="full-width" type="textarea" ref="proficiencies" style={{"height":200}}/>
                 </div>
 
                             <div className="spacer col-sm-12"/>
@@ -313,7 +394,7 @@ export default class CharacterForm extends React.Component{
                 </div>
                 
                 <div className="col-sm-12">
-                    <input className="full-width" type="textarea" ref="featureNotes" style={{"height":200}}/>
+                    <input className="full-width" type="textarea" ref="notes" style={{"height":200}}/>
                 </div>
                         
                 <div className="spacer col-sm-12"/>

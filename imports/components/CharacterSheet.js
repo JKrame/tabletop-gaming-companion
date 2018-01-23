@@ -1,22 +1,14 @@
 import React from 'react'
 import { Characters } from '../api/character';
+
 import CharacterForm from '../objects/CharacterForm';
 
+
 export default class CharacterSheet extends React.Component{
-  
-  onSubmit(e){  
-    //gets the character name
-    const characterName = this.refs.characterName.value.trim();
-    const characterClass = this.refs.characterClass.value.trim();
 
-    e.preventDefault();
-
-    //checks if value exists
-    if (characterName && characterClass) {
-      Characters.insert({ name : characterName, class : characterClass });
-      //this.refs.charactersName.value = '';
+    onSubmit(e){  
+        e.preventDefault();
     }
-  }
   
   render() {
     return(
@@ -27,16 +19,30 @@ export default class CharacterSheet extends React.Component{
                     <hr/>
                     
                     <div className="col-sm-4 split-page-left container">
+                        <img src={'/images/photoMissing.png'} className="full-width"/>
+                        <div className="spacer col-sm-12"/>
+
+                        <form>
+                            <div className="col-sm-12">
+                                <p className="p-override">IMAGE URL</p>
+                                <input className="full-width" type="text" ref="characterImageURL" placeholder=""/>
+                            </div>
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>
+
+                            <div className="col-sm-12">
+                                <button className="full-width submit-button">UPDATE IMAGE   </button>
+                            </div>
+                        </form>
                     </div>
+                    
 
                     <div className="col-sm-8 split-page-right left-border container scrolling-container">
-                        <CharacterForm />
-                       
+                        <CharacterForm characterID={this.props.match.params.characterID}/>
                     </div>
-
                 </div>
             </div>
         </div>
-    );
-  }
+        );
+    }
 }  
