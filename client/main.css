@@ -216,6 +216,12 @@ body{
     height:80vh;
 }
 
+.scrolling-container-smaller{
+    overflow-y:auto;
+    overflow-x:hidden;
+    height:70vh;
+}
+
 .vertical-character-image{
     height:300px;
     overflow:hidden;
