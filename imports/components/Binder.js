@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {Random} from 'meteor/random';
 
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import CampaignCardHalf from '../objects/CampaignCardHalf';
@@ -23,6 +24,15 @@ export default class Binder extends React.Component{
         }
         return <div>{cards}</div>;
     }
+    loadCharacter(characterID){
+        if (!characterID){
+            console.log("randomizing");
+            characterID = Random.id();
+        }
+
+        console.log(characterID);
+        window.location.assign('/character/edit/' + characterID);
+    }
     render() {
         return(
             <div className="page-wrapper">
@@ -35,15 +45,17 @@ export default class Binder extends React.Component{
                             <hr/>
                             <div className="scrolling-container">
                                 {this.renderCharacterCard()}
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
-                                        <img src={'/images/addIcon.png'}/>
+                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
+                                    <div className="objectCardHalf ">
+                                        <div className="objectCardHalfImage">
+                                            <img src={'/images/addIcon.png'}/>
+                                        </div>
+                                        <div className="objectCardHalfInfo container-fluid">
+                                            <h4>CREATE NEW CHARACTER</h4>
+                                            <hr className="hr-override container-fluid"/>
+                                        </div>
                                     </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4>CREATE NEW CHARACTER</h4>
-                                        <hr className="hr-override container-fluid"/>
-                                    </div>
-                                </div>
+                                </NavLink>
                             </div>
                         </div>
 
