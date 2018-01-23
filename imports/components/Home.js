@@ -56,73 +56,12 @@ export default class Home extends React.Component {
         <div className="page-wrapper">
             <div className="col-lg-8 col-lg-offset-2">
                     <div className="col-md-6 ">
-<<<<<<< HEAD
                         <div className="page-content-half">
                             <h3>Characters >></h3>
                             <hr/>
                             <div className="page-content-scroller">
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
-                                        <img src={'/images/placeholder.jpg'}/>
-                                    </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4>Elfman Needsaname</h4>
-                                        <hr className="hr-override container-fluid"/>
-                                        <p className="p-override">Class: Druid</p>
-                                        <p className="p-override">Level: 4</p>
-                                        <p className="p-override">Race: Elf</p>
-                                    </div>
-                                </div>
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
-                                        <img src={'/images/placeholder.jpg'}/>
-                                    </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4>Elfman Needsaname</h4>
-                                        <hr className="hr-override container-fluid"/>
-                                        <p className="p-override">Class: Druid</p>
-                                        <p className="p-override">Level: 4</p>
-                                        <p className="p-override">Race: Elf</p>
-                                    </div>
-                                </div>
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
-                                        <img src={'/images/placeholder.jpg'}/>
-                                    </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4>Elfman Needsaname</h4>
-                                        <hr className="hr-override container-fluid"/>
-                                        <p className="p-override">Class: Druid</p>
-                                        <p className="p-override">Level: 4</p>
-                                        <p className="p-override">Race: Elf</p>
-                                    </div>
-                                </div>
-
-                                <NavLink to='#1' onClick={() => this.loadCharacter("ElfMan")} className='nav-item nav-link'>
-                                    <div className="objectCardHalf ">
-                                        <div className="objectCardHalfImage">
-                                            <img src={'/images/placeholder.jpg'}/>
-                                        </div>
-                                        <div className="objectCardHalfInfo container-fluid">
-                                            <h4>Elfman Needsaname</h4>
-                                            <hr className="hr-override container-fluid"/>
-                                            <p className="p-override">Class: Druid</p>
-                                            <p className="p-override">Level: 4</p>
-                                            <p className="p-override">Race: Elf</p>
-                                        </div>
-                                    </div>
-                                </NavLink>
-
-                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>
-=======
-
-                    <div className="page-content-half">
-                        <h3>Characters >></h3>
-                        <hr/>
-                            <div className="page-content-scroller">
-                            {this.renderCharacterCard()}
+                                {this.renderCharacterCard()}
                                 <NavLink to='/character/edit/' className='nav-item nav-link'>              
->>>>>>> 1d8c685599ae7835742e9bb2e9d60516d55445dd
                                     <div className="objectCardHalf ">
                                         <div className="objectCardHalfImage">
                                             <img src={'/images/addIcon.png'}/>
