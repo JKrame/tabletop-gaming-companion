@@ -5,8 +5,8 @@ import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import CampaignCardHalf from '../objects/CampaignCardHalf';
 
-export default class Home extends React.Component{
 
+export default class Home extends React.Component {
     onSubmit(e){  
         //gets the character name
         const characterName = this.refs.characterName.value.trim();
@@ -92,6 +92,7 @@ export default class Home extends React.Component{
                                     <div className="objectCardHalfInfo container-fluid">
                                         <h4>CREATE NEW CAMPAIGN</h4>
                                         <hr className="hr-override container-fluid"/>
+                                        <p className="p-override">Campaign Description...</p>
                                     </div>
                                 </div>
                             </NavLink>
