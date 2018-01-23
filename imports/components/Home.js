@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import {Random} from 'meteor/random'
 
 import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
@@ -42,11 +41,6 @@ export default class Home extends React.Component {
     }
 
     loadCharacter(characterID){
-        if (!characterID){
-            console.log("randomizing");
-            characterID = Random.id();
-        }
-
         console.log(characterID);
         window.location.assign('/character/edit/' + characterID);
     }

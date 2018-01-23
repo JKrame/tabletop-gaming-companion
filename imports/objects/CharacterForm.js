@@ -1,10 +1,13 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
+import { Random } from 'meteor/random'
+
 import { Characters } from '../api/character';
 
-
 export default class CharacterForm extends React.Component{
-    
+    characterID;
+    newCharacter;
+
     onSubmit(e){  
         //gets the character name
         const characterName = this.refs.characterName.value.trim();
@@ -12,8 +15,15 @@ export default class CharacterForm extends React.Component{
 
         e.preventDefault();
 
+        if(newCharacter){
+            //db.Characters.insert({characterID: this.characterID});
+        }
+        else{
+            //Characters.update({characterID: this.characterID}, {$set:{name: "elfman", class: "druid"}});
+        }
+
         //basic attributes
-        characterID = null;
+        characterID = this.characterID;
         campaignID = null;
         UID = null;
         //name = characterName;
@@ -102,10 +112,23 @@ export default class CharacterForm extends React.Component{
   }
     
     render() {
-        console.log('CharacterID: ' + this.props.characterID);
-        console.log('UserID: ' + Meteor.userId());
-        dbCursor = Characters.find({"characterID": this.props.characterID});
-        console.log(dbCursor);
+        if (this.props.characterID == "undefined"){
+            this.newCharacter = true;
+            this.characterID = Random.id();
+
+            console.log("generate random ID");
+            console.log(this.characterID);
+        }
+        else{
+            this.newCharacter = false;
+            this.characterID = this.props.characterID;
+            dbCursor = Characters.find({"characterID": this.characterID});
+
+            console.log('CharacterID: ' + this.characterID);
+            console.log('UserID: ' + Meteor.userId());
+            console.log(dbCursor);
+            console.log("From DB: " + dbCursor.collection._docs._map.characterID);
+        }
 
         return(
             <form onSubmit={this.onSubmit.bind(this)}>

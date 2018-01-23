@@ -1,6 +1,6 @@
 import React from 'react'
-import { Characters } from '../api/character';
 
+import { Characters } from '../api/character';
 import CharacterForm from '../objects/CharacterForm';
 
 
