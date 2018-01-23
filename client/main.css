@@ -10,6 +10,19 @@ hr{
     
 }
 
+.hr-override{
+    margin-top:5px !important;
+    border-top: 4px solid #606060 !important;
+    width:100% !important;
+    margin-bottom:5px !important;
+    
+}
+
+.p-override{
+    margin:0;
+    padding:0;
+}
+
 h3{
     padding:0 !important;
     margin:0 !important;
@@ -108,10 +121,46 @@ body{
     color: #012C40;
     height:430px;
     padding:10px;
+    overflow: hidden;
+}
+.page-content-scroller{
+    height:350px;
+    overflow-y:scroll;
+    overflow-x: hidden;
 }
 
 .col-lg-6{
     margin:0px;
     padding-right:0px;
     padding-left:0px;
+}
+
+.split-page-left{
+    float:left;
+    padding:10px;
+}
+
+.split-page-right{
+    float:left;
+    padding:10px;
+}
+
+.objectCardHalf{
+    margin:10px;
+    border: solid 2px #606060;
+    overflow:auto;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.objectCardHalfImage{
+    float:left;
+    width:120px;
+    height:130px;
+    padding: 10px 10px 0px 10px;
+    
+}
+
+.objectCardHalfInfo{
+    float:left;
+    height:110px;
 }
