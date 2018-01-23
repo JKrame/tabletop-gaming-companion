@@ -1,4 +1,4 @@
-import {Template} from 'metoer/templating';
+import {Template} from 'meteor/templating';
 
 import './yourCharacters.html'
 
@@ -7,7 +7,7 @@ Template.body.helpers({
         {
             CharacterID: "123abc",
             CampaignID: "123abc",
-            Name: "Dirge"
+            Name: "Dirge",
             UID: "456def",
             Class: "Paladin",
             Background: "Abused as a boy. Wants to kill his father.",
