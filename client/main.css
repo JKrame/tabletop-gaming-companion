@@ -10,6 +10,11 @@ hr{
     
 }
 
+.hr{
+    margin:10px;
+    border-top: 4px solid #fff;
+}
+
 .hr-override{
     margin-top:5px !important;
     border-top: 4px solid #606060 !important;
@@ -163,4 +168,47 @@ body{
 .objectCardHalfInfo{
     float:left;
     height:110px;
+}
+
+.right-border{
+    border-right:solid 4px #fff;
+}
+
+.left-border{
+    border-left:solid 4px #fff;
+}
+
+.full-width{
+    width:100%;
+}
+
+.spacer{
+    margin-bottom:10px !important;
+}
+
+.half-spacer{
+    margin-bottom:5px !important;
+}
+.no-scrollbar{
+    overflow: hidden;
+
+}
+
+.submit-button{
+    height:50px;
+    color: #fff;
+    background-color:red;
+}
+
+.fill-height{
+    position: absolute;
+    top:0px;
+    bottom:0px;
+    overflow-y: hidden;
+    height:90vh;
+}
+
+.scrolling-container{
+    overflow-y:scroll;
+    height:80vh;
 }
