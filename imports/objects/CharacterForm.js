@@ -1,5 +1,7 @@
 import React from 'react'
+import { Meteor } from 'meteor/meteor'
 import { Characters } from '../api/character';
+import { Meteor } from 'meteor/meteor';
 
 
 export default class CharacterForm extends React.Component{
@@ -49,7 +51,8 @@ export default class CharacterForm extends React.Component{
     
         e.preventDefault();
         campaignID = null;
-        UID = null;
+        UID = Meteor.userId();
+        //UID = null;
         //name = characterName;
         //characterClass = characterClass;
         //level = null;
@@ -136,8 +139,11 @@ export default class CharacterForm extends React.Component{
   }
     
     render() {
-        console.log(this.props.characterID);
-        
+        console.log('CharacterID: ' + this.props.characterID);
+        console.log('UserID: ' + Meteor.userId());
+        dbCursor = Characters.find({"characterID": this.props.characterID});
+        console.log(dbCursor);
+
         return(
             <form onSubmit={this.onSubmit.bind(this)}>
 

@@ -193,13 +193,6 @@ body{
     overflow: hidden;
 
 }
-
-.submit-button{
-    height:50px;
-    color: #fff;
-    background-color:red;
-}
-
 .fill-height{
     position: absolute;
     top:0px;
@@ -208,7 +201,40 @@ body{
     height:90vh;
 }
 
+.submit-button{
+    height:50px;
+    color: #fff;
+    background-color:red;
+}
+
 .scrolling-container{
     overflow-y:scroll;
     height:80vh;
+}
+
+.vertical-character-image{
+    height:300px;
+    overflow:hidden;
+}
+
+.vertical-character-card{
+    padding:10px;
+}
+
+.vertical-character-card-contents{
+    padding:10px;
+    height:480px;
+    border: solid 2px #606060;
+    overflow:auto;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.vertical-character-data{
+    margin:10px;
+}
+
+@media only screen and (max-width: 800px) {
+    .fill-height{
+        overflow-y: scroll;
+    }
 }
