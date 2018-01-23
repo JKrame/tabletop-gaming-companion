@@ -25,7 +25,7 @@ export default class Home extends React.Component {
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCardHalf/>);
+            cards.push(<CharacterCardHalf key={i}/>);
         }
         return <div>{cards}</div>;
     }
@@ -35,7 +35,7 @@ export default class Home extends React.Component {
         var numcampaigns = 2;
         for (var i = 0; i < numcampaigns; i++)
         {
-            cards.push(<CampaignCardHalf/>);
+            cards.push(<CampaignCardHalf key={i}/>);
         }
         return <div>{cards}</div>;
     }
@@ -51,7 +51,9 @@ export default class Home extends React.Component {
             <div className="col-lg-8 col-lg-offset-2">
                 <div className="col-md-6 ">
                     <div className="page-content-half">
-                        <h3>Characters >></h3>
+                        <NavLink to="Characters">
+                            <h3>Characters >></h3>
+                        </NavLink>
                         <hr/>
                         <div className="page-content-scroller">
                             {this.renderCharacterCard()}

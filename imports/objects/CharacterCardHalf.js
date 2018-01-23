@@ -3,7 +3,7 @@ import React from 'react'
 export default class CharacterCardHalf extends React.Component{
     render() {
         return (
-            <div className="objectCardHalf ">
+            <div className="objectCardHalf">
                 <div className="objectCardHalfImage">
                     <img src={'/images/placeholder.jpg'}/>
                 </div>

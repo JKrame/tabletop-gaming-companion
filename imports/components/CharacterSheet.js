@@ -37,7 +37,7 @@ export default class CharacterSheet extends React.Component{
                         </div>
                         
 
-                        <div className="col-sm-8 split-page-right left-border container scrolling-container">
+                        <div className="col-sm-8 split-page-right left-border container">
                             <CharacterForm characterID={this.props.match.params.characterID}/>
                         </div>
                     </div>
