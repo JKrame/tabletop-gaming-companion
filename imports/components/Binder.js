@@ -2,11 +2,18 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 
+import { Characters } from '../api/character';
+
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import CampaignCardHalf from '../objects/CampaignCardHalf';
 
 export default class Binder extends React.Component{
     renderCharacterCard() {
+        console.log(Meteor.userId());
+        console.log(Characters);
+        //myCharacters = Characters.find({"UID": Meteor.userId()}).fetch();
+        myCharacters = Characters.find({_id : "qqL8fF2Yim2GeHTeo"}).fetch();
+        console.log(myCharacters);
         var cards = [];
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)
