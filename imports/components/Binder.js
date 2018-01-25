@@ -3,9 +3,8 @@ import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 
 import { Characters } from '../api/character';
-
-import CharacterCardHalf from '../objects/CharacterCardHalf';
-import CampaignCardHalf from '../objects/CampaignCardHalf';
+import CharacterCard from '../objects/CharacterCardMini';
+import CampaignCard from '../objects/CampaignCardMini';
 
 export default class Binder extends React.Component{
     renderCharacterCard() {
@@ -17,10 +16,10 @@ export default class Binder extends React.Component{
         //console.log(myCharacters);
 
         var cards = [];
-        var numcharacters = 4;
+        var numcharacters = 5;
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCardHalf key={i}/>);
+            cards.push(<CharacterCard key={i}/>);
         }
         return <div>{cards}</div>;
     }
@@ -29,13 +28,17 @@ export default class Binder extends React.Component{
         var numcampaigns = 2;
         for (var i = 0; i < numcampaigns; i++)
         {
-            cards.push(<CampaignCardHalf key={i}/>);
+            cards.push(<CampaignCard key={i}/>);
         }
         return <div>{cards}</div>;
     }
     loadCharacter(characterID){
         this.props.history.push('/character/edit/' + (characterID || ""));
     }
+    loadCampaign(){
+        this.props.history.push('/campaign/edit/');
+    }
+
     render() {
         return(
             <div className="page-wrapper">
@@ -50,15 +53,15 @@ export default class Binder extends React.Component{
                                 {this.renderCharacterCard()}
 
                                 <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
-                                        <img src={'/images/addIcon.png'} className="stretch-image"/>
+                                    <div className="objectCardMini add-container">
+                                        <div className="objectCardMiniImage">
+                                            <img src={'/images/addIcon.png'} className="stretch-image"/>
+                                        </div>
+                                        <div className="objectCardMiniInfo container-fluid">
+                                            <h4 className="no-margin-override">CREATE NEW CHARACTER</h4>
+                                            <hr className="hr-override-light"/>
+                                        </div>
                                     </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4>CREATE NEW CHARACTER</h4>
-                                        <hr className="hr-override-light"/>
-                                    </div>
-                                </div>
                                 </NavLink>
                             </div>
                         </div>
@@ -71,28 +74,30 @@ export default class Binder extends React.Component{
 
                             <div className="scrolling-container">
                                 {this.renderCampaignCard()}
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
-                                        <img src={'/images/pending.png'} className="stretch-image"/>
-                                    </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4>PENDING INVITE</h4>
-                                        <hr className="hr-override-light"/>
-                                        <p className="p-override">Click for Details...</p>
-                                    </div>
-                                </div>
 
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
-                                        <img src={'/images/addIcon.png'} className="stretch-image"/>
+                                <div className="objectCardMini add-container">
+                                        <div className="objectCardMiniImage">
+                                            <img src={'/images/pending.png'} className="stretch-image"/>
+                                        </div>
+                                        <div className="objectCardMiniInfo container-fluid">
+                                            <h4 className="no-margin-override">PENDING INVITE</h4>
+                                            <hr className="hr-override-light"/>
+                                            <p className="p-override">Click for Details...</p>
+                                        </div>
                                     </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4>CREATE NEW CAMPAIGN</h4>
-                                        <hr className="hr-override-light"/>
+                               
+                                <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
+                                    <div className="objectCardMini add-container">
+                                        <div className="objectCardMiniImage">
+                                            <img src={'/images/addIcon.png'} className="stretch-image"/>
+                                        </div>
+                                        <div className="objectCardMiniInfo container-fluid">
+                                            <h4 className="no-margin-override">CREATE NEW CAMPAIGN</h4>
+                                            <hr className="hr-override-light"/>
+                                        </div>
                                     </div>
-                                </div>
+                                </NavLink>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

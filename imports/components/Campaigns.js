@@ -20,13 +20,8 @@ export default class Campaigns extends React.Component{
                     <h3>Your Campaigns</h3>
                     <hr/>
                     <div className="scrolling-container">
-                    {this.renderCampaignCard()}
+                        {this.renderCampaignCard()}
                     </div>
-                    
-
-                    
-
-
                 </div>
             </div>
         </div>

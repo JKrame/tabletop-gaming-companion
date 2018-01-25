@@ -3,7 +3,7 @@ import React from 'react'
 export default class CampaignCardHalf extends React.Component{
     render() {
         return (
-            <div className="objectCardHalf">
+            <div className="objectCardHalf highlight-container">
                 <div className="objectCardHalfImage">
                     <img src={'/images/placeholder.jpg'} className="stretch-image"/>
                 </div>

@@ -25,7 +25,7 @@ export default class AdventureBoard extends React.Component{
                                 <h3>Public Adventure Board</h3>
                         </NavLink>
                         <hr/>
-                        <div className="scrolling-container">
+                        <div className="scrolling-container-80">
                             {this.renderCampaignCard()}
                         </div>
                     </div>
