@@ -80,7 +80,9 @@ export default class Home extends React.Component {
                     
                 <div className="col-md-6 ">
                     <div className="page-content-half">
-                        <h3>Campaigns >></h3>
+                        <NavLink to="Campaigns">
+                            <h3>Campaign >></h3>
+                        </NavLink>
                         <hr/>
                         
                         <div className="page-content-scroller">
