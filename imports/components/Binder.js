@@ -2,11 +2,19 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 
+import { Characters } from '../api/character';
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
 
 export default class Binder extends React.Component{
     renderCharacterCard() {
+        //console.log(Meteor.userId());
+        //console.log(Characters._collection._docs._map);
+        myCharacters = Characters.find({_id : "qqL8fF2Yim2GeHTeo"}).fetch();
+        console.log(myCharacters);
+        //console.log(Characters.find().fetch());
+        //console.log(myCharacters);
+
         var cards = [];
         var numcharacters = 5;
         for (var i = 0; i < numcharacters; i++)
@@ -65,7 +73,9 @@ export default class Binder extends React.Component{
                         </div>
 
                         <div className="col-lg-6 split-page-right">
-                            <h3>Your Campaigns >></h3>
+                            <NavLink to="Campaigns">
+                                <h3>Your Campaigns >></h3>
+                            </NavLink>
                             <hr className="container-fluid"/>
 
                             <div className="scrolling-container">
