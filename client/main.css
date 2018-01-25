@@ -155,7 +155,7 @@ body{
 }
 
 .split-page-right{
-    float:left;
+    float:right;
     padding:10px;
 }
 
@@ -172,6 +172,8 @@ body{
     width:90px;
     height:90px;
     margin-right:10px;
+    border-radius: 5px 5px 5px 5px;
+    overflow: hidden;
 }
 
 .objectCardHalfInfo{
@@ -180,6 +182,51 @@ body{
 
 .objectCardHalfInfo p{
     margin-top:0px;
+}
+
+.objectCardHalf:hover{
+    background-color:rgba(255, 64, 76, .415);
+}
+
+.objectCardMini{
+    display:flex;
+    margin:5px;
+    padding:5px;
+    border: solid 2px #606060;
+    overflow:hidden;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.objectCardMiniImage{
+    float:left;
+    width:60px;
+    height:60px;
+    border-radius: 5px 5px 5px 5px;
+    overflow: hidden;    
+}
+
+.objectCardMiniInfo{
+    float:left;
+    margin:0px;
+}
+
+.objectCardMiniInfo p{
+    margin-top:0px;
+}
+
+.objectCardMini:hover{
+    background-color:rgba(255, 64, 76, .415);
+}
+
+.textCardMiniImage
+{
+    width:25px;
+    height:25px;
+    margin-right:5px;
+}
+
+.textCardMini:hover{
+    background-color:rgba(255, 64, 76, .415);
 }
 
 .right-border{
@@ -206,11 +253,13 @@ body{
 
 }
 .fill-height{
-    position: absolute;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
     height:90vh;
+}
+.fill-width{
+    width:100%
 }
 
 .submit-button{
@@ -221,7 +270,11 @@ body{
 
 .scrolling-container{
     overflow-y:auto;
+}
+
+.scrolling-container-80{
     height:80vh;
+    overflow-y:auto;
 }
 
 .scrolling-container-smaller{
@@ -261,6 +314,34 @@ body{
 
 .width-70{
     width:70%;
+}
+
+.h5-overflow-hidden{
+    height:15px;
+    overflow: hidden;
+}
+
+.small-text{
+    font-size:10px;
+}
+
+.add-container:hover{
+    background-color:rgba(28, 168, 184, 0.415) !important;
+}
+
+
+
+.flex-grid{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.grid-item{
+    flex-grow:1;
+    min-width:20%;
+}
+.height-600{
+    height:400px;
 }
 
 @media only screen and (max-width: 800px) {

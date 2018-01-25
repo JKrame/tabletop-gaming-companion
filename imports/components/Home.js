@@ -2,8 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { Characters } from '../api/character';
-import CharacterCardHalf from '../objects/CharacterCardHalf';
-import CampaignCardHalf from '../objects/CampaignCardHalf';
+import CharacterCardHalf from '../objects/CharacterCardMini';
+import CampaignCardHalf from '../objects/CampaignCardMini';
 
 
 export default class Home extends React.Component {
@@ -45,6 +45,10 @@ export default class Home extends React.Component {
         this.props.history.push('/character/edit/' + characterID);
     }
 
+    loadCampaign(){
+        this.props.history.push('/campaign/edit/');
+    }
+
     render() {
         return(
         <div className="page-wrapper">
@@ -57,12 +61,12 @@ export default class Home extends React.Component {
                         <hr/>
                         <div className="page-content-scroller">
                             {this.renderCharacterCard()}
-                            <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>              
-                                <div className="objectCardHalf ">
-                                    <div className="objectCardHalfImage">
+                            <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
+                                <div className="objectCardMini add-container">
+                                    <div className="objectCardMiniImage">
                                         <img src={'/images/addIcon.png'} className="stretch-image"/>
                                     </div>
-                                    <div className="objectCardHalfInfo container-fluid">
+                                    <div className="objectCardMiniInfo container-fluid">
                                         <h4 className="no-margin-override">CREATE NEW CHARACTER</h4>
                                         <hr className="hr-override-light"/>
                                     </div>
@@ -81,30 +85,30 @@ export default class Home extends React.Component {
                         
                         <div className="page-content-scroller">
                             {this.renderCampaignCard()}
-                            <div className="objectCardHalf ">
-                                <div className="objectCardHalfImage">
-                                    <img src={'/images/pending.png'} className="stretch-image"/>
-                                </div>
-                                <div className="objectCardHalfInfo container-fluid">
-                                    <h4 className="no-margin-override">PENDING INVITE</h4>
-                                    <hr className="hr-override-light"/>
-                                    <p className="p-override no-margin-override">Click for Details...</p>
-                                </div>
-                            </div>
-
-                            <NavLink to='/campaign/edit/' className='nav-item nav-link'>                                          
-                                <div className="objectCardHalf ">
-                                        <div className="objectCardHalfImage">
+                            
+                            <div className="objectCardMini add-container">
+                                        <div className="objectCardMiniImage">
+                                            <img src={'/images/pending.png'} className="stretch-image"/>
+                                        </div>
+                                        <div className="objectCardMiniInfo container-fluid">
+                                            <h4 className="no-margin-override">PENDING INVITE</h4>
+                                            <hr className="hr-override-light"/>
+                                            <p className="p-override">Click for Details...</p>
+                                        </div>
+                                    </div>
+                               
+                                <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
+                                    <div className="objectCardMini add-container">
+                                        <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
-                                    <div className="objectCardHalfInfo container-fluid">
-                                        <h4 className="no-margin-override">CREATE NEW CAMPAIGN</h4>
-                                        <hr className="hr-override-light"/>
-                                        <p className="p-override no-margin-override">Campaign Description...</p>
+                                        <div className="objectCardMiniInfo container-fluid">
+                                            <h4 className="no-margin-override">CREATE NEW CAMPAIGN</h4>
+                                            <hr className="hr-override-light"/>
+                                        </div>
                                     </div>
-                                </div>
-                            </NavLink>
-                        </div>
+                                </NavLink>
+                            </div>
                         </div>
                 </div>
                 <div className="col-md-6 ">

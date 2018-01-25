@@ -3,7 +3,7 @@ import React from 'react';
 export default class CampaignCardVertical extends React.Component {
     render() {
         return (
-            <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
                 <div className="vertical-card-contents">
                     <div className="vertical-image">
                         <img src={'/images/photoMissing.png'} className="full-width vertical-image"/>
