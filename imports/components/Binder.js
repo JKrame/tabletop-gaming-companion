@@ -10,10 +10,14 @@ import CampaignCardHalf from '../objects/CampaignCardHalf';
 export default class Binder extends React.Component{
     renderCharacterCard() {
         console.log(Meteor.userId());
-        console.log(Characters);
+        console.log(Characters._collection._docs._map);
         //myCharacters = Characters.find({"UID": Meteor.userId()}).fetch();
-        myCharacters = Characters.find({_id : "qqL8fF2Yim2GeHTeo"}).fetch();
-        console.log(myCharacters);
+        myCharacters = Characters.find().fetch();
+        console.log(Characters.find().fetch());
+        //console.log(myCharacters);
+
+
+
         var cards = [];
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)

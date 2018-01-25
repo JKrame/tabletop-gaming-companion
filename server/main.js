@@ -5,5 +5,4 @@ import '../imports/api/users';
 import '../imports/api/character';
     
 Meteor.startup(() => {
-    console.log("startin up");
 });
