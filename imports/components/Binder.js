@@ -34,13 +34,7 @@ export default class Binder extends React.Component{
         return <div>{cards}</div>;
     }
     loadCharacter(characterID){
-        if (!characterID){
-            console.log("randomizing");
-            characterID = Random.id();
-        }
-
-        console.log(characterID);
-        this.props.history.push('/character/edit/' + characterID);
+        this.props.history.push('/character/edit/' + (characterID || ""));
     }
     render() {
         return(
