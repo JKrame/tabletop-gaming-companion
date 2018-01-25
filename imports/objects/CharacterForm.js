@@ -1,13 +1,20 @@
 import React from 'react'
+import { Meteor } from 'meteor/meteor'
+import { Random } from 'meteor/random'
+
 import { Characters } from '../api/character';
 
 export default class CharacterForm extends React.Component{
-    
+    characterID;
+    newCharacter;
+
     onSubmit(e){  
         e.preventDefault();
-       
-        e.preventDefault();
-        characterID = null;
+
+
+
+        //basic attributes
+        characterID = this.characterID;
         campaignID = null;
         UID = Meteor.userId();
         
@@ -31,55 +38,113 @@ export default class CharacterForm extends React.Component{
         featureName = null;
         featureDescription = null;
 
-    //checks if value exists
-        Characters.insert({ 
-            characterID, 
-            campaignID,
-            UID, 
-            characterName : this.refs.characterName.value.trim(),
-            characterClass : this.refs.characterClass.value.trim(),
-            level : this.refs.level.value.trim(), 
-            background : this.refs.background.value.trim(),
-            race : this.refs.race.value.trim(),
-            alignment : this.refs.alignment.value.trim(),
-            AC : this.refs.AC.value.trim(),
-            speed : this.refs.speed.value.trim(),
-            maxHP : this.refs.maxHP.value.trim(),
-            currHP : this.refs.currHP.value.trim(),
-            maxHitDie : this.refs.maxHitDie.value.trim(),
-            currHitDie : this.refs.currHitDie.value.trim(),
-            hitDie : this.refs.hitDie.value.trim(),
-            profBonus : this.refs.profBonus.value.trim(),
-            notes : this.refs.notes.value.trim(),
-            currWeapon : {
-                currWeaponName : this.refs.currWeaponName.value.trim(),
-                currWeaponType,
-                currWeaponDamage
-            },
-            features : {
-                featureName,
-                featureDescription
+        //checks if value exists
+        if(this.newCharacter){
+            console.log("Insert to DB");
+            this.newCharacter = false;
+            Characters.insert({ 
+                characterID : this.characterID, 
+                campaignID : campaignID,
+                UID : UID, 
+                characterName : this.refs.characterName.value.trim(),
+                characterClass : this.refs.characterClass.value.trim(),
+                level : this.refs.level.value.trim(), 
+                background : this.refs.background.value.trim(),
+                race : this.refs.race.value.trim(),
+                alignment : this.refs.alignment.value.trim(),
+                AC : this.refs.AC.value.trim(),
+                speed : this.refs.speed.value.trim(),
+                maxHP : this.refs.maxHP.value.trim(),
+                currHP : this.refs.currHP.value.trim(),
+                maxHitDie : this.refs.maxHitDie.value.trim(),
+                currHitDie : this.refs.currHitDie.value.trim(),
+                hitDie : this.refs.hitDie.value.trim(),
+                profBonus : this.refs.profBonus.value.trim(),
+                notes : this.refs.notes.value.trim(),
+                currWeapon : {
+                    currWeaponName : this.refs.currWeaponName.value.trim(),
+                    currWeaponType,
+                    currWeaponDamage
                 },
-            inventory : {
-                itemName,
-                itemDescription
+                features : {
+                    featureName,
+                    featureDescription
+                    },
+                inventory : {
+                    itemName,
+                    itemDescription
+                    },
+                proficiencies : this.refs.proficiencies.value.trim(),
+                attributes,
+                savingThrows : this.refs.savingThrows.value.trim(),
+                spellSlotsMax,
+                spellSlotsCurr,
+                statuses,
+                money
+                });
+        }
+        else{
+            console.log("Update db");
+            // Mongo auto creats a _id field on insert, and you must have that _id number in order to update
+            Characters.update({characterID : this.characterID, UID : UID}, {$set:{ 
+                campaignID : campaignID,
+                characterName : this.refs.characterName.value.trim(),
+                characterClass : this.refs.characterClass.value.trim(),
+                level : this.refs.level.value.trim(), 
+                background : this.refs.background.value.trim(),
+                race : this.refs.race.value.trim(),
+                alignment : this.refs.alignment.value.trim(),
+                AC : this.refs.AC.value.trim(),
+                speed : this.refs.speed.value.trim(),
+                maxHP : this.refs.maxHP.value.trim(),
+                currHP : this.refs.currHP.value.trim(),
+                maxHitDie : this.refs.maxHitDie.value.trim(),
+                currHitDie : this.refs.currHitDie.value.trim(),
+                hitDie : this.refs.hitDie.value.trim(),
+                profBonus : this.refs.profBonus.value.trim(),
+                notes : this.refs.notes.value.trim(),
+                currWeapon : {
+                    currWeaponName : this.refs.currWeaponName.value.trim(),
+                    currWeaponType,
+                    currWeaponDamage
                 },
-            proficiencies : this.refs.proficiencies.value.trim(),
-            attributes,
-            savingThrows : this.refs.savingThrows.value.trim(),
-            spellSlotsMax,
-            spellSlotsCurr,
-            statuses,
-            money
-            });
-    
-  }
+                features : {
+                    featureName,
+                    featureDescription
+                    },
+                inventory : {
+                    itemName,
+                    itemDescription
+                    },
+                proficiencies : this.refs.proficiencies.value.trim(),
+                attributes,
+                savingThrows : this.refs.savingThrows.value.trim(),
+                spellSlotsMax,
+                spellSlotsCurr,
+                statuses,
+                money
+                }});
+        }
+    }
     
     render() {
-        console.log('CharacterID: ' + this.props.characterID);
-        console.log('UserID: ' + Meteor.userId());
-        dbCursor = Characters.find({"characterID": this.props.characterID});
-        console.log(dbCursor);
+        if (this.props.characterID == "undefined"){
+            this.newCharacter = true;
+            this.characterID = Random.id();
+
+            console.log("generate random ID");
+            console.log(this.characterID);
+        }
+        else{
+            this.newCharacter = false;
+            this.characterID = this.props.characterID;
+            dbCursor = Characters.find({"characterID": this.characterID});
+
+            console.log('CharacterID: ' + this.characterID);
+            console.log('UserID: ' + Meteor.userId());
+            console.log(dbCursor);
+            console.log("From DB: " + dbCursor.collection._docs._map.characterID);
+        }
 
         return(
 
