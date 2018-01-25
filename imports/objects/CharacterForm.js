@@ -42,32 +42,41 @@ export default class CharacterForm extends React.Component{
         if(this.newCharacter){
             console.log("Insert to DB");
             this.newCharacter = false;
-            Meteor.call(
-                'characters.insert', 
+            Meteor.call('characters.insert', 
                 characterID,
                 campaignID,
                 UID,
-                characterName,
-                characterClass, 
-                level,
-                background, 
-                race,
-                alignment,
-                AC,
-                speed,
-                maxHP,
-                currHP,
-                maxHitDie,
-                currHitDie,
-                hitDie,
-                profBonus,
-                notes,
-                currWeapon,
-                features,
-                inventory,
-                proficiencies,
+                this.refs.characterName.value.trim(),
+                this.refs.characterClass.value.trim(),
+                this.refs.level.value.trim(),
+                this.refs.background.value.trim(),
+                this.refs.race.value.trim(),
+                this.refs.alignment.value.trim(),
+                this.refs.AC.value.trim(),
+                this.refs.speed.value.trim(),
+                this.refs.maxHP.value.trim(),
+                this.refs.currHP.value.trim(),
+                this.refs.maxHitDie.value.trim(),
+                this.refs.currHitDie.value.trim(),
+                this.refs.hitDie.value.trim(),
+                this.refs.profBonus.value.trim(),
+                this.refs.notes.value.trim(),
+                { 
+                    currWeaponName : this.refs.currWeaponName.value.trim(),
+                    currWeaponType,
+                    currWeaponDamage
+                },
+                {
+                    featureName,		
+                    featureDescription		
+                },
+                {
+                    itemName,
+                    itemDescription
+                },
+                this.refs.proficiencies.value.trim(),
                 attributes,
-                savingThrows,
+                this.refs.savingThrows.value.trim(),
                 spellSlotsMax,
                 spellSlotsCurr,
                 statuses,
@@ -77,45 +86,46 @@ export default class CharacterForm extends React.Component{
         else{
             console.log("Update db");
             // Mongo auto creats a _id field on insert, and you must have that _id number in order to update
-            Meteor.call('character.update',
-                characterID : this.characterID, UID : UID}, {$set:{ 
-                campaignID : campaignID,
-                characterName : this.refs.characterName.value.trim(),
-                characterClass : this.refs.characterClass.value.trim(),
-                level : this.refs.level.value.trim(), 
-                background : this.refs.background.value.trim(),
-                race : this.refs.race.value.trim(),
-                alignment : this.refs.alignment.value.trim(),
-                AC : this.refs.AC.value.trim(),
-                speed : this.refs.speed.value.trim(),
-                maxHP : this.refs.maxHP.value.trim(),
-                currHP : this.refs.currHP.value.trim(),
-                maxHitDie : this.refs.maxHitDie.value.trim(),
-                currHitDie : this.refs.currHitDie.value.trim(),
-                hitDie : this.refs.hitDie.value.trim(),
-                profBonus : this.refs.profBonus.value.trim(),
-                notes : this.refs.notes.value.trim(),
-                currWeapon : {
+            Meteor.call('characters.update',
+                characterID,
+                campaignID,
+                UID,
+                this.refs.characterName.value.trim(),
+                this.refs.characterClass.value.trim(),
+                this.refs.level.value.trim(),
+                this.refs.background.value.trim(),
+                this.refs.race.value.trim(),
+                this.refs.alignment.value.trim(),
+                this.refs.AC.value.trim(),
+                this.refs.speed.value.trim(),
+                this.refs.maxHP.value.trim(),
+                this.refs.currHP.value.trim(),
+                this.refs.maxHitDie.value.trim(),
+                this.refs.currHitDie.value.trim(),
+                this.refs.hitDie.value.trim(),
+                this.refs.profBonus.value.trim(),
+                this.refs.notes.value.trim(),
+                { 
                     currWeaponName : this.refs.currWeaponName.value.trim(),
                     currWeaponType,
                     currWeaponDamage
                 },
-                features : {
-                    featureName,
-                    featureDescription
-                    },
-                inventory : {
+                {
+                    featureName,		
+                    featureDescription		
+                },
+                {
                     itemName,
                     itemDescription
-                    },
-                proficiencies : this.refs.proficiencies.value.trim(),
+                },
+                this.refs.proficiencies.value.trim(),
                 attributes,
-                savingThrows : this.refs.savingThrows.value.trim(),
+                this.refs.savingThrows.value.trim(),
                 spellSlotsMax,
                 spellSlotsCurr,
                 statuses,
                 money
-                }});
+            );
         }
     }
     
