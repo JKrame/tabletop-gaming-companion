@@ -230,23 +230,23 @@ body{
     height:70vh;
 }
 
-.vertical-character-image{
+.vertical-image{
     height:300px;
     overflow:hidden;
 }
 
-.vertical-character-card{
+.vertical-card{
     padding:10px;
 }
 
-.vertical-character-card-contents{
+.vertical-card-contents{
     padding:10px;
     border: solid 2px #606060;
     overflow:auto;
     border-radius: 10px 10px 10px 10px;
 }
 
-.vertical-character-data{
+.vertical-data{
     margin:10px;
 }
 
