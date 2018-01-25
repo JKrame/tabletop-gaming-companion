@@ -70,7 +70,9 @@ export default class Binder extends React.Component{
                         </div>
 
                         <div className="col-lg-6 split-page-right">
-                            <h3>Your Campaigns >></h3>
+                            <NavLink to="Campaigns">
+                                <h3>Your Campaigns >></h3>
+                            </NavLink>
                             <hr className="container-fluid"/>
 
                             <div className="scrolling-container">
