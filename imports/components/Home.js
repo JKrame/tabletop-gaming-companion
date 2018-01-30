@@ -13,7 +13,11 @@ export default class Home extends React.Component {
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCardHalf key={i}/>);
+            cards.push(
+                <NavLink to='#' onClick={() => this.loadCharacter('abcdefg')} className='nav-item nav-link'>
+                    <CharacterCardHalf key={i}/>
+                </NavLink>
+            );
         }
         return <div>{cards}</div>;
     }

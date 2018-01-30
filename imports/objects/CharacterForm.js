@@ -37,7 +37,7 @@ export default class CharacterForm extends React.Component{
 
         //inventory subdocuments
         itemName = null;
-        itemDescription = null
+        itemDescription = null;
 
         //current weapon subdocuments
         //currWeaponName = null;
@@ -135,8 +135,8 @@ export default class CharacterForm extends React.Component{
                         <input className="full-width" type="textarea" ref="characterBackstory" defaultValue={character ? character.characterBackstory : ""} style={{"height":200}}/>
                     </div>
 
-                                <div className="spacer col-sm-12"/>
-                                <div className="hr full-width col-sm-12"/>
+                        <div className="spacer col-sm-12"/>
+                        <div className="hr full-width col-sm-12"/>
 
                     <div className="col-sm-4">
                         <p className="p-override">LEVEL</p>

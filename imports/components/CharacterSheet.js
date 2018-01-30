@@ -39,6 +39,10 @@ export default class CharacterSheet extends React.Component{
             }
         });
     }
+
+    renderImage(){
+        return '/images/photoMissing.png';
+    }
   
     render() {
         return(
@@ -49,7 +53,7 @@ export default class CharacterSheet extends React.Component{
                         <hr/>
                         
                         <div className="col-sm-4 split-page-left container">
-                            <img src={'/images/photoMissing.png'} className="full-width"/>
+                            <img src={this.renderImage()} className="full-width"/>
                             <div className="spacer col-sm-12"/>
 
                             <form>
