@@ -6,12 +6,18 @@ export const Characters = new Mongo.Collection('characters');
 
 if (Meteor.isServer) {
     Meteor.publish("characters", function charactersPublication(){
+        console.log("publish");
         return Characters.find();
     });
+}
+if (Meteor.isClient) {
+    console.log("subscribe");
+    Meteor.subscribe("characters");
 }
 
 Meteor.methods({
     'characters.insert'(
+        _id,
         characterID,
         campaignID,
         UID,
@@ -41,7 +47,6 @@ Meteor.methods({
         statuses,
         money) 
     {
-        check(text, String);
     
         // Make sure the user is logged in before inserting a task
         if (! Meteor.userId()) {
@@ -50,6 +55,7 @@ Meteor.methods({
 
         Characters.insert(
         {
+            _id,
             characterID, 
             campaignID,
             UID, 
@@ -87,6 +93,7 @@ Meteor.methods({
     },
   
     'characters.update'(
+        _id,
         characterID, 
         campaignID,
         UID, 
@@ -117,10 +124,9 @@ Meteor.methods({
         money)
     {
         // These check methods need to check the data type of the parameters we are updating with
-        check(taskId, String);
-        check(setChecked, Boolean);
-        Characters.update(characterID, { 
+        Characters.update(_id, { 
             $set: { 
+                characterID,
                 campaignID,
                 UID, 
                 characterName,

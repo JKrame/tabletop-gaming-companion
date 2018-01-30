@@ -11,6 +11,8 @@ export default class CharacterSheet extends React.Component{
     }
   
     render() {
+        _id = this.props.match.params._id;
+
         return(
             <div className="page-wrapper">
                 <div className="col-lg-8 col-lg-offset-2">
@@ -38,7 +40,7 @@ export default class CharacterSheet extends React.Component{
                         
 
                         <div className="col-sm-8 split-page-right left-border container">
-                            <CharacterForm characterID={this.props.match.params.characterID}/>
+                            <CharacterForm _id={_id}/>
                         </div>
                     </div>
                 </div>
