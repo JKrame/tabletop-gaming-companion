@@ -1,9 +1,10 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 
 export default class CharacterCardHalf extends React.Component{
     render() {
         return (
-            <div className="objectCardHalf">
+            <div className="objectCardHalf highlight-container">
                 <div className="objectCardHalfImage">
                     <img src={'/images/placeholder.jpg'} className="stretch-image"/>
                 </div>
