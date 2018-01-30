@@ -12,10 +12,6 @@ import { Characters } from '../imports/api/character';
 Tracker.autorun(() => {
     const isAuthenticated = !!Meteor.userId();
     onAuthChange(isAuthenticated);
-    
-    if (Meteor.isClient) {
-        Meteor.subscribe("characters");
-    }
 });
 
 Meteor.startup(() => {

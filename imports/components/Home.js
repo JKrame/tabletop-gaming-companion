@@ -41,8 +41,9 @@ export default class Home extends React.Component {
     }
 
     loadCharacter(characterID){
-        console.log(characterID);
-        this.props.history.push('/character/edit/' + characterID);
+        this.props.history.push('/character/edit/qqL8fF2Yim2GeHTeo');
+        
+        //this.props.history.push('/character/edit/' + characterID || "");
     }
 
     loadCampaign(){

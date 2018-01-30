@@ -45,6 +45,7 @@ export default class CharacterForm extends React.Component{
             console.log("Insert to DB");
             this.newCharacter = false;
             Meteor.call('characters.insert', 
+                _id = "qqL8fF2Yim2GeHTeo",
                 characterID,
                 campaignID,
                 UID,
@@ -89,6 +90,7 @@ export default class CharacterForm extends React.Component{
             console.log("Update db");
             // Mongo auto creats a _id field on insert, and you must have that _id number in order to update
             Meteor.call('characters.update',
+                _id = "qqL8fF2Yim2GeHTeoaa",
                 characterID,
                 campaignID,
                 UID,
@@ -132,9 +134,10 @@ export default class CharacterForm extends React.Component{
     }
     
     render() {
-        cid = this.props.characterID || Random.id();
+        this.props._id
+        console.log("CharacterForm _id: " + _id);
         
-        if (!cid){
+        if (!_id){
             this.newCharacter = true;
             cid = Random.id();
         }
@@ -142,7 +145,7 @@ export default class CharacterForm extends React.Component{
             this.newCharacter = false;
         }
 
-        character = Characters.find({characterID: cid}).fetch()[0];
+        character = Characters.find({_id : _id}).fetch()[0];
         console.log(character);
 
         return(
@@ -420,14 +423,3 @@ export default class CharacterForm extends React.Component{
         );
     }
 }
-
-CharacterForm.propTypes = {
-    characterName: PropTypes.string,
-    characterClass: PropTypes.string,
-};
-  
-CharacterForm.defaultProps = {
-    characterName: '',
-    characterClas: '',
-    level: null
-};
