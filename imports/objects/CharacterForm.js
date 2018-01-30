@@ -84,7 +84,7 @@ export default class CharacterForm extends React.Component{
         cid = this.props._id
         console.log("CharacterForm _id: " + Meteor.userId());
 
-        character = Characters.fetch();
+        character = Characters.find().fetch();
         console.log(character);
 
         return(
