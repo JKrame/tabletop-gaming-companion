@@ -127,6 +127,48 @@ body{
     color: #012C40;
     padding:10px;
 }
+.content-container-left{
+    padding-right:10px;
+    top:0px;
+    bottom:0px;
+    overflow-y: hidden;
+    height:90vh;
+}
+.content-container-mid{
+    top:0px;
+    bottom:0px;
+    overflow-y: hidden;
+    height:90vh;
+}
+.content-container-right{
+    padding-left:10px;
+    top:0px;
+    bottom:0px;
+    overflow-y: hidden;
+    height:90vh;
+}
+.sub-content{
+    background-color: rgba(255, 255, 255, 0.801);
+    margin:6px;
+    color: #012C40;
+    padding:10px;
+}
+.sub-content-top{
+    background-color: rgba(255, 255, 255, 0.801);
+    min-height:500px;
+    height:60vh;
+    color: #012C40;
+    padding:10px;
+    position:relative;
+}
+.sub-content-bottom{
+    background-color: rgba(255, 255, 255, 0.801);
+    min-height:300px;
+    margin-top:1vh;
+    color: #012C40;
+    padding:10px;
+    height:29vh;
+}
 
   
   .page-content-half{
@@ -282,6 +324,11 @@ body{
     overflow-x:hidden;
     height:70vh;
 }
+.scrolling-container-content-top{
+    overflow-y:auto;
+    overflow-x:hidden;
+    height:75%;
+}
 
 .vertical-image{
     height:300px;
@@ -329,8 +376,6 @@ body{
     background-color:rgba(28, 168, 184, 0.415) !important;
 }
 
-
-
 .flex-grid{
     display:flex;
     flex-wrap: wrap;
@@ -343,6 +388,28 @@ body{
 .height-600{
     height:400px;
 }
+
+.bottom-button{
+    margin:auto;
+    margin-top:3vh;
+    background-color: #FF404C;
+    height:5vh;
+    min-height:40px;
+    display:inline-block;
+    text-align: center;
+    
+}
+
+.button-text {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    color: #fff !important;
+  }
+
+  .game-screen{
+      min-height:900px;
+  }
 
 @media only screen and (max-width: 800px) {
     .fill-height{
