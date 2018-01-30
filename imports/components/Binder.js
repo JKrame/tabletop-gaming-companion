@@ -33,7 +33,7 @@ export default class Binder extends React.Component{
         return <div>{cards}</div>;
     }
     loadCharacter(characterID){
-        this.props.history.push('/character/edit/' + characterID);
+        this.props.history.push('/character/edit/' + characterID || "");
     }
     loadCampaign(){
         this.props.history.push('/campaign/edit/');

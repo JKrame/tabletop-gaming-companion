@@ -47,7 +47,6 @@ Meteor.methods({
         statuses,
         money) 
     {
-        check(characterID, String);
     
         // Make sure the user is logged in before inserting a task
         if (! Meteor.userId()) {
@@ -56,6 +55,7 @@ Meteor.methods({
 
         Characters.insert(
         {
+            _id,
             characterID, 
             campaignID,
             UID, 

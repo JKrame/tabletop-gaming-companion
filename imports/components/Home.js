@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { Random } from 'meteor/random'
 
 import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardMini';
@@ -7,19 +8,6 @@ import CampaignCardHalf from '../objects/CampaignCardMini';
 
 
 export default class Home extends React.Component {
-    onSubmit(e) {
-        console.log("onsubmit");
-        //gets the character name
-        const characterName = this.refs.characterName.value.trim();
-        e.preventDefault();
-
-        //checks if value exists
-        if (characterName) {
-        Characters.insert({ characterName });
-        this.refs.characterName.value = '';
-        }
-    }
-
     renderCharacterCard() {
         var cards = [];
         var numcharacters = 4;
@@ -40,10 +28,14 @@ export default class Home extends React.Component {
         return <div>{cards}</div>;
     }
 
-    loadCharacter(characterID){
-        this.props.history.push('/character/edit/qqL8fF2Yim2GeHTeo');
-        
-        //this.props.history.push('/character/edit/' + characterID || "");
+    loadCharacter(cid){
+        if (!cid)
+        {
+            cid = Random.id();
+            Meteor.call('characters.insert', cid);
+        }
+
+        this.props.history.push('/character/edit/' + cid);
     }
 
     loadCampaign(){
