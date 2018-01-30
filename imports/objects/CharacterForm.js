@@ -84,7 +84,7 @@ export default class CharacterForm extends React.Component{
         cid = this.props._id
         console.log("CharacterForm _id: " + Meteor.userId());
 
-        character = Characters.fetch();
+        character = Characters.find().fetch();
         console.log(character);
 
         return(
@@ -101,8 +101,8 @@ export default class CharacterForm extends React.Component{
                         <input className="full-width" type="textarea" ref="characterBackstory" defaultValue={character ? character.characterBackstory : ""} style={{"height":200}}/>
                     </div>
 
-                                <div className="spacer col-sm-12"/>
-                                <div className="hr full-width col-sm-12"/>
+                        <div className="spacer col-sm-12"/>
+                        <div className="hr full-width col-sm-12"/>
 
                     <div className="col-sm-4">
                         <p className="p-override">LEVEL</p>

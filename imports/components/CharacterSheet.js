@@ -9,6 +9,10 @@ export default class CharacterSheet extends React.Component{
     onSubmit(e){  
         e.preventDefault();
     }
+
+    renderImage(){
+        return '/images/photoMissing.png';
+    }
   
     render() {
         _id = this.props.match.params._id;
@@ -21,7 +25,7 @@ export default class CharacterSheet extends React.Component{
                         <hr/>
                         
                         <div className="col-sm-4 split-page-left container">
-                            <img src={'/images/photoMissing.png'} className="full-width"/>
+                            <img src={this.renderImage()} className="full-width"/>
                             <div className="spacer col-sm-12"/>
 
                             <form>
