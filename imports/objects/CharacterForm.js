@@ -1,14 +1,12 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
-import { Random } from 'meteor/random'
 
 import PropTypes from 'prop-types';
 
 import { Characters } from '../api/character';
 
 export default class CharacterForm extends React.Component{
-    characterID;
-    newCharacter;
+    _id;
 
     onSubmit(e){  
         e.preventDefault();
@@ -38,112 +36,55 @@ export default class CharacterForm extends React.Component{
         featureName = null;
         featureDescription = null;
 
-        //checks if value exists
-        if(this.newCharacter){
-            console.log("Insert to DB");
-            this.newCharacter = false;
-            Meteor.call('characters.insert', 
-                _id = "qqL8fF2Yim2GeHTeo",
-                characterID,
-                campaignID,
-                UID,
-                this.refs.characterName.value.trim(),
-                this.refs.characterClass.value.trim(),
-                this.refs.level.value.trim(),
-                this.refs.background.value.trim(),
-                this.refs.race.value.trim(),
-                this.refs.alignment.value.trim(),
-                this.refs.AC.value.trim(),
-                this.refs.speed.value.trim(),
-                this.refs.maxHP.value.trim(),
-                this.refs.currHP.value.trim(),
-                this.refs.maxHitDie.value.trim(),
-                this.refs.currHitDie.value.trim(),
-                this.refs.hitDie.value.trim(),
-                this.refs.profBonus.value.trim(),
-                this.refs.notes.value.trim(),
-                { 
-                    currWeaponName : this.refs.currWeaponName.value.trim(),
-                    currWeaponType,
-                    currWeaponDamage
-                },
-                {
-                    featureName,		
-                    featureDescription		
-                },
-                {
-                    itemName,
-                    itemDescription
-                },
-                this.refs.proficiencies.value.trim(),
-                attributes,
-                this.refs.savingThrows.value.trim(),
-                spellSlotsMax,
-                spellSlotsCurr,
-                statuses,
-                money
-            );
-        }
-        else{
-            console.log("Update db");
-            // Mongo auto creats a _id field on insert, and you must have that _id number in order to update
-            Meteor.call('characters.update',
-                _id = "qqL8fF2Yim2GeHTeoaa",
-                characterID,
-                campaignID,
-                UID,
-                this.refs.characterName.value.trim(),
-                this.refs.characterClass.value.trim(),
-                this.refs.level.value.trim(),
-                this.refs.background.value.trim(),
-                this.refs.race.value.trim(),
-                this.refs.alignment.value.trim(),
-                this.refs.AC.value.trim(),
-                this.refs.speed.value.trim(),
-                this.refs.maxHP.value.trim(),
-                this.refs.currHP.value.trim(),
-                this.refs.maxHitDie.value.trim(),
-                this.refs.currHitDie.value.trim(),
-                this.refs.hitDie.value.trim(),
-                this.refs.profBonus.value.trim(),
-                this.refs.notes.value.trim(),
-                { 
-                    currWeaponName : this.refs.currWeaponName.value.trim(),
-                    currWeaponType,
-                    currWeaponDamage
-                },
-                {
-                    featureName,		
-                    featureDescription		
-                },
-                {
-                    itemName,
-                    itemDescription
-                },
-                this.refs.proficiencies.value.trim(),
-                attributes,
-                this.refs.savingThrows.value.trim(),
-                spellSlotsMax,
-                spellSlotsCurr,
-                statuses,
-                money
-            );
-        }
+        
+        Meteor.call('characters.update',
+            _id,
+            characterID,
+            campaignID,
+            UID,
+            this.refs.characterName.value.trim(),
+            this.refs.characterClass.value.trim(),
+            this.refs.level.value.trim(),
+            this.refs.background.value.trim(),
+            this.refs.race.value.trim(),
+            this.refs.alignment.value.trim(),
+            this.refs.AC.value.trim(),
+            this.refs.speed.value.trim(),
+            this.refs.maxHP.value.trim(),
+            this.refs.currHP.value.trim(),
+            this.refs.maxHitDie.value.trim(),
+            this.refs.currHitDie.value.trim(),
+            this.refs.hitDie.value.trim(),
+            this.refs.profBonus.value.trim(),
+            this.refs.notes.value.trim(),
+            { 
+                currWeaponName : this.refs.currWeaponName.value.trim(),
+                currWeaponType,
+                currWeaponDamage
+            },
+            {
+                featureName,		
+                featureDescription		
+            },
+            {
+                itemName,
+                itemDescription
+            },
+            this.refs.proficiencies.value.trim(),
+            attributes,
+            this.refs.savingThrows.value.trim(),
+            spellSlotsMax,
+            spellSlotsCurr,
+            statuses,
+            money
+        );
     }
     
     render() {
-        this.props._id
-        console.log("CharacterForm _id: " + _id);
-        
-        if (!_id){
-            this.newCharacter = true;
-            cid = Random.id();
-        }
-        else{
-            this.newCharacter = false;
-        }
+        cid = this.props._id
+        console.log("CharacterForm _id: " + Meteor.userId());
 
-        character = Characters.find({_id : _id}).fetch()[0];
+        character = Characters.fetch();
         console.log(character);
 
         return(
