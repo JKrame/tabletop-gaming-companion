@@ -3,16 +3,28 @@ import { Meteor } from 'meteor/meteor'
 
 import PropTypes from 'prop-types';
 
-import { Characters } from '../api/character';
+//import { Characters } from '../api/character';
 
 export default class CharacterForm extends React.Component{
-    _id;
+    character;
+
+    constructor(props){
+        super(props);
+        this.state = {
+            character : this.props.characterProp,
+            characterID: this.props._id
+        };
+        
+        console.log("constructor");
+        console.log(this.state.character);
+        console.log(this.props.characterProp);
+    }
 
     onSubmit(e){  
         e.preventDefault();
 
         //basic attributes
-        characterID = this.characterID;
+        characterID = null;
         campaignID = null;
         UID = Meteor.userId();
         
@@ -36,9 +48,11 @@ export default class CharacterForm extends React.Component{
         featureName = null;
         featureDescription = null;
 
+        console.log("formSubmit");
+        console.log(this.props.characterProp);
         
         Meteor.call('characters.update',
-            _id,
+            _id = this.props.characterProp._id,
             characterID,
             campaignID,
             UID,
@@ -79,21 +93,41 @@ export default class CharacterForm extends React.Component{
             money
         );
     }
+
+    componentDidMount(){
+        Tracker.autorun(() => {
+            const subscription = Meteor.subscribe('characters');
+            console.log("subscribe");
+            const isReady = subscription.ready();
+            console.log("subscription is ready: " + isReady);
+            
+            id = this.props._id;
+            console.log("Character form _id: " + id);
+
+            const chara = Characters.findOne({_id : id});
+
+            this.setState({chara});
+            
+            if (subscription.ready()){
+                this.forceUpdate();
+                console.log("force update");
+                console.log(chara);
+            }
+        });
+    }
     
     render() {
-        cid = this.props._id
-        console.log("CharacterForm _id: " + Meteor.userId());
-
-        character = Characters.find().fetch();
-        console.log(character);
-
+        console.log("render)")
+        console.log(this.state.character);
+        character = this.state.character;
+        
         return(
             <form onSubmit={this.onSubmit.bind(this)}>
                 <div className="scrolling-container-smaller">
                     
                     <div className="col-sm-12">
                         <p className="p-override">NAME</p>
-                        <input className="full-width" type="text" ref="characterName" defaultValue={character ? character.characterName : ""} placeholder=""/>
+                        <input className="full-width" type="text" ref="characterName" defaultValue={this.state.character.characterName} placeholder=""/>
                     </div>
 
                     <div className="col-sm-12">
