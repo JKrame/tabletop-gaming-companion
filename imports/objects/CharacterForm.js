@@ -11,8 +11,6 @@ export default class CharacterForm extends React.Component{
     onSubmit(e){  
         e.preventDefault();
 
-
-
         //basic attributes
         characterID = this.characterID;
         campaignID = null;
@@ -27,7 +25,7 @@ export default class CharacterForm extends React.Component{
 
         //inventory subdocuments
         itemName = null;
-        itemDescription = null
+        itemDescription = null;
 
         //current weapon subdocuments
         //currWeaponName = null;
