@@ -117,16 +117,11 @@ export default class CharacterForm extends React.Component{
     componentDidMount(){
         Tracker.autorun(() => {
             console.log("CF > CDM > T");
-
-
-            console.log(character);
             
-            if (character != null){
-                console.log("forcing update");
-                this.forceUpdate();
-
-                console.log("force update");
-                console.log(character);
+            if (this.props.hasProps){
+                console.log("CF > CDM > T > hasProps");
+            
+                this.props.CharacterSheet.forceUpdate();
             }
             
         });
@@ -176,10 +171,10 @@ export default class CharacterForm extends React.Component{
                     
                     <div className="col-sm-12">
                         <p className="p-override">NAME</p>
-                        <input className="full-width" type="text" ref="characterName" defaultValue={characterName !== null ? characterName : "k"}/>
+                        <input className="full-width" type="text" ref="characterName" defaultValue={this.props.hasProps ? characterName : "k"}/>
                         {console.log("inside form:")}
                         {console.log(characterName)}
-                        {console.log(characterName !== null)}
+                        {console.log(characterName != null)}
                     </div>
 
                     <div className="col-sm-12">

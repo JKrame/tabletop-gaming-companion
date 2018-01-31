@@ -5,6 +5,7 @@ import CharacterForm from '../objects/CharacterForm';
 
 var character;
 var characterName;
+var cs;
 export default class CharacterSheet extends React.Component{
     constructor(props){
         super(props);
@@ -18,12 +19,8 @@ export default class CharacterSheet extends React.Component{
         e.preventDefault();
     }
 
-    componentWillMount()
-    {
+    componentWillMount(){
         this.setState({id: this.props.match.params._id});
-    }
-
-    componentDidMount(){
         console.log("cs > componentDidMount");
         this.characterSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
@@ -50,12 +47,12 @@ export default class CharacterSheet extends React.Component{
         if(character == null)
         {
             console.log("calling cf w/o props");
-            return(<CharacterForm hasProps={false} _id={this.state.id}/>);
+            return;
         }
         else
         {
             console.log("calling cf w/ props");
-            return(<CharacterForm hasProps={true} character={character} _id={this.state.id}/>);
+            return(<CharacterForm hasProps={true} character={character} _id={this.state.id} CharacterSheet={this}/>);
         }
     }
 
