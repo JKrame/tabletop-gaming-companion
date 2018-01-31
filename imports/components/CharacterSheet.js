@@ -1,13 +1,59 @@
 import React from 'react'
 
-import { Characters } from '../api/character';
+//import { Characters } from '../api/character';
 import CharacterForm from '../objects/CharacterForm';
 
-
+var character;
+var characterName;
+var cs;
 export default class CharacterSheet extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            error: '',
+            id: ''
+        };
+    }
 
     onSubmit(e){  
         e.preventDefault();
+    }
+
+    componentWillMount(){
+        this.setState({id: this.props.match.params._id});
+        console.log("cs > componentDidMount");
+        this.characterSheetTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('characters');
+            id = this.props.match.params._id;
+            console.log("cs > componentDidMount > tracker");
+            console.log(sub.ready());
+            if(sub.ready())
+            {
+                character = Characters.findOne({_id : id});
+                characterName = character.characterName;
+                console.log("componentDidMount cs");
+                console.log(id);
+                console.log(character);                
+            }
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount(){
+        this.characterSheetTracker.stop();
+    }
+
+    renderForm(){
+        if(character == null)
+        {
+            console.log("calling cf w/o props");
+            return;
+        }
+        else
+        {
+            console.log("calling cf w/ props");
+            return(<CharacterForm hasProps={true} character={character} _id={this.state.id} CharacterSheet={this}/>);
+        }
     }
 
     renderImage(){
@@ -15,8 +61,6 @@ export default class CharacterSheet extends React.Component{
     }
   
     render() {
-        _id = this.props.match.params._id;
-
         return(
             <div className="page-wrapper">
                 <div className="col-lg-8 col-lg-offset-2">
@@ -31,7 +75,7 @@ export default class CharacterSheet extends React.Component{
                             <form>
                                 <div className="col-sm-12">
                                     <p className="p-override">IMAGE URL</p>
-                                    <input className="full-width" type="text" ref="characterImageURL" placeholder=""/>
+                                    <input className="full-width" type="text" ref="characterImageURL" placeholder={characterName != null ? characterName : ""}/>
                                 </div>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
@@ -44,7 +88,7 @@ export default class CharacterSheet extends React.Component{
                         
 
                         <div className="col-sm-8 split-page-right left-border container">
-                            <CharacterForm _id={_id}/>
+                            {this.renderForm()}
                         </div>
                     </div>
                 </div>
