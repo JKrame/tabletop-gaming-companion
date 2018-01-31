@@ -5,7 +5,7 @@ import { check } from 'meteor/check';
 export const Characters = new Mongo.Collection('characters');
 
 if (Meteor.isServer) {
-    Meteor.publish("characters", function charactersPublication(){
+    Meteor.publish('characters', function charactersPublication(){
         console.log("publish");
         return Characters.find();
     });
