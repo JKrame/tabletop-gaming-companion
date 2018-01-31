@@ -5,7 +5,7 @@ import { check } from 'meteor/check';
 //export const Characters = new Mongo.Collection('characters');
 
 Meteor.methods({
-    'characters.insert'(
+  /*  'characters.insert'(
         _id,
         characterID,
         campaignID,
@@ -145,7 +145,7 @@ Meteor.methods({
                 money 
             } 
         });
-    },
+    },*/
 });
 
 

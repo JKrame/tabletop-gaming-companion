@@ -3,13 +3,13 @@ import React from 'react'
 //import { Characters } from '../api/character';
 import CharacterForm from '../objects/CharacterForm';
 
-
+var character;
+var characterName;
 export default class CharacterSheet extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             error: '',
-            chara: [],
             id: ''
         };
     }
@@ -18,26 +18,45 @@ export default class CharacterSheet extends React.Component{
         e.preventDefault();
     }
 
+    componentWillMount()
+    {
+        this.setState({id: this.props.match.params._id});
+    }
+
     componentDidMount(){
-        Tracker.autorun(() => {
-            const subscription = Meteor.subscribe('characters');
-            console.log("subscribe");
-            const isReady = subscription.ready();
-            console.log("subscription is ready: " + isReady);
-            
+        console.log("cs > componentDidMount");
+        this.characterSheetTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('characters');
             id = this.props.match.params._id;
-            console.log("Character sheet _id: " + id);
-
-            const chara = Characters.findOne({_id : id});
-
-            this.setState({chara, id});
-            
-            if (subscription.ready()){
-                console.log("force update");
-                this.forceUpdate();
-                console.log(chara);
+            console.log("cs > componentDidMount > tracker");
+            console.log(sub.ready());
+            if(sub.ready())
+            {
+                character = Characters.findOne({_id : id});
+                characterName = character.characterName;
+                console.log("componentDidMount cs");
+                console.log(id);
+                console.log(character);                
             }
+            this.forceUpdate();
         });
+    }
+
+    componentWillUnmount(){
+        this.characterSheetTracker.stop();
+    }
+
+    renderForm(){
+        if(character == null)
+        {
+            console.log("calling cf w/o props");
+            return(<CharacterForm hasProps={false} _id={this.state.id}/>);
+        }
+        else
+        {
+            console.log("calling cf w/ props");
+            return(<CharacterForm hasProps={true} character={character} _id={this.state.id}/>);
+        }
     }
 
     renderImage(){
@@ -59,7 +78,7 @@ export default class CharacterSheet extends React.Component{
                             <form>
                                 <div className="col-sm-12">
                                     <p className="p-override">IMAGE URL</p>
-                                    <input className="full-width" type="text" ref="characterImageURL" placeholder=""/>
+                                    <input className="full-width" type="text" ref="characterImageURL" placeholder={characterName != null ? characterName : ""}/>
                                 </div>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
@@ -72,7 +91,7 @@ export default class CharacterSheet extends React.Component{
                         
 
                         <div className="col-sm-8 split-page-right left-border container">
-                            <CharacterForm characterProp={this.state.chara} _id={this.state.id}/>
+                            {this.renderForm()}
                         </div>
                     </div>
                 </div>
