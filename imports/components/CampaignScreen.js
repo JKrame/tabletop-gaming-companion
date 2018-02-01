@@ -10,8 +10,8 @@ export default class CampaignScreen extends React.Component{
     renderCharacterCard() {
         //console.log(Meteor.userId());
         //console.log(Characters._collection._docs._map);
-        myCharacters = Characters.find({_id : "qqL8fF2Yim2GeHTeo"}).fetch();
-        console.log(myCharacters);
+        //myCharacters = Characters.find({_id : "qqL8fF2Yim2GeHTeo"}).fetch();
+        //console.log(myCharacters);
         //console.log(Characters.find().fetch());
         //console.log(myCharacters);
 
