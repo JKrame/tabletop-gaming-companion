@@ -16,7 +16,15 @@ var turnOrder;
 var URLs;
 
 export default class CampaignSetup extends React.Component{
-    
+    constructor(props){
+        super(props);
+        this.state = {
+            error: '',
+            id: '',
+            campaign: ''
+        };
+    }
+
     componentWillMount(){
         this.setState({id: this.props.match.params._id});
         console.log("cs > componentDidMount");
@@ -27,13 +35,15 @@ export default class CampaignSetup extends React.Component{
             console.log(sub.ready());
             if(sub.ready())
             {
-                campaign = CampaignsCollection.findOne({_id : id});
+                this.setState({campaign : CampaignsCollection.findOne({_id : id})});
                 campaignName = campaign.name;
                 console.log("componentDidMount cs");
                 console.log(id);
-                console.log(campaign);                
+                console.log(campaign); 
+                this.forceUpdate();               
             }
-            this.forceUpdate();
+            console.log("end")
+            
         });
     }
 
@@ -80,24 +90,45 @@ export default class CampaignSetup extends React.Component{
     }
 
     insertTextAssets(newTitle, newNote){
-        console.log(newTitle);
-        console.log(newNote);
-        name = null;
-        description = null;
-        meetTime = null;
-        meetDate = null;
-        players = null;
-        gm = null;
-        notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
-        turnOrder = null;
-        URLs = null;
+        //console.log(this.state.campaign.notes);
+        //if (this.state.campaign.notes != null){
 
-        console.log('welcome to the world of pokemon');
-        Meteor.call("campaigns.push", 
-            _id = this.state.id,
-            notes,
-            
-        );
+            notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
+
+            console.log('welcome to the world of pokemon');
+            Meteor.call("campaigns.push", 
+                _id = this.state.id,
+                notes,    
+            );
+
+        /*}else{
+            name = null;
+            description = null;
+            meetTime = null;
+            meetDate = null;
+            players = null;
+            gm = null;
+            notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
+            turnOrder = null;
+            URLs = null;
+
+            console.log('welcome to the world of pokemon');
+            Meteor.call("campaigns.update", 
+                _id = this.state.id,
+                name,
+                description,
+                meetTime,
+                meetDate,
+                players,
+                gm,
+                notes,
+                turnOrder,
+                URLs
+            );
+        }
+
+        this.campaignSheetTracker.invalidate();
+        this.campaignSheetTracker.flush();*/
     }
     
     updateTextAssets(){
