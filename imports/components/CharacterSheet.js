@@ -6,6 +6,8 @@ import CharacterForm from '../objects/CharacterForm';
 var character;
 var characterName;
 var cs;
+var display;
+var sub;
 
 export default class CharacterSheet extends React.Component{
     constructor(props){
@@ -31,7 +33,11 @@ export default class CharacterSheet extends React.Component{
             if(sub.ready())
             {
                 character = Characters.findOne({_id : id});
-                characterName = character.characterName;
+                if(character != null)
+                {
+                    characterName = character.characterName;
+                    display = true;
+                }
                 console.log("componentDidMount cs");
                 console.log(id);
                 console.log(character);                
@@ -45,7 +51,7 @@ export default class CharacterSheet extends React.Component{
     }
 
     renderForm(){
-        if(character == null)
+        if(character === null)
         {
             console.log("calling cf w/o props");
             return;
@@ -57,9 +63,7 @@ export default class CharacterSheet extends React.Component{
         }
     }
 
-    renderImage(){
-        return '/images/photoMissing.png';
-    }
+
   
     render() {
         return(

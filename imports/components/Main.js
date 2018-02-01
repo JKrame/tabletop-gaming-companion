@@ -22,6 +22,25 @@ const unauthenticatedPages = ['/*', '/signin', '/signup'];
 const authenticatedPages = ['/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
                             '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
 
+                            
+export const onAuthChange = (isAuthenticated) => {
+    const pathname = browserHistory.location.pathname;
+    const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
+    const isAuthenticatedPage = authenticatedPages.includes(pathname);
+
+    if (isUnauthenticatedPage && isAuthenticated) {
+        browserHistory.replace('/home');
+    } else if (isAuthenticatedPage && !isAuthenticated) {
+        window.location.assign('/signin');
+    }
+};
+
+Tracker.autorun(() => {
+    console.log("Is user authenticated: " + !!Meteor.userId());
+    const isAuthenticated = !!Meteor.userId();
+    onAuthChange(isAuthenticated);
+    });
+                              
 const onEnterPublicPage = () => {
     console.log("onEnterPublicPage");
     
@@ -38,17 +57,6 @@ const onEnterPrivatePage = () => {
     }
 };
 
-export const onAuthChange = (isAuthenticated) => {
-    const pathname = browserHistory.location.pathname;
-    const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
-    const isAuthenticatedPage = authenticatedPages.includes(pathname);
-
-    if (isUnauthenticatedPage && isAuthenticated) {
-        browserHistory.replace('/home');
-    } else if (isAuthenticatedPage && !isAuthenticated) {
-        window.location.assign('/signin');
-    }
-};
 
 export class Main extends React.Component{
     render(){

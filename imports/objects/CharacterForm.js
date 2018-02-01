@@ -133,12 +133,11 @@ export default class CharacterForm extends React.Component{
     
     render() {
         
-        if(this.props.hasProps)
+        if(this.props.character !== undefined)
         {
             console.log("hasProps");
             character = this.props.character;
             _id = this.props._id;
-            characterID = this.props.character.characterID;
             campaignID = this.props.character.campaignID;
             UID = this.props.character.UID;
             characterName = this.props.character.characterName;
