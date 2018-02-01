@@ -6,12 +6,54 @@ import { Random } from 'meteor/random';
 import CharacterCardHalf from '../objects/CharacterCardMini';
 import CampaignCardHalf from '../objects/CampaignCardMini';
 
+var characters;
+var charactersArray;
 
 export default class Home extends React.Component {
+
+    componentWillMount(){
+        console.log("cs > componentDidMount");
+        this.homeTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('characters');
+            console.log("cs > componentDidMount > tracker");
+            console.log(sub.ready());
+            if(sub.ready())
+            {
+                characters = CharactersCollection.find({UID: UID}).fetch();
+                if(characters != undefined)
+                {
+                    charactersArray = characters;
+                    display = true;
+                }
+                console.log("componentDidMount cs");                
+            }
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount(){
+        this.homeTracker.stop();
+    }
+
+    renderForm(){
+        if(characters === undefined)
+        {
+            console.log("calling cf w/o props");
+            return;
+        }
+        else
+        {
+            console.log("calling cf w/ props");
+            console.log(characters[0]._id);
+            this.renderCharacterCard();
+            return;
+        }
+    }
+
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        var characters = CharactersCollection.find({UID: UID}).fetch();
+        //var characters = CharactersCollection.find({UID: UID}).fetch();
         var numcharacters = characters.length;
         console.log(characters[0].characterName);
         for (var i = 0; i < numcharacters; i++)
@@ -62,7 +104,7 @@ export default class Home extends React.Component {
                         </NavLink>
                         <hr/>
                         <div className="page-content-scroller">
-                            {this.renderCharacterCard()}
+                            {this.renderForm()}
                             <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
                                 <div className="objectCardMini add-container">
                                     <div className="objectCardMiniImage">
