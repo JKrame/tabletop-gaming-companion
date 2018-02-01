@@ -17,16 +17,33 @@ import createBrowserHistory from '../../node_modules/history/createBrowserHistor
 import { Meteor } from 'meteor/meteor'
 
 const browserHistory = createBrowserHistory();
+const isAuthenticated = !!Meteor.userId();
 
-const unauthenticatedPages = ['/*', '/signin', '/signup'];
-const authenticatedPages = ['/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
+const unauthenticatedPages = ['/signin', '/signup'];
+const authenticatedPages = ['/', '/*', '/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
                             '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
+
+                            
+export const onAuthChange = (isAuthenticated) => {
+    const pathname = browserHistory.location.pathname;
+
+    const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
+    const isAuthenticatedPage = authenticatedPages.includes(pathname);
+
+    if (isUnauthenticatedPage && isAuthenticated) {
+        console.log("pushing to authenticated page");
+        this.browserHistory.push('/home');
+    } else if (isAuthenticatedPage && !isAuthenticated) {
+        console.log("pushing to unauthenticated page");
+        this.browserHistory.push('/signin');
+    }
+};
 
 const onEnterPublicPage = () => {
     console.log("onEnterPublicPage");
     
-    if (Meteor.userId()) {
-        browserHistory.replace('/home');
+    if (!!Meteor.userId()) {
+        browserHistory.push('/home');
     }
 };
 
@@ -34,21 +51,25 @@ const onEnterPrivatePage = () => {
     console.log("onEnterPrivatePage");
     
     if (!Meteor.userId()) {
-        browserHistory.replace('/signin');
+        browserHistory.push('/signin');
     }
 };
 
-export const onAuthChange = (isAuthenticated) => {
+Tracker.autorun(() => {
+    console.log("Is user authenticated: " + !!Meteor.userId());
     const pathname = browserHistory.location.pathname;
+    
+    const isAuthenticated = !!Meteor.userId();
     const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
     const isAuthenticatedPage = authenticatedPages.includes(pathname);
 
-    if (isUnauthenticatedPage && isAuthenticated) {
-        browserHistory.replace('/home');
-    } else if (isAuthenticatedPage && !isAuthenticated) {
-        window.location.assign('/signin');
+    if(isUnauthenticatedPage)
+    {
+        onEnterPublicPage();
     }
-};
+    else onEnterPrivatePage();
+    });
+             
 
 export class Main extends React.Component{
     render(){
@@ -67,9 +88,10 @@ export class Main extends React.Component{
                         <Route exact path='/mail' component={Mail}/>
                         <Route exact path='/nearbyplayers' component={NearbyPlayers}/>
                         <Route exact path='/settings' component={Settings}/>
-                        <Route exact path='/*' component={Signin}/>
                         <Route exact path='/signin' component={Signin}/>
                         <Route exact path='/signup' component={Signup}/>
+                        <Route exact path='/*' component={Home}/>
+                        
                     </Switch>
                 </div>
             </main>

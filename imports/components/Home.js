@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Random } from 'meteor/random'
+import { Random } from 'meteor/random';
 
 //import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardMini';
@@ -11,12 +11,13 @@ export default class Home extends React.Component {
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        var characters = Characters.find({UID: UID}).fetch();
+        var characters = CharactersCollection.find({UID: UID}).fetch();
         var numcharacters = characters.length;
+        console.log(characters[0].characterName);
         for (var i = 0; i < numcharacters; i++)
         {
             cards.push(
-                <NavLink to='#' onClick={() => this.loadCharacter(characters[i])} className='nav-item nav-link'>
+                <NavLink to='#' onClick={() => this.loadCharacter(characters[i]._id)} className='nav-item nav-link'>
                     <CharacterCardHalf key={i} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
                 </NavLink>
             );
@@ -35,6 +36,7 @@ export default class Home extends React.Component {
     }
 
     loadCharacter(cid){
+        console.log(cid);
         if (!cid)
         {
             cid = Random.id();

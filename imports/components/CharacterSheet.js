@@ -6,6 +6,7 @@ import CharacterForm from '../objects/CharacterForm';
 var character;
 var characterName;
 var cs;
+
 export default class CharacterSheet extends React.Component{
     constructor(props){
         super(props);
@@ -15,22 +16,21 @@ export default class CharacterSheet extends React.Component{
         };
     }
 
-    onSubmit(e){  
-        e.preventDefault();
-    }
-
     componentWillMount(){
-        this.setState({id: this.props.match.params._id});
+        id = this.props.match.params._id;
+        this.setState({id: id});
         console.log("cs > componentDidMount");
         this.characterSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
-            id = this.props.match.params._id;
             console.log("cs > componentDidMount > tracker");
             console.log(sub.ready());
             if(sub.ready())
             {
-                character = Characters.findOne({_id : id});
-                characterName = character.characterName;
+                character = CharactersCollection.findOne({_id : id});
+                if(character != null)
+                {
+                    characterName = character.characterName;
+                }
                 console.log("componentDidMount cs");
                 console.log(id);
                 console.log(character);                
@@ -44,7 +44,7 @@ export default class CharacterSheet extends React.Component{
     }
 
     renderForm(){
-        if(character == null)
+        if(character === null)
         {
             console.log("calling cf w/o props");
             return;
@@ -56,9 +56,7 @@ export default class CharacterSheet extends React.Component{
         }
     }
 
-    renderImage(){
-        return '/images/photoMissing.png';
-    }
+
   
     render() {
         return(
@@ -67,29 +65,7 @@ export default class CharacterSheet extends React.Component{
                     <div className="page-content col-xs-12 fill-height">
                         <h3>Character Sheet >></h3>
                         <hr/>
-                        
-                        <div className="col-sm-4 split-page-left container">
-                            <img src={this.renderImage()} className="full-width"/>
-                            <div className="spacer col-sm-12"/>
-
-                            <form>
-                                <div className="col-sm-12">
-                                    <p className="p-override">IMAGE URL</p>
-                                    <input className="full-width" type="text" ref="characterImageURL" placeholder={characterName != null ? characterName : ""}/>
-                                </div>
-                                <div className="spacer col-sm-12"/>
-                                <div className="spacer col-sm-12"/>
-
-                                <div className="col-sm-12">
-                                    <button className="full-width submit-button">UPDATE IMAGE   </button>
-                                </div>
-                            </form>
-                        </div>
-                        
-
-                        <div className="col-sm-8 split-page-right left-border container">
                             {this.renderForm()}
-                        </div>
                     </div>
                 </div>
             </div>
