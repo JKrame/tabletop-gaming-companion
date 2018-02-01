@@ -60,7 +60,7 @@ export class Main extends React.Component{
                         <Route exact path='/binder' component={Binder}/>
                         <Route exact path='/campaigns' component={Campaigns}/>
                         <Route exact path='/campaigns/*' component={CampaignScreen}/>
-                        <Route exact path='/campaign/edit/*' component={CampaignSetup}/>
+                        <Route exact path='/campaign/edit/:_id' component={CampaignSetup}/>
                         <Route exact path='/characters' component={Characters}/>
                         <Route exact path='/character/edit/:_id' component={CharacterSheet}/>
                         <Route exact path='/home' component={Home}/>

@@ -5,8 +5,42 @@ import CharacterCardHalf from '../objects/CharacterCardHalf';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 
+var name;
+var description;
+var meetTime;
+var meetDate;
+var players;
+var gm;
+var notes;
+var turnOrder;
+var URLs;
 
 export default class CampaignSetup extends React.Component{
+    
+    componentWillMount(){
+        this.setState({id: this.props.match.params._id});
+        console.log("cs > componentDidMount");
+        this.campaignSheetTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('campaigns');
+            id = this.props.match.params._id;
+            console.log("cs > componentDidMount > tracker");
+            console.log(sub.ready());
+            if(sub.ready())
+            {
+                campaign = CampaignsCollection.findOne({_id : id});
+                campaignName = campaign.name;
+                console.log("componentDidMount cs");
+                console.log(id);
+                console.log(campaign);                
+            }
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount(){
+        this.campaignSheetTracker.stop();
+    }
+    
     renderCharacterCard() {
         var cards = [];
         var numcharacters = 4;
@@ -45,6 +79,31 @@ export default class CampaignSetup extends React.Component{
         return <div>{cards}</div>;
     }
 
+    insertTextAssets(newTitle, newNote){
+        console.log(newTitle);
+        console.log(newNote);
+        name = null;
+        description = null;
+        meetTime = null;
+        meetDate = null;
+        players = null;
+        gm = null;
+        notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
+        turnOrder = null;
+        URLs = null;
+
+        console.log('welcome to the world of pokemon');
+        Meteor.call("campaigns.push", 
+            _id = this.state.id,
+            notes,
+            
+        );
+    }
+    
+    updateTextAssets(){
+        console.log("fix this mike");
+    }
+
     renderImageAssets() {
         var cards = [];
         var numcharacters = 8;
@@ -74,7 +133,7 @@ export default class CampaignSetup extends React.Component{
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
                                         <div className="objectCardMiniInfo container-fluid">
-                                            <h5 className="no-margin-override overflow-hidden">ADD NEW PLAYER</h5>
+                                            <h5 className="no-margin-override overflow-hidden">ADD NEW NPC</h5>
                                             <hr className="hr-override-light"/>
                                         </div>
                                     </div>
@@ -91,18 +150,19 @@ export default class CampaignSetup extends React.Component{
                             <div className="">
                                 {this.renderTextAssets()}
 
-                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
+                                <div className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container">
-                                        <div className="textCardMiniImage">
+                                        <div onClick={() => this.insertTextAssets(this.refs.newNoteTitle.value, this.refs.newNoteText.value)} className="textCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
+                                        <div className="col-xs-5">
+                                            <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
+                                        </div>
                                         <div className="col-xs-10">
-                                            <form>
-                                                <input className="full-width" type="text" ref="cha" placeholder=""/>
-                                            </form>
+                                            <input className="full-width" type="text" ref="newNoteText" placeholder=""/>
                                         </div>
                                     </div>
-                                </NavLink>
+                                </div>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
