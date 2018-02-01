@@ -88,8 +88,14 @@ export default class Home extends React.Component {
         this.props.history.push('/character/edit/' + cid);
     }
 
-    loadCampaign(){
-        this.props.history.push('/campaign/edit/');
+    loadCampaign(campaignId){
+        if (!campaignId)
+        {
+            campaignId = Random.id();
+            Meteor.call('campaigns.insert', campaignId);
+        }
+
+        this.props.history.push('/campaign/edit/' + campaignId);
     }
 
     render() {
