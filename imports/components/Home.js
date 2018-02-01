@@ -19,7 +19,7 @@ export default class Home extends React.Component {
             console.log(sub.ready());
             if(sub.ready())
             {
-                characters = CharactersCollection.find({UID: UID}).fetch();
+                characters = Characters.find().fetch();
                 if(characters != undefined)
                 {
                     charactersArray = characters;
@@ -53,7 +53,7 @@ export default class Home extends React.Component {
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        //var characters = CharactersCollection.find({UID: UID}).fetch();
+        //var characters = Characters.find({UID: UID}).fetch();
         var numcharacters = characters.length;
         console.log(characters[0].characterName);
         for (var i = 0; i < numcharacters; i++)
@@ -92,7 +92,28 @@ export default class Home extends React.Component {
         if (!campaignId)
         {
             campaignId = Random.id();
-            Meteor.call('campaigns.insert', campaignId);
+            name = null;
+            description = null;
+            meetTime = null;
+            meetDate = null;
+            players = null;
+            gm = null;
+            notes = [];
+            turnOrder = null;
+            URLs = null;
+
+            Meteor.call("campaigns.insert", 
+                campaignId,
+                name,
+                description,
+                meetTime,
+                meetDate,
+                players,
+                gm,
+                notes,
+                turnOrder,
+                URLs
+            );
         }
 
         this.props.history.push('/campaign/edit/' + campaignId);
