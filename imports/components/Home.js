@@ -21,10 +21,9 @@ export default class Home extends React.Component {
             {
                 var UID = Meteor.userId();
                 charactersArray = Characters.find({UID: UID}).fetch();
-                this.characters = charactersArray;
                 if(characters != undefined)
                 {
-                    //this.characters = charactersArray;
+                    this.characters = charactersArray;
                     display = true;
                     console.log("characters not undefined anymroe");
                 }
@@ -42,13 +41,11 @@ export default class Home extends React.Component {
         if(this.characters == undefined)
         {
             console.log("calling nothing");
-            //this.renderCharacterCard();
             return;
         }
         else
         {
             console.log("calling renderCharacterCard");
-            //console.log(characters[0]._id);
             return this.renderCharacterCard();
         }
     }
@@ -56,7 +53,6 @@ export default class Home extends React.Component {
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        //var characters = Characters.find({UID: UID}).fetch();
         var numcharacters = this.characters.length;
         console.log(this.characters.length);
         for (var i = 0; i < this.characters.length; i++)
@@ -95,7 +91,28 @@ export default class Home extends React.Component {
         if (!campaignId)
         {
             campaignId = Random.id();
-            Meteor.call('campaigns.insert', campaignId);
+            name = null;
+            description = null;
+            meetTime = null;
+            meetDate = null;
+            players = null;
+            gm = null;
+            notes = [];
+            turnOrder = null;
+            URLs = null;
+
+            Meteor.call("campaigns.insert", 
+                campaignId,
+                name,
+                description,
+                meetTime,
+                meetDate,
+                players,
+                gm,
+                notes,
+                turnOrder,
+                URLs
+            );
         }
 
         this.props.history.push('/campaign/edit/' + campaignId);

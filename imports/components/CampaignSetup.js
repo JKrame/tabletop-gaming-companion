@@ -16,24 +16,24 @@ var turnOrder;
 var URLs;
 
 export default class CampaignSetup extends React.Component{
-    
+
     componentWillMount(){
-        this.setState({id: this.props.match.params._id});
-        console.log("cs > componentDidMount");
+        this.id = this.props.match.params._id;
+        console.log("campaignWillMount");
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
-            id = this.props.match.params._id;
-            console.log("cs > componentDidMount > tracker");
+            console.log("campaignTracker");
             console.log(sub.ready());
             if(sub.ready())
             {
-                campaign = CampaignsCollection.findOne({_id : id});
-                campaignName = campaign.name;
-                console.log("componentDidMount cs");
-                console.log(id);
-                console.log(campaign);                
+                this.campaign = Campaigns.findOne({_id : this.id});
+                console.log("campaignSubReady");
+                console.log(this.id);
+                console.log(this.campaign); 
+                this.forceUpdate();               
             }
-            this.forceUpdate();
+            console.log("end");
+            
         });
     }
 
@@ -79,24 +79,12 @@ export default class CampaignSetup extends React.Component{
         return <div>{cards}</div>;
     }
 
-    insertTextAssets(newTitle, newNote){
-        console.log(newTitle);
-        console.log(newNote);
-        name = null;
-        description = null;
-        meetTime = null;
-        meetDate = null;
-        players = null;
-        gm = null;
+    insertTextAssets(newTitle, newNote) {
         notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
-        turnOrder = null;
-        URLs = null;
 
-        console.log('welcome to the world of pokemon');
         Meteor.call("campaigns.push", 
-            _id = this.state.id,
-            notes,
-            
+            _id = this.id,
+            notes,    
         );
     }
     
