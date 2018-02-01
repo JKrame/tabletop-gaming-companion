@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Random } from 'meteor/random'
+import { Random } from 'meteor/random';
 
 //import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardMini';
@@ -11,7 +11,7 @@ export default class Home extends React.Component {
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        var characters = Characters.find({UID: UID}).fetch();
+        var characters = CharactersCollection.find({UID: UID}).fetch();
         var numcharacters = characters.length;
         for (var i = 0; i < numcharacters; i++)
         {

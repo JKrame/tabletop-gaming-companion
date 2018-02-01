@@ -1,7 +1,6 @@
 import React from 'react';
 import CharacterCardVertical from '../objects/CharacterCardVertical';
 import { NavLink } from 'react-router-dom';
-import { CharactersCollection } from '../api/character';
 
 export default class Characters extends React.Component{
     renderCharacterCard() {
@@ -20,6 +19,7 @@ export default class Characters extends React.Component{
         return <div>{cards}</div>;
     }
     render() {
+        Meteor.subscribe('characters');
         return(
             <div className="page-wrapper">
                 <div className="col-lg-8 col-lg-offset-2">
