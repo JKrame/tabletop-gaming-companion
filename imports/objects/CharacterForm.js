@@ -69,6 +69,7 @@ export default class CharacterForm extends React.Component{
 
         console.log("formSubmit");
         console.log(this.props._id);
+        console.log(this.refs.characterName.value.trim());
         
         Meteor.call('characters.update',
             _id = this.props._id,
@@ -111,7 +112,6 @@ export default class CharacterForm extends React.Component{
             statuses,
             money
         );
-        this.forceUpdate();
     }
 
     componentDidMount(){
@@ -136,12 +136,13 @@ export default class CharacterForm extends React.Component{
         if(this.props.character !== undefined)
         {
             console.log("hasProps");
+            console.log(characterName);
+            
             character = this.props.character;
             _id = this.props._id;
             campaignID = this.props.character.campaignID;
             UID = this.props.character.UID;
             characterName = this.props.character.characterName;
-            console.log(characterName);
             characterClass = this.props.character.characterClass;
             level = this.props.character.level;
             background = this.props.character.background;

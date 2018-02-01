@@ -6,8 +6,6 @@ import CharacterForm from '../objects/CharacterForm';
 var character;
 var characterName;
 var cs;
-var display;
-var sub;
 
 export default class CharacterSheet extends React.Component{
     constructor(props){
@@ -16,10 +14,6 @@ export default class CharacterSheet extends React.Component{
             error: '',
             id: ''
         };
-    }
-
-    onSubmit(e){  
-        e.preventDefault();
     }
 
     componentWillMount(){
@@ -36,7 +30,6 @@ export default class CharacterSheet extends React.Component{
                 if(character != null)
                 {
                     characterName = character.characterName;
-                    display = true;
                 }
                 console.log("componentDidMount cs");
                 console.log(id);
@@ -72,8 +65,6 @@ export default class CharacterSheet extends React.Component{
                     <div className="page-content col-xs-12 fill-height">
                         <h3>Character Sheet >></h3>
                         <hr/>
-                        
-
                             {this.renderForm()}
                     </div>
                 </div>
