@@ -10,11 +10,11 @@ export default class CharacterCardVertical extends React.Component {
                         <img src={'/images/photoMissing.png'} className="full-width vertical-image"/>
                     </div>
                     <div className="vertical-data">
-                        <h3>Elfman NeedsAName</h3>
+                        <h3>{this.props.characterName}</h3>
                         <hr className="hr-override-light"/>
-                        <p className="p-override"> Class: Druid</p>
-                        <p className="p-override"> Level: 4</p>
-                        <p className="p-override"> Race: Elf</p>
+                        <p className="p-override"> Class: {this.props.characterClass}</p>
+                        <p className="p-override"> Level: {this.props.level}</p>
+                        <p className="p-override"> Race: {this.props.race}</p>
                     </div>
                 </div>
             </div>

@@ -8,18 +8,17 @@ import CampaignCard from '../objects/CampaignCardMini';
 
 export default class Binder extends React.Component{
     renderCharacterCard() {
-        //console.log(Meteor.userId());
-        //console.log(Characters._collection._docs._map);
-        myCharacters = Characters.find({_id : "qqL8fF2Yim2GeHTeo"}).fetch();
-        console.log(myCharacters);
-        //console.log(Characters.find().fetch());
-        //console.log(myCharacters);
-
         var cards = [];
-        var numcharacters = 5;
+        var UID = Meteor.userId();
+        var characters = CharactersCollection.find({UID: UID}).fetch();
+        var numcharacters = characters.length;
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCard key={i}/>);
+            cards.push(
+                <NavLink to='#' onClick={() => this.loadCharacter(characters[i])} className='nav-item nav-link'>
+                    <CharacterCard key={i} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
+                </NavLink>
+            );
         }
         return <div>{cards}</div>;
     }
