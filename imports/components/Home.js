@@ -13,10 +13,11 @@ export default class Home extends React.Component {
         var UID = Meteor.userId();
         var characters = CharactersCollection.find({UID: UID}).fetch();
         var numcharacters = characters.length;
+        console.log(characters[0].characterName);
         for (var i = 0; i < numcharacters; i++)
         {
             cards.push(
-                <NavLink to='#' onClick={() => this.loadCharacter(characters[i])} className='nav-item nav-link'>
+                <NavLink to='#' onClick={() => this.loadCharacter(characters[i]._id)} className='nav-item nav-link'>
                     <CharacterCardHalf key={i} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
                 </NavLink>
             );
@@ -35,6 +36,7 @@ export default class Home extends React.Component {
     }
 
     loadCharacter(cid){
+        console.log(cid);
         if (!cid)
         {
             cid = Random.id();

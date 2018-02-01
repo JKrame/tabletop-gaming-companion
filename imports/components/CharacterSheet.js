@@ -29,7 +29,7 @@ export default class CharacterSheet extends React.Component{
             console.log(sub.ready());
             if(sub.ready())
             {
-                character = Characters.findOne({_id : id});
+                character = CharactersCollection.findOne({_id : id});
                 characterName = character.characterName;
                 console.log("componentDidMount cs");
                 console.log(id);
