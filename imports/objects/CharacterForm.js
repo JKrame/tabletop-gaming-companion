@@ -31,7 +31,7 @@ export default class CharacterForm extends React.Component{
         Meteor.call('characters.update',
             character._id,
             character.campaignID,
-            character.UID,
+            Meteor.userId(),
             this.refs.characterName.value.trim(),
             this.refs.characterClass.value.trim(),
             this.refs.level.value.trim(),
@@ -66,8 +66,15 @@ export default class CharacterForm extends React.Component{
             spellSlotsMax,
             spellSlotsCurr,
             statuses,
-            money
+            money,
+            this.refs.characterImageURL.value.trim()
         );
+    }
+
+    deleteCharacter(id) {
+        console.log("delete character  "+id);
+        Meteor.call('characters.remove', id);
+        window.location.replace("/home");
     }
 
     renderImage(){
@@ -83,28 +90,24 @@ export default class CharacterForm extends React.Component{
         return(
             <div className="col-xs-12">
                 <div className="col-sm-4 split-page-left container">
-                    <img src={this.renderImage()} className="full-width"/>
+                    <img src={character.characterImageURL != null && character.characterImageURL != "" ? character.characterImageURL : '/images/photoMissing.png'} className="full-width"/>
                     <div className="spacer col-sm-12"/>
 
-                    <form>
-                        <div className="col-sm-12">
-                            <p className="p-override">IMAGE URL</p>
-                            <input className="full-width" type="text" ref="characterImageURL" placeholder={character.characterName != null ? character.characterName : undefined}/>
-                        </div>
-                        <div className="spacer col-sm-12"/>
-                        <div className="spacer col-sm-12"/>
 
                         <div className="col-sm-12">
-                            <button className="full-width submit-button">UPDATE IMAGE   </button>
+                            <p className="p-override">IMAGE URL</p>
+                            <input className="full-width" type="text" ref="characterImageURL" defaultValue={character.characterImageURL != null ? character.characterImageURL : ""}/>
                         </div>
-                    </form>
+                        <div className="spacer col-sm-12"/>
+                        <div className="spacer col-sm-12"/>
+                    <div onClick={() => {if(confirm('Delete this character?')) {this.deleteCharacter(character._id)};}}>
+                        <p>DELETE</p>
+                    </div>
                 </div>
-                
 
                 <div className="col-sm-8 split-page-right left-border container">
                     <form onSubmit={this.onSubmit.bind(this)}>
                         <div className="scrolling-container-smaller">
-                            
                             <div className="col-sm-12">
                                 <p className="p-override">NAME</p>
                                 <input className="full-width" type="text" ref="characterName" defaultValue={character.characterName != null ? character.characterName : undefined}/>

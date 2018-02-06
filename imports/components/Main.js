@@ -23,20 +23,6 @@ const unauthenticatedPages = ['/signin', '/signup'];
 const authenticatedPages = ['/', '/*', '/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
                             '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
 
-                            
-export const onAuthChange = (isAuthenticated) => {
-    const pathname = browserHistory.location.pathname;
-
-    const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
-    const isAuthenticatedPage = authenticatedPages.includes(pathname);
-
-    if (isUnauthenticatedPage && isAuthenticated) {
-        this.browserHistory.push('/home');
-    } else if (isAuthenticatedPage && !isAuthenticated) {
-        this.browserHistory.push('/signin');
-    }
-};
-
 const onEnterPublicPage = () => {
     if (!!Meteor.userId()) {
         browserHistory.push('/home');
@@ -62,7 +48,6 @@ Tracker.autorun(() => {
     }
     else onEnterPrivatePage();
     });
-             
 
 export class Main extends React.Component{
     render(){
