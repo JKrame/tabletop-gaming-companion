@@ -7,11 +7,6 @@ import { onAuthChange } from '../imports/components/Main';
 import { BrowserRouter } from 'react-router-dom'
 //import { Characters } from '../imports/api/character';
 
-Tracker.autorun(() => {
-    const isAuthenticated = !!Meteor.userId();
-    onAuthChange(isAuthenticated);
-});
-
 Meteor.startup(() => {
     
     Tracker.autorun(() => {

@@ -105,7 +105,7 @@ body{
    -webkit-box-shadow:none; 
    border-color:#cccccc; 
   }
-  .form-control{}
+
   .navbar-nav > li > a {
     border-right: 1px solid #ddd;
     padding-bottom: 15px;
@@ -127,54 +127,64 @@ body{
     color: #012C40;
     padding:10px;
 }
+
 .content-container-left{
-    position: relative;
-    display:inline-block;
     background-color: rgba(255, 255, 255, 0.801);
+    margin-right:10px;
     padding-right:10px;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
 }
 .content-container-mid{
-    position: relative;
-    display:inline-block; 
-    background-color: rgba(255, 255, 255, 0.801);
-    padding-left:10px !important;
-    padding-right:10px !important;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
-}
-.content-container-right{
-    position: relative;
     background-color: rgba(255, 255, 255, 0.801);
+}
+
+.content-container-right{
+    background-color: rgba(255, 255, 255, 0.801);
+    margin-left:10px;
     padding-left:10px;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
 }
+
+.content-panel-container{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:0px;
+    bottom:0px;
+    overflow-y: hidden;
+    min-height:300px;
+    background-color:rgba(255, 255, 255, 0.801);
+}
 .sub-content{
+    display: -webkit-flex;
+    display: flex;
     margin:6px;
     color: #012C40;
     padding:10px;
 }
 .sub-content-top{
-    display:block;
+    display: -webkit-flex;
+    display: flex;
     min-height:500px;
     height:60vh;
     color: #012C40;
-    padding:10px;
 }
 .sub-content-bottom{
-    display:flex;
+    display: -webkit-flex;
+    display: flex;
     min-height:300px;
+    height:29vh;
     margin-top:1vh;
     color: #012C40;
-    padding:10px;
-    height:29vh;
 }
-
   
   .page-content-half{
     background-color: rgba(255, 255, 255, 0.801);
@@ -236,7 +246,8 @@ body{
 }
 
 .objectCardMini{
-    display:flex;
+    display: -webkit-flex;
+    display: flex;
     margin:5px;
     padding:5px;
     border: solid 2px #606060;
@@ -382,7 +393,8 @@ body{
 }
 
 .flex-grid{
-    display:flex;
+    display: -webkit-flex;
+    display: flex;
     flex-wrap: wrap;
 }
 
@@ -400,14 +412,14 @@ body{
     background-color: #FF404C;
     height:5vh;
     min-height:40px;
-    display:inline-block;
     text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
     
 }
 
 .button-text {
-    display: inline-block;
-    vertical-align: middle;
     line-height: normal;
     color: #fff !important;
   }
@@ -416,8 +428,75 @@ body{
       min-height:900px;
   }
 
+  
+
+  .dice-display{
+      padding-top:10px;
+      overflow-y:auto;
+      min-height:300px;
+      height:29vh;
+
+  }
+
+  .roll-display{
+      float:left;
+  }
+
+  .dice-panel{
+    float:left;
+    width:80px;
+    margin: 0 20px 20px 10px;
+  }
+
+  .rollbox{
+      margin-top:5px;
+      width:80px;
+  }
+
+.add-background{
+    background-color:rgba(255, 255, 255, 0.801);
+}   
+
+.negate-margin{
+    margin-left:-10px;
+}
+
+.negate-margins{
+    margin-left:-10px;
+    margin-right:-10px;
+}
+
+center{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.mod-block{
+    margin-top:20px;
+}
+.min-width-200{
+    min-width:200px;
+}
+
+.bottom-align{
+    position:relative;
+    bottom:0;
+    top:0;
+}
+
+
 @media only screen and (max-width: 800px) {
+    .min-width-400{
+        min-width:400px;
+    }
     .fill-height{
         overflow-y: scroll;
+    }
+    .sub-content-top{
+        height:1500px;
+    }
+    .sub-content-bottom{
+        height:900px;
     }
 }

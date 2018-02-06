@@ -23,22 +23,6 @@ const unauthenticatedPages = ['/signin', '/signup'];
 const authenticatedPages = ['/', '/*', '/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
                             '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
 
-                            
-export const onAuthChange = (isAuthenticated) => {
-    const pathname = browserHistory.location.pathname;
-
-    const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
-    const isAuthenticatedPage = authenticatedPages.includes(pathname);
-
-    if (isUnauthenticatedPage && isAuthenticated) {
-        console.log("pushing to authenticated page");
-        this.browserHistory.push('/home');
-    } else if (isAuthenticatedPage && !isAuthenticated) {
-        console.log("pushing to unauthenticated page");
-        this.browserHistory.push('/signin');
-    }
-};
-
 const onEnterPublicPage = () => {
     console.log("onEnterPublicPage");
     
@@ -69,7 +53,6 @@ Tracker.autorun(() => {
     }
     else onEnterPrivatePage();
     });
-             
 
 export class Main extends React.Component{
     render(){
