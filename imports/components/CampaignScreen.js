@@ -26,11 +26,11 @@ export default class CampaignScreen extends React.Component{
     render() {
         return(
             <div className="page-wrapper">
-                <div className="col-lg-12 fill-height">
-                    <div className=" fill-height game-screen">
+                <div className="col-lg-12">
+                    <div className=" game-screen">
 
-                        <div className="col-lg-3 fill-height content-container-left">
-                            <div className="sub-content-top">
+                        <div className="sub-content-top col-xs-12">
+                            <div className="col-lg-3 content-container-left">
                                     <h3>Initiative</h3>
                                     <hr/>
                                     <div className="scrolling-container-content-top">
@@ -42,37 +42,32 @@ export default class CampaignScreen extends React.Component{
                                     </div>
                             </div>
 
-                            <div className="sub-content-bottom">
-
-                            </div>
-
-                        </div>
-
-
-                        <div className="col-lg-6 fill-height content-container-mid">
-                            <div className="sub-content-top">
+                            <div className="col-lg-6 content-container-mid" >
                                 
                             </div>
-                            <div className="sub-content-bottom">
 
-                            </div>
-                        </div>
-
-
-                        <div className="col-lg-3 fill-height content-container-right">
-                            <div className="sub-content-top">
+                            <div className="col-lg-3 content-container-right">
                                 <h3>Characters</h3>
                                 <hr/>
                                 <div className="scrolling-container">
                                     {this.renderCharacterCard()}
                                 </div>
                             </div>
-                            <div className="sub-content-bottom">
+                        </div>
+
+                        <div className="sub-content-bottom col-xs-12">
+                            <div className="col-lg-3 content-container-left">
+
+                            </div>
+
+                            <div className="col-lg-6 content-container-mid ">
+
+                            </div>
+
+                            <div className="col-lg-3 content-container-right ">
 
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
