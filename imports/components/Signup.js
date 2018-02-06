@@ -47,7 +47,7 @@ export default class Signup extends React.Component{
                             <input type="password" ref="password" id="inputPassword" className="form-control margin-5" placeholder="Password" required style={{"width":"100%", "marginLeft":"0"}}/>
                             <div className="checkbox" style={{"float":"left"}}>
                                 <label>
-                                <input type="checkbox" value="remember-me"/> Remember me
+                                    <input type="checkbox" value="remember-me"/> Remember me 
                                 </label>
                             </div>
                             <div style={{"float":"right"}} className="margin-5">

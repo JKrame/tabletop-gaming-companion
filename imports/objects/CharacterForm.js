@@ -132,7 +132,7 @@ export default class CharacterForm extends React.Component{
     }
     
     render() {
-        
+
         if(this.props.character !== undefined)
         {
             console.log("hasProps");
