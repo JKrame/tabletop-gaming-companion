@@ -6,7 +6,7 @@ export default class Characters extends React.Component{
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        var characters = CharactersCollection.find({UID: UID}).fetch();
+        var characters = Characters.find({UID: UID}).fetch();
         var numcharacters = characters.length;
         for (var i = 0; i < numcharacters; i++)
         {
