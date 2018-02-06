@@ -9,18 +9,31 @@ import CampaignCardHalf from '../objects/CampaignCardMini';
 var characters;
 var charactersArray;
 
+var campaigns;
+var campaignsArray;
+
 export default class Home extends React.Component {
 
     componentWillMount(){
         this.homeTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
+            const sub2 = Meteor.subscribe('campaigns');
+            var UID = Meteor.userId();
             if(sub.ready())
             {
-                var UID = Meteor.userId();
                 charactersArray = Characters.find({UID: UID}).fetch();
                 if(charactersArray != undefined)
                 {
                     this.characters = charactersArray;
+                    display = true;
+                }
+            }
+            if(sub2.ready())
+            {
+                campaignsArray = Campaigns.find({gm: UID}).fetch();
+                if(campaignsArray != undefined)
+                {
+                    this.campaigns = campaignsArray;
                     display = true;
                 }
             }
@@ -32,7 +45,7 @@ export default class Home extends React.Component {
         this.homeTracker.stop();
     }
 
-    renderForm(){
+    renderCharacterForm(){
         if(this.characters == undefined)
         {
             return;
@@ -43,12 +56,22 @@ export default class Home extends React.Component {
         }
     }
 
+    renderCampaignForm(){
+        if(this.campaigns == undefined)
+        {
+            return;
+        }
+        else
+        {
+            return this.renderCampaignCard();
+        }
+    }
+
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
         for (var i = 0; i < this.characters.length; i++)
         {   
-            id = this.characters[i]._id;
             cards.push(
                 <CharacterCardHalf key={i} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
             );
@@ -58,10 +81,12 @@ export default class Home extends React.Component {
 
     renderCampaignCard() {
         var cards = [];
-        var numcampaigns = 2;
-        for (var i = 0; i < numcampaigns; i++)
+        var UID = Meteor.userId();
+        for (var i = 0; i < this.campaigns.length; i++)
         {
-            cards.push(<CampaignCardHalf key={i}/>);
+            cards.push(
+                <CampaignCardHalf key={i} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+            );
         }
         return <div>{cards}</div>;
     }
@@ -82,7 +107,7 @@ export default class Home extends React.Component {
         somehistory.push('/character/edit/' + cid);
     }
 
-    loadCampaign(campaignId){
+    loadCampaign(campaignId, somehistory){
         if (!campaignId)
         {
             campaignId = Random.id();
@@ -110,7 +135,11 @@ export default class Home extends React.Component {
             );
         }
 
-        this.props.history.push('/campaign/edit/' + campaignId);
+        if (!somehistory){
+            somehistory = this.props.history;
+        }
+
+        somehistory.push('/campaign/edit/' + campaignId);
     }
 
     render() {
@@ -125,7 +154,7 @@ export default class Home extends React.Component {
                         </NavLink>
                         <hr/>
                         <div className="page-content-scroller">
-                            {this.renderForm()}
+                            {this.renderCharacterForm()}
                             <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
                                 <div className="objectCardMini add-container">
                                     <div className="objectCardMiniImage">
@@ -149,7 +178,7 @@ export default class Home extends React.Component {
                         <hr/>
                         
                         <div className="page-content-scroller">
-                            {this.renderCampaignCard()}
+                            {this.renderCampaignForm()}
                             
                             <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
