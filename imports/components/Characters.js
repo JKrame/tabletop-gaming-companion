@@ -2,22 +2,67 @@ import React from 'react';
 import CharacterCardVertical from '../objects/CharacterCardVertical';
 import { NavLink } from 'react-router-dom';
 
+var characters;
+var charactersArray;
+
 export default class Characters extends React.Component{
+
+    componentWillMount(){
+        console.log("cs > componentDidMount");
+        this.charactersTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('characters');
+            console.log("cs > componentDidMount > tracker");
+            console.log(sub.ready());
+            if(sub.ready())
+            {
+                var UID = Meteor.userId();
+                charactersArray = Characters.find({UID: UID}).fetch();
+                if(charactersArray != undefined)
+                {
+                    this.characters = charactersArray;
+                    display = true;
+                    console.log("characters not undefined anymroe");
+                }
+                console.log("componentDidMount cs");                
+            }
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount(){
+        this.charactersTracker.stop();
+    }
+
+    renderForm(){
+        if(this.characters == undefined)
+        {
+            console.log("calling nothing");
+            return;
+        }
+        else
+        {
+            console.log("calling renderCharacterCard");
+            return this.renderCharacterCard();
+        }
+    }
+
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        var characters = Characters.find({UID: UID}).fetch();
-        var numcharacters = characters.length;
-        for (var i = 0; i < numcharacters; i++)
+        for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(
-                <NavLink to='#' onClick={() => this.loadCharacter(characters[i])} className='nav-item nav-link'>
-                    <CharacterCardVertical key={i} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
-                </NavLink>
+                <CharacterCardVertical key={i} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
             );
         }
         return <div>{cards}</div>;
     }
+
+    loadCharacter(cid, somehistory){
+        console.log("loadcharacter");
+        somehistory.push('/character/edit/' + cid);
+    }
+
     render() {
         Meteor.subscribe('characters');
         return(
@@ -27,7 +72,7 @@ export default class Characters extends React.Component{
                         <h3>Characters</h3>
                         <hr/>
                         <div className="scrolling-container">
-                            {this.renderCharacterCard()}
+                            {this.renderForm()}
                         </div>
                     </div>
                 </div>
