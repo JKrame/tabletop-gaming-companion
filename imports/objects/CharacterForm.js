@@ -71,6 +71,12 @@ export default class CharacterForm extends React.Component{
         );
     }
 
+    deleteCharacter(id) {
+        console.log("delete character  "+id);
+        Meteor.call('characters.remove', id);
+        window.location.replace("/home");
+    }
+
     renderImage(){
         return '/images/photoMissing.png';
     }
@@ -94,10 +100,10 @@ export default class CharacterForm extends React.Component{
                         </div>
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
-
-
+                    <div onClick={() => {if(confirm('Delete this character?')) {this.deleteCharacter(character._id)};}}>
+                        <p>DELETE</p>
+                    </div>
                 </div>
-                
 
                 <div className="col-sm-8 split-page-right left-border container">
                     <form onSubmit={this.onSubmit.bind(this)}>
