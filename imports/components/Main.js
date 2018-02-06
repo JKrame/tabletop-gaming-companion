@@ -31,32 +31,25 @@ export const onAuthChange = (isAuthenticated) => {
     const isAuthenticatedPage = authenticatedPages.includes(pathname);
 
     if (isUnauthenticatedPage && isAuthenticated) {
-        console.log("pushing to authenticated page");
         this.browserHistory.push('/home');
     } else if (isAuthenticatedPage && !isAuthenticated) {
-        console.log("pushing to unauthenticated page");
         this.browserHistory.push('/signin');
     }
 };
 
 const onEnterPublicPage = () => {
-    console.log("onEnterPublicPage");
-    
     if (!!Meteor.userId()) {
         browserHistory.push('/home');
     }
 };
 
 const onEnterPrivatePage = () => {
-    console.log("onEnterPrivatePage");
-    
     if (!Meteor.userId()) {
         browserHistory.push('/signin');
     }
 };
 
 Tracker.autorun(() => {
-    console.log("Is user authenticated: " + !!Meteor.userId());
     const pathname = browserHistory.location.pathname;
     
     const isAuthenticated = !!Meteor.userId();

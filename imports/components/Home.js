@@ -12,11 +12,8 @@ var charactersArray;
 export default class Home extends React.Component {
 
     componentWillMount(){
-        console.log("cs > componentDidMount");
         this.homeTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
-            console.log("cs > componentDidMount > tracker");
-            console.log(sub.ready());
             if(sub.ready())
             {
                 var UID = Meteor.userId();
@@ -25,9 +22,7 @@ export default class Home extends React.Component {
                 {
                     this.characters = charactersArray;
                     display = true;
-                    console.log("characters not undefined anymroe");
                 }
-                console.log("componentDidMount cs");                
             }
             this.forceUpdate();
         });
@@ -40,12 +35,10 @@ export default class Home extends React.Component {
     renderForm(){
         if(this.characters == undefined)
         {
-            console.log("calling nothing");
             return;
         }
         else
         {
-            console.log("calling renderCharacterCard");
             return this.renderCharacterCard();
         }
     }
@@ -54,7 +47,6 @@ export default class Home extends React.Component {
         var cards = [];
         var UID = Meteor.userId();
         var numcharacters = this.characters.length;
-        console.log(this.characters.length);
         for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(
@@ -77,7 +69,6 @@ export default class Home extends React.Component {
     }
 
     loadCharacter(cid){
-        console.log(cid);
         if (!cid)
         {
             cid = Random.id();
