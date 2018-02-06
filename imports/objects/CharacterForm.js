@@ -34,6 +34,7 @@ var spellSlotsMax;
 var spellSlotsCurr;
 var statuses;
 var money;
+var characterImageURL;
 export default class CharacterForm extends React.Component{
     constructor(props){
         super(props);
@@ -41,7 +42,6 @@ export default class CharacterForm extends React.Component{
 
     onSubmit(e){  
         e.preventDefault();
-
         //basic attributes
         characterID = null;
         campaignID = null;
@@ -110,7 +110,8 @@ export default class CharacterForm extends React.Component{
             spellSlotsMax,
             spellSlotsCurr,
             statuses,
-            money
+            money,
+            this.refs.characterImageURL.value.trim()
         );
     }
 
@@ -139,6 +140,7 @@ export default class CharacterForm extends React.Component{
             console.log(characterName);
             
             character = this.props.character;
+            characterImageURL = this.props.characterImageURL;
             _id = this.props._id;
             campaignID = this.props.character.campaignID;
             UID = this.props.character.UID;
@@ -167,33 +169,31 @@ export default class CharacterForm extends React.Component{
             spellSlotsCurr = this.props.character.spellSlotsCurr;
             statuses = this.props.character.statuses;
             money = this.props.character.money;
+            characterImageURL = this.props.character.characterImageURL != null ? this.props.character.characterImageURL : "";
         }
+        console.log("#$%$^&%%^& " + characterImageURL);
 
         return(
             <div className="col-xs-12">
                 <div className="col-sm-4 split-page-left container">
-                    <img src={this.renderImage()} className="full-width"/>
+                    <img src={characterImageURL} className="full-width"/>
                     <div className="spacer col-sm-12"/>
 
-                    <form>
+
                         <div className="col-sm-12">
                             <p className="p-override">IMAGE URL</p>
-                            <input className="full-width" type="text" ref="characterImageURL" placeholder={characterName != null ? characterName : ""}/>
+                            <input className="full-width" type="text" ref="characterImageURL" placeholder={characterImageURL != null ? characterImageURL : ""}/>
                         </div>
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
 
-                        <div className="col-sm-12">
-                            <button className="full-width submit-button">UPDATE IMAGE   </button>
-                        </div>
-                    </form>
+
                 </div>
                 
 
                 <div className="col-sm-8 split-page-right left-border container">
                     <form onSubmit={this.onSubmit.bind(this)}>
                         <div className="scrolling-container-smaller">
-                            
                             <div className="col-sm-12">
                                 <p className="p-override">NAME</p>
                                 <input className="full-width" type="text" ref="characterName" defaultValue={this.props.hasProps ? characterName : "k"}/>
