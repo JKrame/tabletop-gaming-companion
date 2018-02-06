@@ -84,7 +84,7 @@ export default class CharacterForm extends React.Component{
         return(
             <div className="col-xs-12">
                 <div className="col-sm-4 split-page-left container">
-                    <img src={character.characterImageURL != null ? character.characterImageURL : '/images/photoMissing.png'} className="full-width"/>
+                    <img src={character.characterImageURL != null && character.characterImageURL != "" ? character.characterImageURL : '/images/photoMissing.png'} className="full-width"/>
                     <div className="spacer col-sm-12"/>
 
 
