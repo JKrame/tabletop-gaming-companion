@@ -15,7 +15,7 @@ export default class Binder extends React.Component{
         for (var i = 0; i < numcharacters; i++)
         {
             cards.push(
-                <NavLink key={i} to='#' onClick={() => this.loadCharacter(characters[i])} className='nav-item nav-link'>
+                <NavLink key={i} to='#' onClick={() => this.loadCharacter(characters[i]._id)} className='nav-item nav-link'>
                     <CharacterCard key={i} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
                 </NavLink>
             );
