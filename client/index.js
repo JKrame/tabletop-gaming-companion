@@ -13,5 +13,10 @@ Tracker.autorun(() => {
 });
 
 Meteor.startup(() => {
+    
+    Tracker.autorun(() => {
+        const characters = Meteor.subscribe('characters');
+    });
+
     ReactDOM.render(<App />, document.getElementById('root'));  
 });   

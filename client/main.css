@@ -128,41 +128,46 @@ body{
     padding:10px;
 }
 .content-container-left{
+    position: relative;
+    display:inline-block;
+    background-color: rgba(255, 255, 255, 0.801);
     padding-right:10px;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
-    height:90vh;
 }
 .content-container-mid{
+    position: relative;
+    display:inline-block; 
+    background-color: rgba(255, 255, 255, 0.801);
+    padding-left:10px !important;
+    padding-right:10px !important;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
-    height:90vh;
 }
 .content-container-right{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.801);
     padding-left:10px;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
-    height:90vh;
 }
 .sub-content{
-    background-color: rgba(255, 255, 255, 0.801);
     margin:6px;
     color: #012C40;
     padding:10px;
 }
 .sub-content-top{
-    background-color: rgba(255, 255, 255, 0.801);
+    display:block;
     min-height:500px;
     height:60vh;
     color: #012C40;
     padding:10px;
-    position:relative;
 }
 .sub-content-bottom{
-    background-color: rgba(255, 255, 255, 0.801);
+    display:flex;
     min-height:300px;
     margin-top:1vh;
     color: #012C40;

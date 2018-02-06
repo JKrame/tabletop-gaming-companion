@@ -19,11 +19,13 @@ export default class Home extends React.Component {
             console.log(sub.ready());
             if(sub.ready())
             {
-                characters = Characters.find().fetch();
+                var UID = Meteor.userId();
+                charactersArray = Characters.find({UID: UID}).fetch();
                 if(characters != undefined)
                 {
-                    charactersArray = characters;
+                    this.characters = charactersArray;
                     display = true;
+                    console.log("characters not undefined anymroe");
                 }
                 console.log("componentDidMount cs");                
             }
@@ -36,31 +38,28 @@ export default class Home extends React.Component {
     }
 
     renderForm(){
-        if(characters === undefined)
+        if(this.characters == undefined)
         {
-            console.log("calling cf w/o props");
+            console.log("calling nothing");
             return;
         }
         else
         {
-            console.log("calling cf w/ props");
-            console.log(characters[0]._id);
-            this.renderCharacterCard();
-            return;
+            console.log("calling renderCharacterCard");
+            return this.renderCharacterCard();
         }
     }
 
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        //var characters = Characters.find({UID: UID}).fetch();
-        var numcharacters = characters.length;
-        console.log(characters[0].characterName);
-        for (var i = 0; i < numcharacters; i++)
+        var numcharacters = this.characters.length;
+        console.log(this.characters.length);
+        for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(
-                <NavLink to='#' onClick={() => this.loadCharacter(characters[i]._id)} className='nav-item nav-link'>
-                    <CharacterCardHalf key={i} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
+                <NavLink to='#' onClick={() => this.loadCharacter(this.characters[i]._id)} className='nav-item nav-link'>
+                    <CharacterCardHalf key={i} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
                 </NavLink>
             );
         }
