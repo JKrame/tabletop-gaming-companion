@@ -21,7 +21,7 @@ export default class Home extends React.Component {
             {
                 var UID = Meteor.userId();
                 charactersArray = Characters.find({UID: UID}).fetch();
-                if(characters != undefined)
+                if(charactersArray != undefined)
                 {
                     this.characters = charactersArray;
                     display = true;
@@ -58,7 +58,7 @@ export default class Home extends React.Component {
         for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(
-                <NavLink to='#' onClick={() => this.loadCharacter(this.characters[i]._id)} className='nav-item nav-link'>
+                <NavLink key={i} to='#' onClick={() => this.loadCharacter(this.characters[i]._id)} className='nav-item nav-link'>
                     <CharacterCardHalf key={i} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
                 </NavLink>
             );
