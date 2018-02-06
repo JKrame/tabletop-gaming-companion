@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 var characters;
 var charactersArray;
 
-export default class Characters extends React.Component{
+export default class CharactersPage extends React.Component{
 
     componentWillMount(){
         console.log("cs > componentDidMount");
@@ -52,7 +52,7 @@ export default class Characters extends React.Component{
         for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(
-                <CharacterCardVertical key={i} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
+                <CharacterCardVertical key={i} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
             );
         }
         return <div>{cards}</div>;
