@@ -50,7 +50,7 @@ export default class Home extends React.Component {
         {   
             id = this.characters[i]._id;
             cards.push(
-                <CharacterCardHalf key={i} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+                <CharacterCardHalf key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
             );
         }
         return <div>{cards}</div>;
