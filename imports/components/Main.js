@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import AdventureBoard from './AdventureBoard';
 import Binder from './Binder';
-import Campaigns from './Campaigns';
+import CampaignsPage from './CampaignsPage';
 import CampaignScreen from './CampaignScreen';
 import CampaignSetup from './CampaignSetup';
 import CharactersPage from './CharactersPage';
@@ -57,7 +57,7 @@ export class Main extends React.Component{
                     <Switch>
                         <Route exact path='/adventureboard' component={AdventureBoard}/>
                         <Route exact path='/binder' component={Binder}/>
-                        <Route exact path='/campaigns' component={Campaigns}/>
+                        <Route exact path='/campaigns' component={CampaignsPage}/>
                         <Route exact path='/campaigns/*' component={CampaignScreen}/>
                         <Route exact path='/campaign/edit/:_id' component={CampaignSetup}/>
                         <Route exact path='/characters' component={CharactersPage}/>
