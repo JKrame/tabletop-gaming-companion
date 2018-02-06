@@ -31,7 +31,7 @@ export default class CharacterForm extends React.Component{
         Meteor.call('characters.update',
             character._id,
             character.campaignID,
-            character.UID,
+            Meteor.userId(),
             this.refs.characterName.value.trim(),
             this.refs.characterClass.value.trim(),
             this.refs.level.value.trim(),
@@ -66,7 +66,8 @@ export default class CharacterForm extends React.Component{
             spellSlotsMax,
             spellSlotsCurr,
             statuses,
-            money
+            money,
+            this.refs.characterImageURL.value.trim()
         );
     }
 
@@ -83,28 +84,24 @@ export default class CharacterForm extends React.Component{
         return(
             <div className="col-xs-12">
                 <div className="col-sm-4 split-page-left container">
-                    <img src={this.renderImage()} className="full-width"/>
+                    <img src={character.characterImageURL != null ? character.characterImageURL : '/images/photoMissing.png'} className="full-width"/>
                     <div className="spacer col-sm-12"/>
 
-                    <form>
+
                         <div className="col-sm-12">
                             <p className="p-override">IMAGE URL</p>
-                            <input className="full-width" type="text" ref="characterImageURL" placeholder={character.characterName != null ? character.characterName : undefined}/>
+                            <input className="full-width" type="text" ref="characterImageURL" placeholder={character.characterImageURL != null ? character.characterImageURL : ""}/>
                         </div>
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
 
-                        <div className="col-sm-12">
-                            <button className="full-width submit-button">UPDATE IMAGE   </button>
-                        </div>
-                    </form>
+
                 </div>
                 
 
                 <div className="col-sm-8 split-page-right left-border container">
                     <form onSubmit={this.onSubmit.bind(this)}>
                         <div className="scrolling-container-smaller">
-                            
                             <div className="col-sm-12">
                                 <p className="p-override">NAME</p>
                                 <input className="full-width" type="text" ref="characterName" defaultValue={character.characterName != null ? character.characterName : undefined}/>
