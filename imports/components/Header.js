@@ -34,7 +34,6 @@ export default class Header extends React.Component{
                                 <ul className="nav navbar-nav mr-auto">
                                     <li ><NavLink to="/home">Home</NavLink></li>
                                     <li ><NavLink to="/adventureboard">Adventure Board</NavLink></li>
-                                    <li ><NavLink to="/binder">Binder</NavLink></li>
                                     <li ><NavLink to="/mail">Mail</NavLink></li>
                                     <li ><NavLink to="/settings">Settings</NavLink></li>
                                     <li ><NavLink to="/signin" onClick={this.logOut}>Log Out</NavLink></li>
