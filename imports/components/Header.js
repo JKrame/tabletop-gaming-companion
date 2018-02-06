@@ -37,7 +37,7 @@ export default class Header extends React.Component{
                                     <li ><NavLink to="/binder">Binder</NavLink></li>
                                     <li ><NavLink to="/mail">Mail</NavLink></li>
                                     <li ><NavLink to="/settings">Settings</NavLink></li>
-                                    <li ><a onClick={this.logOut}>Log Out</a></li>
+                                    <li ><NavLink to="/signin" onClick={this.logOut}>Log Out</NavLink></li>
                                 </ul>
                             </div>
                         </div>
