@@ -5,7 +5,7 @@ import Binder from './Binder';
 import Campaigns from './Campaigns';
 import CampaignScreen from './CampaignScreen';
 import CampaignSetup from './CampaignSetup';
-import Characters from './Characters';
+import CharactersPage from './CharactersPage';
 import CharacterSheet from './CharacterSheet';
 import Home from './Home';
 import Mail from './Mail';
@@ -24,23 +24,18 @@ const authenticatedPages = ['/', '/*', '/adventureboard', '/binder', '/campaign'
                             '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
 
 const onEnterPublicPage = () => {
-    console.log("onEnterPublicPage");
-    
     if (!!Meteor.userId()) {
         browserHistory.push('/home');
     }
 };
 
 const onEnterPrivatePage = () => {
-    console.log("onEnterPrivatePage");
-    
     if (!Meteor.userId()) {
         browserHistory.push('/signin');
     }
 };
 
 Tracker.autorun(() => {
-    console.log("Is user authenticated: " + !!Meteor.userId());
     const pathname = browserHistory.location.pathname;
     
     const isAuthenticated = !!Meteor.userId();
@@ -65,7 +60,7 @@ export class Main extends React.Component{
                         <Route exact path='/campaigns' component={Campaigns}/>
                         <Route exact path='/campaigns/*' component={CampaignScreen}/>
                         <Route exact path='/campaign/edit/:_id' component={CampaignSetup}/>
-                        <Route exact path='/characters' component={Characters}/>
+                        <Route exact path='/characters' component={CharactersPage}/>
                         <Route exact path='/character/edit/:_id' component={CharacterSheet}/>
                         <Route exact path='/home' component={Home}/>
                         <Route exact path='/mail' component={Mail}/>
