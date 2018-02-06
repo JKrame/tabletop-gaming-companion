@@ -75,6 +75,10 @@ export default class Home extends React.Component {
             Meteor.call('characters.insert', cid);
         }
 
+        if (!somehistory){
+            somehistory = this.props.history;
+        }
+
         somehistory.push('/character/edit/' + cid);
     }
 
