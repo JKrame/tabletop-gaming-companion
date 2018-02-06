@@ -96,7 +96,7 @@ export default class CharacterForm extends React.Component{
 
                         <div className="col-sm-12">
                             <p className="p-override">IMAGE URL</p>
-                            <input className="full-width" type="text" ref="characterImageURL" placeholder={character.characterImageURL != null ? character.characterImageURL : ""}/>
+                            <input className="full-width" type="text" ref="characterImageURL" defaultValue={character.characterImageURL != null ? character.characterImageURL : ""}/>
                         </div>
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
