@@ -18,7 +18,7 @@ export default class Home extends React.Component {
             {
                 var UID = Meteor.userId();
                 charactersArray = Characters.find({UID: UID}).fetch();
-                if(characters != undefined)
+                if(charactersArray != undefined)
                 {
                     this.characters = charactersArray;
                     display = true;
@@ -46,13 +46,11 @@ export default class Home extends React.Component {
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        var numcharacters = this.characters.length;
         for (var i = 0; i < this.characters.length; i++)
-        {
+        {   
+            id = this.characters[i]._id;
             cards.push(
-                <NavLink to='#' onClick={() => this.loadCharacter(this.characters[i]._id)} className='nav-item nav-link'>
-                    <CharacterCardHalf key={i} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
-                </NavLink>
+                <CharacterCardHalf key={i} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
             );
         }
         return <div>{cards}</div>;
@@ -68,14 +66,16 @@ export default class Home extends React.Component {
         return <div>{cards}</div>;
     }
 
-    loadCharacter(cid){
+    loadCharacter(cid, somehistory){
+        console.log("loadcharacter");
         if (!cid)
         {
+            console.log("loadcharacter blank id");
             cid = Random.id();
             Meteor.call('characters.insert', cid);
         }
 
-        this.props.history.push('/character/edit/' + cid);
+        somehistory.push('/character/edit/' + cid);
     }
 
     loadCampaign(campaignId){
