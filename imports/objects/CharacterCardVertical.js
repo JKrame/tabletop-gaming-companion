@@ -8,7 +8,7 @@ export default class CharacterCardVertical extends React.Component {
                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
                     <div className="vertical-card-contents">
                         <div className="vertical-image">
-                            <img src={'/images/photoMissing.png'} className="full-width vertical-image"/>
+                            <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/photoMissing.png'} className="full-width vertical-image"/>
                         </div>
                         <div className="vertical-data">
                             <h3>{this.props.characterName}</h3>
