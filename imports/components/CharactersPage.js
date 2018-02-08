@@ -52,7 +52,7 @@ export default class CharactersPage extends React.Component{
         for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(
-                <CharacterCardVertical key={i} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+                <CharacterCardVertical key={i} id={this.characters[i]._id} characterImageURL={this.characters[i].characterImageURL} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
             );
         }
         return <div>{cards}</div>;
