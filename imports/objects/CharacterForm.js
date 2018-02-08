@@ -27,7 +27,6 @@ export default class CharacterForm extends React.Component{
         featureDescription = null;
 
         console.log("formSubmit");
-        
         Meteor.call('characters.update',
             character._id,
             character.campaignID,
@@ -208,28 +207,28 @@ export default class CharacterForm extends React.Component{
                                                                     
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">STRENGTH</p>
-                                <input className="full-width" type="text" ref="str" defaultValue={character.str != null ? character.str : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="str" defaultValue={character.attributes[0] != null ? character.attributes[0] : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">DEXTERITY</p>
-                                <input className="full-width" type="text" ref="dex" defaultValue={character.dex != null ? character.dex : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="dex" defaultValue={character.attributes[1] != null ? character.attributes[1] : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">CONSTITUTION</p>
-                                <input className="full-width" type="text" ref="con" defaultValue={character.con != null ? character.con : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="con" defaultValue={character.attributes[2] != null ? character.attributes[2] : ""} placeholder=""/>
                             </div>
 
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">INTELLIGENCE</p>
-                                <input className="full-width" type="text" ref="int" defaultValue={character.int != null ? character.int : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="int" defaultValue={character.attributes[3] != null ? character.attributes[3] : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">WISDOM</p>
-                                <input className="full-width" type="text" ref="wis" defaultValue={character.wis != null ? character.wis : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="wis" defaultValue={character.attributes[4] != null ? character.attributes[4] : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">CHARISMA</p>
-                                <input className="full-width" type="text" ref="cha" defaultValue={character.cha != null ? character.cha : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="cha" defaultValue={character.attributes[5] != null ? character.attributes[5] : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
