@@ -108,7 +108,27 @@ export default class CampaignSetup extends React.Component{
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-8">
+                            <h3>Campaign Title</h3>
+                                <hr/>
+                                <div className="scrolling-container">
+                                    <input type="text" className="fill-width"/>
+                                </div>
 
+                                <div className="spacer col-sm-12"/>                      
+                                <div className="spacer col-sm-12"/>
+                                <div className="spacer col-sm-12"/>                      
+                                <div className="spacer col-sm-12"/>
+                                
+                            <h3>Campaign Description</h3>
+                            <hr/>
+                            <div className="scrolling-container">
+                                <input type="text" style={{"height":"150px"}} className="fill-width"/>
+                            </div>
+
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
 
                             <h3>NPCs</h3>
                             <hr/>
@@ -175,6 +195,21 @@ export default class CampaignSetup extends React.Component{
 
                         
                         <div className="col-lg-4">
+                            <h3>Campaign Image</h3>
+                            <hr/>
+                            <img src= '/images/photoMissing.png' className="full-width"/>
+                            <div className="spacer col-sm-12"/>
+
+                            <div className="col-sm-12">
+                                <p className="p-override">IMAGE URL</p>
+                                <input className="full-width" type="text" ref="characterImageURL" defaultValue= ""/>
+                            </div>
+
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+
                             <h3>Player List >></h3>
                             <hr/>
                             <div className="scrolling-container">

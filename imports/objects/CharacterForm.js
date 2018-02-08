@@ -93,18 +93,20 @@ export default class CharacterForm extends React.Component{
                     <img src={character.characterImageURL != null && character.characterImageURL != "" ? character.characterImageURL : '/images/photoMissing.png'} className="full-width"/>
                     <div className="spacer col-sm-12"/>
 
-
                         <div className="col-sm-12">
                             <p className="p-override">IMAGE URL</p>
                             <input className="full-width" type="text" ref="characterImageURL" defaultValue={character.characterImageURL != null ? character.characterImageURL : ""}/>
                         </div>
+
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
+
                     <div onClick={() => {if(confirm('Delete this character?')) {this.deleteCharacter(character._id)};}}>
                         <div className="col-sm-12">
                             <button className="full-width submit-button">DELETE CHARACTER</button>
                         </div>
                     </div>
+
                 </div>
 
                 <div className="col-sm-8 split-page-right left-border container">
