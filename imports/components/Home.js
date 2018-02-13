@@ -110,23 +110,26 @@ export default class Home extends React.Component {
             Meteor.call("campaigns.insert", campaignId);
         }
 
-        if (!somehistory){
+        if (!somehistory){ 
             somehistory = this.props.history;
+            somehistory.push('/campaign/edit/' + campaignId);
         }
-
-        for(var i = 0; i < campaigns.length; i++)
+        else
         {
-            if(campaigns[i]._id == campaignId)
+            for(var i = 0; i < campaigns.length; i++)
             {
-                if(campaigns[i].gm == Meteor.userId())
+                if(campaigns[i]._id == campaignId)
                 {
-                    somehistory.push('/campaign/edit/' + campaignId); //first send them to the editing page
+                    if(campaigns[i].gm == Meteor.userId())
+                    {
+                        somehistory.push('/campaign/edit/' + campaignId); //first send them to the editing page
+                    }
+                    else
+                    {
+                        somehistory.push('/campaigns/' + campaignId); //if they dont own it, send them to game screen
+                    }
+                    break;
                 }
-                else
-                {
-                    somehistory.push('/campaigns/' + campaignId); //if they dont own it, send them to game screen
-                }
-                break;
             }
         }
     }
