@@ -4,6 +4,12 @@ import CampaignCardVertical from '../objects/CampaignCardVertical';
 var campaigns;
 var campaignsArray;
 
+var SortParameters = Object.freeze({
+    DATE_CREATED : 1,
+    ALPHABETICAL_A_Z : 2,
+    ALPHABETICAL_Z_A : 3
+});
+
 export default class CampaignsPage extends React.Component{
     
     componentWillMount(){
@@ -27,9 +33,45 @@ export default class CampaignsPage extends React.Component{
         this.campaignsTracker.stop();
     }
     
-    renderCampaignCard() {
+    renderCampaignCard(sort) {
         var cards = [];
         var UID = Meteor.userId();
+        if(sort == SortParameters.DATE_CREATED)
+        {
+            //nothing changes
+        }
+        else if(sort == SortParameters.ALPHABETICAL_A_Z)
+        {
+            this.characters.sort(function(a, b) {
+                var x = a.name.toLowerCase();
+                var y = b.name.toLowerCase();
+                if(x < y)
+                {
+                    return -1;
+                }
+                if(x > y)
+                {
+                    return 1;
+                }
+                return 0;
+            });
+        }
+        else if(sort == SortParameters.ALPHABETICAL_Z_A)
+        {
+            this.characters.sort(function(a, b) {
+                var x = a.name.toLowerCase();
+                var y = b.name.toLowerCase();
+                if(x < y)
+                {
+                    return 1;
+                }
+                if(x > y)
+                {
+                    return -1;
+                }
+                return 0;
+            });
+        }
         for (var i = 0; i < this.campaigns.length; i++)
         {
             cards.push(
@@ -46,6 +88,7 @@ export default class CampaignsPage extends React.Component{
         }
         else
         {
+            sort = SortParameters.DATE_CREATED;
             return this.renderCampaignCard();
         }
     }

@@ -5,6 +5,14 @@ import { NavLink } from 'react-router-dom';
 var characters;
 var charactersArray;
 
+var SortParameters = Object.freeze({
+    DATE_CREATED : 1,
+    ALPHABETICAL_A_Z : 2,
+    ALPHABETICAL_Z_A : 3,
+    LEVEL_HI_LO : 4,
+    LEVEL_LO_HI : 5
+});
+
 export default class CharactersPage extends React.Component{
 
     componentWillMount(){
@@ -41,14 +49,63 @@ export default class CharactersPage extends React.Component{
         }
         else
         {
+            sort = SortParameters.DATE_CREATED;
             console.log("calling renderCharacterCard");
-            return this.renderCharacterCard();
+            return this.renderCharacterCard(sort);
         }
     }
 
-    renderCharacterCard() {
+    renderCharacterCard(sort) {
         var cards = [];
         var UID = Meteor.userId();
+        if(sort == SortParameters.DATE_CREATED)
+        {
+            //nothing changes
+        }
+        else if(sort == SortParameters.ALPHABETICAL_A_Z)
+        {
+            this.characters.sort(function(a, b) {
+                var x = a.characterName.toLowerCase();
+                var y = b.characterName.toLowerCase();
+                if(x < y)
+                {
+                    return -1;
+                }
+                if(x > y)
+                {
+                    return 1;
+                }
+                return 0;
+            });
+        }
+        else if(sort == SortParameters.ALPHABETICAL_Z_A)
+        {
+            this.characters.sort(function(a, b) {
+                var x = a.characterName.toLowerCase();
+                var y = b.characterName.toLowerCase();
+                if(x < y)
+                {
+                    return 1;
+                }
+                if(x > y)
+                {
+                    return -1;
+                }
+                return 0;
+            });
+        }
+        else if(sort == SortParameters.LEVEL_HI_LO)
+        {
+            this.characters.sort(function(a, b) {
+                return b.level - a.level;
+            });
+        }
+        else if(sort == SortParameters.LEVEL_LO_HI)
+        {
+            this.characters.sort(function(a, b) {
+                return a.level - b.level;
+            });
+        }
         for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(
