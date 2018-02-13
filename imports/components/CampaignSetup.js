@@ -257,12 +257,12 @@ export default class CampaignSetup extends React.Component{
 
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
-                            <div className="spacer col-sm-12"/>    
+                            <div className="spacer col-sm-12"/> 
                             <div className="spacer col-sm-12"/>
                                               
 
                             <div className="col-sm-12">
-                                <NavLink to='/campaigns/' className='nav-item nav-link'><button className="full-width submit-button blue-button">ENTER CAMPAIGN</button></NavLink>
+                                <NavLink to={'/campaigns/' + this.campaign._id} className='nav-item nav-link'><button className="full-width submit-button blue-button">ENTER CAMPAIGN</button></NavLink>
                             </div>
                             
                             <div className="spacer col-sm-12"/>                      
