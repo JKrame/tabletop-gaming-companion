@@ -83,10 +83,18 @@ export default class CampaignSetup extends React.Component{
 
     insertTextAssets(newTitle, newNote) {
         notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
-
-        Meteor.call("campaigns.push", 
+        Meteor.call("campaignNote.push", 
             _id = this.id,
             notes,    
+        );
+    }
+
+    addPlayer(userID, characterID) {
+        players = [userID, characterID]
+
+        Meteor.call("campaignPlayer.push", 
+            _id = this.id,
+            players,    
         );
     }
     
@@ -135,6 +143,8 @@ export default class CampaignSetup extends React.Component{
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-8">
+                            <div className="spacer col-sm-12"/>
+                            
                             <h3>Campaign Title</h3>
                                 <hr/>
                                 <div className="scrolling-container">
@@ -225,9 +235,13 @@ export default class CampaignSetup extends React.Component{
                             <div className="col-sm-12">
                                 <button onClick={this.saveChanges.bind(this)} className="full-width submit-button blue-button">SAVE CHANGES</button>
                             </div>                        
+                            <div className="spacer col-sm-12"/>
+                            
                             <div className="col-sm-12">
                                 <button onClick={this.deleteCampaign} className="full-width submit-button">DELETE CAMPAIGN</button>
                             </div>  
+                            <div className="spacer col-sm-12"/>
+                            
 
 
                         </div> 
@@ -235,14 +249,20 @@ export default class CampaignSetup extends React.Component{
                         
                         <div className="col-lg-4">
 
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>    
+                            <div className="spacer col-sm-12"/>
+                                              
 
                             <div className="col-sm-12">
-                                <button className="full-width submit-button blue-button">ENTER CAMPAIGN</button>
+                                <NavLink to='/campaigns/' className='nav-item nav-link'><button className="full-width submit-button blue-button">ENTER CAMPAIGN</button></NavLink>
                             </div>
                             
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
-                            
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
 
 
                             <h3>Campaign Image</h3>
@@ -264,8 +284,11 @@ export default class CampaignSetup extends React.Component{
                             <hr/>
                             <div className="scrolling-container">
                                 {this.renderPlayers()}
-
-                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
+                                <div>
+                                    <input type="text" ref="addplayer" className="fill-width" placeholder=""/> 
+                                    <input type="text" ref="addcharacter" className="fill-width" placeholder=""/> 
+                                </div>
+                                <div onClick={() => this.addPlayer(this.refs.addplayer.value, this.refs.addcharacter.value)} className='nav-item nav-link'> 
                                     <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
@@ -275,7 +298,8 @@ export default class CampaignSetup extends React.Component{
                                             <hr className="hr-override-light"/>
                                         </div>
                                     </div>
-                                </NavLink>
+                                </div>
+
                             </div>
                         </div>
 
