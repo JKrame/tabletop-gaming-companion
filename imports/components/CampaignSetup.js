@@ -194,20 +194,21 @@ export default class CampaignSetup extends React.Component{
                             <hr/>
                             <div className="">
                                 {this.renderTextAssets()}
-
-                                <div className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
-                                        <div onClick={() => this.insertTextAssets(this.refs.newNoteTitle.value, this.refs.newNoteText.value)} className="textCardMiniImage">
-                                            <img src={'/images/addIcon.png'} className="stretch-image"/>
-                                        </div>
-                                        <div className="col-xs-5">
-                                            <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
-                                        </div>
-                                        <div className="col-xs-10">
-                                            <input className="full-width" type="text" ref="newNoteText" placeholder=""/>
+                                <a>
+                                    <div className='nav-item nav-link'>   
+                                        <div className="objectCardMini add-container">
+                                            <div onClick={() => this.insertTextAssets(this.refs.newNoteTitle.value, this.refs.newNoteText.value)} className="textCardMiniImage">
+                                                <img src={'/images/addIcon.png'} className="stretch-image"/>
+                                            </div>
+                                            <div className="col-xs-5">
+                                                <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
+                                            </div>
+                                            <div className="col-xs-10">
+                                                <input className="full-width" type="text" ref="newNoteText" placeholder=""/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      

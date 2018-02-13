@@ -335,6 +335,12 @@ body{
     overflow-y:auto;
 }
 
+
+.scrolling-container-50{
+    height:50vh;
+    overflow-y:auto;
+}
+
 .scrolling-container-smaller{
     overflow-y:auto;
     overflow-x:hidden;
@@ -487,6 +493,7 @@ center{
 }
 
 .blue-button{
+    color:#eee;
     background-color:#1CA5B8;
 }
 
@@ -513,7 +520,42 @@ center{
     
 }
 
+.add-friend-box{
+    height:200px;
+}
 
+
+.userCardMini{
+    background-color: rgba(255, 255, 255, 0.801);
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    padding:5px;
+    overflow:hidden;
+}
+
+.userCardMiniImage{
+    float:left;
+    width:60px;
+    height:60px;
+    overflow: hidden;    
+}
+
+.userCardMiniInfo{
+    float:left;
+    margin:0px;
+    margin-top:20px;
+}
+
+.speechBubble{
+    min-width:80px;
+    min-height:80px;
+    border-radius: 20px;
+    float:left;
+}
+a.menu_links{
+    cursor:pointer;
+}
 @media only screen and (max-width: 800px) {
     .min-width-400{
         min-width:400px;
