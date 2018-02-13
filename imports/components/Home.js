@@ -83,7 +83,7 @@ export default class Home extends React.Component {
         for (var i = 0; i < this.campaigns.length; i++)
         {
             cards.push(
-                <CampaignCardHalf key={i} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.campaigns} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+                <CampaignCardHalf key={i} campaignImageURL={this.campaigns[i].campaignImageURL} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.campaigns} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
             );
         }
         return <div>{cards}</div>;
