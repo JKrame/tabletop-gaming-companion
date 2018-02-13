@@ -376,7 +376,7 @@ export default class CharacterForm extends React.Component{
                                         <div className="spacer col-sm-12"/>
 
                         <div className="col-sm-12">
-                            <button className="full-width submit-button">SUBMIT CHANGES</button>
+                            <button className="full-width submit-button blue-button">SUBMIT CHANGES</button>
                         </div>
                     </form>
                 </div>

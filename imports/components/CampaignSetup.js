@@ -190,11 +190,33 @@ export default class CampaignSetup extends React.Component{
                                 </NavLink>
                             </div>
 
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+
+                            <div className="col-sm-12">
+                                <button className="full-width submit-button blue-button">SAVE CHANGES</button>
+                            </div>                        <div className="col-sm-12">
+                                <button className="full-width submit-button">DELETE CAMPAIGN</button>
+                            </div>  
+
 
                         </div> 
 
                         
                         <div className="col-lg-4">
+
+
+                            <div className="col-sm-12">
+                                <button className="full-width submit-button blue-button">ENTER CAMPAIGN</button>
+                            </div>
+                            
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            
+
+
                             <h3>Campaign Image</h3>
                             <hr/>
                             <img src= '/images/photoMissing.png' className="full-width"/>
