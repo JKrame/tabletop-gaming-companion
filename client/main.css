@@ -485,6 +485,10 @@ center{
     top:0;
 }
 
+.blue-button{
+    background-color:#1CA5B8;
+}
+
 
 @media only screen and (max-width: 800px) {
     .min-width-400{
