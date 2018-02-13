@@ -24,6 +24,12 @@ export default class CampaignScreen extends React.Component{
         }
         return <div>{cards}</div>;
     }
+
+    toggleButton_Click(event){
+        var clicked = event.target;
+        clicked.backgroundColor = red;
+    }
+
     render() {
         return(
             <div className="page-wrapper">
@@ -32,14 +38,18 @@ export default class CampaignScreen extends React.Component{
 
                             <div className="sub-content-top">
                                 <div className="col-md-3 col-xs-12 content-container-left">
+                                        <div className="spacer col-sm-12"/>
+
                                         <h3>Initiative</h3>
                                         <hr/>
                                         <div className="scrolling-container-content-top">
                                             {this.renderCharacterCard()}
                                         </div>
 
-                                        <div className=" col-md-12 bottom-button">
-                                            <p className="button-text"><strong>END TURN</strong></p>
+                         
+                                        
+                                        <div className="col-sm-12">
+                                            <button className="full-width submit-button ">END TURN</button>
                                         </div>
                                 </div>
 
@@ -48,6 +58,7 @@ export default class CampaignScreen extends React.Component{
                                 </div>
 
                                 <div className="col-md-3 col-xs-12 content-container-right">
+                                    <div className="spacer col-sm-12"/>
                                     <h3>Characters</h3>
                                     <hr/>
                                     <div className="scrolling-container">
@@ -125,15 +136,90 @@ export default class CampaignScreen extends React.Component{
 
 
                                         <div className="col-md-2  col-xs-12 ">
-                                            <div className="bottom-button bottom-align">
-                                                <p className="button-text"><strong>ROLL</strong></p>
+                                            <div className="col-sm-12">
+                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}}>ROLL</button>
                                             </div>
                                         </div>
                                     
                                     </div>
 
                                     <div className="col-md-3 col-xs-12 content-container-right">
+                                        <div className="spacer col-sm-12"/>
+                                        <h3>Spell Slots</h3>
+                                        <hr/>
+                                        <div className="spell-slots scrolling-container" >
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 1</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
 
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 2</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 3</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                    
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 4</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 5</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 6</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 7</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                            
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 8</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 9</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                         </div>
