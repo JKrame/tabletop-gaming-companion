@@ -3,11 +3,55 @@ import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 import ToggleButton from 'react-toggle-button'
 
-import { Characters } from '../api/character';
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
 
+var characters;
+var charactersArray;
+
 export default class CampaignScreen extends React.Component{
+
+    componentWillMount(){
+        var id = this.props.match.params._id
+        var UID = Meteor.userId();
+        this.charactersCampaignScreenTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('characters');
+            console.log(sub.ready());
+            if(sub.ready())
+            {
+                var campaignID = id.toString();
+                console.log(campaignID);
+                console.log(UID);
+                //this.charactersArray = Characters.find({campaignID: campaignID}).fetch();
+                this.charactersArray = Characters.find({UID: UID}).fetch();
+                if(charactersArray != undefined)
+                {
+                    this.characters = charactersArray;
+                    display = true;
+                    console.log(display);
+                }              
+            }
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount(){
+        this.charactersCampaignScreenTracker.stop();
+    }
+
+    renderRightSideCharacterForm(){
+        if(this.characters == undefined)
+        {
+            console.log("calling nothing");
+            return;
+        }
+        else
+        {
+            console.log("calling render character card");
+            return this.renderCharacterCard();
+        }
+    }
+
     renderCharacterCard() {
         //console.log(Meteor.userId());
         //console.log(Characters._collection._docs._map);
@@ -17,14 +61,24 @@ export default class CampaignScreen extends React.Component{
         //console.log(myCharacters);
 
         var cards = [];
-        var numcharacters = 5;
+        var numcharacters = this.characters.length;
+        console.log(numcharacters);
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCard key={i}/>);
+            cards.push(
+                <CharacterCard key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+            );
         }
         return <div>{cards}</div>;
     }
+
+    toggleButton_Click(event){
+        var clicked = event.target;
+        clicked.backgroundColor = red;
+    }
+
     render() {
+        Meteor.subscribe("characters");
         return(
             <div className="page-wrapper">
                 <div className="col-md-12">
@@ -32,14 +86,18 @@ export default class CampaignScreen extends React.Component{
 
                             <div className="sub-content-top">
                                 <div className="col-md-3 col-xs-12 content-container-left">
+                                        <div className="spacer col-sm-12"/>
+
                                         <h3>Initiative</h3>
                                         <hr/>
                                         <div className="scrolling-container-content-top">
-                                            {this.renderCharacterCard()}
+                                            {this.renderRightSideCharacterForm()}
                                         </div>
 
-                                        <div className=" col-md-12 bottom-button">
-                                            <p className="button-text"><strong>END TURN</strong></p>
+                         
+                                        
+                                        <div className="col-sm-12">
+                                            <button className="full-width submit-button ">END TURN</button>
                                         </div>
                                 </div>
 
@@ -48,10 +106,11 @@ export default class CampaignScreen extends React.Component{
                                 </div>
 
                                 <div className="col-md-3 col-xs-12 content-container-right">
+                                    <div className="spacer col-sm-12"/>
                                     <h3>Characters</h3>
                                     <hr/>
                                     <div className="scrolling-container">
-                                        {this.renderCharacterCard()}
+                                        {this.renderRightSideCharacterForm()}
                                     </div>
                                 </div>
                             </div>
@@ -125,15 +184,90 @@ export default class CampaignScreen extends React.Component{
 
 
                                         <div className="col-md-2  col-xs-12 ">
-                                            <div className="bottom-button bottom-align">
-                                                <p className="button-text"><strong>ROLL</strong></p>
+                                            <div className="col-sm-12">
+                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}}>ROLL</button>
                                             </div>
                                         </div>
                                     
                                     </div>
 
                                     <div className="col-md-3 col-xs-12 content-container-right">
+                                        <div className="spacer col-sm-12"/>
+                                        <h3>Spell Slots</h3>
+                                        <hr/>
+                                        <div className="spell-slots scrolling-container" >
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 1</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
 
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 2</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 3</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                    
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 4</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 5</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 6</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 7</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                            
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 8</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                
+                                            </div>
+                                            <div className="spell-slot-panel ">
+                                                <h5><strong>Level 9</strong></h5>
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                <div className="toggle-box" />
+                                                
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                         </div>

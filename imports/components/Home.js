@@ -25,7 +25,6 @@ export default class Home extends React.Component {
                 if(charactersArray != undefined)
                 {
                     this.characters = charactersArray;
-                    display = true;
                 }
             }
             if(sub2.ready())
@@ -34,7 +33,6 @@ export default class Home extends React.Component {
                 if(campaignsArray != undefined)
                 {
                     this.campaigns = campaignsArray;
-                    display = true;
                 }
             }
             this.forceUpdate();
@@ -92,10 +90,8 @@ export default class Home extends React.Component {
     }
 
     loadCharacter(cid, somehistory){
-        console.log("loadcharacter");
         if (!cid)
         {
-            console.log("loadcharacter blank id");
             cid = Random.id();
             Meteor.call('characters.insert', cid);
         }
@@ -111,28 +107,7 @@ export default class Home extends React.Component {
         if (!campaignId)
         {
             campaignId = Random.id();
-            name = null;
-            description = null;
-            meetTime = null;
-            meetDate = null;
-            players = null;
-            gm = null;
-            notes = [];
-            turnOrder = null;
-            URLs = null;
-
-            Meteor.call("campaigns.insert", 
-                campaignId,
-                name,
-                description,
-                meetTime,
-                meetDate,
-                players,
-                gm,
-                notes,
-                turnOrder,
-                URLs
-            );
+            Meteor.call("campaigns.insert", campaignId);
         }
 
         if (!somehistory){

@@ -50,6 +50,7 @@ export default class CampaignSetup extends React.Component{
         }
         return <div>{cards}</div>;
     }
+    
     loadCharacter(characterID){
         if (!characterID){
             console.log("randomizing");
@@ -59,6 +60,7 @@ export default class CampaignSetup extends React.Component{
         console.log(characterID);
         this.props.history.push('/character/edit/' + characterID);
     }
+
     renderPlayers() {
         var cards = [];
         var numcharacters = 4;
@@ -110,7 +112,32 @@ export default class CampaignSetup extends React.Component{
         return <div>{cards}</div>;
     }
 
+    deleteCampaign(){
+        if(confirm('Delete this campaign?')) {
+            Meteor.call('campaigns.remove', this.id);
+            window.location.replace("/home");
+        }
+    }
+
+    saveChanges(){
+        name = this.refs.campaignTitle.value;
+        description = this.refs.campaignDescription.value;
+        campaignImageURL = this.refs.campaignImageURL.value;
+
+        console.log("Update: " + name + description + campaignImageURL);
+        Campaigns.update({
+            _id : this.id},{
+                $set:{
+                    name, 
+                    description, 
+                    campaignImageURL}});
+    }
+
     render() {
+        if (this.campaign == null){
+            return (<div></div>);
+        }
+
         return(
             <div className="page-wrapper">
                 <div className="col-lg-8 col-lg-offset-2">
@@ -119,7 +146,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>Campaign Title</h3>
                                 <hr/>
                                 <div className="scrolling-container">
-                                    <input type="text" className="fill-width"/>
+                                    <input type="text" ref="campaignTitle" defaultValue={this.campaign.name != null ? this.campaign.name : ""} className="fill-width"/>
                                 </div>
 
                                 <div className="spacer col-sm-12"/>                      
@@ -130,7 +157,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>Campaign Description</h3>
                             <hr/>
                             <div className="scrolling-container">
-                                <input type="text" style={{"height":"150px"}} className="fill-width"/>
+                                <input type="text" ref="campaignDescription" defaultValue={this.campaign.description != null ? this.campaign.description : ""} style={{"height":"150px"}} className="fill-width"/>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
@@ -204,9 +231,10 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
 
                             <div className="col-sm-12">
-                                <button className="full-width submit-button blue-button">SAVE CHANGES</button>
-                            </div>                        <div className="col-sm-12">
-                                <button className="full-width submit-button">DELETE CAMPAIGN</button>
+                                <button onClick={this.saveChanges.bind(this)} className="full-width submit-button blue-button">SAVE CHANGES</button>
+                            </div>                        
+                            <div className="col-sm-12">
+                                <button onClick={this.deleteCampaign} className="full-width submit-button">DELETE CAMPAIGN</button>
                             </div>  
 
 
@@ -227,12 +255,12 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>Campaign Image</h3>
                             <hr/>
-                            <img src= '/images/photoMissing.png' className="full-width"/>
+                            <img src={this.campaign != null && this.campaign.campaignImageURL != null && this.campaign.campaignImageURL != "" ? this.campaign.campaignImageURL : '/images/photoMissing.png'} className="full-width"/>
                             <div className="spacer col-sm-12"/>
 
                             <div className="col-sm-12">
                                 <p className="p-override">IMAGE URL</p>
-                                <input className="full-width" type="text" ref="characterImageURL" defaultValue= ""/>
+                                <input className="full-width" type="text" ref="campaignImageURL" defaultValue={this.campaign.campaignImageURL != null ? this.campaign.campaignImageURL : ""}/>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
