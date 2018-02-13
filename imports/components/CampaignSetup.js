@@ -102,6 +102,13 @@ export default class CampaignSetup extends React.Component{
         return <div>{cards}</div>;
     }
 
+    deleteCampaign(id){
+        if(confirm('Delete this campaign?')) {
+            Meteor.call('campaigns.remove', id);
+            window.location.replace("/home");
+        }
+    }
+
     render() {
         return(
             <div className="page-wrapper">
@@ -198,7 +205,7 @@ export default class CampaignSetup extends React.Component{
                             <div className="col-sm-12">
                                 <button className="full-width submit-button blue-button">SAVE CHANGES</button>
                             </div>                        <div className="col-sm-12">
-                                <button className="full-width submit-button">DELETE CAMPAIGN</button>
+                                <button onClick={() => this.deleteCampaign(this.id)} className="full-width submit-button">DELETE CAMPAIGN</button>
                             </div>  
 
 
