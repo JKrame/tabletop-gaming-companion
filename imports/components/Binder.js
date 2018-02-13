@@ -109,28 +109,8 @@ export default class Binder extends React.Component{
         if (!campaignId)
         {
             campaignId = Random.id();
-            name = null;
-            description = null;
-            meetTime = null;
-            meetDate = null;
-            players = null;
-            gm = null;
-            notes = [];
-            turnOrder = null;
-            URLs = null;
 
-            Meteor.call("campaigns.insert", 
-                campaignId,
-                name,
-                description,
-                meetTime,
-                meetDate,
-                players,
-                gm,
-                notes,
-                turnOrder,
-                URLs
-            );
+            Meteor.call("campaigns.insert",  campaignId);
         }
 
         if (!somehistory){
