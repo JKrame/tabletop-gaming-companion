@@ -103,10 +103,9 @@ export default class CampaignSetup extends React.Component{
 
     renderImageAssets() {
         var cards = [];
-        var numcharacters = 8;
-        for (var i = 0; i < numcharacters; i++)
+        for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i}/>);
+            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]}/>);
         }
         return <div>{cards}</div>;
     }
@@ -130,6 +129,13 @@ export default class CampaignSetup extends React.Component{
                     name, 
                     description, 
                     campaignImageURL}});
+    }
+
+    addImageAsset(){
+        Meteor.call("campaignImage.push", 
+            this.id,
+            this.refs.newImageURL.value,    
+        );
     }
 
     render() {
@@ -219,11 +225,12 @@ export default class CampaignSetup extends React.Component{
                             <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
-                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
+                                <div className='nav-item nav-link'>   
                                     <div className="objectCardMini grid-item add-container">
-                                        <img src={'/images/addIcon.png'} className="stretch-image"/>
+                                        <img onClick={this.addImageAsset.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
+                                        <input className="full-width" type="text" ref="newImageURL"/>
                                     </div>
-                                </NavLink>
+                                </div>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
