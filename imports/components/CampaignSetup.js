@@ -135,6 +135,8 @@ export default class CampaignSetup extends React.Component{
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-8">
+                            <div className="spacer col-sm-12"/>
+                            
                             <h3>Campaign Title</h3>
                                 <hr/>
                                 <div className="scrolling-container">
@@ -225,9 +227,13 @@ export default class CampaignSetup extends React.Component{
                             <div className="col-sm-12">
                                 <button onClick={this.saveChanges.bind(this)} className="full-width submit-button blue-button">SAVE CHANGES</button>
                             </div>                        
+                            <div className="spacer col-sm-12"/>
+                            
                             <div className="col-sm-12">
                                 <button onClick={this.deleteCampaign} className="full-width submit-button">DELETE CAMPAIGN</button>
                             </div>  
+                            <div className="spacer col-sm-12"/>
+                            
 
 
                         </div> 
@@ -235,6 +241,11 @@ export default class CampaignSetup extends React.Component{
                         
                         <div className="col-lg-4">
 
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>    
+                            <div className="spacer col-sm-12"/>
+                                              
 
                             <div className="col-sm-12">
                                 <button className="full-width submit-button blue-button">ENTER CAMPAIGN</button>
@@ -242,7 +253,8 @@ export default class CampaignSetup extends React.Component{
                             
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
-                            
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
 
 
                             <h3>Campaign Image</h3>
