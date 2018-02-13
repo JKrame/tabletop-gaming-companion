@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 export default class CampaignCardMini extends React.Component{
     render() {
         return (
-            <NavLink to='#' onClick={() => this.props.func(this.props.id, this.props.somehistory)} className='nav-item nav-link'>   
+            <NavLink to='#' onClick={() => this.props.func(this.props.id, this.props.somehistory, this.props.campaigns)} className='nav-item nav-link'>   
                 <div className="objectCardMini highlight-container">
                     <div className="objectCardMiniImage">
                         <img src={'/images/placeholder.jpg'} className="stretch-image"/>

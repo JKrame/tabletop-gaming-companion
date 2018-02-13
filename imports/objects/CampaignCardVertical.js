@@ -5,7 +5,7 @@ export default class CampaignCardVertical extends React.Component {
 
     render() {
         return (
-            <NavLink to='#' onClick={() => this.props.func(this.props.id, this.props.somehistory)} className='nav-item nav-link'>   
+            <NavLink to='#' onClick={() => this.props.func(this.props.id, this.props.somehistory, this.props.campaigns)} className='nav-item nav-link'>   
                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
                     <div className="vertical-card-contents">
                         <div className="vertical-image">

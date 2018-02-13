@@ -83,7 +83,7 @@ export default class Home extends React.Component {
         for (var i = 0; i < this.campaigns.length; i++)
         {
             cards.push(
-                <CampaignCardHalf key={i} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+                <CampaignCardHalf key={i} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.campaigns} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
             );
         }
         return <div>{cards}</div>;
@@ -103,7 +103,7 @@ export default class Home extends React.Component {
         somehistory.push('/character/edit/' + cid);
     }
 
-    loadCampaign(campaignId, somehistory){
+    loadCampaign(campaignId, somehistory, campaigns){
         if (!campaignId)
         {
             campaignId = Random.id();
@@ -135,7 +135,21 @@ export default class Home extends React.Component {
             somehistory = this.props.history;
         }
 
-        somehistory.push('/campaign/edit/' + campaignId);
+        for(var i = 0; i < campaigns.length; i++)
+        {
+            if(campaigns[i]._id == campaignId)
+            {
+                if(campaigns[i].gm == Meteor.userId())
+                {
+                    somehistory.push('/campaign/edit/' + campaignId); //first send them to the editing page
+                }
+                else
+                {
+                    somehistory.push('/campaigns/' + campaignId); //if they dont own it, send them to game screen
+                }
+                break;
+            }
+        }
     }
 
     render() {
