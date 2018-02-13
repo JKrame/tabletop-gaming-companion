@@ -40,6 +40,9 @@ export default class Signup extends React.Component{
                         <div className="col-sm-12" >
                             <img src='images/primoLogo.png' className="col-sm-6 col-sm-offset-3" style={{"marginBottom":"20px"}}/>
                         </div>
+
+                        {this.state.error ? <p>{this.state.error}</p> : undefined}
+                        
                         <form className="form-signin col-sm-12" onSubmit={this.onSubmit.bind(this)} noValidate>
                             <label htmlFor="inputEmail" className="sr-only">Email address</label>
                             <input type="email" ref="email" id="inputEmail" className="form-control margin-5" placeholder="Email address" required autoFocus style={{"width":"100%", "marginLeft":"0"}}/>
