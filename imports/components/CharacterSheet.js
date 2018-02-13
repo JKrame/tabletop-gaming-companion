@@ -8,7 +8,6 @@ export default class CharacterSheet extends React.Component{
     
     componentWillMount(){
         id = this.props.match.params._id;
-
         this.characterSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
             if(sub.ready())

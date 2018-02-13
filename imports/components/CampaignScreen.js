@@ -3,11 +3,55 @@ import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 import ToggleButton from 'react-toggle-button'
 
-import { Characters } from '../api/character';
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
 
+var characters;
+var charactersArray;
+
 export default class CampaignScreen extends React.Component{
+
+    componentWillMount(){
+        var id = this.props.match.params._id
+        var UID = Meteor.userId();
+        this.charactersCampaignScreenTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('characters');
+            console.log(sub.ready());
+            if(sub.ready())
+            {
+                var campaignID = id.toString();
+                console.log(campaignID);
+                console.log(UID);
+                //this.charactersArray = Characters.find({campaignID: campaignID}).fetch();
+                this.charactersArray = Characters.find({UID: UID}).fetch();
+                if(charactersArray != undefined)
+                {
+                    this.characters = charactersArray;
+                    display = true;
+                    console.log(display);
+                }              
+            }
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount(){
+        this.charactersCampaignScreenTracker.stop();
+    }
+
+    renderRightSideCharacterForm(){
+        if(this.characters == undefined)
+        {
+            console.log("calling nothing");
+            return;
+        }
+        else
+        {
+            console.log("calling render character card");
+            return this.renderCharacterCard();
+        }
+    }
+
     renderCharacterCard() {
         //console.log(Meteor.userId());
         //console.log(Characters._collection._docs._map);
@@ -17,14 +61,18 @@ export default class CampaignScreen extends React.Component{
         //console.log(myCharacters);
 
         var cards = [];
-        var numcharacters = 5;
+        var numcharacters = this.characters.length;
+        console.log(numcharacters);
         for (var i = 0; i < numcharacters; i++)
         {
-            cards.push(<CharacterCard key={i}/>);
+            cards.push(
+                <CharacterCard key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+            );
         }
         return <div>{cards}</div>;
     }
     render() {
+        Meteor.subscribe("characters");
         return(
             <div className="page-wrapper">
                 <div className="col-md-12">
@@ -35,7 +83,7 @@ export default class CampaignScreen extends React.Component{
                                         <h3>Initiative</h3>
                                         <hr/>
                                         <div className="scrolling-container-content-top">
-                                            {this.renderCharacterCard()}
+                                            {this.renderRightSideCharacterForm()}
                                         </div>
 
                                         <div className=" col-md-12 bottom-button">
@@ -51,7 +99,7 @@ export default class CampaignScreen extends React.Component{
                                     <h3>Characters</h3>
                                     <hr/>
                                     <div className="scrolling-container">
-                                        {this.renderCharacterCard()}
+                                        {this.renderRightSideCharacterForm()}
                                     </div>
                                 </div>
                             </div>

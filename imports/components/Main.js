@@ -58,7 +58,7 @@ export class Main extends React.Component{
                         <Route exact path='/adventureboard' component={AdventureBoard}/>
                         <Route exact path='/binder' component={Binder}/>
                         <Route exact path='/campaigns' component={CampaignsPage}/>
-                        <Route exact path='/campaigns/*' component={CampaignScreen}/>
+                        <Route exact path='/campaigns/:_id' component={CampaignScreen}/>
                         <Route exact path='/campaign/edit/:_id' component={CampaignSetup}/>
                         <Route exact path='/characters' component={CharactersPage}/>
                         <Route exact path='/character/edit/:_id' component={CharacterSheet}/>

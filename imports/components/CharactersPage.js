@@ -16,11 +16,8 @@ var SortParameters = Object.freeze({
 export default class CharactersPage extends React.Component{
 
     componentWillMount(){
-        console.log("cs > componentDidMount");
         this.charactersTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
-            console.log("cs > componentDidMount > tracker");
-            console.log(sub.ready());
             if(sub.ready())
             {
                 var UID = Meteor.userId();
@@ -29,9 +26,7 @@ export default class CharactersPage extends React.Component{
                 {
                     this.characters = charactersArray;
                     display = true;
-                    console.log("characters not undefined anymroe");
-                }
-                console.log("componentDidMount cs");                
+                }         
             }
             this.forceUpdate();
         });
@@ -44,13 +39,11 @@ export default class CharactersPage extends React.Component{
     renderForm(){
         if(this.characters == undefined)
         {
-            console.log("calling nothing");
             return;
         }
         else
         {
             sort = SortParameters.DATE_CREATED;
-            console.log("calling renderCharacterCard");
             return this.renderCharacterCard(sort);
         }
     }
@@ -116,7 +109,6 @@ export default class CharactersPage extends React.Component{
     }
 
     loadCharacter(cid, somehistory){
-        console.log("loadcharacter");
         somehistory.push('/character/edit/' + cid);
     }
 
