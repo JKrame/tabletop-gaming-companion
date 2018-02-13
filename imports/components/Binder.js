@@ -6,36 +6,138 @@ import {Random} from 'meteor/random';
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
 
+var characters;
+var charactersArray;
+
+var campaigns;
+var campaignsArray;
+
 export default class Binder extends React.Component{
+
+    componentWillMount(){
+        this.binderTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('characters');
+            const sub2 = Meteor.subscribe('campaigns');
+            var UID = Meteor.userId();
+            if(sub.ready())
+            {
+                charactersArray = Characters.find({UID: UID}).fetch();
+                if(charactersArray != undefined)
+                {
+                    this.characters = charactersArray;
+                    display = true;
+                }
+            }
+            if(sub2.ready())
+            {
+                campaignsArray = Campaigns.find({gm: UID}).fetch();
+                if(campaignsArray != undefined)
+                {
+                    this.campaigns = campaignsArray;
+                    display = true;
+                }
+            }
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount(){
+        this.binderTracker.stop();
+    }
+
+    renderCharacterForm(){
+        if(this.characters == undefined)
+        {
+            return;
+        }
+        else
+        {
+            return this.renderCharacterCard();
+        }
+    }
+
+    renderCampaignForm(){
+        if(this.campaigns == undefined)
+        {
+            return;
+        }
+        else
+        {
+            return this.renderCampaignCard();
+        }
+    }
+
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
-        var characters = Characters.find({UID: UID}).fetch();
-        var numcharacters = characters.length;
-        for (var i = 0; i < numcharacters; i++)
-        {
+        for (var i = 0; i < this.characters.length; i++)
+        {   
             cards.push(
-                <NavLink key={i} to='#' onClick={() => this.loadCharacter(characters[i]._id)} className='nav-item nav-link'>
-                    <CharacterCard key={i} characterName={characters[i].characterName} characterClass={characters[i].characterClass} level={characters[i].level} race={characters[i].race}/>
-                </NavLink>
+                <CharacterCard key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
             );
         }
         return <div>{cards}</div>;
     }
+
     renderCampaignCard() {
         var cards = [];
-        var numcampaigns = 2;
-        for (var i = 0; i < numcampaigns; i++)
+        var UID = Meteor.userId();
+        for (var i = 0; i < this.campaigns.length; i++)
         {
-            cards.push(<CampaignCard key={i}/>);
+            cards.push(
+                <CampaignCard key={i} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+            );
         }
         return <div>{cards}</div>;
     }
-    loadCharacter(characterID){
-        this.props.history.push('/character/edit/' + characterID || "");
+
+    loadCharacter(cid, somehistory){
+        if (!cid)
+        {
+            cid = Random.id();
+            Meteor.call('characters.insert', cid);
+        }
+
+        if (!somehistory){
+            somehistory = this.props.history;
+        }
+
+        somehistory.push('/character/edit/' + cid);
     }
-    loadCampaign(){
-        this.props.history.push('/campaign/edit/');
+
+    loadCampaign(campaignId, somehistory){
+        if (!campaignId)
+        {
+            campaignId = Random.id();
+            name = null;
+            description = null;
+            meetTime = null;
+            meetDate = null;
+            players = null;
+            gm = null;
+            notes = [];
+            turnOrder = null;
+            URLs = null;
+
+            Meteor.call("campaigns.insert", 
+                campaignId,
+                name,
+                description,
+                meetTime,
+                meetDate,
+                players,
+                gm,
+                notes,
+                turnOrder,
+                URLs
+            );
+        }
+
+        if (!somehistory){
+            somehistory = this.props.history;
+        }
+
+        somehistory.push('/campaigns/' + campaignId);
     }
 
     render() {
@@ -49,7 +151,7 @@ export default class Binder extends React.Component{
                             </NavLink>
                             <hr/>
                             <div className="scrolling-container">
-                                {this.renderCharacterCard()}
+                                {this.renderCharacterForm()}
 
                                 <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container">
@@ -72,7 +174,7 @@ export default class Binder extends React.Component{
                             <hr className="container-fluid"/>
 
                             <div className="scrolling-container">
-                                {this.renderCampaignCard()}
+                                {this.renderCampaignForm()}
 
                                 <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">

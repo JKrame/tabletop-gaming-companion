@@ -1,5 +1,5 @@
 Meteor.publish('characters', function(){
-    return Characters.find({UID: Meteor.userId()});
+    return Characters.find({});
 });
 
 Meteor.publish('campaigns', function(){
