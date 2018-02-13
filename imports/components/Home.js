@@ -210,6 +210,8 @@ export default class Home extends React.Component {
                     <h3>Meeting Spots >></h3>
                     <hr/>
                     <br/>
+                    <iframe
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCqtGWum15tt9hxNTKPbpv98Sc184aWwCQ&q=Space+Needle,Seattle+WA" allowfullscreen/>
                     <div className="item"></div>
                 </div>
             </div>

@@ -22,7 +22,6 @@ export default class Settings extends React.Component{
                             <div className="col-sm-12">
                                 <button className="full-width submit-button blue-button">SUBMIT CHANGES</button>
                             </div>
-
                     </div>
 
                     <div className="col-sm-8 split-page-right left-border container">
