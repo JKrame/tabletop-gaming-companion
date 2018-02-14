@@ -211,7 +211,7 @@ export default class Home extends React.Component {
                     <hr/>
                     <br/>
                     <iframe
-                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCqtGWum15tt9hxNTKPbpv98Sc184aWwCQ&q=Space+Needle,Seattle+WA" allowfullscreen/>
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCqtGWum15tt9hxNTKPbpv98Sc184aWwCQ&q=Space+Needle,Seattle+WA" style={{"height":"300px"}} className="fill-width"/>
                     <div className="item"></div>
                 </div>
             </div>
