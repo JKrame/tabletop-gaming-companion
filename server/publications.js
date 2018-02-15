@@ -5,3 +5,7 @@ Meteor.publish('characters', function(){
 Meteor.publish('campaigns', function(){
     return Campaigns.find({});
 });
+
+Meteor.publish('conversations', function(){
+    return Conversations.find({});
+})

@@ -6,23 +6,41 @@ import OtherBubble from '../objects/OtherSpeechBubble';
 
 export default class Mail extends React.Component{
 
+    componentWillMount(){
+        this.mailSheetTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('conversations');
+            if(sub.ready())
+            {
+                this.conversations = Conversations.find({userID : Meteor.userId()}).fetch();
+            }
+            this.forceUpdate();
+        });
+    }
+
     renderPlayers() {
-        var cards = [];
-        var numcharacters = 12;
-        for (var i = 0; i < numcharacters; i++)
-        {
-            cards.push(<UserCardMini key={i}/>);
+        if (!this.conversations){
+            return;
         }
+
+        var cards = [];
+
+        for (var i = 0; i < this.conversations.length; i++)
+        {
+            cards.push(<UserCardMini key={i} id={this.conversations[i].contactID} loadConversation={this.loadConversation}/>);
+        }
+
         return <div>{cards}</div>;
     }
 
     renderChat(){
-        var message = "this is a message";
+        messages = this.conversations
         for(var i = 0; i < numMsgs; i++)
         {
         }
     }
 
+    loadConversation(contactID){
+    }
 
   render() {
     return(
@@ -83,7 +101,7 @@ export default class Mail extends React.Component{
                                     <input type="text" style={{"height":"200px"}} className="full-width"/>
                                 </div>
                                 <div className="col-sm-3 negate-margins">
-                                        <button className="full-width blue-button" style={{"height":"50px", "margin-top":"150px"}}>SEND</button>
+                                        <button className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>
                                 </div>
                             </div>
 
