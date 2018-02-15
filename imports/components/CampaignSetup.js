@@ -4,6 +4,7 @@ import CharacterCardMini from '../objects/CharacterCardMini';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
+import UserCardMini from '../objects/UserCard';
 
 var name;
 var description;
@@ -21,11 +22,12 @@ export default class CampaignSetup extends React.Component{
         this.id = this.props.match.params._id;
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
+            const sub2 = Meteor.subscribe('users');
             if(sub.ready())
             {
-                this.campaign = Campaigns.findOne({_id : this.id});
-                this.forceUpdate();               
+                this.campaign = Campaigns.findOne({_id : this.id});               
             }
+            this.forceUpdate();
         });
     }
 
@@ -50,6 +52,17 @@ export default class CampaignSetup extends React.Component{
 
         this.props.history.push('/character/edit/' + characterID);
     }
+
+    renderContacts() {
+        var cards = [];
+        var numcharacters = 12;
+        for (var i = 0; i < numcharacters; i++)
+        {
+            cards.push(<UserCardMini key={i}/>);
+        }
+        return <div>{cards}</div>;
+    }
+
 
     renderPlayers() {
         var cards = [];
@@ -76,15 +89,23 @@ export default class CampaignSetup extends React.Component{
             _id = this.id,
             notes,    
         );
+        this.refs.newNoteTitle.value = "";
+        this.refs.newNoteText.value = "";
     }
 
-    addPlayer(userID, characterID) {
-        players = [userID, characterID]
+    addPlayer(username) {
+        // if(!Meteor.users.findOne({"emails.address" : username}))
+        // {
+        //     alert(username + " does not exist.");
+        //     return;
+        // }
 
         Meteor.call("campaignPlayer.push", 
             _id = this.id,
-            players,    
+            username,    
         );
+
+        this.refs.addplayer.value = "";
     }
     
     updateTextAssets(){
@@ -93,9 +114,9 @@ export default class CampaignSetup extends React.Component{
 
     renderImageAssets() {
         var cards = [];
-        for (var i = 0; i < this.campaign.URLs.length; i++)
+        for (var i = 0; i < this.campaign.URLs.length+1; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]}/>);
+            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id}/>);
         }
         return <div>{cards}</div>;
     }
@@ -121,10 +142,26 @@ export default class CampaignSetup extends React.Component{
     }
 
     addImageAsset(){
-        Meteor.call("campaignImage.push", 
-            this.id,
-            this.refs.newImageURL.value,    
-        );
+        newURL = this.refs.newImageURL.value;
+        urlExists = Campaigns.find({ URLs: { $elemMatch: { $eq: newURL}}}).fetch().length > 0;
+
+        if (urlExists){
+            alert("URL is already an asset.");
+        }
+        else{
+            Meteor.call("campaignImage.addToSet", 
+                this.id,
+                this.refs.newImageURL.value,    
+            );
+        }
+    }
+
+    addToAdventureBoard(){
+        Meteor.call('makeCampaignPublic', this.id);
+    }
+
+    removeFromAdventureBoard(){
+        Meteor.call('makeCampaignPrivate', this.id);
     }
 
     render() {
@@ -134,6 +171,39 @@ export default class CampaignSetup extends React.Component{
 
         return(
             <div className="page-wrapper">
+
+                <div className="add-image-popup">
+                    <h2>Enter the Image URL</h2>
+                    <input type="text" className="full-width"/>
+                    <div className="col-sm-12">
+                        <div className="right-align">
+                            <button className=" submit-button button">Cancel</button>
+                            <button className="submit-button blue-button button">Add Image</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="add-player-popup">
+                    <h2>Enter Player Username</h2>
+                    <input type="text" className="full-width"/>
+                    <div className="col-sm-12">
+                        <div className="right-align">
+                            <button className=" submit-button button">Cancel</button>
+                            <button className="submit-button blue-button button">Add Player</button>
+                        </div>
+                    </div>
+                    
+                    <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                    <h4>Or select from Contacts</h4>
+                    <div className="full-height">
+                        <div className="scrolling-container" style={{"height":"250px", "width":"340px"}}>
+                            {this.renderContacts()}
+                        </div>
+                    </div>
+
+                </div>
+
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-8">
@@ -153,7 +223,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>Campaign Description</h3>
                             <hr/>
                             <div className="scrolling-container">
-                                <input type="text" ref="campaignDescription" defaultValue={this.campaign.description != null ? this.campaign.description : ""} style={{"height":"150px"}} className="fill-width"/>
+                                <textarea rows={10} ref="campaignDescription" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
@@ -198,7 +268,8 @@ export default class CampaignSetup extends React.Component{
                                                 <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
                                             </div>
                                             <div className="col-xs-10">
-                                                <input className="full-width" type="text" ref="newNoteText" placeholder=""/>
+                                                <textarea rows={3} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -211,7 +282,7 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
 
                             <h3>Image Assets</h3>
-                            <hr/>
+                            <hr/> 
                             <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
@@ -234,7 +305,7 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
                             
                             <div className="col-sm-12">
-                                <button onClick={this.deleteCampaign} className="full-width submit-button">DELETE CAMPAIGN</button>
+                                <button onClick={this.deleteCampaign.bind(this)} className="full-width submit-button">DELETE CAMPAIGN</button>
                             </div>  
                             <div className="spacer col-sm-12"/>
                             
@@ -281,10 +352,9 @@ export default class CampaignSetup extends React.Component{
                             <div className="scrolling-container">
                                 {this.renderPlayers()}
                                 <div>
-                                    <input type="text" ref="addplayer" className="fill-width" placeholder=""/> 
-                                    <input type="text" ref="addcharacter" className="fill-width" placeholder=""/> 
+                                    <input type="text" ref="addplayer" className="fill-width" placeholder=""/>  
                                 </div>
-                                <div onClick={() => this.addPlayer(this.refs.addplayer.value, this.refs.addcharacter.value)} className='nav-item nav-link'> 
+                                <div onClick={() => this.addPlayer(this.refs.addplayer.value)} className='nav-item nav-link'> 
                                     <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
@@ -300,12 +370,12 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
                             <div className="col-sm-12">
-                                <button className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
+                                <button onClick={this.addToAdventureBoard.bind(this)} className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
                             </div>
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
                             <div className="col-sm-12">
-                                <button className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
+                                <button onClick={this.removeFromAdventureBoard.bind(this)} className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
                             </div>
                             
                         </div>

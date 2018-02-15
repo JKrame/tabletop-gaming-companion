@@ -97,11 +97,6 @@ export default class CharacterForm extends React.Component{
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
 
-                    <div onClick={() => {this.deleteCharacter(character._id)}}>
-                        <div className="col-sm-12">
-                            <button className="full-width submit-button">DELETE CHARACTER</button>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -112,10 +107,12 @@ export default class CharacterForm extends React.Component{
                                 <p className="p-override">NAME</p>
                                 <input className="full-width" type="text" ref="characterName" defaultValue={character.characterName != null ? character.characterName : undefined}/>
                             </div>
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>
 
                             <div className="col-sm-12">
                                 <p className="p-override">BACKSTORY</p>
-                                <input className="full-width" type="textarea" ref="characterBackstory" defaultValue={character.characterName != null ? character.characterName : undefined} style={{"height":200}}/>
+                                <textarea rows={10} className="full-width"  ref="characterBackstory" defaultValue={character.characterName != null ? character.characterName : undefined}/>
                             </div>
 
                                 <div className="spacer col-sm-12"/>
@@ -328,7 +325,7 @@ export default class CharacterForm extends React.Component{
                             <div className="half-spacer col-sm-12"/>
 
                             <div className="col-sm-12">
-                                <input className="full-width" type="textarea" ref="attackNotes" defaultValue={character.attackNotes != null ? character.attackNotes : ""} style={{"height":200}}/>
+                                <textarea rows={10} className="full-width"  ref="attackNotes" defaultValue={character.attackNotes != null ? character.attackNotes : ""}/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -339,7 +336,7 @@ export default class CharacterForm extends React.Component{
                             </div>
                             
                             <div className="col-sm-12">
-                                <input className="full-width" type="textarea" ref="proficiencies" defaultValue={character.proficiencies != null ? character.proficiencies : ""} style={{"height":200}}/>
+                                <textarea rows={10} className="full-width"  ref="proficiencies" defaultValue={character.proficiencies != null ? character.proficiencies : ""} />
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -350,7 +347,7 @@ export default class CharacterForm extends React.Component{
                             </div>
                             
                             <div className="col-sm-12">
-                                <input className="full-width" type="textarea" ref="equipmentNotes" defaultValue={character.equipmentNotes != null ? character.equipmentNotes : ""} style={{"height":200}}/>
+                                <textarea rows={10} className="full-width"  ref="equipmentNotes" defaultValue={character.equipmentNotes != null ? character.equipmentNotes : ""} />
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -361,13 +358,18 @@ export default class CharacterForm extends React.Component{
                             </div>
                             
                             <div className="col-sm-12">
-                                <input className="full-width" type="textarea" ref="notes" defaultValue={character.notes != null ? character.notes : ""} style={{"height":200}}/>
+                                <textarea rows={10} className="full-width"  ref="notes" defaultValue={character.notes != null ? character.notes : ""}  />
                             </div>
                                     
                             <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>
-
+                        
+                            <div onClick={() => {this.deleteCharacter(character._id)}}>
+                                <div className="col-sm-12">
+                                    <button className="full-width submit-button">DELETE CHARACTER</button>
+                                </div>
+                            </div>
                         </div>
                             
                                         <div className="spacer col-sm-12"/>
@@ -375,6 +377,7 @@ export default class CharacterForm extends React.Component{
                         <div className="col-sm-12">
                             <button className="full-width submit-button blue-button">SUBMIT CHANGES</button>
                         </div>
+
                     </form>
                 </div>
             </div>
