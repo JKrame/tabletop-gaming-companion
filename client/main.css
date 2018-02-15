@@ -622,8 +622,14 @@ a.menu_links{
 }
 
 .add-image-popup{
-    display:none;
+    display:visible;
     position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height: 25vh;
+    width:400px;
     z-index: 999;
     padding:30px;
     margin:5vw auto;
