@@ -230,7 +230,7 @@ export default class CampaignSetup extends React.Component{
 
                             <div className="col-sm-12">
                                 <button onClick={this.saveChanges.bind(this)} className="full-width submit-button blue-button">SAVE CHANGES</button>
-                            </div>                        
+                            </div>                       
                             <div className="spacer col-sm-12"/>
                             
                             <div className="col-sm-12">
