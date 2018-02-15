@@ -145,8 +145,6 @@ export default class CampaignSetup extends React.Component{
         newURL = this.refs.newImageURL.value;
         urlExists = Campaigns.find({ URLs: { $elemMatch: { $eq: newURL}}}).fetch().length > 0;
 
-        console.log(urlExists);
-
         if (urlExists){
             alert("URL is already an asset.");
         }
@@ -156,6 +154,14 @@ export default class CampaignSetup extends React.Component{
                 this.refs.newImageURL.value,    
             );
         }
+    }
+
+    addToAdventureBoard(){
+        Meteor.call('makeCampaignPublic', this.id);
+    }
+
+    removeFromAdventureBoard(){
+        Meteor.call('makeCampaignPrivate', this.id);
     }
 
     render() {
@@ -364,12 +370,12 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
                             <div className="col-sm-12">
-                                <button className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
+                                <button onClick={this.addToAdventureBoard.bind(this)} className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
                             </div>
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
                             <div className="col-sm-12">
-                                <button className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
+                                <button onClick={this.removeFromAdventureBoard.bind(this)} className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
                             </div>
                             
                         </div>
