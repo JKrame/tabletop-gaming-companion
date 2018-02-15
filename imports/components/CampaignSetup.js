@@ -305,7 +305,7 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
                             
                             <div className="col-sm-12">
-                                <button onClick={this.deleteCampaign} className="full-width submit-button">DELETE CAMPAIGN</button>
+                                <button onClick={this.deleteCampaign.bind(this)} className="full-width submit-button">DELETE CAMPAIGN</button>
                             </div>  
                             <div className="spacer col-sm-12"/>
                             
