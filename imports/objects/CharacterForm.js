@@ -26,7 +26,6 @@ export default class CharacterForm extends React.Component{
         featureName = null;
         featureDescription = null;
 
-        console.log("formSubmit");
         Meteor.call('characters.update',
             character._id,
             character.campaignID,
@@ -83,9 +82,6 @@ export default class CharacterForm extends React.Component{
     
     render() {
         character = this.props.character;
-
-        console.log("character form render character:");
-        console.log(character);
 
         return(
             <div className="col-xs-12">
