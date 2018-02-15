@@ -19,21 +19,13 @@ export default class CampaignSetup extends React.Component{
 
     componentWillMount(){
         this.id = this.props.match.params._id;
-        console.log("campaignWillMount");
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
-            console.log("campaignTracker");
-            console.log(sub.ready());
             if(sub.ready())
             {
                 this.campaign = Campaigns.findOne({_id : this.id});
-                console.log("campaignSubReady");
-                console.log(this.id);
-                console.log(this.campaign); 
                 this.forceUpdate();               
             }
-            console.log("end");
-            
         });
     }
 
@@ -53,11 +45,9 @@ export default class CampaignSetup extends React.Component{
     
     loadCharacter(characterID){
         if (!characterID){
-            console.log("randomizing");
             characterID = Random.id();
         }
 
-        console.log(characterID);
         this.props.history.push('/character/edit/' + characterID);
     }
 
@@ -122,7 +112,6 @@ export default class CampaignSetup extends React.Component{
         description = this.refs.campaignDescription.value;
         campaignImageURL = this.refs.campaignImageURL.value;
 
-        console.log("Update: " + name + description + campaignImageURL);
         Campaigns.update({
             _id : this.id},{
                 $set:{
