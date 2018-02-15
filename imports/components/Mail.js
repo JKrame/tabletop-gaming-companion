@@ -7,23 +7,41 @@ import ChatWindow from '../objects/ChatWindow';
 
 export default class Mail extends React.Component{
 
+    componentWillMount(){
+        this.mailSheetTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('conversations');
+            if(sub.ready())
+            {
+                this.conversations = Conversations.find({userID : Meteor.userId()}).fetch();
+            }
+            this.forceUpdate();
+        });
+    }
+
     renderPlayers() {
-        var cards = [];
-        var numcharacters = 12;
-        for (var i = 0; i < numcharacters; i++)
-        {
-            cards.push(<UserCardMini key={i}/>);
+        if (!this.conversations){
+            return;
         }
+
+        var cards = [];
+
+        for (var i = 0; i < this.conversations.length; i++)
+        {
+            cards.push(<UserCardMini key={i} id={this.conversations[i].contactID} loadConversation={this.loadConversation}/>);
+        }
+
         return <div>{cards}</div>;
     }
 
     renderChat(){
-        var message = "this is a message";
+        messages = this.conversations
         for(var i = 0; i < numMsgs; i++)
         {
         }
     }
 
+    loadConversation(contactID){
+    }
 
   render() {
     return(
