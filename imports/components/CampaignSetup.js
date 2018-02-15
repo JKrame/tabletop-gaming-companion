@@ -308,6 +308,17 @@ export default class CampaignSetup extends React.Component{
                                 </div>
 
                             </div>
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="col-sm-12">
+                                <button className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
+                            </div>
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="col-sm-12">
+                                <button className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
+                            </div>
+                            
                         </div>
 
                         

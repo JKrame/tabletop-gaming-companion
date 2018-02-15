@@ -5,6 +5,7 @@ import { Random } from 'meteor/random';
 //import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardMini';
 import CampaignCardHalf from '../objects/CampaignCardMini';
+import PlayerNearYou from '../objects/PlayerNearYou';
 
 var characters;
 var charactersArray;
@@ -144,7 +145,7 @@ export default class Home extends React.Component {
                         <NavLink to="Characters">
                             <h3>Characters >></h3>
                         </NavLink>
-                        <hr/>
+                    <hr className="hr-thicc"/>
                         <div className="page-content-scroller">
                             {this.renderCharacterForm()}
                             <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
@@ -167,7 +168,7 @@ export default class Home extends React.Component {
                         <NavLink to="Campaigns">
                             <h3>Campaign >></h3>
                         </NavLink>
-                        <hr/>
+                        <hr className="hr-thicc"/>
                         
                         <div className="page-content-scroller">
                             {this.renderCampaignForm()}
@@ -198,23 +199,40 @@ export default class Home extends React.Component {
                         </div>
                 </div>
                 <div className="col-md-6 ">
-                <div className="page-content-half">
-                    <h3>Players Nearby >></h3>
-                    <hr/>
-                    <br/>
-                    <div className="item"></div>
+                    <div className="page-content-half">
+                        <NavLink to="nearbyplayers">
+                            <h3>Players Nearby >></h3>
+                        </NavLink>
+                        <hr className="hr-thicc"/>
+                        <div className="scrolling-container negate-vertical-margins">
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>                    
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                            <PlayerNearYou/>
+                        </div>
                     </div>
                 </div>
+                    
                 <div className="col-md-6 ">
-                <div className="page-content-half">
-                    <h3>Meeting Spots >></h3>
-                    <hr/>
-                    <br/>
-                    <iframe
-                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCqtGWum15tt9hxNTKPbpv98Sc184aWwCQ&q=Space+Needle,Seattle+WA" style={{"height":"300px"}} className="fill-width"/>
-                    <div className="item"></div>
+                    <div className="page-content-half">
+                        <NavLink to="nearbyplayers">
+                            <h3>Meeting Spots >></h3>
+                        </NavLink>
+
+                        <hr className="hr-thicc"/>
+                        <iframe
+                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCqtGWum15tt9hxNTKPbpv98Sc184aWwCQ&q=Space+Needle,Seattle+WA" className="fill-width fill-height"
+                            />
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
         );
