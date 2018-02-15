@@ -13,6 +13,11 @@ export default class Header extends React.Component{
         Meteor.logout();
     }
 
+    ComponentWillMount(){
+
+    }
+
+
     render(){
         if(!!Meteor.userId())
         {
@@ -21,15 +26,14 @@ export default class Header extends React.Component{
                     <nav className="navbar-inner">
                         <div className="container-fluid">
                             <div className="navbar-header">
+                                <NavLink to='/home' className='navbar-brand' style={{"marginTop":"-10px"}}><img src='images/primoHorizontal.png'/></NavLink>
                                 <button className="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapsibleNavbarContent" aria-controls="collapsibleNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span className="icon-bar"></span>
                                     <span className="icon-bar"></span>
                                     <span className="icon-bar"></span>
                                 </button>
-        
-                                <NavLink to='/home' className='navbar-brand' style={{"marginTop":"-10px"}}><img src='images/primoHorizontal.png'/></NavLink>
-                              
-                            </div>                
+                            </div>     
+
                             <div className="collapse navbar-collapse pull-right" id="collapsibleNavbarContent" >
                                 <ul className="nav navbar-nav mr-auto">
                                     <li ><NavLink to="/home">Home</NavLink></li>

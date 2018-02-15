@@ -51,7 +51,7 @@ a{
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-    background-color: #606060;
+    background-color: #000000 !important;
 }
 
 a.hover{

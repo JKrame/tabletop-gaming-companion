@@ -299,15 +299,7 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
 
-                            <div className="col-sm-12">
-                                <button onClick={this.saveChanges.bind(this)} className="full-width submit-button blue-button">SAVE CHANGES</button>
-                            </div>                        
-                            <div className="spacer col-sm-12"/>
-                            
-                            <div className="col-sm-12">
-                                <button onClick={this.deleteCampaign} className="full-width submit-button">DELETE CAMPAIGN</button>
-                            </div>  
-                            <div className="spacer col-sm-12"/>
+
                             
 
 
@@ -316,20 +308,6 @@ export default class CampaignSetup extends React.Component{
                         
                         <div className="col-lg-4">
 
-                            <div className="spacer col-sm-12"/>                      
-                            <div className="spacer col-sm-12"/>
-                            <div className="spacer col-sm-12"/> 
-                            <div className="spacer col-sm-12"/>
-                                              
-
-                            <div className="col-sm-12">
-                                <NavLink to={'/campaigns/' + this.campaign._id} className='nav-item nav-link'><button className="full-width submit-button blue-button">ENTER CAMPAIGN</button></NavLink>
-                            </div>
-                            
-                            <div className="spacer col-sm-12"/>                      
-                            <div className="spacer col-sm-12"/>
-                            <div className="spacer col-sm-12"/>                      
-                            <div className="spacer col-sm-12"/>
 
 
                             <h3>Campaign Image</h3>
@@ -367,12 +345,35 @@ export default class CampaignSetup extends React.Component{
                                 </div>
 
                             </div>
+
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/> 
+                            <div className="spacer col-sm-12"/>
+                                              
+
+                            <div className="col-sm-12">
+                                <NavLink to={'/campaigns/' + this.campaign._id} className='nav-item nav-link'><button className="full-width submit-button blue-button">ENTER CAMPAIGN</button></NavLink>
+                            </div>
+                            
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="col-sm-12">
+                                <button onClick={this.saveChanges.bind(this)} className="full-width submit-button blue-button">SAVE CHANGES</button>
+                            </div>                        
+                            <div className="spacer col-sm-12"/>
+                            
+                            <div className="col-sm-12">
+                                <button onClick={this.deleteCampaign} className="full-width submit-button">DELETE CAMPAIGN</button>
+                            </div>  
+                            <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
                             <div className="col-sm-12">
                                 <button onClick={this.addToAdventureBoard.bind(this)} className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
                             </div>
-                            <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
                             <div className="col-sm-12">
                                 <button onClick={this.removeFromAdventureBoard.bind(this)} className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
