@@ -65,7 +65,7 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard key={i} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]}/>);
+            cards.push(<TextAssetcard key={i} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
         }
         return <div>{cards}</div>;
     }
