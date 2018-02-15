@@ -1,6 +1,47 @@
 import React from 'react'
 
+import { Geolocation } from 'meteor/mdg:geolocation';
+import { reverseGeocode } from 'meteor/jaymc:google-reverse-geocode';
+
 export default class Settings extends React.Component{
+    
+    constructor(init){
+        super(init);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange({target}){
+        if (target.checked){
+            this.setLocation.call()
+            console.log("checked")
+            //target.removeAttribute('checked');
+            
+        } else {
+            console.log("unchecked")
+            //target.setAttribute('checked', true);
+
+        }
+    }
+
+    setLocation() {
+        var latLng = new ReactiveVar();
+        Tracker.autorun(function(computation) {
+            latLng.set(Geolocation.latLng());
+            if (latLng.get()) {
+                console.log(latLng)
+                computation.stop();
+                var lat = latLng.curValue.lat;
+                var lng = latLng.curValue.lng;
+                reverseGeocode.getSecureLocation(lat, lng, function(location) {
+                    Meteor.users.update(Meteor.userId(), {
+                        $set: {"profile.location": reverseGeocode.getAddrStr()}
+                    });
+                });
+            }
+        })
+    }
+
+
   render() {
     return(
         <div className="col-xs-12">
@@ -33,8 +74,15 @@ export default class Settings extends React.Component{
                                 </div>
                             <div className="spacer col-sm-12"/>
                                 <div className="col-sm-12">
-                                    <p className="p-override">NAME</p>
-                                    <input className="full-width" type="text" ref="characterName" />
+                                    <p className="p-override">Location</p>
+                                    <input
+                                    id={this.id}
+                                    type="checkbox"
+                                    value="test"
+                                    ref="complete"
+                                    onChange={this.handleChange}
+                                    />
+                                    <label htmlFor={this.id}> Opt in</label>
                                 </div>                        
                             <div className="spacer col-sm-12"/>
                                 <div className="col-sm-12">

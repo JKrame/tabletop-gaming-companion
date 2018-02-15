@@ -2,7 +2,6 @@ import React from 'react'
 
 export default class ImageAssetCard extends React.Component{
     deleteImage(){
-        console.log("delete image");
         Meteor.call("campaignImage.pull", this.props._id, this.props.URL);
     }
 

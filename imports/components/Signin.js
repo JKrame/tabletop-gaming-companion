@@ -9,6 +9,11 @@ export default class Signin extends React.Component{
         };
     }
 
+    ComponentDidMount()
+    {
+        this.forceUpdate();
+    }
+
     onSubmit(e){
         e.preventDefault();
 

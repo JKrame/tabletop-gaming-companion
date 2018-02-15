@@ -16,19 +16,14 @@ export default class CampaignScreen extends React.Component{
         var UID = Meteor.userId();
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
-            console.log(sub.ready());
             if(sub.ready())
             {
                 var campaignID = id.toString();
-                console.log(campaignID);
-                console.log(UID);
-                //this.charactersArray = Characters.find({campaignID: campaignID}).fetch();
                 this.charactersArray = Characters.find({UID: UID}).fetch();
                 if(charactersArray != undefined)
                 {
                     this.characters = charactersArray;
                     display = true;
-                    console.log(display);
                 }              
             }
             this.forceUpdate();
@@ -62,7 +57,6 @@ export default class CampaignScreen extends React.Component{
 
         var cards = [];
         var numcharacters = this.characters.length;
-        console.log(numcharacters);
         for (var i = 0; i < numcharacters; i++)
         {
             cards.push(
