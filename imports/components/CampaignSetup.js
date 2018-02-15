@@ -16,6 +16,10 @@ var notes;
 var turnOrder;
 var URLs;
 
+var popupStyle = {
+    display: 'none'
+};
+
 export default class CampaignSetup extends React.Component{
 
     componentWillMount(){
@@ -114,10 +118,11 @@ export default class CampaignSetup extends React.Component{
 
     renderImageAssets() {
         var cards = [];
-        for (var i = 0; i < this.campaign.URLs.length+1; i++)
+        for (var i = 0; i < this.campaign.URLs.length; i++)
         {
             cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id}/>);
         }
+        //cards.push(<ImageAssetCard key={this.campaign.URLs.length + 1} popupStyle={this.popupStyle} onClick={this.makeVisibleAddImageAsset} URL={this.campaign.URLs[this.campaign.URLs.length + 1]} _id ={this.id}/>);
         return <div>{cards}</div>;
     }
 
@@ -132,7 +137,7 @@ export default class CampaignSetup extends React.Component{
         name = this.refs.campaignTitle.value;
         description = this.refs.campaignDescription.value;
         campaignImageURL = this.refs.campaignImageURL.value;
-
+        
         Campaigns.update({
             _id : this.id},{
                 $set:{
@@ -141,11 +146,40 @@ export default class CampaignSetup extends React.Component{
                     campaignImageURL}});
     }
 
+    makeVisibleAddImageAsset()
+    {   //ugh ive completely run out of ideas
+        this.popupStyle = {
+            display : 'visible'
+        };
+        this.render();
+        // this.setState(this.state);
+        // this.forceUpdate();
+        //forceUpdate();
+        // return (
+        //     <div className="add-image-popup">
+        //         <h2>Enter the Image URL</h2>
+        //         <input type="text" className="full-width"/>
+        //         <div className="col-sm-12">
+        //             <div className="right-align">
+        //                 <button className=" submit-button button">Cancel</button>
+        //                 <button className="submit-button blue-button button">Add Image</button>
+        //             </div>
+        //         </div>
+        //     </div>
+        // );
+        console.log("calling some bullshit");
+    }
+
     addImageAsset(){
         newURL = this.refs.newImageURL.value;
         urlExists = Campaigns.find({ URLs: { $elemMatch: { $eq: newURL}}}).fetch().length > 0;
 
         console.log(urlExists);
+
+        if(newURL == "")
+        {
+            return;
+        }
 
         if (urlExists){
             alert("URL is already an asset.");
@@ -156,6 +190,7 @@ export default class CampaignSetup extends React.Component{
                 this.refs.newImageURL.value,    
             );
         }
+        this.refs.newImageURL.value = "";
     }
 
     render() {
@@ -166,7 +201,7 @@ export default class CampaignSetup extends React.Component{
         return(
             <div className="page-wrapper">
 
-                <div className="add-image-popup">
+                <div className="add-image-popup" style={popupStyle}>
                     <h2>Enter the Image URL</h2>
                     <input type="text" className="full-width"/>
                     <div className="col-sm-12">
@@ -280,6 +315,11 @@ export default class CampaignSetup extends React.Component{
                             <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
+                                <div className="image-card" onClick={() => this.makeVisibleAddImageAsset()}>
+                                    <div className="image-asset">
+                                        <img src='/images/addIcon.png' className="image-asset-img" />
+                                    </div>
+                                </div>
                                 <div className='nav-item nav-link'>   
                                     <div className="objectCardMini grid-item add-container">
                                         <img onClick={this.addImageAsset.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
