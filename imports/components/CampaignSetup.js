@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 import CharacterCardMini from '../objects/CharacterCardMini';
+import CharacterCardMiniWithOwner from '../objects/CharacterCardMiniWithOwner';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
@@ -15,6 +16,7 @@ var gm;
 var notes;
 var turnOrder;
 var URLs;
+var characters;
 
 var popupStyle = {
     display: 'none'
@@ -26,10 +28,14 @@ export default class CampaignSetup extends React.Component{
         this.id = this.props.match.params._id;
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
-            const sub2 = Meteor.subscribe('users');
+            const sub2 = Meteor.subscribe('characters');
             if(sub.ready())
             {
                 this.campaign = Campaigns.findOne({_id : this.id});               
+            }
+            if(sub2.ready())
+            {
+                this.characters = Characters.find({campaignID: this.id}).fetch();
             }
             this.forceUpdate();
         });
@@ -70,10 +76,10 @@ export default class CampaignSetup extends React.Component{
 
     renderPlayers() {
         var cards = [];
-        var numcharacters = 4;
-        for (var i = 0; i < numcharacters; i++)
+        //var numcharacters = 4;
+        for (var i = 0; i < this.characters.length; i++)
         {
-            cards.push(<CharacterCardMini key={i}/>);
+            cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
         }
         return <div>{cards}</div>;
     }
