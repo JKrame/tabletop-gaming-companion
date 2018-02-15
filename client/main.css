@@ -305,6 +305,10 @@ body{
     width:100%;
 }
 
+.full-height{
+    display:table;
+}
+
 .spacer{
     margin-bottom:10px !important;
 }
@@ -381,6 +385,32 @@ body{
 .stretch-image{
     width:100%;
     height:100%;
+}
+
+.image-card{
+    float:left;
+    padding:10px;    
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    border: solid 2px #606060;
+    overflow:hidden;
+    border-radius: 10px 10px 10px 10px;
+}
+.image-card:hover{
+    background-color:rgba(255, 64, 76, .415);
+}
+
+.image-asset{
+    width:110px;
+    height:110px;
+}
+
+.image-asset-img{
+    display:block;
+    margin: 0 auto;
+    max-width: 110px;
+    max-height:110px;
 }
 
 .no-margin-override{
@@ -591,6 +621,41 @@ a.menu_links{
 
 }
 
+.add-image-popup{
+    display:none;
+    position: absolute;
+    z-index: 999;
+    padding:30px;
+    margin:5vw auto;
+    background-color: rgba(200, 200, 200, 0.801);
+}
+
+
+.add-player-popup{
+    display:none;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    height: 70vh;
+    width:400px;
+    z-index: 999;
+    padding:30px;
+    margin:5vw auto;
+    background-color: rgba(200, 200, 200, 0.801);
+}
+
+
+.button{
+    margin:10px;
+    width:100px;
+    float:left;
+}
+ 
+.right-align{
+    float:right;
+}
 @media only screen and (max-width: 800px) {
     .min-width-400{
         min-width:400px;

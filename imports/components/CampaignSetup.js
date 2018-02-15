@@ -4,6 +4,7 @@ import CharacterCardMini from '../objects/CharacterCardMini';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
+import UserCardMini from '../objects/UserCard';
 
 var name;
 var description;
@@ -51,6 +52,17 @@ export default class CampaignSetup extends React.Component{
         this.props.history.push('/character/edit/' + characterID);
     }
 
+    renderContacts() {
+        var cards = [];
+        var numcharacters = 12;
+        for (var i = 0; i < numcharacters; i++)
+        {
+            cards.push(<UserCardMini key={i}/>);
+        }
+        return <div>{cards}</div>;
+    }
+
+
     renderPlayers() {
         var cards = [];
         var numcharacters = 4;
@@ -93,7 +105,7 @@ export default class CampaignSetup extends React.Component{
 
     renderImageAssets() {
         var cards = [];
-        for (var i = 0; i < this.campaign.URLs.length; i++)
+        for (var i = 0; i < this.campaign.URLs.length+1; i++)
         {
             cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id}/>);
         }
@@ -152,6 +164,39 @@ export default class CampaignSetup extends React.Component{
 
         return(
             <div className="page-wrapper">
+
+                <div className="add-image-popup">
+                    <h2>Enter the Image URL</h2>
+                    <input type="text" className="full-width"/>
+                    <div className="col-sm-12">
+                        <div className="right-align">
+                            <button className=" submit-button button">Cancel</button>
+                            <button className="submit-button blue-button button">Add Image</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="add-player-popup">
+                    <h2>Enter Player Username</h2>
+                    <input type="text" className="full-width"/>
+                    <div className="col-sm-12">
+                        <div className="right-align">
+                            <button className=" submit-button button">Cancel</button>
+                            <button className="submit-button blue-button button">Add Player</button>
+                        </div>
+                    </div>
+                    
+                    <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                    <h4>Or select from Contacts</h4>
+                    <div className="full-height">
+                        <div className="scrolling-container">
+                            {this.renderContacts()}
+                        </div>
+                    </div>
+
+                </div>
+
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-8">
@@ -171,7 +216,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>Campaign Description</h3>
                             <hr/>
                             <div className="scrolling-container">
-                                <input type="text" ref="campaignDescription" defaultValue={this.campaign.description != null ? this.campaign.description : ""} style={{"height":"150px"}} className="fill-width"/>
+                                <textarea rows={10} ref="campaignDescription" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
@@ -216,7 +261,8 @@ export default class CampaignSetup extends React.Component{
                                                 <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
                                             </div>
                                             <div className="col-xs-10">
-                                                <input className="full-width" type="text" ref="newNoteText" placeholder=""/>
+                                                <textarea rows={3} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -229,7 +275,7 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
 
                             <h3>Image Assets</h3>
-                            <hr/>
+                            <hr/> 
                             <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
