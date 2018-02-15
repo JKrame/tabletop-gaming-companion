@@ -145,8 +145,6 @@ export default class CampaignSetup extends React.Component{
         newURL = this.refs.newImageURL.value;
         urlExists = Campaigns.find({ URLs: { $elemMatch: { $eq: newURL}}}).fetch().length > 0;
 
-        console.log(urlExists);
-
         if (urlExists){
             alert("URL is already an asset.");
         }
