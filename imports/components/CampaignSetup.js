@@ -120,9 +120,8 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id}/>);
+            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id} campaignID={this.campaign._id}/>);
         }
-        //cards.push(<ImageAssetCard key={this.campaign.URLs.length + 1} popupStyle={this.popupStyle} onClick={this.makeVisibleAddImageAsset} URL={this.campaign.URLs[this.campaign.URLs.length + 1]} _id ={this.id}/>);
         return <div>{cards}</div>;
     }
 
