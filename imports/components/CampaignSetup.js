@@ -78,7 +78,7 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard key={i} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]}/>);
+            cards.push(<TextAssetcard key={i} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
         }
         return <div>{cards}</div>;
     }
@@ -299,7 +299,6 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
 
-
                             
 
 
@@ -366,7 +365,7 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
                             
                             <div className="col-sm-12">
-                                <button onClick={this.deleteCampaign} className="full-width submit-button">DELETE CAMPAIGN</button>
+                                <button onClick={this.deleteCampaign.bind(this)} className="full-width submit-button">DELETE CAMPAIGN</button>
                             </div>  
                             <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>                      
