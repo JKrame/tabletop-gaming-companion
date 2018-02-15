@@ -2,6 +2,7 @@ import React from 'react'
 import UserCardMini from '../objects/UserCard';
 import UserBubble from '../objects/UserSpeechBubble';
 import OtherBubble from '../objects/OtherSpeechBubble';
+import ChatWindow from '../objects/ChatWindow';
 
 
 export default class Mail extends React.Component{
@@ -70,22 +71,8 @@ export default class Mail extends React.Component{
                             <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>
-                            <div className="col-sm-12 full-width scrolling-container-50" >
-                                <UserBubble/>
-                                <OtherBubble/>
-                                <UserBubble/>
-                                <OtherBubble/>
-                                <UserBubble/>
 
-                            </div>
-                            <div className="col-sm-12 page-content">
-                                <div className="col-sm-9">
-                                    <input type="text" style={{"height":"200px"}} className="full-width"/>
-                                </div>
-                                <div className="col-sm-3 negate-margins">
-                                        <button className="full-width blue-button" style={{"height":"50px", "margin-top":"150px"}}>SEND</button>
-                                </div>
-                            </div>
+                            <ChatWindow/>
 
                         </div> 
                     </div>
