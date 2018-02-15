@@ -76,11 +76,13 @@ export default class Settings extends React.Component{
                                 <div className="col-sm-12">
                                     <p className="p-override">Location</p>
                                     <input
+                                    id={this.id}
                                     type="checkbox"
-                                    
+                                    value="test"
                                     ref="complete"
                                     onChange={this.handleChange}
                                     />
+                                    <label htmlFor={this.id}> Opt in</label>
                                 </div>                        
                             <div className="spacer col-sm-12"/>
                                 <div className="col-sm-12">
@@ -130,8 +132,3 @@ export default class Settings extends React.Component{
     );
   }
 }  
-/*
-<div className="col-sm-12">
-    <button onClick={this.setLocation.bind(this)} className="full-width submit-button blue-button">location</button>
-</div>  
-*/
