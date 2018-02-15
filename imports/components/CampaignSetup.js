@@ -137,6 +137,14 @@ export default class CampaignSetup extends React.Component{
         }
     }
 
+    addToAdventureBoard(){
+        Meteor.call('adventureBoard.insert', this.id, "12345");
+    }
+
+    removeFromAdventureBoard(){
+        Meteor.call('adventureBoard.remove', this.id);
+    }
+
     render() {
         if (this.campaign == null){
             return (<div></div>);
@@ -310,12 +318,12 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
                             <div className="col-sm-12">
-                                <button className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
+                                <button onClick={this.addToAdventureBoard.bind(this)} className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
                             </div>
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
                             <div className="col-sm-12">
-                                <button className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
+                                <button onClick={this.removeFromAdventureBoard.bind(this)} className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
                             </div>
                             
                         </div>
