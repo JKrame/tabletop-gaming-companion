@@ -97,11 +97,6 @@ export default class CharacterForm extends React.Component{
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
 
-                    <div onClick={() => {this.deleteCharacter(character._id)}}>
-                        <div className="col-sm-12">
-                            <button className="full-width submit-button">DELETE CHARACTER</button>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -369,7 +364,12 @@ export default class CharacterForm extends React.Component{
                             <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>
-
+                        
+                            <div onClick={() => {this.deleteCharacter(character._id)}}>
+                                <div className="col-sm-12">
+                                    <button className="full-width submit-button">DELETE CHARACTER</button>
+                                </div>
+                            </div>
                         </div>
                             
                                         <div className="spacer col-sm-12"/>
@@ -377,6 +377,7 @@ export default class CharacterForm extends React.Component{
                         <div className="col-sm-12">
                             <button className="full-width submit-button blue-button">SUBMIT CHANGES</button>
                         </div>
+
                     </form>
                 </div>
             </div>

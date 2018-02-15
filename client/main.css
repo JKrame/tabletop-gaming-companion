@@ -628,7 +628,7 @@ a.menu_links{
     bottom:0;
     left:0;
     right:0;
-    height: 30vh;
+    height: 250px;
     width:400px;
     z-index: 999;
     padding:30px;
@@ -644,7 +644,7 @@ a.menu_links{
     right:0;
     top:0;
     bottom:0;
-    height: 70vh;
+    height: 500px;
     width:400px;
     z-index: 999;
     padding:30px;

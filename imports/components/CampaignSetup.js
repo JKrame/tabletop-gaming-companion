@@ -197,7 +197,7 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
                     <h4>Or select from Contacts</h4>
                     <div className="full-height">
-                        <div className="scrolling-container">
+                        <div className="scrolling-container" style={{"height":"250px", "width":"340px"}}>
                             {this.renderContacts()}
                         </div>
                     </div>
