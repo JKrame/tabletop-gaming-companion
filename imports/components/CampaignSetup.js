@@ -22,11 +22,12 @@ export default class CampaignSetup extends React.Component{
         this.id = this.props.match.params._id;
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
+            const sub2 = Meteor.subscribe('users');
             if(sub.ready())
             {
-                this.campaign = Campaigns.findOne({_id : this.id});
-                this.forceUpdate();               
+                this.campaign = Campaigns.findOne({_id : this.id});               
             }
+            this.forceUpdate();
         });
     }
 
@@ -88,15 +89,23 @@ export default class CampaignSetup extends React.Component{
             _id = this.id,
             notes,    
         );
+        this.refs.newNoteTitle.value = "";
+        this.refs.newNoteText.value = "";
     }
 
-    addPlayer(userID, characterID) {
-        players = [userID, characterID]
+    addPlayer(username) {
+        // if(!Meteor.users.findOne({"emails.address" : username}))
+        // {
+        //     alert(username + " does not exist.");
+        //     return;
+        // }
 
         Meteor.call("campaignPlayer.push", 
             _id = this.id,
-            players,    
+            username,    
         );
+
+        this.refs.addplayer.value = "";
     }
     
     updateTextAssets(){
@@ -345,10 +354,9 @@ export default class CampaignSetup extends React.Component{
                             <div className="scrolling-container">
                                 {this.renderPlayers()}
                                 <div>
-                                    <input type="text" ref="addplayer" className="fill-width" placeholder=""/> 
-                                    <input type="text" ref="addcharacter" className="fill-width" placeholder=""/> 
+                                    <input type="text" ref="addplayer" className="fill-width" placeholder=""/>  
                                 </div>
-                                <div onClick={() => this.addPlayer(this.refs.addplayer.value, this.refs.addcharacter.value)} className='nav-item nav-link'> 
+                                <div onClick={() => this.addPlayer(this.refs.addplayer.value)} className='nav-item nav-link'> 
                                     <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
