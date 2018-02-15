@@ -95,7 +95,7 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]}/>);
+            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id}/>);
         }
         return <div>{cards}</div>;
     }
@@ -121,10 +121,20 @@ export default class CampaignSetup extends React.Component{
     }
 
     addImageAsset(){
-        Meteor.call("campaignImage.push", 
-            this.id,
-            this.refs.newImageURL.value,    
-        );
+        newURL = this.refs.newImageURL.value;
+        urlExists = Campaigns.find({ URLs: { $elemMatch: { $eq: newURL}}}).fetch().length > 0;
+
+        console.log(urlExists);
+
+        if (urlExists){
+            alert("URL is already an asset.");
+        }
+        else{
+            Meteor.call("campaignImage.addToSet", 
+                this.id,
+                this.refs.newImageURL.value,    
+            );
+        }
     }
 
     render() {
