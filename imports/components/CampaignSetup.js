@@ -150,11 +150,11 @@ export default class CampaignSetup extends React.Component{
     }
 
     addToAdventureBoard(){
-        Meteor.call('adventureBoard.insert', this.id, "12345");
+        Meteor.call('makeCampaignPublic', this.id);
     }
 
     removeFromAdventureBoard(){
-        Meteor.call('adventureBoard.remove', this.id);
+        Meteor.call('makeCampaignPrivate', this.id);
     }
 
     render() {

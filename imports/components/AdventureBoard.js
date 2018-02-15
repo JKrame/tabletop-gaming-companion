@@ -9,10 +9,10 @@ import CampaignCardHalf from '../objects/CampaignCardHalf';
 export default class AdventureBoard extends React.Component{
     componentWillMount(){
         this.adventureBoardTracker = Tracker.autorun(() => {
-            const sub = Meteor.subscribe('adventureBoard');
+            const sub = Meteor.subscribe('campaigns');
             if(sub.ready())
             {
-                this.adventures = AdventureBoard.find({}).fetch();
+                this.adventures = Campaigns.find({isPublic : true}).fetch();
                 this.forceUpdate();               
             }
         });
@@ -23,6 +23,10 @@ export default class AdventureBoard extends React.Component{
     }
 
     renderCampaignCard() {
+        if (!this.adventures){
+            return;
+        }
+
         var cards = [];
 
         for (var i = 0; i < this.adventures.length; i++)
