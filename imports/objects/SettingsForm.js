@@ -13,6 +13,7 @@ export default class SettingsForm extends React.Component{
         super(init);
         this.handleLocationChange = this.handleLocationChange.bind(this);
         this.handleScheduleChange = this.handleScheduleChange.bind(this);
+        this.setAcountImage = this.setAcountImage.bind(this);
     }
 
     handleScheduleChange({target}){
@@ -71,26 +72,33 @@ export default class SettingsForm extends React.Component{
         });
     }
 
+    setAcountImage(){
+        Meteor.users.update(Meteor.userId(), {
+            $set: {"profile.accountPicture": this.refs.userImageURL.value.trim()}
+        });
+    }
+
     render() {
         user = this.props.user;
         //console.log(user.profile.schedule[0])
+        console.log(user.profile.accountPicture)
         
         return(
             <div>   
                         <div className="col-sm-4 split-page-left container">
-                            <img  className="full-width" src={'/images/photoMissing.png'}/>
+                            <img  src={user.profile.accountPicture != null && user.profile.accountPicture != "" ? user.profile.accountPicture : '/images/photoMissing.png'} className="full-width" />
                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
                                     <p className="p-override">IMAGE URL</p>
-                                    <input className="full-width" type="text" ref="characterImageURL" />
+                                    <input className="full-width" type="text" ref="userImageURL" />
                                 </div>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
-                                    <button className="full-width submit-button blue-button">SUBMIT CHANGES</button>
+                                    <button className="full-width submit-button blue-button" onClick={this.setAcountImage}>SUBMIT CHANGES</button>
                                 </div>
                         </div>
     

@@ -27,9 +27,12 @@ export default class Signup extends React.Component{
                 email, 
                 password,
                 profile : {
+                    accountPicture: null,
                     location: null,
-                    schedule: [false, false, false, false, false, false, false]
+                    schedule: [false, false, false, false, false, false, false],
+                    friends:[]
                 }
+
             }, 
             (err) => {
             if (err){
