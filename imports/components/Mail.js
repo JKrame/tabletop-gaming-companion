@@ -56,6 +56,8 @@ export default class Mail extends React.Component{
                             <div className="page-content col-sm-12" style={{"height":"200px"}}>
                                 <p>Find Friends</p>
                                 <input type="text" className="full-width"/>
+                                <button className="full-width blue-button" >Find</button>
+
                             </div>
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
