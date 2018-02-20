@@ -43,6 +43,7 @@ export default class SettingsForm extends React.Component{
             
         } else {
             console.log("unchecked")
+            this.removeLocation.call()
         }
     }
 
@@ -62,6 +63,12 @@ export default class SettingsForm extends React.Component{
                 });
             }
         })
+    }
+
+    removeLocation() {
+        Meteor.users.update(Meteor.userId(), {
+            $set: {"profile.location": null}
+        });
     }
 
     render() {
@@ -97,7 +104,7 @@ export default class SettingsForm extends React.Component{
                                 <div className="spacer col-sm-12"/>
                                     <div className="col-sm-12">
                                         <p className="p-override">Location</p>
-                                        <input id={this.id} type="checkbox" value="test" ref="location" onChange={this.handleLocationChange}/>
+                                        <input id={this.id} type="checkbox" value="test" defaultChecked={user.profile.location} ref="location" onChange={this.handleLocationChange}/>
                                         <label htmlFor={this.id}> Opt in</label>
                                     </div>                        
                                 <div className="spacer col-sm-12"/>
