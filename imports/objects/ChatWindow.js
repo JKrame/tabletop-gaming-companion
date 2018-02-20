@@ -20,7 +20,7 @@ export default class ChatWindow extends React.Component{
                         <input type="text" style={{"height":"200px"}} className="full-width"/>
                     </div>
                     <div className="col-sm-3 negate-margins">
-                            <button className="full-width blue-button" style={{"height":"50px", "margin-top":"150px"}}>SEND</button>
+                            <button className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>
                     </div>
                 </div>
             </div>
