@@ -30,12 +30,15 @@ export default class Mail extends React.Component{
 
     findPlayer() {
         var username = this.refs.friendSearchInput.value;
+        var image;
+        var found = false;
         console.log(this.users.length);
         for(var i = 0; i < this.users.length; i++)
         {
-            if(this.users[i].emails[0].address == username)
+            if(this.users[i].profile.username == username)
             {
                 found = true;
+                image = this.users[i].profile.accountPicture;
                 break;
             }
         }
@@ -48,6 +51,7 @@ export default class Mail extends React.Component{
         else
         {
             this.searchPlayerUsername = username;
+            this.searchPlayerURL = image
             this.forceUpdate();
         }
     }
