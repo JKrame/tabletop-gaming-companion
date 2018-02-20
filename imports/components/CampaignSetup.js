@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { Random } from 'meteor/random';
 import CharacterCardMini from '../objects/CharacterCardMini';
 import CharacterCardMiniWithOwner from '../objects/CharacterCardMiniWithOwner';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
@@ -45,7 +46,7 @@ export default class CampaignSetup extends React.Component{
         this.campaignSheetTracker.stop();
     }
     
-    renderCharacterCard() {
+    renderNPCs() {
         var cards = [];
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)
@@ -54,7 +55,7 @@ export default class CampaignSetup extends React.Component{
         }
         return <div>{cards}</div>;
     }
-    
+
     loadCharacter(characterID){
         if (!characterID){
             characterID = Random.id();
@@ -276,7 +277,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>NPCs</h3>
                             <hr/>
                             <div className=" height-600 scrolling-container">
-                                {this.renderPlayers()}
+                                {this.renderNPCs()}
 
                                 <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container">
