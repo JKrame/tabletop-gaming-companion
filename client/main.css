@@ -377,6 +377,7 @@ body{
 }
 
 .vertical-card-contents{
+    height:450px;
     padding:10px;
     border: solid 2px #606060;
     overflow:auto;

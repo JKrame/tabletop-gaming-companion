@@ -141,8 +141,8 @@ export default class Binder extends React.Component{
         return(
             <div className="page-wrapper">
                 <div className="col-lg-8 col-lg-offset-2">
-                    <div className="page-content col-xs-12 fill-height" >
-                        <div className="col-lg-6 split-page-left">
+                    <div className="page-content col-xs-12 fill-height scrolling-container" >
+                        <div className="col-lg-6">
                             <NavLink to="Characters">
                                     <h3>Your Characters >></h3>
                             </NavLink>
@@ -164,7 +164,11 @@ export default class Binder extends React.Component{
                             </div>
                         </div>
 
-                        <div className="col-lg-6 split-page-right">
+                        <div className="spacer col-sm-12"/>
+                        <div className="spacer col-sm-12"/>
+                        <div className="spacer col-sm-12"/>
+
+                        <div className="col-lg-6">
                             <NavLink to="Campaigns">
                                 <h3>Your Campaigns >></h3>
                             </NavLink>

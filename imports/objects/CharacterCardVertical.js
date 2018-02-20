@@ -11,7 +11,7 @@ export default class CharacterCardVertical extends React.Component {
                             <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/photoMissing.png'} className="full-width vertical-image"/>
                         </div>
                         <div className="vertical-data">
-                            <h3>{this.props.characterName}</h3>
+                            <h3 style={{"whiteSpace": "nowrap", "overflow":"hidden"}}>{this.props.characterName}</h3>
                             <hr className="hr-override-light"/>
                             <p className="p-override"> Class: {this.props.characterClass}</p>
                             <p className="p-override"> Level: {this.props.level}</p>
