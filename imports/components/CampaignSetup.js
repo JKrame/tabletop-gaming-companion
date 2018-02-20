@@ -17,6 +17,7 @@ var notes;
 var turnOrder;
 var URLs;
 var characters;
+var user;
 
 var popupStyle = {
     display: 'none'
@@ -26,9 +27,11 @@ export default class CampaignSetup extends React.Component{
 
     componentWillMount(){
         this.id = this.props.match.params._id;
+        UID = Meteor.userId();
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
             const sub2 = Meteor.subscribe('characters');
+            const sub3 = Meteor.subscribe('userData')
             if(sub.ready())
             {
                 this.campaign = Campaigns.findOne({_id : this.id});               
@@ -36,6 +39,10 @@ export default class CampaignSetup extends React.Component{
             if(sub2.ready())
             {
                 this.characters = Characters.find({campaignID: this.id}).fetch();
+            }
+            if(sub3.ready())
+            {
+                this.user = Meteor.users.findOne({_id : Meteor.userId()});
             }
             this.forceUpdate();
         });
