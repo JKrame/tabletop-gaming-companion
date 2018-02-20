@@ -2,6 +2,8 @@ import React from 'react'
 
 import SettingsForm from '../objects/SettingsForm';
 
+import { reverseGeocode } from 'meteor/jaymc:google-reverse-geocode';
+
 var user;
 
 export default class Settings extends React.Component{

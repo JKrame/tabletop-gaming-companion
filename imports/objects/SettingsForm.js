@@ -13,21 +13,12 @@ export default class SettingsForm extends React.Component{
         super(init);
         this.handleLocationChange = this.handleLocationChange.bind(this);
         this.handleScheduleChange = this.handleScheduleChange.bind(this);
+        this.setAcountImage = this.setAcountImage.bind(this);
     }
 
     handleScheduleChange({target}){
-        console.log(this.props.user.profile.schedule)
-        // //console.log(Meteor.user().profile.schedule)
-        // currSchedule = Meteor.user().profile.schedule
-
-        // console.log(target.value)
-        // currSchedule[target.value] = true
-
-        // console.log(currSchedule)
 
         var schedule=this.props.user.profile.schedule
-        
-        
         
         if (target.checked){
             schedule[target.value]=true
@@ -41,6 +32,7 @@ export default class SettingsForm extends React.Component{
                 $set: {"profile.schedule": schedule}
             });
         }
+        console.log(this.props.user.profile.schedule)
         
     }
 
@@ -52,8 +44,7 @@ export default class SettingsForm extends React.Component{
             
         } else {
             console.log("unchecked")
-            //target.setAttribute('checked', true);
-
+            this.removeLocation.call()
         }
     }
 
@@ -68,33 +59,46 @@ export default class SettingsForm extends React.Component{
                 var lng = latLng.curValue.lng;
                 reverseGeocode.getSecureLocation(lat, lng, function(location) {
                     Meteor.users.update(Meteor.userId(), {
-                        $set: {"profile.location": "test"}
+                        $set: {"profile.location": reverseGeocode.getAddrStr()}
                     });
                 });
             }
         })
     }
 
+    removeLocation() {
+        Meteor.users.update(Meteor.userId(), {
+            $set: {"profile.location": null}
+        });
+    }
+
+    setAcountImage(){
+        Meteor.users.update(Meteor.userId(), {
+            $set: {"profile.accountPicture": this.refs.userImageURL.value.trim()}
+        });
+    }
+
     render() {
         user = this.props.user;
         //console.log(user.profile.schedule[0])
+        console.log(user.profile.accountPicture)
         
         return(
             <div>   
                         <div className="col-sm-4 split-page-left container">
-                            <img  className="full-width" src={'/images/photoMissing.png'}/>
+                            <img  src={user.profile.accountPicture != null && user.profile.accountPicture != "" ? user.profile.accountPicture : '/images/photoMissing.png'} className="full-width" />
                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
                                     <p className="p-override">IMAGE URL</p>
-                                    <input className="full-width" type="text" ref="characterImageURL" />
+                                    <input className="full-width" type="text" ref="userImageURL" />
                                 </div>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
-                                    <button className="full-width submit-button blue-button">SUBMIT CHANGES</button>
+                                    <button className="full-width submit-button blue-button" onClick={this.setAcountImage}>SUBMIT CHANGES</button>
                                 </div>
                         </div>
     
@@ -108,7 +112,7 @@ export default class SettingsForm extends React.Component{
                                 <div className="spacer col-sm-12"/>
                                     <div className="col-sm-12">
                                         <p className="p-override">Location</p>
-                                        <input id={this.id} type="checkbox" value="test" ref="location" onChange={this.handleLocationChange}/>
+                                        <input id={this.id} type="checkbox" value="test" defaultChecked={user.profile.location} ref="location" onChange={this.handleLocationChange}/>
                                         <label htmlFor={this.id}> Opt in</label>
                                     </div>                        
                                 <div className="spacer col-sm-12"/>
