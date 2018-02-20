@@ -335,14 +335,9 @@ export default class CampaignSetup extends React.Component{
                             <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
-                                <div className="image-card" onClick={() => this.makeVisibleAddImageAsset()}>
-                                    <div className="image-asset">
-                                        <img src='/images/addIcon.png' className="image-asset-img" />
-                                    </div>
-                                </div>
                                 <div className='nav-item nav-link'>   
                                     <div className="objectCardMini grid-item add-container">
-                                        <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
+                                        <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="image-asset-img"/>
                                        
                                     </div>
                                 </div>
