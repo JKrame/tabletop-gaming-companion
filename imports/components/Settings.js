@@ -3,6 +3,8 @@ import React from 'react'
 import { Geolocation } from 'meteor/mdg:geolocation';
 import { reverseGeocode } from 'meteor/jaymc:google-reverse-geocode';
 
+var user;
+
 export default class Settings extends React.Component{
 
     constructor(init){
@@ -12,14 +14,15 @@ export default class Settings extends React.Component{
     }
 
     componentWillMount(){
-        id = Meteor.userId();
-        console.log(id)
+        //id = Meteor.userId();
+        //console.log(id)
         this.settingsTracker = Tracker.autorun(() => {
-            const sub = Meteor.subscribe('users');
+            const sub = Meteor.subscribe('userData');
             if(sub.ready())
             {
                 console.log("ready")
-                this.user = users.findOne({_id : this.id});               
+                this.user = userData;
+                //this.user = userData.findOne({_id : this.id});               
             }
             this.forceUpdate();
         });
@@ -46,6 +49,16 @@ export default class Settings extends React.Component{
 
 
     handleScheduleChange({target}){
+        console.log(this.user.schedule)
+        // //console.log(Meteor.user().profile.schedule)
+        // currSchedule = Meteor.user().profile.schedule
+
+        // console.log(target.value)
+        // currSchedule[target.value] = true
+
+        // console.log(currSchedule)
+        
+        
         if (target.checked){
             Meteor.users.update(Meteor.userId(), {
                 $addToSet: {"profile.schedule": target.value}
@@ -56,6 +69,7 @@ export default class Settings extends React.Component{
                 $pull: {"profile.schedule": target.value}
             });
         }
+        
     }
 
     handleLocationChange({target}){
@@ -114,7 +128,7 @@ export default class Settings extends React.Component{
                     </div>
 
                     <div className="col-sm-8 split-page-right left-border container">
-                        <form onSubmit={this.onSubmit.bind(this)}>
+                        <form>
                             <div className="scrolling-container-smaller">
                                 <div className="col-sm-12">
                                     <p className="p-override">NAME</p>
@@ -129,19 +143,19 @@ export default class Settings extends React.Component{
                             <div className="spacer col-sm-12"/>
                                 <div className="col-sm-12">
                                     <p className="p-override">Available Game Days</p>
-                                    <input id={this.id} type="checkbox" defaultChecked={Meteor.user()? Meteor.user().profile.schedule[0] : false} value="Monday" ref="Monday" />
+                                    <input id={this.id} type="checkbox" value={0} ref="Monday" onChange={this.handleScheduleChange}/>
                                     <label htmlFor={this.id}> Monday</label>
-                                    <input id={this.id} type="checkbox" defaultChecked={Meteor.user() ? Meteor.user().profile.schedule[1] : false} value="Tuesday" ref="Tuesday"/>
+                                    <input id={this.id} type="checkbox" value={1} ref="Tuesday" onChange={this.handleScheduleChange}/>
                                     <label htmlFor={this.id}> Tuesday</label>
-                                    <input id={this.id} type="checkbox" defaultChecked={Meteor.user() ? Meteor.user().profile.schedule[2] : false} value="Wednesday" ref="Wednesday"/>
+                                    <input id={this.id} type="checkbox" value={2} ref="Wednesday" onChange={this.handleScheduleChange}/>
                                     <label htmlFor={this.id}> Wednesday</label>
-                                    <input id={this.id} type="checkbox" defaultChecked={Meteor.user()? Meteor.user().profile.schedule[0] : false} value="Thursday" ref="Thursday"/>
+                                    <input id={this.id} type="checkbox" value={3} ref="Thursday" onChange={this.handleScheduleChange}/>
                                     <label htmlFor={this.id}> Thursday</label>
-                                    <input id={this.id} type="checkbox" defaultChecked={Meteor.user()? Meteor.user().profile.schedule[0] : false} value="Friday" ref="Friday"/>
+                                    <input id={this.id} type="checkbox" value={4} ref="Friday" onChange={this.handleScheduleChange}/>
                                     <label htmlFor={this.id}> Friday</label>
-                                    <input id={this.id} type="checkbox" defaultChecked={Meteor.user()? Meteor.user().profile.schedule[0] : false} value="Saturday" ref="Saturday" />
+                                    <input id={this.id} type="checkbox" value={5} ref="Saturday" onChange={this.handleScheduleChange}/>
                                     <label htmlFor={this.id}> Saturday</label>
-                                    <input id={this.id} type="checkbox" defaultChecked={Meteor.user()? Meteor.user().profile.schedule[0] : false} value="Sunday" ref="Sunday" />
+                                    <input id={this.id} type="checkbox" value={6} ref="Sunday" onChange={this.handleScheduleChange}/>
                                     <label htmlFor={this.id}> Sunday</label>
                                     
                                 </div>                        
@@ -182,7 +196,6 @@ export default class Settings extends React.Component{
                                 <button className="full-width submit-button blue-button">SUBMIT CHANGES</button>
                             </div>
                         </form>
-                        
                     </div>
                 </div>
             </div>
