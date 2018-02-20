@@ -16,18 +16,8 @@ export default class SettingsForm extends React.Component{
     }
 
     handleScheduleChange({target}){
-        console.log(this.props.user.profile.schedule)
-        // //console.log(Meteor.user().profile.schedule)
-        // currSchedule = Meteor.user().profile.schedule
-
-        // console.log(target.value)
-        // currSchedule[target.value] = true
-
-        // console.log(currSchedule)
 
         var schedule=this.props.user.profile.schedule
-        
-        
         
         if (target.checked){
             schedule[target.value]=true
@@ -41,6 +31,7 @@ export default class SettingsForm extends React.Component{
                 $set: {"profile.schedule": schedule}
             });
         }
+        console.log(this.props.user.profile.schedule)
         
     }
 
@@ -52,8 +43,6 @@ export default class SettingsForm extends React.Component{
             
         } else {
             console.log("unchecked")
-            //target.setAttribute('checked', true);
-
         }
     }
 
@@ -68,7 +57,7 @@ export default class SettingsForm extends React.Component{
                 var lng = latLng.curValue.lng;
                 reverseGeocode.getSecureLocation(lat, lng, function(location) {
                     Meteor.users.update(Meteor.userId(), {
-                        $set: {"profile.location": "test"}
+                        $set: {"profile.location": reverseGeocode.getAddrStr()}
                     });
                 });
             }
