@@ -101,16 +101,6 @@ export default class Mail extends React.Component{
                                 <UserCard id={"test"} loadConversation={this.loadConversation.bind(this)} characterImageURL={"http://i.telegraph.co.uk/multimedia/archive/03597/POTD_chick_3597497k.jpg"}/>
                                 {this.renderPlayers()}
                             </div>
-                        </div>
-                    </div>
-                    <div className="spacer col-sm-12"/>                      
-                    <div className="spacer col-sm-12"/>
-                    <div className="col-sm-12">
-                        <h3>Friend List</h3>
-                        <hr/>
-                        <div className="scrolling-container"  style={{"height":"545px"}}>
-                            {this.renderPlayers()}
-                        </div>
                     </div>
                 </div>
                 <div className="col-lg-8">
@@ -125,7 +115,16 @@ export default class Mail extends React.Component{
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
-                    <ChatWindow contactID={this.state.contact}/>
+                            <ChatWindow contactID={this.state.contact}/>
+                            <div className="col-sm-12 page-content">
+                                <div className="col-sm-9">
+                                    <input type="text" style={{"height":"200px"}} className="full-width"/>
+                                </div>
+                                <div className="col-sm-3 negate-margins">
+                                        <button className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>
+                                </div>
+                            </div>
+                        </div> 
                 </div> 
             </div>
         </div>
