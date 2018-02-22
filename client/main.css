@@ -601,6 +601,7 @@ center{
     min-height:80px;
     border-radius: 20px;
     float:left;
+    padding:20px;
 }
 a.menu_links{
     cursor:pointer;
