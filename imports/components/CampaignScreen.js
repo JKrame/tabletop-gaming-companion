@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 import ToggleButton from 'react-toggle-button'
+//import { Random } from 'meteor/random'
 
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
@@ -71,6 +72,51 @@ export default class CampaignScreen extends React.Component{
         clicked.backgroundColor = red;
     }
 
+    randomDice(max){
+       return( Math.floor(Math.random() * max) + 1)
+    }
+
+    rollDice(){
+        d=null
+        dice=0
+        if(this.refs.d4roller.value){
+            dice=4
+            d=this.refs.d4roller.value
+        }
+        if(this.refs.d6roller.value){
+            dice=6
+            d=this.refs.d6roller.value
+        }
+        if(this.refs.d8roller.value){
+            dice=8
+            d=this.refs.d8roller.value
+        }
+        if(this.refs.d10roller.value){
+            dice=10
+            d=this.refs.d10roller.value
+        }
+        if(this.refs.d12roller.value){
+            dice=12
+            d=this.refs.d12roller.value
+        }
+        if(this.refs.d20roller.value){
+            dice=20
+            d=this.refs.d20roller.value
+        }
+        result=0
+        for(i=0;i<d;i++){
+            result = result + this.randomDice(dice)
+        }
+        console.log(result)
+        this.refs.d4roller.value=""
+        this.refs.d6roller.value=""
+        this.refs.d8roller.value=""
+        this.refs.d10roller.value=""
+        this.refs.d12roller.value=""
+        this.refs.d20roller.value=""
+
+    }
+
     render() {
         Meteor.subscribe("characters");
         return(
@@ -120,31 +166,31 @@ export default class CampaignScreen extends React.Component{
                                             <div className="dice-display scrolling-container center">
                                                 <div className="dice-panel">
                                                     <img src={'/images/d4.png'} className=""/>
-                                                    <input className="rollbox" ref="d4-roller" placeholder="Qty:"/>
+                                                    <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
                                                 </div>
                                                 <div className="dice-panel">
                                                     <img src={'/images/d6.png'} className=""/>
-                                                    <input className="rollbox" ref="d6-roller" placeholder="Qty:"/>
+                                                    <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
                                                 </div>
                                                 <div className="dice-panel">
                                                     <img src={'/images/d8.png'} className=""/>
-                                                    <input className="rollbox" ref="d8-roller" placeholder="Qty:"/>    
+                                                    <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
                                                 </div>
                                                 <div className="dice-panel">
                                                     <img src={'/images/d10.png'} className=""/>
-                                                    <input className="rollbox" ref="d10-roller" placeholder="Qty:"/>
+                                                    <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
                                                 </div>
                                                 <div className="dice-panel">
                                                     <img src={'/images/d12.png'} className=""/>
-                                                    <input className="rollbox" ref="d12-roller" placeholder="Qty:"/>
+                                                    <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
                                                 </div>
                                                 <div className="dice-panel">
                                                     <img src={'/images/d20.png'} className=""/>
-                                                    <input className="rollbox" ref="d20-roller" placeholder="Qty:"/>
+                                                    <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
                                                 </div>
                                                 <div className="dice-panel">
                                                     <img src={'/images/d100.png'} className=""/>
-                                                    <input className="rollbox" ref="d100-roller" placeholder="Qty:"/>
+                                                    <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -179,7 +225,7 @@ export default class CampaignScreen extends React.Component{
 
                                         <div className="col-md-2  col-xs-12 ">
                                             <div className="col-sm-12">
-                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}}>ROLL</button>
+                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
                                             </div>
                                         </div>
                                     
