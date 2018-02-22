@@ -1,6 +1,7 @@
 import React from 'react';
 import CharacterCardVertical from '../objects/CharacterCardVertical';
 import { NavLink } from 'react-router-dom';
+import { Random } from 'meteor/random';
 
 var characters;
 var charactersArray;
@@ -109,6 +110,16 @@ export default class CharactersPage extends React.Component{
     }
 
     loadCharacter(cid, somehistory){
+        if (!cid)
+        {
+            cid = Random.id();
+            Meteor.call('characters.insert', cid);
+        }
+
+        if (!somehistory){
+            somehistory = this.props.history;
+        }
+
         somehistory.push('/character/edit/' + cid);
     }
 
@@ -122,6 +133,19 @@ export default class CharactersPage extends React.Component{
                         <hr/>
                         <div className="scrolling-container">
                             {this.renderForm()}
+                            <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>
+                                <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
+                                    <div className="vertical-card-contents">
+                                        <div className="vertical-image">
+                                            <img src={'/images/addIcon.png'} className="full-width vertical-image"/>
+                                        </div>
+                                        <div className="vertical-data">
+                                            <h3 className="no-margin-override">CREATE NEW CHARACTER</h3>
+                                            <hr className="hr-override-light"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                 </div>
