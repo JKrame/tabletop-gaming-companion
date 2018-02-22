@@ -4,7 +4,7 @@ import {Random} from 'meteor/random';
 import ToggleButton from 'react-toggle-button'
 //import { Random } from 'meteor/random'
 
-import CharacterCard from '../objects/CharacterCardMini';
+import CharacterCard from '../objects/CampaignCharacterTile';
 import CampaignCard from '../objects/CampaignCardMini';
 import ChatWindow from '../objects/ChatWindow';
 
@@ -264,6 +264,11 @@ export default class CampaignScreen extends React.Component{
                                     <hr/>
                                     <div className="scrolling-container">
                                         {this.renderRightSideCharacterForm()}
+                                        <CharacterCard/>
+                                        <CharacterCard/>
+                                        <CharacterCard/>
+                                        <CharacterCard/>
+                                        <CharacterCard/>
                                     </div>
                                 </div>
                             </div>
