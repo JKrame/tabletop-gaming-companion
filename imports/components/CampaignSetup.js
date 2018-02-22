@@ -1,11 +1,15 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { Random } from 'meteor/random';
 import CharacterCardMini from '../objects/CharacterCardMini';
 import CharacterCardMiniWithOwner from '../objects/CharacterCardMiniWithOwner';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 import UserCardMini from '../objects/UserCard';
+import ImagePopup from '../objects/ImageFormPopup';
+import PlayerPopup from '../objects/PlayerFormPopup';
+
 
 var name;
 var description;
@@ -24,7 +28,23 @@ var popupStyle = {
 };
 
 export default class CampaignSetup extends React.Component{
-
+    constructor() {
+        super();
+        this.state = {
+          showImagePopup: false,
+          showPlayerPopup: false
+        };
+      }
+      toggleImagePopup() {
+        this.setState({
+          showImagePopup: !this.state.showImagePopup
+        });
+      }
+      togglePlayerPopup() {
+        this.setState({
+          showPlayerPopup: !this.state.showPlayerPopup
+        });
+      }
     componentWillMount(){
         this.id = this.props.match.params._id;
         this.campaignSheetTracker = Tracker.autorun(() => {
@@ -51,7 +71,7 @@ export default class CampaignSetup extends React.Component{
         this.campaignSheetTracker.stop();
     }
     
-    renderCharacterCard() {
+    renderNPCs() {
         var cards = [];
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)
@@ -60,7 +80,7 @@ export default class CampaignSetup extends React.Component{
         }
         return <div>{cards}</div>;
     }
-    
+
     loadCharacter(characterID){
         if (!characterID){
             characterID = Random.id();
@@ -231,26 +251,7 @@ export default class CampaignSetup extends React.Component{
                     </div>
                 </div>
 
-                <div className="add-player-popup">
-                    <h2>Enter Player Username</h2>
-                    <input type="text" className="full-width"/>
-                    <div className="col-sm-12">
-                        <div className="right-align">
-                            <button className=" submit-button button">Cancel</button>
-                            <button className="submit-button blue-button button">Add Player</button>
-                        </div>
-                    </div>
-                    
-                    <div className="spacer col-sm-12"/>                      
-                            <div className="spacer col-sm-12"/>
-                    <h4>Or select from Contacts</h4>
-                    <div className="full-height">
-                        <div className="scrolling-container" style={{"height":"250px", "width":"340px"}}>
-                            {this.renderContacts()}
-                        </div>
-                    </div>
 
-                </div>
 
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
@@ -282,7 +283,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>NPCs</h3>
                             <hr/>
                             <div className=" height-600 scrolling-container">
-                                {this.renderPlayers()}
+                                {this.renderNPCs()}
 
                                 <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container">
@@ -341,10 +342,12 @@ export default class CampaignSetup extends React.Component{
                                 </div>
                                 <div className='nav-item nav-link'>   
                                     <div className="objectCardMini grid-item add-container">
-                                        <img onClick={this.addImageAsset.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
-                                        <input className="full-width" type="text" ref="newImageURL"/>
+                                        <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
+                                       
                                     </div>
                                 </div>
+                                <input className="full-width" type="text" ref="newImageURL"/>
+                                <button onClick={this.addImageAsset.bind(this)}>show popup</button>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
@@ -384,7 +387,7 @@ export default class CampaignSetup extends React.Component{
                                 <div>
                                     <input type="text" ref="addplayer" className="fill-width" placeholder=""/>  
                                 </div>
-                                <div onClick={() => this.addPlayer(this.refs.addplayer.value)} className='nav-item nav-link'> 
+                                <div onClick={this.togglePlayerPopup.bind(this)} className='nav-item nav-link'> 
                                     <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
@@ -432,10 +435,25 @@ export default class CampaignSetup extends React.Component{
                             </div>
                             
                         </div>
-
+                        {this.state.showImagePopup ? 
+                            <ImagePopup
+                                text='Close Me'
+                                closePopup={this.toggleImagePopup.bind(this)}
+                            />
+                            : null
+                            }
+                        {this.state.showPlayerPopup ? 
+                            <PlayerPopup
+                                text='Close Me'
+                                closePopup={this.togglePlayerPopup.bind(this)}
+                                renderContacts={this.renderContacts.bind(this)}
+                            />
+                            : null
+                            }
                         
                     </div>
                 </div>
+
             </div>
     );
   }

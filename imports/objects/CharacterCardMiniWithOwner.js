@@ -3,8 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export default class CharacterCardMiniWithOwner extends React.Component{
     render() {
-
-        var username = Meteor.users.findOne({_id: this.props.character.UID}).emails[0].address;
+        var username = Meteor.users.findOne({_id: this.props.character.UID}).profile.username;
         return (
             <NavLink to='#' className='nav-item nav-link'>
                 <div className="objectCardMini highlight-container">
