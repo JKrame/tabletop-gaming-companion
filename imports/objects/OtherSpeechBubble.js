@@ -9,6 +9,7 @@ export default class OtherSpeechBubble extends React.Component{
                         <img src={'/images/otherSpeechBubble.png'}/>
                     </div>
                     <div className="speechBubble" style={{"backgroundColor":"#DAEBF2", "float":"left"}}>
+                        <p>{this.props.message}</p>
                     </div>
 
             </div>

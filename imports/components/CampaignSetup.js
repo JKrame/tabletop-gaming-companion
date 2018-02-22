@@ -233,6 +233,23 @@ export default class CampaignSetup extends React.Component{
         Meteor.call('makeCampaignPrivate', this.id);
     }
 
+    loadNPC(cid, somehistory){
+        console.log("this hit")
+        if (!cid)
+        {
+            console.log("this hit2")
+            cid = Random.id();
+            Meteor.call('characters.insert', cid,this.campaign._id, 'npc');
+            
+        }
+
+        if (!somehistory){
+            somehistory = this.props.history;
+        }
+
+        somehistory.push('/character/edit/' + cid);
+    }
+
     render() {
         if (this.campaign == null){
             return (<div></div>);
@@ -286,7 +303,7 @@ export default class CampaignSetup extends React.Component{
                             <div className=" height-600 scrolling-container">
                                 {this.renderNPCs()}
 
-                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
+                                <NavLink to='#' onClick={() => this.loadNPC()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>

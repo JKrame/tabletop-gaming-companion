@@ -12,7 +12,7 @@ var users;
 export default class Mail extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { contact: '' } ;
+        this.state = { conversation: null } ;
     }
 
     componentWillMount(){
@@ -20,7 +20,7 @@ export default class Mail extends React.Component{
             const sub = Meteor.subscribe('conversations');
             if(sub.ready())
             {
-                this.conversations = Conversations.find({userID : Meteor.userId()}).fetch();
+                this.conversations = Conversations.find( {$or: [{userID: Meteor.userId()}, {contactID: Meteor.userId()}]}).fetch();
             }
             const sub2 = Meteor.subscribe('userData');
             if(sub2.ready())
@@ -41,6 +41,7 @@ export default class Mail extends React.Component{
             if(this.users[i].profile.username == username)
             {
                 found = true;
+                user = this.users[i];
                 image = this.users[i].profile.accountPicture;
                 break;
             }
@@ -51,8 +52,22 @@ export default class Mail extends React.Component{
             alert(username + " does not exist.");
             return;
         }
+        else if(user._id == Meteor.userId()){
+            alert("You cannot message yourself");
+        }
         else
         {
+            alreadyFriends = false;
+            for (i = 0; i < this.conversations.length; i++){
+                if (user.id == this.conversations[i].contactID){
+                    alreadyFriends = true;
+                }
+            }
+
+            if (!alreadyFriends){
+                Meteor.call('conversations.insert', user._id);
+            }
+
             this.searchPlayerUsername = username;
             this.searchPlayerURL = image
             this.forceUpdate();
@@ -68,16 +83,22 @@ export default class Mail extends React.Component{
 
         for (var i = 0; i < this.conversations.length; i++)
         {
-            cards.push(<UserCard key={i} id={this.conversations[i].contactID} loadConversation={this.loadConversation}/>);
+            cards.push(<UserCard key={i} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
         }
 
         return <div>{cards}</div>;
     }
 
-    loadConversation(contactID) {
-        if (contactID){
-            this.setState({contact: contactID});
+    loadConversation(conversation) {
+        if (conversation){ 
+            this.setState({conversation: conversation});
         }
+    }
+
+    sendMessage(){
+        message = this.refs.messageBox.value;
+        Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
+        this.loadConversation(this.state.conversation);
     }
 
   render() {
@@ -115,13 +136,13 @@ export default class Mail extends React.Component{
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
-                            <ChatWindow contactID={this.state.contact}/>
+                            <ChatWindow conversation={this.state.conversation}/>
                             <div className="col-sm-12 page-content">
                                 <div className="col-sm-9">
-                                    <input type="text" style={{"height":"200px"}} className="full-width"/>
+                                    <input type="text" ref="messageBox" style={{"height":"200px"}} className="full-width"/>
                                 </div>
                                 <div className="col-sm-3 negate-margins">
-                                        <button className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>
+                                        <button onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>
                                 </div>
                             </div>
                         </div> 

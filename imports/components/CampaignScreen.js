@@ -9,7 +9,6 @@ import CampaignCard from '../objects/CampaignCardMini';
 import ChatWindow from '../objects/ChatWindow';
 
 var characters;
-var charactersArray;
 
 export default class CampaignScreen extends React.Component{
 
@@ -22,19 +21,12 @@ export default class CampaignScreen extends React.Component{
             if(sub.ready())
             {
                 var campaignID = id.toString();
-                this.charactersArray = Characters.find({UID: UID}).fetch();
-                if(charactersArray != undefined)
-                {
-                    this.characters = charactersArray;
-                    display = true;
-                }              
+                this.characters = Characters.find({campaignID: campaignID}).fetch();
             }
-
             const sub2 = Meteor.subscribe('campaigns');
             if(sub2.ready())
             {
                 this.campaign = Campaigns.findOne({_id: id});
-                console.log(this.campaign);
             }
 
             this.forceUpdate();
@@ -48,12 +40,10 @@ export default class CampaignScreen extends React.Component{
     renderRightSideCharacterForm(){
         if(this.characters == undefined)
         {
-            console.log("calling nothing");
             return;
         }
         else
         {
-            console.log("calling render character card");
             return this.renderCharacterCard();
         }
     }
