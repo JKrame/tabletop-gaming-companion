@@ -33,7 +33,7 @@ export default class CampaignScreen extends React.Component{
             const sub2 = Meteor.subscribe('campaigns');
             if(sub2.ready())
             {
-                this.campaign = Campaigns.find({_id: id}).fetch();
+                this.campaign = Campaigns.findOne({_id: id});
                 console.log(this.campaign);
             }
 
@@ -75,6 +75,108 @@ export default class CampaignScreen extends React.Component{
             );
         }
         return <div>{cards}</div>;
+    }
+
+    renderPanel(){
+        console.log(this.campaign);
+        if(this.campaign != null)
+        {
+            
+            if(Meteor.userId() == this.campaign.gm){
+                console.log("you're the fucking man!");
+                return(
+                    <div>
+                        <div className="spacer col-sm-12"/>
+                        <h3>NPCS</h3>
+                        <hr/>
+    
+                        <div className="spacer col-sm-12"/>
+                        <h3>Text Assets</h3>
+                        <hr/>
+    
+                        <div className="spacer col-sm-12"/>
+                        <h3>Image Assets</h3>
+                        <hr/>
+                    </div>
+                ) ;                                 
+            }
+            else{
+                console.log(this.campaign.gm + " | " + Meteor.userId());
+                return(
+                    <div> 
+                        <h3>Spell Slots</h3>
+                        <hr/>
+                        <div className="spell-slots scrolling-container" >
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 1</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 2</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 3</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 4</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 5</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 6</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 7</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 8</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                            <div className="spell-slot-panel ">
+                                <h5><strong>Level 9</strong></h5>
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                                <div className="toggle-box" />
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        }
+        else{return;}
+        
     }
 
     toggleButton_Click(event){
@@ -273,95 +375,10 @@ export default class CampaignScreen extends React.Component{
                                     </div>
 
                                     <div className="col-md-3 col-xs-12 content-container-right scrolling-container">
-                                        <div className="spacer col-sm-12"/>
-                                        <h3>Spell Slots</h3>
-                                        <hr/>
-                                        <div className="spell-slots scrolling-container" >
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 1</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
+                                        
+                                        {this.renderPanel()}
 
-                                            </div>
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 2</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
 
-                                            </div>
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 3</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                    
-                                            </div>
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 4</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                            </div>
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 5</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                
-                                            </div>
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 6</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                            </div>
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 7</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                            
-                                            </div>
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 8</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                
-                                            </div>
-                                            <div className="spell-slot-panel ">
-                                                <h5><strong>Level 9</strong></h5>
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                <div className="toggle-box" />
-                                                
-                                            </div>
-                                            <div style={{"clear":"both"}}/>
-
-                                            <div className="spacer col-sm-12"/>
-                                                <h3>NPCS</h3>
-                                                <hr/>
-
-                                                <div className="spacer col-sm-12"/>
-                                                <h3>Text Assets</h3>
-                                                <hr/>
-
-                                                <div className="spacer col-sm-12"/>
-                                                <h3>Image Assets</h3>
-                                                <hr/>
-
-                                        </div>
                                     </div>
                                 </div>
                         </div>
