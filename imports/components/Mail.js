@@ -1,5 +1,5 @@
 import React from 'react'
-import UserCardMini from '../objects/UserCard';
+import UserCard from '../objects/UserCard';
 import UserCardMicro from '../objects/UserCardMicro';
 import UserBubble from '../objects/UserSpeechBubble';
 import OtherBubble from '../objects/OtherSpeechBubble';
@@ -7,10 +7,13 @@ import ChatWindow from '../objects/ChatWindow';
 
 var searchPlayerUsername = "";
 var searchPlayerURL = null;
-
 var users;
 
 export default class Mail extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = { contact: '' } ;
+    }
 
     componentWillMount(){
         this.mailSheetTracker = Tracker.autorun(() => {
@@ -32,7 +35,7 @@ export default class Mail extends React.Component{
         var username = this.refs.friendSearchInput.value;
         var image;
         var found = false;
-        console.log(this.users.length);
+
         for(var i = 0; i < this.users.length; i++)
         {
             if(this.users[i].profile.username == username)
@@ -65,18 +68,15 @@ export default class Mail extends React.Component{
 
         for (var i = 0; i < this.conversations.length; i++)
         {
-            cards.push(<UserCardMini key={i} id={this.conversations[i].contactID} loadConversation={this.loadConversation}/>);
+            cards.push(<UserCard key={i} id={this.conversations[i].contactID} loadConversation={this.loadConversation}/>);
         }
 
         return <div>{cards}</div>;
     }
 
-    loadConversation(contactID){
+    loadConversation(contactID) {
         if (contactID){
-            return <ChatWindow contactID={contactID}/>
-        }
-        else{
-            return <div/>
+            this.setState({contact: contactID});
         }
     }
 
@@ -98,6 +98,7 @@ export default class Mail extends React.Component{
                             <h3>Friend List</h3>
                             <hr/>
                             <div className="scrolling-container"  style={{"height":"545px"}}>
+                                <UserCard id={"test"} loadConversation={this.loadConversation.bind(this)} characterImageURL={"http://i.telegraph.co.uk/multimedia/archive/03597/POTD_chick_3597497k.jpg"}/>
                                 {this.renderPlayers()}
                             </div>
                         </div>
@@ -124,7 +125,7 @@ export default class Mail extends React.Component{
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
-                    {this.loadConversation()}
+                    <ChatWindow contactID={this.state.contact}/>
                 </div> 
             </div>
         </div>
