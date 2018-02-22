@@ -17,12 +17,26 @@ export default class Signup extends React.Component{
 
         let email = this.refs.email.value.trim();
         let password = this.refs.password.value.trim();
+        let username = this.refs.username.value.trim();
 
         if (password.length < 8) {
             return this.setState({error: 'Password must be more than 8 characters long'});
         }
 
-        Accounts.createUser({email, password}, (err) => {
+        Accounts.createUser(
+            {
+                email, 
+                password,
+                profile : {
+                    username,
+                    accountPicture: null,
+                    location: null,
+                    schedule: [false, false, false, false, false, false, false],
+                    friends:[]
+                }
+
+            }, 
+            (err) => {
             if (err){
                 this.setState({error: err.reason});
             } else {
@@ -44,6 +58,8 @@ export default class Signup extends React.Component{
                         {this.state.error ? <p>{this.state.error}</p> : undefined}
                         
                         <form className="form-signin col-sm-12" onSubmit={this.onSubmit.bind(this)} noValidate>
+                            <label htmlFor="inputEmail" className="sr-only">Username</label>
+                            <input type="Text" ref="username" id="inputUsername" className="form-control margin-5" placeholder="Username" required autoFocus style={{"width":"100%", "marginLeft":"0"}}/>
                             <label htmlFor="inputEmail" className="sr-only">Email address</label>
                             <input type="email" ref="email" id="inputEmail" className="form-control margin-5" placeholder="Email address" required autoFocus style={{"width":"100%", "marginLeft":"0"}}/>
                             <label htmlFor="inputPassword" className="sr-only">Password</label>

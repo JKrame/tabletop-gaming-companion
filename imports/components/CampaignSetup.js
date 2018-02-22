@@ -1,10 +1,15 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { Random } from 'meteor/random';
 import CharacterCardMini from '../objects/CharacterCardMini';
+import CharacterCardMiniWithOwner from '../objects/CharacterCardMiniWithOwner';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 import UserCardMini from '../objects/UserCard';
+import ImagePopup from '../objects/ImageFormPopup';
+import PlayerPopup from '../objects/PlayerFormPopup';
+
 
 var name;
 var description;
@@ -15,17 +20,49 @@ var gm;
 var notes;
 var turnOrder;
 var URLs;
+var characters;
+var user;
+
+var popupStyle = {
+    display: 'none'
+};
 
 export default class CampaignSetup extends React.Component{
-
+    constructor() {
+        super();
+        this.state = {
+          showImagePopup: false,
+          showPlayerPopup: false
+        };
+      }
+      toggleImagePopup() {
+        this.setState({
+          showImagePopup: !this.state.showImagePopup
+        });
+      }
+      togglePlayerPopup() {
+        this.setState({
+          showPlayerPopup: !this.state.showPlayerPopup
+        });
+      }
     componentWillMount(){
         this.id = this.props.match.params._id;
+        UID = Meteor.userId();
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
-            const sub2 = Meteor.subscribe('users');
+            const sub2 = Meteor.subscribe('characters');
+            const sub3 = Meteor.subscribe('userData')
             if(sub.ready())
             {
                 this.campaign = Campaigns.findOne({_id : this.id});               
+            }
+            if(sub2.ready())
+            {
+                this.characters = Characters.find({campaignID: this.id}).fetch();
+            }
+            if(sub3.ready())
+            {
+                this.user = Meteor.users.findOne({_id : Meteor.userId()});
             }
             this.forceUpdate();
         });
@@ -35,7 +72,7 @@ export default class CampaignSetup extends React.Component{
         this.campaignSheetTracker.stop();
     }
     
-    renderCharacterCard() {
+    renderNPCs() {
         var cards = [];
         var numcharacters = 4;
         for (var i = 0; i < numcharacters; i++)
@@ -44,7 +81,7 @@ export default class CampaignSetup extends React.Component{
         }
         return <div>{cards}</div>;
     }
-    
+
     loadCharacter(characterID){
         if (!characterID){
             characterID = Random.id();
@@ -66,10 +103,10 @@ export default class CampaignSetup extends React.Component{
 
     renderPlayers() {
         var cards = [];
-        var numcharacters = 4;
-        for (var i = 0; i < numcharacters; i++)
+        //var numcharacters = 4;
+        for (var i = 0; i < this.characters.length; i++)
         {
-            cards.push(<CharacterCardMini key={i}/>);
+            cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
         }
         return <div>{cards}</div>;
     }
@@ -114,9 +151,9 @@ export default class CampaignSetup extends React.Component{
 
     renderImageAssets() {
         var cards = [];
-        for (var i = 0; i < this.campaign.URLs.length+1; i++)
+        for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id}/>);
+            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id} campaignID={this.campaign._id}/>);
         }
         return <div>{cards}</div>;
     }
@@ -132,7 +169,7 @@ export default class CampaignSetup extends React.Component{
         name = this.refs.campaignTitle.value;
         description = this.refs.campaignDescription.value;
         campaignImageURL = this.refs.campaignImageURL.value;
-
+        
         Campaigns.update({
             _id : this.id},{
                 $set:{
@@ -141,9 +178,40 @@ export default class CampaignSetup extends React.Component{
                     campaignImageURL}});
     }
 
+    makeVisibleAddImageAsset()
+    {   //ugh ive completely run out of ideas
+        this.popupStyle = {
+            display : 'visible'
+        };
+        this.render();
+        // this.setState(this.state);
+        // this.forceUpdate();
+        //forceUpdate();
+        // return (
+        //     <div className="add-image-popup">
+        //         <h2>Enter the Image URL</h2>
+        //         <input type="text" className="full-width"/>
+        //         <div className="col-sm-12">
+        //             <div className="right-align">
+        //                 <button className=" submit-button button">Cancel</button>
+        //                 <button className="submit-button blue-button button">Add Image</button>
+        //             </div>
+        //         </div>
+        //     </div>
+        // );
+        console.log("calling some bullshit");
+    }
+
     addImageAsset(){
         newURL = this.refs.newImageURL.value;
         urlExists = Campaigns.find({ URLs: { $elemMatch: { $eq: newURL}}}).fetch().length > 0;
+
+        console.log(urlExists);
+
+        if(newURL == "")
+        {
+            return;
+        }
 
         if (urlExists){
             alert("URL is already an asset.");
@@ -154,6 +222,7 @@ export default class CampaignSetup extends React.Component{
                 this.refs.newImageURL.value,    
             );
         }
+        this.refs.newImageURL.value = "";
     }
 
     addToAdventureBoard(){
@@ -172,7 +241,7 @@ export default class CampaignSetup extends React.Component{
         return(
             <div className="page-wrapper">
 
-                <div className="add-image-popup">
+                <div className="add-image-popup" style={popupStyle}>
                     <h2>Enter the Image URL</h2>
                     <input type="text" className="full-width"/>
                     <div className="col-sm-12">
@@ -183,26 +252,7 @@ export default class CampaignSetup extends React.Component{
                     </div>
                 </div>
 
-                <div className="add-player-popup">
-                    <h2>Enter Player Username</h2>
-                    <input type="text" className="full-width"/>
-                    <div className="col-sm-12">
-                        <div className="right-align">
-                            <button className=" submit-button button">Cancel</button>
-                            <button className="submit-button blue-button button">Add Player</button>
-                        </div>
-                    </div>
-                    
-                    <div className="spacer col-sm-12"/>                      
-                            <div className="spacer col-sm-12"/>
-                    <h4>Or select from Contacts</h4>
-                    <div className="full-height">
-                        <div className="scrolling-container" style={{"height":"250px", "width":"340px"}}>
-                            {this.renderContacts()}
-                        </div>
-                    </div>
 
-                </div>
 
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
@@ -234,7 +284,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>NPCs</h3>
                             <hr/>
                             <div className=" height-600 scrolling-container">
-                                {this.renderPlayers()}
+                                {this.renderNPCs()}
 
                                 <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container">
@@ -286,12 +336,19 @@ export default class CampaignSetup extends React.Component{
                             <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
-                                <div className='nav-item nav-link'>   
-                                    <div className="objectCardMini grid-item add-container">
-                                        <img onClick={this.addImageAsset.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
-                                        <input className="full-width" type="text" ref="newImageURL"/>
+                                <div className="image-card" onClick={() => this.makeVisibleAddImageAsset()}>
+                                    <div className="image-asset">
+                                        <img src='/images/addIcon.png' className="image-asset-img" />
                                     </div>
                                 </div>
+                                <div className='nav-item nav-link'>   
+                                    <div className="objectCardMini grid-item add-container">
+                                        <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
+                                       
+                                    </div>
+                                </div>
+                                <input className="full-width" type="text" ref="newImageURL"/>
+                                <button onClick={this.addImageAsset.bind(this)}>show popup</button>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
@@ -331,7 +388,7 @@ export default class CampaignSetup extends React.Component{
                                 <div>
                                     <input type="text" ref="addplayer" className="fill-width" placeholder=""/>  
                                 </div>
-                                <div onClick={() => this.addPlayer(this.refs.addplayer.value)} className='nav-item nav-link'> 
+                                <div onClick={this.togglePlayerPopup.bind(this)} className='nav-item nav-link'> 
                                     <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
@@ -379,10 +436,25 @@ export default class CampaignSetup extends React.Component{
                             </div>
                             
                         </div>
-
+                        {this.state.showImagePopup ? 
+                            <ImagePopup
+                                text='Close Me'
+                                closePopup={this.toggleImagePopup.bind(this)}
+                            />
+                            : null
+                            }
+                        {this.state.showPlayerPopup ? 
+                            <PlayerPopup
+                                text='Close Me'
+                                closePopup={this.togglePlayerPopup.bind(this)}
+                                renderContacts={this.renderContacts.bind(this)}
+                            />
+                            : null
+                            }
                         
                     </div>
                 </div>
+
             </div>
     );
   }
