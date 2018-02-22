@@ -109,7 +109,6 @@ export default class Binder extends React.Component{
         if (!campaignId)
         {
             campaignId = Random.id();
-
             Meteor.call("campaigns.insert",  campaignId);
         }
 

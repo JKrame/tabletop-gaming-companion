@@ -1,5 +1,7 @@
 import React from 'react'
 import CampaignCardVertical from '../objects/CampaignCardVertical';
+import { NavLink } from 'react-router-dom';
+import { Random } from 'meteor/random';
 
 var campaigns;
 var campaignsArray;
@@ -15,6 +17,7 @@ export default class CampaignsPage extends React.Component{
     componentWillMount(){
         this.campaignsTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
+            const sub2 = Meteor.subscribe('characters');
             var UID = Meteor.userId();
             if(sub.ready())
             {
@@ -97,43 +100,29 @@ export default class CampaignsPage extends React.Component{
         if (!campaignId)
         {
             campaignId = Random.id();
-            name = null;
-            description = null;
-            meetTime = null;
-            meetDate = null;
-            players = null;
-            gm = null;
-            notes = [];
-            turnOrder = null;
-            URLs = null;
-
-            Meteor.call("campaigns.insert", 
-                campaignId,
-                name,
-                description,
-                meetTime,
-                meetDate,
-                players,
-                gm,
-                notes,
-                turnOrder,
-                URLs
-            );
+            Meteor.call("campaigns.insert", campaignId);
         }
 
-        for(var i = 0; i < campaigns.length; i++)
+        if (!somehistory){ 
+            somehistory = this.props.history;
+            somehistory.push('/campaign/edit/' + campaignId);
+        }
+        else
         {
-            if(campaigns[i]._id == campaignId)
+            for(var i = 0; i < campaigns.length; i++)
             {
-                if(campaigns[i].gm == Meteor.userId())
+                if(campaigns[i]._id == campaignId)
                 {
-                    somehistory.push('/campaign/edit/' + campaignId); //first send them to the editing page
+                    if(campaigns[i].gm == Meteor.userId())
+                    {
+                        somehistory.push('/campaign/edit/' + campaignId); //first send them to the editing page
+                    }
+                    else
+                    {
+                        somehistory.push('/campaigns/' + campaignId); //if they dont own it, send them to game screen
+                    }
+                    break;
                 }
-                else
-                {
-                    somehistory.push('/campaigns/' + campaignId); //if they dont own it, send them to game screen
-                }
-                break;
             }
         }
     }
@@ -147,10 +136,23 @@ export default class CampaignsPage extends React.Component{
                         <hr/>
                         <div className="scrolling-container">
                             {this.renderCampaignForm()}
+                            <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>
+                                <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
+                                    <div className="vertical-card-contents">
+                                        <div className="vertical-image">
+                                            <img src={'/images/addIcon.png'} className="full-width vertical-image"/>
+                                        </div>
+                                        <div className="vertical-data">
+                                            <h3 className="no-margin-override">CREATE NEW CAMPAIGN</h3>
+                                            <hr className="hr-override-light"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
-    }  
+}  
