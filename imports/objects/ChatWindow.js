@@ -15,14 +15,7 @@ export default class ChatWindow extends React.Component{
                     <UserBubble/>
 
                 </div>
-                <div className="col-sm-12 page-content">
-                    <div className="col-sm-9">
-                        <input type="text" style={{"height":"200px"}} className="full-width"/>
-                    </div>
-                    <div className="col-sm-3 negate-margins">
-                            <button className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>
-                    </div>
-                </div>
+                
             </div>
            
         );
