@@ -6,6 +6,7 @@ import ToggleButton from 'react-toggle-button'
 
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
+import ChatWindow from '../objects/ChatWindow';
 
 var characters;
 var charactersArray;
@@ -15,6 +16,7 @@ export default class CampaignScreen extends React.Component{
     componentWillMount(){
         var id = this.props.match.params._id
         var UID = Meteor.userId();
+
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
             if(sub.ready())
@@ -27,6 +29,14 @@ export default class CampaignScreen extends React.Component{
                     display = true;
                 }              
             }
+
+            const sub2 = Meteor.subscribe('campaigns');
+            if(sub2.ready())
+            {
+                this.campaign = Campaigns.find({_id: id}).fetch();
+                console.log(this.campaign);
+            }
+
             this.forceUpdate();
         });
     }
@@ -119,6 +129,7 @@ export default class CampaignScreen extends React.Component{
 
     render() {
         Meteor.subscribe("characters");
+
         return(
             <div className="page-wrapper">
                 <div className="col-md-12">
@@ -142,7 +153,7 @@ export default class CampaignScreen extends React.Component{
                                 </div>
 
                                 <div className="col-md-6 col-xs-12 content-container-mid add-background" >
-                                    
+
                                 </div>
 
                                 <div className="col-md-3 col-xs-12 content-container-right">
@@ -157,13 +168,42 @@ export default class CampaignScreen extends React.Component{
 
                             <div className="sub-content-bottom">
 
-                                <div className="col-md-3 col-xs-12 content-container-left">
-
+                                <div className="col-md-3 col-xs-12 content-container-left  no-padding">
+                                    <div className="col-sm-4 in-game-chat-btn-container scrolling-container">
+                                        <div className="spacer col-sm-12"/>
+                                        
+                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
+                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
+                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
+                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
+                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
+                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
+                                      
+                                        <div className="spacer col-sm-12"/>
+                                        
                                     </div>
+                                    <div className="col-sm-8 no-padding">
+                                        <div className="scrolling-container chat-box in-game-chat-window">
+                                            <ChatWindow/>
+
+                                        </div>
+                                        <div className="col-sm-12 negate-margins" style={{"height":"50px", "marginTop":"10px"}}>
+                                            <div className="col-sm-8">
+                                                    <textarea rows={4} className="full-width"  style={{"height":"50px"}}/>
+                                                </div>
+                                                <div className="col-sm-4 negate-margins">
+                                                        <button className="full-width blue-button" style={{"height":"50px"}}>SEND</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
 
                                     <div className="col-md-6 col-xs-12 content-container-mid" >
                                         <div className="col-md-7  col-xs-12">
                                             <div className="dice-display scrolling-container center">
+                                               <div className="spacer col-sm-12"/>
+
                                                 <div className="dice-panel">
                                                     <img src={'/images/d4.png'} className=""/>
                                                     <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
@@ -195,6 +235,7 @@ export default class CampaignScreen extends React.Component{
                                             </div>
                                         </div>
                                         <div className="col-md-3  col-xs-12">
+                                            <div className="spacer col-sm-12"/>
                                             <div className="mod-block">
                                                 <h4>ADD MODS</h4>
                                                 <hr/>
@@ -231,7 +272,7 @@ export default class CampaignScreen extends React.Component{
                                     
                                     </div>
 
-                                    <div className="col-md-3 col-xs-12 content-container-right">
+                                    <div className="col-md-3 col-xs-12 content-container-right scrolling-container">
                                         <div className="spacer col-sm-12"/>
                                         <h3>Spell Slots</h3>
                                         <hr/>
@@ -306,6 +347,19 @@ export default class CampaignScreen extends React.Component{
                                                 <div className="toggle-box" />
                                                 
                                             </div>
+                                            <div style={{"clear":"both"}}/>
+
+                                            <div className="spacer col-sm-12"/>
+                                                <h3>NPCS</h3>
+                                                <hr/>
+
+                                                <div className="spacer col-sm-12"/>
+                                                <h3>Text Assets</h3>
+                                                <hr/>
+
+                                                <div className="spacer col-sm-12"/>
+                                                <h3>Image Assets</h3>
+                                                <hr/>
 
                                         </div>
                                     </div>

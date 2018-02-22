@@ -350,7 +350,6 @@ body{
     overflow-y:auto;
 }
 
-
 .scrolling-container-50{
     height:50vh;
     overflow-y:auto;
@@ -504,6 +503,10 @@ body{
 .add-background{
     background-color:rgba(255, 255, 255, 0.801);
 }   
+
+.add-blue-background{
+    background-color:#DAEBF2;
+}
 
 .negate-margin{
     margin-left:-10px;
@@ -686,6 +689,29 @@ a.menu_links{
     bottom: 25%;
     margin: auto;
     background: white;
+  }
+
+  .no-padding{
+      padding:0 0 !important;
+  }
+  .in-game-chat-window{
+      height:200px; 
+  }
+  .in-game-chat-btn-container{
+      max-height:300px;
+  }
+  .in-game-chat-btn{
+  }
+
+  .chat-box{
+    background-color:rgba(51, 50, 44, .5);
+    
+  }
+  
+
+  .user-bubble{
+      margin-left:auto;
+      margin-right:0;
   }
 
 @media only screen and (max-width: 800px) {

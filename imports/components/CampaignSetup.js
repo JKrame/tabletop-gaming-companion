@@ -47,6 +47,7 @@ export default class CampaignSetup extends React.Component{
       }
     componentWillMount(){
         this.id = this.props.match.params._id;
+        console.log(this.id);
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
             const sub2 = Meteor.subscribe('characters');
@@ -61,7 +62,7 @@ export default class CampaignSetup extends React.Component{
             }
             if(sub3.ready())
             {
-                this.user = Meteor.users.find({}),fetch();
+                this.user = Meteor.users.find({}).fetch();
             }
             this.forceUpdate();
         });
@@ -102,7 +103,7 @@ export default class CampaignSetup extends React.Component{
 
     renderPlayers() {
         var cards = [];
-        //var numcharacters = 4;
+        console.log(this.characters.length);
         for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
