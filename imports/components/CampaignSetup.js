@@ -47,7 +47,6 @@ export default class CampaignSetup extends React.Component{
       }
     componentWillMount(){
         this.id = this.props.match.params._id;
-        UID = Meteor.userId();
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
             const sub2 = Meteor.subscribe('characters');
@@ -62,7 +61,7 @@ export default class CampaignSetup extends React.Component{
             }
             if(sub3.ready())
             {
-                this.user = Meteor.users.findOne({_id : Meteor.userId()});
+                this.user = Meteor.users.find({}),fetch();
             }
             this.forceUpdate();
         });
