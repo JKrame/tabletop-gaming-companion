@@ -1,8 +1,6 @@
 import React from 'react'
 import UserCard from '../objects/UserCard';
 import UserCardMicro from '../objects/UserCardMicro';
-import UserBubble from '../objects/UserSpeechBubble';
-import OtherBubble from '../objects/OtherSpeechBubble';
 import ChatWindow from '../objects/ChatWindow';
 
 var searchPlayerUsername = "";
@@ -12,7 +10,7 @@ var users;
 export default class Mail extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { conversation: null } ;
+        this.state = { conversation: null, conversations: null } ;
     }
 
     componentWillMount(){
@@ -26,6 +24,7 @@ export default class Mail extends React.Component{
             if(sub2.ready())
             {
                 this.users = Meteor.users.find({}).fetch();
+                console.log(this.users);
             }
             this.forceUpdate();
         });
@@ -96,9 +95,11 @@ export default class Mail extends React.Component{
     }
 
     sendMessage(){
-        message = this.refs.messageBox.value;
-        Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
-        this.loadConversation(this.state.conversation);
+        if (this.state.conversation){
+            message = this.refs.messageBox.value;
+            Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
+            this.loadConversation(this.state.conversation);
+        }
     }
 
   render() {
