@@ -83,44 +83,14 @@ export default class Mail extends React.Component{
   render() {
     return(
         <div className="page-wrapper">
-<<<<<<< HEAD
             <div className="col-lg-8 col-lg-offset-2">
                 <div className=" col-xs-12 fill-height scrolling-container" >
                     <div className="col-lg-4">
                         <div className="page-content col-sm-12" style={{"height":"200px"}}>
                             <p>Find Friends</p>
-                            <input type="text" className="full-width"/>
-=======
-                <div className="col-lg-8 col-lg-offset-2">
-                    <div className=" col-xs-12 fill-height scrolling-container" >
-
-
-                        <div className="col-lg-4">
-
-                                         
-                            <div className="page-content col-sm-12" style={{"height":"200px"}}>
-                                <p>Find Friends</p>
-                                <input type="text" ref="friendSearchInput" className="full-width"/>
-                                <button onClick={() => this.findPlayer()} className="full-width blue-button" >Find</button>
-                                <UserCardMicro userImageURL={this.searchPlayerURL} username={this.searchPlayerUsername}/>
-                            </div>
-                            <div className="spacer col-sm-12"/>                      
-                            <div className="spacer col-sm-12"/>
-                            <div className="col-sm-12">
-                                <h3>Friend List</h3>
-                                <hr/>
-                                <div className="scrolling-container"  style={{"height":"545px"}}>
-                                    {this.renderPlayers()}
-                                </div>
-                                
-
-
-                            </div>
-
-
-
-                            
->>>>>>> c6128451fc8665f5a14b2742f3fd3be461f09328
+                            <input type="text" ref="friendSearchInput" className="full-width"/>
+                            <button onClick={() => this.findPlayer()} className="full-width blue-button" >Find</button>
+                            <UserCardMicro userImageURL={this.searchPlayerURL} username={this.searchPlayerUsername}/>
                         </div>
                         <div className="spacer col-sm-12"/>                      
                         <div className="spacer col-sm-12"/>
@@ -132,21 +102,30 @@ export default class Mail extends React.Component{
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-8">
-                        <div className="page-content col-sm-12" style={{"height":"80px"}}>
-                            <div style={{"float":"left"}}>
-                                <div style={{ "width":"60px","height":"60px", "backgroundColor":"red"}}/>
-                            </div>
-                            <div style={{"float":"left", "width":"300px","marginLeft":"30px"}}>
-                                <h4>Chatting With: xXRAWRXx_360NOXSCOPEXDXx</h4>
-                            </div>
+                    <div className="spacer col-sm-12"/>                      
+                    <div className="spacer col-sm-12"/>
+                    <div className="col-sm-12">
+                        <h3>Friend List</h3>
+                        <hr/>
+                        <div className="scrolling-container"  style={{"height":"545px"}}>
+                            {this.renderPlayers()}
                         </div>
-                        <div className="spacer col-sm-12"/>
-                        <div className="spacer col-sm-12"/>
-                        <div className="spacer col-sm-12"/>
-                        {loadConversation}
-                    </div> 
+                    </div>
                 </div>
+                <div className="col-lg-8">
+                    <div className="page-content col-sm-12" style={{"height":"80px"}}>
+                        <div style={{"float":"left"}}>
+                            <div style={{ "width":"60px","height":"60px", "backgroundColor":"red"}}/>
+                        </div>
+                        <div style={{"float":"left", "width":"300px","marginLeft":"30px"}}>
+                            <h4>Chatting With: xXRAWRXx_360NOXSCOPEXDXx</h4>
+                        </div>
+                    </div>
+                    <div className="spacer col-sm-12"/>
+                    <div className="spacer col-sm-12"/>
+                    <div className="spacer col-sm-12"/>
+                    {loadConversation}
+                </div> 
             </div>
         </div>
     );
