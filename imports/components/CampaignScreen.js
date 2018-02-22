@@ -15,6 +15,7 @@ export default class CampaignScreen extends React.Component{
     componentWillMount(){
         var id = this.props.match.params._id
         var UID = Meteor.userId();
+
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
             if(sub.ready())
@@ -27,6 +28,14 @@ export default class CampaignScreen extends React.Component{
                     display = true;
                 }              
             }
+
+            const sub2 = Meteor.subscribe('campaigns');
+            if(sub2.ready())
+            {
+                this.campaign = Campaigns.find({_id: id}).fetch();
+                console.log(this.campaign);
+            }
+
             this.forceUpdate();
         });
     }
@@ -74,6 +83,7 @@ export default class CampaignScreen extends React.Component{
 
     render() {
         Meteor.subscribe("characters");
+
         return(
             <div className="page-wrapper">
                 <div className="col-md-12">
