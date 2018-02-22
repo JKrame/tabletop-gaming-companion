@@ -25,11 +25,20 @@ export default class CharacterForm extends React.Component{
         //features subdocument
         featureName = null;
         featureDescription = null;
+        var UID;
+        if(this.props.UID == "npc")
+        {
+            UID = "npc";
+        }
+        else
+        {
+            UID = Meteor.userId();
+        }
 
         Meteor.call('characters.update',
             character._id,
             character.campaignID,
-            Meteor.userId(),
+            UID,
             this.refs.characterName.value.trim(),
             this.refs.characterClass.value.trim(),
             this.refs.level.value.trim(),

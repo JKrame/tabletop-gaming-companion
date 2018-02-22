@@ -29,7 +29,7 @@ export default class CharacterSheet extends React.Component{
         }
         else
         {
-            return(<CharacterForm character={this.character}/>);
+            return(<CharacterForm character={this.character} UID={this.character.UID}/>);
         }
     }
 
