@@ -124,7 +124,7 @@ export default class Mail extends React.Component{
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
-                    {loadConversation}
+                    {this.loadConversation()}
                 </div> 
             </div>
         </div>
