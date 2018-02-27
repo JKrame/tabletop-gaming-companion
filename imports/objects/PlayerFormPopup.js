@@ -49,13 +49,12 @@ export default class PlayerFormPopup extends React.Component {
             <div className='popup'>
                 <div className="add-player-popup popup_inner">
                     <h2>Enter Player Username</h2>
-                    <input type="text" className="full-width"/>
+                    <input type="text" ref="username" className="full-width"/>
                     <div className="col-sm-12">
                         <div className="right-align">
                             <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
-                            <button className="submit-button blue-button button">Add Player</button>
-                        </div>
-                     
+                            <button onClick={() => this.props.addPlayer(this.refs.username.value)} className="submit-button blue-button button">Add Player</button>
+                        </div>       
                         <div className="spacer col-sm-12"/>                      
                         <div className="spacer col-sm-12"/>
                         <h4>Or select from Contacts</h4>

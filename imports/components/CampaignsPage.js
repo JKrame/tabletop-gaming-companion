@@ -146,7 +146,7 @@ export default class CampaignsPage extends React.Component{
                     <div className="page-content col-xs-12 fill-height">
                         <h3>Your Campaigns</h3>
                         <hr/>
-                        <div className="scrolling-container">
+                        <div className="scrolling-container-80">
                             {this.renderCampaignForm()}
 
                             <NavLink to='#' onClick={this.toggleInvitePopup.bind(this)} className='nav-item nav-link'>
@@ -157,7 +157,6 @@ export default class CampaignsPage extends React.Component{
                                         </div>
                                         <div className="vertical-data">
                                             <h3 className="no-margin-override">PENDING INVITE</h3>
-                                            <hr className="hr-override-light"/>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +169,6 @@ export default class CampaignsPage extends React.Component{
                                         </div>
                                         <div className="vertical-data">
                                             <h3 className="no-margin-override">CREATE NEW CAMPAIGN</h3>
-                                            <hr className="hr-override-light"/>
                                         </div>
                                     </div>
                                 </div>

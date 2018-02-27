@@ -10,7 +10,7 @@ export default class ImageAssetCard extends React.Component{
 
     render() {
         return (
-            <div className="image-card" onClick={() => this.props.onClick(this.props.popupStyle)}>
+            <div className="image-card">
                 <div className="image-asset">
                     <img src={this.props.URL == null || this.props.URL == "" ? '/images/addIcon.png' : this.props.URL} className="image-asset-img" />
                     <div onClick={this.deleteImage.bind(this)}>
