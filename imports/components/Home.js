@@ -6,6 +6,7 @@ import { Random } from 'meteor/random';
 import CharacterCardHalf from '../objects/CharacterCardMini';
 import CampaignCardHalf from '../objects/CampaignCardMini';
 import PlayerNearYou from '../objects/PlayerNearYou';
+import InvitePopup from '../objects/PendingInvitePopup';
 
 var characters;
 var charactersArray;
@@ -14,6 +15,18 @@ var campaigns;
 var campaignsArray;
 
 export default class Home extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            showInvitePopup: false
+        };
+    }
+
+    toggleInvitePopup() {
+        this.setState({
+            showInvitePopup: !this.state.showInvitePopup
+        });
+    }
 
     componentWillMount(){
         this.homeTracker = Tracker.autorun(() => {
@@ -135,6 +148,8 @@ export default class Home extends React.Component {
         }
     }
 
+
+
     render() {
         Meteor.subscribe('characters');
         return(
@@ -173,7 +188,7 @@ export default class Home extends React.Component {
                         <div className="page-content-scroller">
                             {this.renderCampaignForm()}
                             
-                            <div className="objectCardMini add-container">
+                            <NavLink to="#" ><div className="objectCardMini add-container" onClick={this.toggleInvitePopup.bind(this)}>
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/pending.png'} className="stretch-image"/>
                                         </div>
@@ -182,7 +197,7 @@ export default class Home extends React.Component {
                                             <hr className="hr-override-light"/>
                                             <p className="p-override">Click for Details...</p>
                                         </div>
-                                    </div>
+                                    </div></NavLink>
                                
                                 <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container">
@@ -234,7 +249,15 @@ export default class Home extends React.Component {
                     </div>
                 </div>
             </div>
+            {this.state.showInvitePopup ? 
+                <InvitePopup
+                    text='Close Me'
+                    closePopup={this.toggleInvitePopup.bind(this)}
+                />
+                : null
+            }
         </div>
+        
         );
     }
 }  
