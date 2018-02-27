@@ -286,7 +286,7 @@ export default class CampaignSetup extends React.Component{
                                 {this.renderTextAssets()}
                                 <a>
                                     <div className='nav-item nav-link'>   
-                                        <div className="objectCardMini add-container">
+                                        <div className="textAssetMini add-container">
                                             <div onClick={() => this.insertTextAssets(this.refs.newNoteTitle.value, this.refs.newNoteText.value)} className="textCardMiniImage">
                                                 <img src={'/images/addIcon.png'} className="stretch-image"/>
                                             </div>
@@ -312,11 +312,9 @@ export default class CampaignSetup extends React.Component{
                             <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
-                                <div className='nav-item nav-link'>   
-                                    <div className="objectCardMini grid-item add-container">
-                                        <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
-                                       
-                                    </div>
+                                <div className="add-image-card rid-item add-container">
+                                    <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
+                                    
                                 </div>
                             </div>
 
