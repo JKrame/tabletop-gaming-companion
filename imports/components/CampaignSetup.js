@@ -48,7 +48,6 @@ export default class CampaignSetup extends React.Component{
       }
     componentWillMount(){
         this.id = this.props.match.params._id;
-        console.log(this.id);
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
             const sub2 = Meteor.subscribe('characters');
@@ -77,9 +76,11 @@ export default class CampaignSetup extends React.Component{
     
     renderNPCs() {
         var cards = [];
-        for (var i = 0; i < this.NPCs.length; i++)
-        {
-            cards.push(<CharacterCardMini key={i} characterImageURL={this.NPCs[i].characterImageURL} id={this.NPCs[i]._id} somehistory={this.props.history} func={this.loadNPC} characterName={this.NPCs[i].characterName} characterClass={this.NPCs[i].characterClass} level={this.NPCs[i].level} race={this.NPCs[i].race}/>);
+        if (this.NPCs){
+            for (var i = 0; i < this.NPCs.length; i++)
+            {
+                cards.push(<CharacterCardMini key={i} characterImageURL={this.NPCs[i].characterImageURL} id={this.NPCs[i]._id} somehistory={this.props.history} func={this.loadNPC} characterName={this.NPCs[i].characterName} characterClass={this.NPCs[i].characterClass} level={this.NPCs[i].level} race={this.NPCs[i].race}/>);
+            }
         }
         return <div>{cards}</div>;
     }
@@ -105,7 +106,6 @@ export default class CampaignSetup extends React.Component{
 
     renderPlayers() {
         var cards = [];
-        console.log(this.characters.length);
         for (var i = 0; i < this.characters.length; i++)
         {
             cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
