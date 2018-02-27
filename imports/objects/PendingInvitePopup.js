@@ -44,10 +44,19 @@ export default class PlayerFormPopup extends React.Component {
         for (var i = 0; i < this.characters.length; i++)
         {   
             cards.push(
-                <CharacterCardHalf key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+                <CharacterCardHalf key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.addCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
             );
         }
         return <div>{cards}</div>;
+    }
+
+    addCharacter(cid , somehistory, characterid){
+        console.log(characterid)
+        Meteor.call("campaignCharacter.addToSet", 
+            _id = this.id,
+            characterid,    
+        );
+
     }
 
     loadCharacter(cid, somehistory){
