@@ -252,7 +252,7 @@ export default class CampaignScreen extends React.Component{
                                     <div className="spacer col-sm-12"/>
                                     <h3>Characters</h3>
                                     <hr/>
-                                    <div className="scrolling-container">
+                                    <div className="scrolling-container-content-top">
                                         {this.renderRightSideCharacterForm()}
                                     </div>
                                 </div>
