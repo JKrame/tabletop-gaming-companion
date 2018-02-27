@@ -5,8 +5,6 @@ import OtherBubble from '../objects/OtherSpeechBubble';
 
 export default class ChatWindow extends React.Component{
     renderChatBubbles(){
-        console.log("ChatWindow this.props.conversation: ");
-        console.log(this.props.conversation);
         var cards = [];
         if (this.props.conversation){
             messages = this.props.conversation.messages;

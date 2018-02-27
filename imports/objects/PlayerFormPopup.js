@@ -8,7 +8,7 @@ export default class PlayerFormPopup extends React.Component {
             const sub = Meteor.subscribe('conversations');
             if(sub.ready())
             {
-                this.conversations = Conversations.find( {$or: [{userID: Meteor.userId()}, {contactID: Meteor.userId()}]}).fetch();
+                this.conversations = Conversations.find( {$or: [{"userOne._id": Meteor.userId()}, {"userTwo._id": Meteor.userId()}]}).fetch();
             }
 
             const sub2 = Meteor.subscribe('userData');
@@ -21,30 +21,22 @@ export default class PlayerFormPopup extends React.Component {
         });
     }
 
+    componentWillUnmount(){
+        this.playerFormPopupTracker.stop();
+    }
+
     renderContacts() {
         var cards = [];
-        console.log("playerformpopup convos");
-        console.log(this.conversations);
-        console.log(this.users);
-        if (this.conversations && this.users){
+        if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
-                for(var j = 0; j < this.users.length; j++){
-                    if (this.users[j]._id == this.conversations[i].userID){
-                        if (this.conversations[i].userID == Meteor.userId()){
-                            cards.push(<UserCard key={i} username={this.conversations[i].contactUsername}/>);
-                        }
-                        else{
-                            cards.push(<UserCard key={i} username={this.conversations[i].username}/>);
-                        }
-                    }
-                }
+                partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
+                cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture}/>);
             }
         }
         return <div>{cards}</div>;
     }
 
     render() {
-        console.log("render playformpupu");
         return (
             <div className='popup'>
                 <div className="add-player-popup popup_inner">

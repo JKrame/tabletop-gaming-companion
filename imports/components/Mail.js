@@ -18,14 +18,11 @@ export default class Mail extends React.Component{
             const sub = Meteor.subscribe('conversations');
             if(sub.ready())
             {
-                this.conversations = Conversations.find( {$or: [{userID: Meteor.userId()}, {contactID: Meteor.userId()}]}).fetch();
-                console.log("Mail this.conversations: ");
-                console.log(this.conversations);
+                this.conversations = Conversations.find( {$or: [{"userOne._id": Meteor.userId()}, {"userTwo._id": Meteor.userId()}]}).fetch();
                 if (this.state.conversation != null){
                     for(i = 0; i < this.conversations.length; i++){
                         if (this.conversations[i]._id == this.state.conversation._id){
                             this.setState({conversation: this.conversations[i]});
-                            console.log("conversation updated");
                         }
                     }
                 }
@@ -35,13 +32,11 @@ export default class Mail extends React.Component{
             if(sub2.ready())
             {
                 this.users = Meteor.users.find({}).fetch();
-                console.log("Mail this.users: ");
-                console.log(this.users);
                 for(var i = 0; i < this.users.length; i++)
                 {
                     if(this.users[i]._id == Meteor.userId())
                     {
-                        this.username = this.users[i].profile.username;
+                        this.user = this.users[i];
                         break;
                     }
                 }
@@ -49,6 +44,10 @@ export default class Mail extends React.Component{
 
             this.forceUpdate();
         });
+    }
+
+    componentWillUnmount(){
+        this.mailSheetTracker.stop();
     }
 
     findPlayer() {
@@ -61,7 +60,7 @@ export default class Mail extends React.Component{
             if(this.users[i].profile.username == username)
             {
                 found = true;
-                user = this.users[i];
+                contact = this.users[i];
                 image = this.users[i].profile.accountPicture;
                 break;
             }
@@ -72,22 +71,20 @@ export default class Mail extends React.Component{
             alert(username + " does not exist.");
             return;
         }
-        else if(user._id == Meteor.userId()){
-            alert("You cannot message yourself");
+        else if(contact._id == Meteor.userId()){
+            alert("You cannot message yourself.");
         }
         else
         {
             alreadyFriends = false;
             for (i = 0; i < this.conversations.length; i++){
-                if (user._id == this.conversations[i].contactID || user._id == this.conversations[i].userID){
+                if (contact._id == this.conversations[i].userOne._id || contact._id == this.conversations[i].userTwo._id){
                     alreadyFriends = true;
                 }
             }
 
-            console.log("add user:");
-            console.log(user);
             if (!alreadyFriends){
-                Meteor.call('conversations.insert', this.username, user._id, user.profile.username);
+                Meteor.call('conversations.insert', this.user, contact);
                 this.searchPlayerUsername = username;
                 this.searchPlayerURL = image
             }
@@ -100,14 +97,10 @@ export default class Mail extends React.Component{
         }
 
         var cards = [];
-
-        for (var i = 0; i < this.conversations.length; i++)
-        {
-            if (this.conversations[i].userID == Meteor.userId()){
-                cards.push(<UserCard key={i} username={this.conversations[i].contactUsername} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
-            }
-            else{
-                cards.push(<UserCard key={i} username={this.conversations[i].username} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
+        if (this.conversations){
+            for (var i = 0; i < this.conversations.length; i++){
+                partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
+                cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
             }
         }
 

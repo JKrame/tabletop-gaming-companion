@@ -11,5 +11,5 @@ Meteor.publish('campaigns', function(){
 });
 
 Meteor.publish('conversations', function(){
-    return Conversations.find({$or: [{userID: Meteor.userId()}, {contactID: Meteor.userId()}]});
+    return Conversations.find({$or: [{"userOne._id": Meteor.userId()}, {"userTwo._id": Meteor.userId()}]});
 })
