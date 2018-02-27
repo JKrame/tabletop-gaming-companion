@@ -1,19 +1,50 @@
 import React from 'react'
-import UserCardMini from '../objects/UserCard';
+import UserCard from '../objects/UserCard';
 
 
 export default class PlayerFormPopup extends React.Component {
+    componentWillMount(){
+        this.playerFormPopupTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('conversations');
+            if(sub.ready())
+            {
+                this.conversations = Conversations.find( {$or: [{userID: Meteor.userId()}, {contactID: Meteor.userId()}]}).fetch();
+            }
+
+            const sub2 = Meteor.subscribe('userData');
+            if(sub2.ready())
+            {
+                this.users = Meteor.users.find({}).fetch();
+            }
+
+            this.forceUpdate();
+        });
+    }
 
     renderContacts() {
         var cards = [];
-        var numcharacters = 12;
-        for (var i = 0; i < numcharacters; i++)
-        {
-            cards.push(<UserCardMini key={i}/>);
+        console.log("playerformpopup convos");
+        console.log(this.conversations);
+        console.log(this.users);
+        if (this.conversations && this.users){
+            for (var i = 0; i < this.conversations.length; i++){
+                for(var j = 0; j < this.users.length; j++){
+                    if (this.users[j]._id == this.conversations[i].userID){
+                        if (this.conversations[i].userID == Meteor.userId()){
+                            cards.push(<UserCard key={i} username={this.conversations[i].contactUsername}/>);
+                        }
+                        else{
+                            cards.push(<UserCard key={i} username={this.conversations[i].username}/>);
+                        }
+                    }
+                }
+            }
         }
         return <div>{cards}</div>;
     }
+
     render() {
+        console.log("render playformpupu");
         return (
             <div className='popup'>
                 <div className="add-player-popup popup_inner">
@@ -35,6 +66,6 @@ export default class PlayerFormPopup extends React.Component {
                     </div>
                 </div>
             </div>
-      );
+        );
     }
 }
