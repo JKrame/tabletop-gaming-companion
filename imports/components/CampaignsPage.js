@@ -2,6 +2,7 @@ import React from 'react'
 import CampaignCardVertical from '../objects/CampaignCardVertical';
 import { NavLink } from 'react-router-dom';
 import { Random } from 'meteor/random';
+import InvitePopup from '../objects/PendingInvitePopup';
 
 var campaigns;
 var campaignsArray;
@@ -13,7 +14,18 @@ var SortParameters = Object.freeze({
 });
 
 export default class CampaignsPage extends React.Component{
-    
+    constructor() {
+        super();
+        this.state = {
+            showInvitePopup: false
+        };
+    }
+
+    toggleInvitePopup() {
+        this.setState({
+            showInvitePopup: !this.state.showInvitePopup
+        });
+    }
     componentWillMount(){
         this.campaignsTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
@@ -136,6 +148,20 @@ export default class CampaignsPage extends React.Component{
                         <hr/>
                         <div className="scrolling-container">
                             {this.renderCampaignForm()}
+
+                            <NavLink to='#' onClick={this.toggleInvitePopup.bind(this)} className='nav-item nav-link'>
+                                <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
+                                    <div className="vertical-card-contents">
+                                        <div className="vertical-image">
+                                            <img src={'/images/photoMissing.png'} className="full-width vertical-image"/>
+                                        </div>
+                                        <div className="vertical-data">
+                                            <h3 className="no-margin-override">PENDING INVITE</h3>
+                                            <hr className="hr-override-light"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </NavLink>
                             <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>
                                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
                                     <div className="vertical-card-contents">
@@ -152,6 +178,13 @@ export default class CampaignsPage extends React.Component{
                         </div>
                     </div>
                 </div>
+                {this.state.showInvitePopup ? 
+                    <InvitePopup
+                        text='Close Me'
+                        closePopup={this.toggleInvitePopup.bind(this)}
+                    />
+                    : null
+                }
             </div>
         );
     }

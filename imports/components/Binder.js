@@ -5,6 +5,8 @@ import {Random} from 'meteor/random';
 //import { Characters } from '../api/character';
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
+import InvitePopup from '../objects/PendingInvitePopup';
+
 
 var characters;
 var charactersArray;
@@ -13,6 +15,18 @@ var campaigns;
 var campaignsArray;
 
 export default class Binder extends React.Component{
+    constructor() {
+        super();
+        this.state = {
+            showInvitePopup: false
+        };
+    }
+
+    toggleInvitePopup() {
+        this.setState({
+            showInvitePopup: !this.state.showInvitePopup
+        });
+    }
 
     componentWillMount(){
         this.binderTracker = Tracker.autorun(() => {
@@ -172,7 +186,7 @@ export default class Binder extends React.Component{
                             <div className="scrolling-container">
                                 {this.renderCampaignForm()}
 
-                                <div className="objectCardMini add-container">
+                                <div className="objectCardMini add-container" onClick={this.toggleInvitePopup.bind(this)}>
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/pending.png'} className="stretch-image"/>
                                         </div>
@@ -198,6 +212,13 @@ export default class Binder extends React.Component{
                         </div>
                     </div>
                 </div>
+                {this.state.showInvitePopup ? 
+                    <InvitePopup
+                        text='Close Me'
+                        closePopup={this.toggleInvitePopup.bind(this)}
+                    />
+                    : null
+                }
             </div>
         );
     }
