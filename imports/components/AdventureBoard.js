@@ -3,9 +3,22 @@ import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 
 import CampaignCardHalf from '../objects/CampaignCardHalf';
-
+import InvitePopup from '../objects/PendingInvitePopup';
 
 export default class AdventureBoard extends React.Component{
+    constructor() {
+        super();
+        this.state = {
+            showInvitePopup: false
+        };
+    }
+
+    toggleInvitePopup() {
+        this.setState({
+            showInvitePopup: !this.state.showInvitePopup
+        });
+    }
+
     componentWillMount(){
         this.adventureBoardTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
@@ -22,34 +35,7 @@ export default class AdventureBoard extends React.Component{
     }
 
     loadCampaign(campaignId, somehistory, campaigns){
-        if (!campaignId)
-        {
-            campaignId = Random.id();
-            Meteor.call("campaigns.insert", campaignId);
-        }
-
-        if (!somehistory){ 
-            somehistory = this.props.history;
-            somehistory.push('/campaign/edit/' + campaignId);
-        }
-        else
-        {
-            for(var i = 0; i < campaigns.length; i++)
-            {
-                if(campaigns[i]._id == campaignId)
-                {
-                    if(campaigns[i].gm == Meteor.userId())
-                    {
-                        somehistory.push('/campaign/edit/' + campaignId); //first send them to the editing page
-                    }
-                    else
-                    {
-                        somehistory.push('/campaigns/' + campaignId); //if they dont own it, send them to game screen
-                    }
-                    break;
-                }
-            }
-        }
+        return;
     }
 
     renderCampaignCard() {
@@ -61,7 +47,7 @@ export default class AdventureBoard extends React.Component{
 
         for (var i = 0; i < this.adventures.length; i++)
         {
-            cards.push(<CampaignCardHalf key={i} campaignImageURL={this.adventures[i].campaignImageURL} id={this.adventures[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.adventures} campaignName={this.adventures[i].name} campaignDescription={this.adventures[i].description}/>);
+            cards.push(<CampaignCardHalf  func={this.toggleInvitePopup.bind(this)} key={i} campaignImageURL={this.adventures[i].campaignImageURL} id={this.adventures[i]._id} somehistory={this.props.history} campaigns={this.adventures} campaignName={this.adventures[i].name} campaignDescription={this.adventures[i].description}/>);
         }
 
         return <div>{cards}</div>;
@@ -72,15 +58,22 @@ export default class AdventureBoard extends React.Component{
         <div className="page-wrapper">
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height" >
-                        <NavLink to="Characters">
-                                <h3>Public Adventure Board</h3>
-                        </NavLink>
+
+                        <h3>Public Adventure Board</h3>
+
                         <hr/>
                         <div className="scrolling-container-80">
                             {this.renderCampaignCard()}
                         </div>
                     </div>
                 </div>
+                {this.state.showInvitePopup ? 
+                <InvitePopup
+                    text='Close Me'
+                    closePopup={this.toggleInvitePopup.bind(this)}
+                />
+                : null
+            }
             </div>
     );
   }

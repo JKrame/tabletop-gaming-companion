@@ -207,7 +207,7 @@ body{
 }
 .page-content-scroller{
     height:350px;
-    overflow-y:scroll;
+    overflow-y:auto;
     overflow-x: hidden;
 }
 
@@ -654,6 +654,20 @@ a.menu_links{
     bottom:0;
     height: 500px;
     width:400px;
+    z-index: 999;
+    padding:30px;
+    margin:5vw auto;
+    background-color: rgba(200, 200, 200, 0.801);
+}
+
+.pending-invite-popup{
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    height: 540px;
+    width:500px;
     z-index: 999;
     padding:30px;
     margin:5vw auto;
