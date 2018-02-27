@@ -133,18 +133,11 @@ export default class CampaignSetup extends React.Component{
     }
 
     addPlayer(username) {
-        // if(!Meteor.users.findOne({"emails.address" : username}))
-        // {
-        //     alert(username + " does not exist.");
-        //     return;
-        // }
-
         Meteor.call("campaignPlayer.push", 
             _id = this.id,
             username,    
         );
-
-        this.refs.addplayer.value = "";
+        this.togglePlayerPopup();
     }
     
     updateTextAssets(){
@@ -180,35 +173,10 @@ export default class CampaignSetup extends React.Component{
                     campaignImageURL}});
     }
 
-    makeVisibleAddImageAsset()
-    {   //ugh ive completely run out of ideas
-        this.popupStyle = {
-            display : 'visible'
-        };
-        this.render();
-        // this.setState(this.state);
-        // this.forceUpdate();
-        //forceUpdate();
-        // return (
-        //     <div className="add-image-popup">
-        //         <h2>Enter the Image URL</h2>
-        //         <input type="text" className="full-width"/>
-        //         <div className="col-sm-12">
-        //             <div className="right-align">
-        //                 <button className=" submit-button button">Cancel</button>
-        //                 <button className="submit-button blue-button button">Add Image</button>
-        //             </div>
-        //         </div>
-        //     </div>
-        // );
-        console.log("calling some bullshit");
-    }
-
-    addImageAsset(){
-        newURL = this.refs.newImageURL.value;
+    addImageAsset(url){
+        //newURL = this.refs.imageUrlBox.value;
+        newURL = url;
         urlExists = Campaigns.find({ URLs: { $elemMatch: { $eq: newURL}}}).fetch().length > 0;
-
-        console.log(urlExists);
 
         if(newURL == "")
         {
@@ -221,10 +189,10 @@ export default class CampaignSetup extends React.Component{
         else{
             Meteor.call("campaignImage.addToSet", 
                 this.id,
-                this.refs.newImageURL.value,    
+                newURL,    
             );
         }
-        this.refs.newImageURL.value = "";
+        this.toggleImagePopup();
     }
 
     addToAdventureBoard(){
@@ -258,20 +226,6 @@ export default class CampaignSetup extends React.Component{
 
         return(
             <div className="page-wrapper">
-
-                <div className="add-image-popup" style={popupStyle}>
-                    <h2>Enter the Image URL</h2>
-                    <input type="text" className="full-width"/>
-                    <div className="col-sm-12">
-                        <div className="right-align">
-                            <button className=" submit-button button">Cancel</button>
-                            <button className="submit-button blue-button button">Add Image</button>
-                        </div>
-                    </div>
-                </div>
-
-
-
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-8">
@@ -354,19 +308,12 @@ export default class CampaignSetup extends React.Component{
                             <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
-                                <div className="image-card" onClick={() => this.makeVisibleAddImageAsset()}>
-                                    <div className="image-asset">
-                                        <img src='/images/addIcon.png' className="image-asset-img" />
-                                    </div>
-                                </div>
                                 <div className='nav-item nav-link'>   
                                     <div className="objectCardMini grid-item add-container">
                                         <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
                                        
                                     </div>
                                 </div>
-                                <input className="full-width" type="text" ref="newImageURL"/>
-                                <button onClick={this.addImageAsset.bind(this)}>show popup</button>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
@@ -403,9 +350,6 @@ export default class CampaignSetup extends React.Component{
                             <hr/>
                             <div className="scrolling-container">
                                 {this.renderPlayers()}
-                                <div>
-                                    <input type="text" ref="addplayer" className="fill-width" placeholder=""/>  
-                                </div>
                                 <div onClick={this.togglePlayerPopup.bind(this)} className='nav-item nav-link'> 
                                     <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
@@ -458,6 +402,7 @@ export default class CampaignSetup extends React.Component{
                             <ImagePopup
                                 text='Close Me'
                                 closePopup={this.toggleImagePopup.bind(this)}
+                                addImageAsset={this.addImageAsset.bind(this)}
                             />
                             : null
                             }
@@ -466,6 +411,7 @@ export default class CampaignSetup extends React.Component{
                                 text='Close Me'
                                 closePopup={this.togglePlayerPopup.bind(this)}
                                 renderContacts={this.renderContacts.bind(this)}
+                                addPlayer={this.addPlayer.bind(this)}
                             />
                             : null
                             }
