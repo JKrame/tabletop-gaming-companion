@@ -7,8 +7,13 @@ import ToggleButton from 'react-toggle-button'
 import CharacterCard from '../objects/CampaignCharacterTile';
 import CampaignCard from '../objects/CampaignCardMini';
 import ChatWindow from '../objects/ChatWindow';
+import TextAssetcard from '../objects/TextAssetCard';
+import ImageAssetCard from '../objects/ImageAssetCard';
+import NPCCard from '../objects/NPCcard';
+
 
 var characters;
+var NPCs;
 
 export default class CampaignScreen extends React.Component{
 
@@ -21,7 +26,9 @@ export default class CampaignScreen extends React.Component{
             if(sub.ready())
             {
                 var campaignID = id.toString();
-                this.characters = Characters.find({campaignID: campaignID}).fetch();
+                //this.characters = Characters.find({campaignID: campaignID}).fetch();
+                this.characters = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $ne: "npc" } } ] }).fetch();
+                this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
             const sub2 = Meteor.subscribe('campaigns');
             if(sub2.ready())
@@ -46,6 +53,33 @@ export default class CampaignScreen extends React.Component{
         {
             return this.renderCharacterCard();
         }
+    }
+
+    renderNPCs() {
+        var cards = [];
+        for (var i = 0; i < this.NPCs.length; i++)
+        {
+            cards.push(<NPCCard key={i} characterImageURL={this.NPCs[i].characterImageURL} id={this.NPCs[i]._id} somehistory={this.props.history} func={this.loadNPC} characterName={this.NPCs[i].characterName} characterClass={this.NPCs[i].characterClass} level={this.NPCs[i].level} race={this.NPCs[i].race}/>);
+        }
+        return <div>{cards}</div>;
+    }
+
+    renderTextAssets() {
+        var cards = [];
+        for (var i = 0; i < this.campaign.notes.length; i++)
+        {
+            cards.push(<TextAssetcard key={i} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
+        }
+        return <div>{cards}</div>;
+    }
+
+    renderImageAssets() {
+        var cards = [];
+        for (var i = 0; i < this.campaign.URLs.length; i++)
+        {
+            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id} campaignID={this.campaign._id}/>);
+        }
+        return <div>{cards}</div>;
     }
 
     renderCharacterCard() {
@@ -78,14 +112,17 @@ export default class CampaignScreen extends React.Component{
                     <div>
                         <div className="spacer col-sm-12"/>
                         <h3>NPCS</h3>
+                        {this.renderNPCs()}
                         <hr/>
     
                         <div className="spacer col-sm-12"/>
                         <h3>Text Assets</h3>
+                        {this.renderTextAssets()}
                         <hr/>
     
                         <div className="spacer col-sm-12"/>
                         <h3>Image Assets</h3>
+                        {this.renderImageAssets()}
                         <hr/>
                     </div>
                 ) ;                                 
@@ -252,7 +289,7 @@ export default class CampaignScreen extends React.Component{
                                     <div className="spacer col-sm-12"/>
                                     <h3>Characters</h3>
                                     <hr/>
-                                    <div className="scrolling-container">
+                                    <div className="scrolling-container-content-top">
                                         {this.renderRightSideCharacterForm()}
                                     </div>
                                 </div>

@@ -79,11 +79,13 @@ export default class Mail extends React.Component{
         {
             alreadyFriends = false;
             for (i = 0; i < this.conversations.length; i++){
-                if (user.id == this.conversations[i].contactID){
+                if (user._id == this.conversations[i].contactID || user._id == this.conversations[i].userID){
                     alreadyFriends = true;
                 }
             }
 
+            console.log("add user:");
+            console.log(user);
             if (!alreadyFriends){
                 Meteor.call('conversations.insert', this.username, user._id, user.profile.username);
                 this.searchPlayerUsername = username;
@@ -101,7 +103,12 @@ export default class Mail extends React.Component{
 
         for (var i = 0; i < this.conversations.length; i++)
         {
-            cards.push(<UserCard key={i} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
+            if (this.conversations[i].userID == Meteor.userId()){
+                cards.push(<UserCard key={i} username={this.conversations[i].contactUsername} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
+            }
+            else{
+                cards.push(<UserCard key={i} username={this.conversations[i].username} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
+            }
         }
 
         return <div>{cards}</div>;
@@ -148,7 +155,6 @@ export default class Mail extends React.Component{
                             <h3>Friend List</h3>
                             <hr/>
                             <div className="scrolling-container"  style={{"height":"545px"}}>
-                                <UserCard id={"test"} loadConversation={this.loadConversation.bind(this)} characterImageURL={"http://i.telegraph.co.uk/multimedia/archive/03597/POTD_chick_3597497k.jpg"}/>
                                 {this.renderPlayers()}
                             </div>
                     </div>
@@ -168,7 +174,7 @@ export default class Mail extends React.Component{
                             <ChatWindow conversation={this.state.conversation}/>
                             <div className="col-sm-12 page-content">
                                 <div className="col-sm-9">
-                                    <input type="text" ref="messageBox" style={{"height":"200px"}} className="full-width"/>
+                                    <textarea type="text" ref="messageBox" style={{"height":"200px"}} className="full-width"/>
                                 </div>
                                 <div className="col-sm-3 negate-margins">
                                         <button onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>

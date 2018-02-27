@@ -13,7 +13,7 @@ export default class UserCard extends React.Component{
                         <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/photoMissing.png'} className="stretch-image"/>
                     </div>
                     <div className="userCardMiniInfo container-fluid">
-                        <h4 className="no-margin-override h5-overflow-hidden verticalCenter">USERNAME</h4>
+                        <h4 className="no-margin-override h5-overflow-hidden verticalCenter">{this.props.username}</h4>
                     </div>
                 </div>
             </div>
