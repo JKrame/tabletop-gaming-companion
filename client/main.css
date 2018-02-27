@@ -323,7 +323,7 @@ body{
 .textAssetMini:hover{
     transition:.5s;
     max-height:180px;
-    background-color:rgba(255, 64, 76, .415);
+    background-color: rgba(28, 168, 184, 0.415);
 }
 .objectCardMini:hover{
     transition:.5s;
@@ -458,6 +458,22 @@ body{
 
 .image-card{
     float:left;
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    overflow: hidden;
+    border: solid 2px #606060;
+    border-radius: 10px 10px 10px 10px;
+    width:130px;
+    height:130px;
+}
+.image-card:hover{
+    transition:.5s;
+    background-color:rgba(28, 168, 184, 0.415) ;
+}
+
+.add-image-card{
+    float:left;
     padding:10px;    
     display: -webkit-flex;
     display: flex;
@@ -468,28 +484,62 @@ body{
     width:130px;
     height:130px;
 }
-.image-card:hover{
+.add-image-card:hover{
     transition:.5s;
-    height:170px;
     background-color:rgba(255, 64, 76, .415);
 }
 
+
 .image-asset{
-    width:110px;
-    height:110px;
-    clear:both;
+   position:relative;
+    width:130px;
+    height:130px;
+}
+
+.image-buttons{
+    opacity: 0;
+    margin-left:-130px;
+    width:130px;
+    height:500px;
+    padding:0;
+    z-index: 999;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    width:130px;
+}
+
+.image-buttons:hover{
+    opacity:100;
+    margin-top:0px;
+    transition:.5s;
+    display:visible !important;
 }
 
 .image-asset-img{
     display:block;
     margin: 0 auto;
-    width:110px;
-    height:110px;
-    max-width: 110px;
-    max-height:110px;
+    max-width: 130px;
 }
 .delete-btn{
     margin-top:10px;
+}
+
+.tiny-delete-btn{
+    overflow:hidden;
+    max-width:30px;
+    height:30px;
+    border-radius: 15px;
+    margin-top:10px;
+    margin-right:10px;
+    float:right;
+    background-color: rgba(255, 64, 76, .715);
+    padding:0;
+}
+
+.tiny-delete-btn:hover{
+    max-width:80px;
 }
 
 .no-margin-override{
