@@ -40,7 +40,7 @@ export default class PlayerFormPopup extends React.Component {
 
     alreadyAPlayer(player){
         for (var i = 0; i < this.props.players.length; i++){
-            if (this.props.players[i] == player.profile.username){
+            if (this.props.players[i] == player._id){
                 return true;
             }
         }
