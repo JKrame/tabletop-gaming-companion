@@ -133,7 +133,17 @@ export default class CampaignSetup extends React.Component{
     }
 
     addPlayer(username) {
+<<<<<<< HEAD
+        // if(!Meteor.users.findOne({"emails.address" : username}))
+        // {
+        //     alert(username + " does not exist.");
+        //     return;
+        // }
+
+        Meteor.call("campaignPlayer.addToSet", 
+=======
         Meteor.call("campaignPlayer.push", 
+>>>>>>> 510f985f8e688d8cc8b263889d15c072500f906b
             _id = this.id,
             username,    
         );

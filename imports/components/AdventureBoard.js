@@ -9,13 +9,15 @@ export default class AdventureBoard extends React.Component{
     constructor() {
         super();
         this.state = {
-            showInvitePopup: false
+            showInvitePopup: false,
+            campaignID:null
         };
     }
 
-    toggleInvitePopup() {
+    toggleInvitePopup(id) {
         this.setState({
-            showInvitePopup: !this.state.showInvitePopup
+            showInvitePopup: !this.state.showInvitePopup,
+            campaignID:id
         });
     }
 
@@ -38,16 +40,28 @@ export default class AdventureBoard extends React.Component{
         return;
     }
 
+    contains(array, value){
+
+        for(var i=0;i<array.length;i++){
+            if (value == array[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
     renderCampaignCard() {
         if (!this.adventures){
             return;
         }
-        console.log(this.adventures);
+        //console.log(this.adventures);
         var cards = [];
 
         for (var i = 0; i < this.adventures.length; i++)
         {
-            cards.push(<CampaignCardHalf  func={this.toggleInvitePopup.bind(this)} key={i} campaignImageURL={this.adventures[i].campaignImageURL} id={this.adventures[i]._id} somehistory={this.props.history} campaigns={this.adventures} campaignName={this.adventures[i].name} campaignDescription={this.adventures[i].description}/>);
+
+            if(this.contains(this.adventures[i].players, Meteor.userId()))
+                cards.push(<CampaignCardHalf  key={i} func={this.toggleInvitePopup.bind(this)} key={i} campaignImageURL={this.adventures[i].campaignImageURL} id={this.adventures[i]._id} somehistory={this.props.history} campaigns={this.adventures} campaignName={this.adventures[i].name} campaignDescription={this.adventures[i].description}/>);
         }
 
         return <div>{cards}</div>;
@@ -71,6 +85,7 @@ export default class AdventureBoard extends React.Component{
                 <InvitePopup
                     text='Close Me'
                     closePopup={this.toggleInvitePopup.bind(this)}
+                    campaign={this.state.campaignID}
                 />
                 : null
             }
