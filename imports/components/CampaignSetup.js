@@ -232,16 +232,16 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
                             
                             <h3>Campaign Title</h3>
-                                <hr/>
-                                <div className="scrolling-container">
-                                    <input type="text" ref="campaignTitle" defaultValue={this.campaign.name != null ? this.campaign.name : ""} className="fill-width"/>
-                                </div>
+                            <hr/>
+                            <div className="scrolling-container">
+                                <input type="text" ref="campaignTitle" defaultValue={this.campaign.name != null ? this.campaign.name : ""} className="fill-width"/>
+                            </div>
 
-                                <div className="spacer col-sm-12"/>                      
-                                <div className="spacer col-sm-12"/>
-                                <div className="spacer col-sm-12"/>                      
-                                <div className="spacer col-sm-12"/>
-                                
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            
                             <h3>Campaign Description</h3>
                             <hr/>
                             <div className="scrolling-container">

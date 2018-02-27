@@ -266,6 +266,26 @@ body{
     max-height:80px;
     border-radius: 10px 10px 10px 10px;
 }
+.NPCCardMini{
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    padding:5px;
+    border: solid 2px #606060;
+    overflow:hidden;
+}
+
+.NPCCardMiniImage{
+    float:left;
+    width:30px;
+    height:30px;
+    overflow: hidden;    
+}
+
+.NPCCardMini:hover{
+    transition:.5s;
+    background-color:rgba(255, 64, 76, .415);
+}
 
 .objectCardMini{
     display: -webkit-flex;
