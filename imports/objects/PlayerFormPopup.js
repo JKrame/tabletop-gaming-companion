@@ -30,10 +30,26 @@ export default class PlayerFormPopup extends React.Component {
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
-                cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture}/>);
+                if (!this.alreadyAPlayer(partner)){
+                    cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture} func={this.props.addPlayer} param={partner._id}/>);
+                }
             }
         }
         return <div>{cards}</div>;
+    }
+
+    alreadyAPlayer(player){
+        for (var i = 0; i < this.props.players.length; i++){
+            if (this.props.players[i] == player.profile.username){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    addPlayer(userID){
+        this.props.addPlayer(userID);
     }
 
     render() {
@@ -45,7 +61,7 @@ export default class PlayerFormPopup extends React.Component {
                     <div className="col-sm-12">
                         <div className="right-align">
                             <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
-                            <button onClick={() => this.props.addPlayer(this.refs.username.value)} className="submit-button blue-button button">Add Player</button>
+                            <button onClick={this.addPlayer.bind(this)} className="submit-button blue-button button">Add Player</button>
                         </div>       
                         <div className="spacer col-sm-12"/>                      
                         <div className="spacer col-sm-12"/>

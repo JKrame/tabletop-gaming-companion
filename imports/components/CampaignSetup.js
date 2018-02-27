@@ -54,11 +54,13 @@ export default class CampaignSetup extends React.Component{
             const sub3 = Meteor.subscribe('userData')
             if(sub.ready())
             {
-                this.campaign = Campaigns.findOne({_id : this.id});               
+                this.campaign = Campaigns.findOne({_id : this.id}); 
+                this.players = this.campaign.players;
             }
             if(sub2.ready())
             {
                 //this.characters = Characters.find({campaignID: this.id}).fetch();
+
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
@@ -134,10 +136,10 @@ export default class CampaignSetup extends React.Component{
         this.refs.newNoteText.value = "";
     }
 
-    addPlayer(username) {
-        Meteor.call("campaignPlayer.push", 
+    addPlayer(userID) {
+        Meteor.call("campaignPlayer.addToSet", 
             _id = this.id,
-            username,    
+            userID,    
         );
         this.togglePlayerPopup();
     }
@@ -414,6 +416,7 @@ export default class CampaignSetup extends React.Component{
                                 closePopup={this.togglePlayerPopup.bind(this)}
                                 renderContacts={this.renderContacts.bind(this)}
                                 addPlayer={this.addPlayer.bind(this)}
+                                players={this.players}
                             />
                             : null
                             }
