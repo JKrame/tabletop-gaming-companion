@@ -133,7 +133,17 @@ export default class CampaignSetup extends React.Component{
     }
 
     addPlayer(username) {
+<<<<<<< HEAD
+        // if(!Meteor.users.findOne({"emails.address" : username}))
+        // {
+        //     alert(username + " does not exist.");
+        //     return;
+        // }
+
+        Meteor.call("campaignPlayer.addToSet", 
+=======
         Meteor.call("campaignPlayer.push", 
+>>>>>>> 510f985f8e688d8cc8b263889d15c072500f906b
             _id = this.id,
             username,    
         );
@@ -232,16 +242,16 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
                             
                             <h3>Campaign Title</h3>
-                                <hr/>
-                                <div className="scrolling-container">
-                                    <input type="text" ref="campaignTitle" defaultValue={this.campaign.name != null ? this.campaign.name : ""} className="fill-width"/>
-                                </div>
+                            <hr/>
+                            <div className="scrolling-container">
+                                <input type="text" ref="campaignTitle" defaultValue={this.campaign.name != null ? this.campaign.name : ""} className="fill-width"/>
+                            </div>
 
-                                <div className="spacer col-sm-12"/>                      
-                                <div className="spacer col-sm-12"/>
-                                <div className="spacer col-sm-12"/>                      
-                                <div className="spacer col-sm-12"/>
-                                
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            <div className="spacer col-sm-12"/>                      
+                            <div className="spacer col-sm-12"/>
+                            
                             <h3>Campaign Description</h3>
                             <hr/>
                             <div className="scrolling-container">

@@ -253,6 +253,37 @@ body{
 }
 
 .objectCardHalf:hover{
+    transition:.5s;
+    background-color:rgba(255, 64, 76, .415);
+}
+.textAssetMini{
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    padding:5px;
+    border: solid 2px #606060;
+    overflow:hidden;
+    max-height:80px;
+    border-radius: 10px 10px 10px 10px;
+}
+.NPCCardMini{
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    padding:5px;
+    border: solid 2px #606060;
+    overflow:hidden;
+}
+
+.NPCCardMiniImage{
+    float:left;
+    width:30px;
+    height:30px;
+    overflow: hidden;    
+}
+
+.NPCCardMini:hover{
+    transition:.5s;
     background-color:rgba(255, 64, 76, .415);
 }
 
@@ -282,8 +313,13 @@ body{
 .objectCardMiniInfo p{
     margin-top:0px;
 }
-
+.textAssetMini:hover{
+    transition:.5s;
+    max-height:180px;
+    background-color:rgba(255, 64, 76, .415);
+}
 .objectCardMini:hover{
+    transition:.5s;
     background-color:rgba(255, 64, 76, .415);
 }
 
@@ -295,6 +331,7 @@ body{
 }
 
 .textCardMini:hover{
+    transition:.5s;
     background-color:rgba(255, 64, 76, .415);
 }
 
@@ -401,21 +438,31 @@ body{
     border: solid 2px #606060;
     overflow:hidden;
     border-radius: 10px 10px 10px 10px;
+    width:130px;
+    height:130px;
 }
 .image-card:hover{
+    transition:.5s;
+    height:170px;
     background-color:rgba(255, 64, 76, .415);
 }
 
 .image-asset{
     width:110px;
     height:110px;
+    clear:both;
 }
 
 .image-asset-img{
     display:block;
     margin: 0 auto;
+    width:110px;
+    height:110px;
     max-width: 110px;
     max-height:110px;
+}
+.delete-btn{
+    margin-top:10px;
 }
 
 .no-margin-override{
@@ -433,10 +480,11 @@ body{
 }
 
 .small-text{
-    font-size:10px;
+    font-size:12px;
 }
 
 .add-container:hover{
+    transition:.5s;
     background-color:rgba(28, 168, 184, 0.415) !important;
 }
 
@@ -614,6 +662,7 @@ a.menu_links{
 
 
 .player-near-you:hover{
+    transition:.5s;
     background-color:#606060;
     color:#eee;
 }
@@ -681,7 +730,21 @@ a.menu_links{
     width:100px;
     float:left;
 }
+
+.delete-btn{
+    height:25px;
+    color: #fff;
+    background-color:red;
+}
  
+
+.delete-txt-btn{
+    display:relative;
+    margin-top:100px;
+    height:25px;
+    color: #fff;
+    background-color:red;
+}
 .right-align{
     float:right;
 }
