@@ -10,12 +10,10 @@ export default class TextAssetcard extends React.Component{
     }
     render() {
         return (
-            <div className="objectCardMini">
-                <div className="objectCardMiniInfo container-fluid">
-                    <p className="p-override no-margin-override small-text"> {this.props.noteTitle}  {this.props.noteDescription}</p>
-                    <div onClick={this.deleteAsset.bind(this)}>
-                        <p>DELETE</p>
-                    </div>
+            <div className="textAssetMini">
+                <div className="objectCardMiniInfo container-fluid full-width">
+                    <p className="p-override no-margin-override small-text full-width"> {this.props.noteTitle}  {this.props.noteDescription}</p>
+                    <button onClick={this.deleteAsset.bind(this)} className="delete-txt-btn full-width">Delete</button>
                 </div>
             </div>
         );
