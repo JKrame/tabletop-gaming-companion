@@ -401,21 +401,30 @@ body{
     border: solid 2px #606060;
     overflow:hidden;
     border-radius: 10px 10px 10px 10px;
+    width:130px;
+    height:130px;
 }
 .image-card:hover{
+    height:170px;
     background-color:rgba(255, 64, 76, .415);
 }
 
 .image-asset{
     width:110px;
     height:110px;
+    clear:both;
 }
 
 .image-asset-img{
     display:block;
     margin: 0 auto;
+    width:110px;
+    height:110px;
     max-width: 110px;
     max-height:110px;
+}
+.delete-btn{
+    margin-top:10px;
 }
 
 .no-margin-override{
@@ -680,6 +689,12 @@ a.menu_links{
     margin:10px;
     width:100px;
     float:left;
+}
+
+.delete-btn{
+    height:25px;
+    color: #fff;
+    background-color:red;
 }
  
 .right-align{
