@@ -79,11 +79,13 @@ export default class Mail extends React.Component{
         {
             alreadyFriends = false;
             for (i = 0; i < this.conversations.length; i++){
-                if (user.id == this.conversations[i].contactID){
+                if (user._id == this.conversations[i].contactID || user._id == this.conversations[i].userID){
                     alreadyFriends = true;
                 }
             }
 
+            console.log("add user:");
+            console.log(user);
             if (!alreadyFriends){
                 Meteor.call('conversations.insert', this.username, user._id, user.profile.username);
                 this.searchPlayerUsername = username;
@@ -101,7 +103,12 @@ export default class Mail extends React.Component{
 
         for (var i = 0; i < this.conversations.length; i++)
         {
-            cards.push(<UserCard key={i} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
+            if (this.conversations[i].userID == Meteor.userId()){
+                cards.push(<UserCard key={i} username={this.conversations[i].contactUsername} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
+            }
+            else{
+                cards.push(<UserCard key={i} username={this.conversations[i].username} conversation={this.conversations[i]} loadConversation={this.loadConversation.bind(this)}/>);
+            }
         }
 
         return <div>{cards}</div>;
@@ -148,7 +155,6 @@ export default class Mail extends React.Component{
                             <h3>Friend List</h3>
                             <hr/>
                             <div className="scrolling-container"  style={{"height":"545px"}}>
-                                <UserCard id={"test"} loadConversation={this.loadConversation.bind(this)} characterImageURL={"http://i.telegraph.co.uk/multimedia/archive/03597/POTD_chick_3597497k.jpg"}/>
                                 {this.renderPlayers()}
                             </div>
                     </div>
