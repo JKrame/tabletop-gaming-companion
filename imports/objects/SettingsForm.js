@@ -120,20 +120,27 @@ export default class SettingsForm extends React.Component{
                                         <p className="p-override">Available Game Days</p>
                                         <input id={this.id} type="checkbox" value={0} defaultChecked={user.profile.schedule[0]} ref="Monday" onChange={this.handleScheduleChange}/>
                                         <label htmlFor={this.id}> Monday</label>
+                                        <br/>
           
                                         <input id={this.id} type="checkbox" value={1} defaultChecked={user.profile.schedule[1]} ref="Tuesday" onChange={this.handleScheduleChange}/>
                                         <label htmlFor={this.id}> Tuesday</label>
+                                        <br/>
                                        
                                         <input id={this.id} type="checkbox" value={2} defaultChecked={user.profile.schedule[2]} ref="Wednesday" onChange={this.handleScheduleChange}/>
                                         <label htmlFor={this.id}> Wednesday</label>
+                                        <br/>
                                         <input id={this.id} type="checkbox" value={3} defaultChecked={user.profile.schedule[3]} ref="Thursday" onChange={this.handleScheduleChange}/>
                                         <label htmlFor={this.id}> Thursday</label>
+                                        <br/>
                                         <input id={this.id} type="checkbox" value={4} defaultChecked={user.profile.schedule[4]} ref="Friday" onChange={this.handleScheduleChange}/>
                                         <label htmlFor={this.id}> Friday</label>
+                                        <br/>
                                         <input id={this.id} type="checkbox" value={5} defaultChecked={user.profile.schedule[5]} ref="Saturday" onChange={this.handleScheduleChange}/>
                                         <label htmlFor={this.id}> Saturday</label>
+                                        <br/>
                                         <input id={this.id} type="checkbox" value={6} defaultChecked={user.profile.schedule[6]} ref="Sunday" onChange={this.handleScheduleChange}/>
                                         <label htmlFor={this.id}> Sunday</label>
+                                        <br/>
                                         
                                     </div>                        
                                 <div className="spacer col-sm-12"/>

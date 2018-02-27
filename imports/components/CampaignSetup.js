@@ -22,6 +22,7 @@ var turnOrder;
 var URLs;
 var characters;
 var user;
+var NPCs;
 
 var popupStyle = {
     display: 'none'
@@ -58,7 +59,9 @@ export default class CampaignSetup extends React.Component{
             }
             if(sub2.ready())
             {
-                this.characters = Characters.find({campaignID: this.id}).fetch();
+                //this.characters = Characters.find({campaignID: this.id}).fetch();
+                this.characters = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $ne: "npc" } } ] }).fetch();
+                this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
             if(sub3.ready())
             {
@@ -74,10 +77,9 @@ export default class CampaignSetup extends React.Component{
     
     renderNPCs() {
         var cards = [];
-        var numcharacters = 4;
-        for (var i = 0; i < numcharacters; i++)
+        for (var i = 0; i < this.NPCs.length; i++)
         {
-            cards.push(<CharacterCardMini key={i}/>);
+            cards.push(<CharacterCardMini key={i} characterImageURL={this.NPCs[i].characterImageURL} id={this.NPCs[i]._id} somehistory={this.props.history} func={this.loadNPC} characterName={this.NPCs[i].characterName} characterClass={this.NPCs[i].characterClass} level={this.NPCs[i].level} race={this.NPCs[i].race}/>);
         }
         return <div>{cards}</div>;
     }
@@ -234,13 +236,12 @@ export default class CampaignSetup extends React.Component{
     }
 
     loadNPC(cid, somehistory){
-        console.log("this hit")
+        console.log("this hit");
         if (!cid)
         {
-            console.log("this hit2")
+            console.log("this hit2");
             cid = Random.id();
-            Meteor.call('characters.insert', cid,this.campaign._id, 'npc');
-            
+            Meteor.call('characters.insert', cid, this.campaign._id, 'npc');
         }
 
         if (!somehistory){

@@ -715,9 +715,20 @@ a.menu_links{
       margin-right:0;
   }
 
-@media only screen and (max-width: 800px) {
+  .spell-slot{
+      background-color:#1CA5B8;
+      margin-right:2px;
+      height:15px;
+      width:7px;
+      float:left;
+  }
 
-      
+  .spell-slot-container{
+      float:left;
+      width:40px;
+  }
+
+@media only screen and (max-width: 800px) {
     .logo{
         max-width:60%;
     }
