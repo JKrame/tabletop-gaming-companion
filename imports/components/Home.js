@@ -164,7 +164,7 @@ export default class Home extends React.Component {
                         <div className="page-content-scroller">
                             {this.renderCharacterForm()}
                             <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
-                                <div className="objectCardMini add-container">
+                                <div className="objectCardMini add-container grow">
                                     <div className="objectCardMiniImage">
                                         <img src={'/images/addIcon.png'} className="stretch-image"/>
                                     </div>
@@ -188,8 +188,8 @@ export default class Home extends React.Component {
                         <div className="page-content-scroller">
                             {this.renderCampaignForm()}
                             
-                            <NavLink to="#" ><div className="objectCardMini add-container" onClick={this.toggleInvitePopup.bind(this)}>
-                                        <div className="objectCardMiniImage">
+                            <NavLink to="#" ><div className="objectCardMini grow add-container" onClick={this.toggleInvitePopup.bind(this)}>
+                                        <div className="objectCardMiniImage ">
                                             <img src={'/images/pending.png'} className="stretch-image"/>
                                         </div>
                                         <div className="objectCardMiniInfo container-fluid">
@@ -200,7 +200,7 @@ export default class Home extends React.Component {
                                     </div></NavLink>
                                
                                 <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>

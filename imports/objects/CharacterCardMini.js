@@ -8,8 +8,8 @@ export default class CharacterCardMini extends React.Component{
 
     render() {
         return (
-            <NavLink to='#' onClick={() => this.props.func(this.props.id, this.props.somehistory, this.props.campaign)} className='nav-item nav-link'>
-                <div className="objectCardMini highlight-container">
+            <NavLink to='#' onClick={() => this.props.func(this.props.id, this.props.somehistory, this.props.campaign)} className='nav-item nav-link hoverBox'>
+                <div className="objectCardMini grow">
                     <div className="objectCardMiniImage">
                         <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/photoMissing.png'} className="stretch-image"/>
                     </div>
