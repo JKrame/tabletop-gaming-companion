@@ -164,7 +164,7 @@ export default class Binder extends React.Component{
                                 {this.renderCharacterForm()}
 
                                 <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
@@ -186,7 +186,7 @@ export default class Binder extends React.Component{
                             <div className="scrolling-container-80">
                                 {this.renderCampaignForm()}
 
-                                <div className="objectCardMini add-container" onClick={this.toggleInvitePopup.bind(this)}>
+                                <div className="objectCardMini grow add-container" onClick={this.toggleInvitePopup.bind(this)}>
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/pending.png'} className="stretch-image"/>
                                         </div>
@@ -198,7 +198,7 @@ export default class Binder extends React.Component{
                                     </div>
                                
                                 <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>

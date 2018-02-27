@@ -259,7 +259,7 @@ export default class CampaignSetup extends React.Component{
                                 {this.renderNPCs()}
 
                                 <NavLink to='#' onClick={() => this.loadNPC()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
