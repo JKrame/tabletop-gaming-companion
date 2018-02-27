@@ -1,8 +1,6 @@
 import React from 'react'
 import UserCard from '../objects/UserCard';
 import UserCardMicro from '../objects/UserCardMicro';
-import UserBubble from '../objects/UserSpeechBubble';
-import OtherBubble from '../objects/OtherSpeechBubble';
 import ChatWindow from '../objects/ChatWindow';
 
 var searchPlayerUsername = "";
@@ -12,7 +10,7 @@ var users;
 export default class Mail extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { conversation: null } ;
+        this.state = { conversation: null, contactUsername: null } ;
     }
 
     componentWillMount(){
@@ -21,12 +19,34 @@ export default class Mail extends React.Component{
             if(sub.ready())
             {
                 this.conversations = Conversations.find( {$or: [{userID: Meteor.userId()}, {contactID: Meteor.userId()}]}).fetch();
+                console.log("Mail this.conversations: ");
+                console.log(this.conversations);
+                if (this.state.conversation != null){
+                    for(i = 0; i < this.conversations.length; i++){
+                        if (this.conversations[i]._id == this.state.conversation._id){
+                            this.setState({conversation: this.conversations[i]});
+                            console.log("conversation updated");
+                        }
+                    }
+                }
             }
+
             const sub2 = Meteor.subscribe('userData');
             if(sub2.ready())
             {
                 this.users = Meteor.users.find({}).fetch();
+                console.log("Mail this.users: ");
+                console.log(this.users);
+                for(var i = 0; i < this.users.length; i++)
+                {
+                    if(this.users[i]._id == Meteor.userId())
+                    {
+                        this.username = this.users[i].profile.username;
+                        break;
+                    }
+                }
             }
+
             this.forceUpdate();
         });
     }
@@ -65,12 +85,10 @@ export default class Mail extends React.Component{
             }
 
             if (!alreadyFriends){
-                Meteor.call('conversations.insert', user._id);
+                Meteor.call('conversations.insert', this.username, user._id, user.profile.username);
+                this.searchPlayerUsername = username;
+                this.searchPlayerURL = image
             }
-
-            this.searchPlayerUsername = username;
-            this.searchPlayerURL = image
-            this.forceUpdate();
         }
     }
 
@@ -92,13 +110,24 @@ export default class Mail extends React.Component{
     loadConversation(conversation) {
         if (conversation){ 
             this.setState({conversation: conversation});
+
+            if (conversation.userID == Meteor.userId()){
+                this.setState({contactUsername : conversation.contactUsername});
+            }
+            else{
+                this.setState({contactUsername : conversation.username});
+            }
+
+            this.forceUpdate();
         }
     }
 
     sendMessage(){
-        message = this.refs.messageBox.value;
-        Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
-        this.loadConversation(this.state.conversation);
+        if (this.state.conversation){
+            message = this.refs.messageBox.value;
+            Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
+            this.loadConversation(this.state.conversation);
+        }
     }
 
   render() {
@@ -130,7 +159,7 @@ export default class Mail extends React.Component{
                             <div style={{ "width":"60px","height":"60px", "backgroundColor":"red"}}/>
                         </div>
                         <div style={{"float":"left", "width":"300px","marginLeft":"30px"}}>
-                            <h4>Chatting With: xXRAWRXx_360NOXSCOPEXDXx</h4>
+                            <h4>Chatting With: {this.state.contactUsername}</h4>
                         </div>
                     </div>
                     <div className="spacer col-sm-12"/>
