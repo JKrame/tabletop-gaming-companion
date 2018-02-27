@@ -160,7 +160,7 @@ export default class Binder extends React.Component{
                                     <h3>Your Characters >></h3>
                             </NavLink>
                             <hr/>
-                            <div className="scrolling-container">
+                            <div className="scrolling-container-80">
                                 {this.renderCharacterForm()}
 
                                 <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
@@ -183,7 +183,7 @@ export default class Binder extends React.Component{
                             </NavLink>
                             <hr className="container-fluid"/>
 
-                            <div className="scrolling-container">
+                            <div className="scrolling-container-80">
                                 {this.renderCampaignForm()}
 
                                 <div className="objectCardMini add-container" onClick={this.toggleInvitePopup.bind(this)}>
