@@ -106,9 +106,11 @@ export default class CampaignSetup extends React.Component{
 
     renderPlayers() {
         var cards = [];
-        for (var i = 0; i < this.characters.length; i++)
-        {
-            cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
+        if (this.characters){
+            for (var i = 0; i < this.characters.length; i++)
+            {
+                cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
+            }
         }
         return <div>{cards}</div>;
     }
