@@ -131,7 +131,7 @@ export default class CharactersPage extends React.Component{
                     <div className="page-content col-xs-12 fill-height">
                         <h3>Characters</h3>
                         <hr/>
-                        <div className="scrolling-container">
+                        <div className="scrolling-container-80">
                             {this.renderForm()}
                             <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>
                                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
