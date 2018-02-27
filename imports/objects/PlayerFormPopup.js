@@ -21,6 +21,10 @@ export default class PlayerFormPopup extends React.Component {
         });
     }
 
+    componentWillUnmount(){
+        this.playerFormPopupTracker.stop();
+    }
+
     renderContacts() {
         var cards = [];
         if (this.conversations){

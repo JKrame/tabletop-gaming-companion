@@ -46,6 +46,10 @@ export default class Mail extends React.Component{
         });
     }
 
+    componentWillUnmount(){
+        this.mailSheetTracker.stop();
+    }
+
     findPlayer() {
         var username = this.refs.friendSearchInput.value;
         var image;
