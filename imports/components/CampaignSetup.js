@@ -139,7 +139,7 @@ export default class CampaignSetup extends React.Component{
         //     return;
         // }
 
-        Meteor.call("campaignPlayer.push", 
+        Meteor.call("campaignPlayer.addToSet", 
             _id = this.id,
             username,    
         );
