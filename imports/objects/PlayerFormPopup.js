@@ -30,7 +30,7 @@ export default class PlayerFormPopup extends React.Component {
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
-                if (!this.alreadyAPlayer(partner)){
+                if (!this.alreadyInvited(partner)){
                     cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture} func={this.props.addPlayer} param={partner._id}/>);
                 }
             }
@@ -38,9 +38,15 @@ export default class PlayerFormPopup extends React.Component {
         return <div>{cards}</div>;
     }
 
-    alreadyAPlayer(player){
-        for (var i = 0; i < this.props.players.length; i++){
-            if (this.props.players[i] == player._id){
+    alreadyInvited(player){
+        for (var i = 0; i < this.props.pendingInvites.length; i++){
+            if (this.props.pendingInvites[i] == player._id){
+                return true;
+            }
+        }
+
+        for (var i = 0; i < this.props.characters.length; i++){
+            if (this.props.characters[i].UID == player._id){
                 return true;
             }
         }
@@ -49,6 +55,10 @@ export default class PlayerFormPopup extends React.Component {
     }
 
     addPlayer(userID){
+        if (!userID){
+            userID = this.refs.username.value;
+        }
+
         this.props.addPlayer(userID);
     }
 
