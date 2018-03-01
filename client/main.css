@@ -263,11 +263,11 @@ body{
 .textAssetMini{
     display: -webkit-flex;
     display: flex;
+    overflow:hidden;
     margin:5px;
     padding:5px;
     border: solid 2px #d5d5d5;
-    overflow:hidden;
-    max-height:80px;
+    max-height:50px;
     border-radius: 10px 10px 10px 10px;
 }
 .NPCCardMini{
@@ -321,8 +321,9 @@ body{
     margin-top:0px;
 }
 .textAssetMini:hover{
+    overflow-y:auto;
+    max-height:300px;
     transition:.5s;
-    max-height:180px;
     background-color: rgba(28, 168, 184, 0.415);
 }
 .objectCardMini:hover{
@@ -499,7 +500,6 @@ body{
 .image-buttons{
     opacity: 0;
     margin-left:-130px;
-    width:130px;
     height:500px;
     padding:0;
     z-index: 999;
@@ -513,6 +513,31 @@ body{
 .image-buttons:hover{
     opacity:100;
     margin-top:0px;
+    transition:.5s;
+    display:visible !important;
+}
+.title{
+    font-size:13px;
+    font-weight:bolder;
+}
+.text-asset-txt{
+    margin-top:-500px;
+}
+
+.text-image-buttons{
+    margin-top:20px;
+    margin-bottom:10px;
+    float:right;
+    position:relative;
+    padding:0;
+    z-index: 999;
+    top:0;
+    right:0;
+    display: flex;
+}
+
+.text-image-buttons:hover{
+    opacity:100;
     transition:.5s;
     display:visible !important;
 }
@@ -530,7 +555,7 @@ body{
     overflow:hidden;
     max-width:30px;
     height:30px;
-    border-radius: 15px;
+    border-radius: 20px;
     margin-top:10px;
     margin-right:10px;
     float:right;
@@ -538,8 +563,49 @@ body{
     padding:0;
 }
 
+.tiny-button-txt p{
+
+    color: #fff;
+}
+
 .tiny-delete-btn:hover{
-    max-width:80px;
+    width:100px;
+    max-width:100px !important;
+    transition: .5s;
+    
+}
+
+.tiny-button-txt{
+    margin:0;
+    margin-top:-2px;
+    margin-left: -2px;
+    color:#fff;
+    white-space:  pre;
+    
+}
+
+
+.tiny-expand-btn{
+    overflow:hidden;
+    max-width:25px;
+    height:25px;
+    border-radius: 20px;
+    margin-top:10px;
+    margin-right:10px;
+    float:right;
+    background-color: rgba(28, 165, 184, .7);
+    padding:0;
+}
+
+.tiny-expand-btn p{
+    color:#fff;
+}
+
+.tiny-expand-btn:hover{
+    width:100px;
+    max-width:100px !important;
+    transition: .5s;
+    
 }
 
 .no-margin-override{
@@ -579,6 +645,9 @@ body{
     height:400px;
 }
 
+.max-600{
+    max-height: 600px;
+}
 .bottom-button{
     margin:auto;
     margin-top:3vh;

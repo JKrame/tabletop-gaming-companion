@@ -15,7 +15,11 @@ export default class ImageAssetCard extends React.Component{
                     <img src={this.props.URL == null || this.props.URL == "" ? '/images/addIcon.png' : this.props.URL} className="image-asset-img" />                    
                 </div>
                 <div className="image-buttons">
-                    <button onClick={this.deleteImage.bind(this)} className="tiny-delete-btn full-width">X   DELETE</button>
+
+                    <button onClick={this.deleteImage.bind(this)} className="tiny-delete-btn">
+                        <p  className="tiny-button-txt"><img src={'/images/x-icon.png'} className=""/>  DELETE</p>
+                    </button>
+
                 </div>
             </div>
         );
