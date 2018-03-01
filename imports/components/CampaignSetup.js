@@ -145,7 +145,6 @@ export default class CampaignSetup extends React.Component{
     }
     
     updateTextAssets(){
-        console.log("fix this mike");
     }
 
     renderImageAssets() {

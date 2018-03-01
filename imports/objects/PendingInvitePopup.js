@@ -56,10 +56,10 @@ export default class PlayerFormPopup extends React.Component {
     }
 
     addCharacter(characterid , somehistory, campaignid){
-        Meteor.call("campaignPlayer.addToSet",
-            _id = campaignid,
-            Meteor.userId()
-        );
+        // Meteor.call("campaignPendingInvites.addToSet",
+        //     _id = campaignid,
+        //     Meteor.userId()
+        // );
         Meteor.call("campaignCharacter.addToSet", 
             _id = campaignid,
             characterid    
