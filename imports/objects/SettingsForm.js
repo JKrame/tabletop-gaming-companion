@@ -57,11 +57,15 @@ export default class SettingsForm extends React.Component{
                 computation.stop();
                 var lat = latLng.curValue.lat;
                 var lng = latLng.curValue.lng;
-                reverseGeocode.getSecureLocation(lat, lng, function(location) {
-                    Meteor.users.update(Meteor.userId(), {
-                        $set: {"profile.location": reverseGeocode.getAddrStr()}
-                    });
+                coord=[lat, lng]
+                Meteor.users.update(Meteor.userId(), {
+                    $set: {"profile.location": coord}
                 });
+                // reverseGeocode.getSecureLocation(lat, lng, function(location) {
+                //     Meteor.users.update(Meteor.userId(), {
+                //         $set: {"profile.location": reverseGeocode.getAddrStr()}
+                //     });
+                // });
             }
         })
     }

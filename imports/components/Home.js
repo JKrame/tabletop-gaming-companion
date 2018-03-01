@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Random } from 'meteor/random';
-
+import geolib from 'geolib';
 //import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardMini';
 import CampaignCardHalf from '../objects/CampaignCardMini';
@@ -32,6 +32,7 @@ export default class Home extends React.Component {
         this.homeTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
             const sub2 = Meteor.subscribe('campaigns');
+            const sub3 = Meteor.subscribe('userData');
             var UID = Meteor.userId();
             if(sub.ready())
             {
@@ -48,6 +49,10 @@ export default class Home extends React.Component {
                 {
                     this.campaigns = campaignsArray;
                 }
+            }
+            if(sub.ready())
+            {
+                this.user = Meteor.users.find({}).fetch();
             }
             this.forceUpdate();
         });
@@ -148,12 +153,34 @@ export default class Home extends React.Component {
         }
     }
 
+    PlayersNearYou(){
+        if(!this.user){
+            return;
+        }
+
+        for(var i=0;i<this.user.length;i++){
+            if(this.user[i]._id == Meteor.userId())
+                currUserLocation=this.user[i].profile.location;
+        }
+        console.log(currUserLocation)
+
+        for(var i=0;i<this.user.length;i++){
+            if(this.user._id != Meteor.userId()){
+                userLocation=this.user[i].profile.location;
+            }
+            console.log( geolib.getDistance(
+                {latitude: currUserLocation[0], longitude: currUserLocation[1]},
+                {latitude: userLocation[0], longitude: userLocation[1]}
+            ));
+        }
+    }
 
 
     render() {
         Meteor.subscribe('characters');
         return(
         <div className="page-wrapper">
+        {this.PlayersNearYou()}
             <div className="col-lg-8 col-lg-offset-2">
                 <div className="col-lg-6 ">
                     <div className="page-content-half">
