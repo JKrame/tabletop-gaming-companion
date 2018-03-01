@@ -34,6 +34,7 @@ export default class CampaignScreen extends React.Component{
             if(sub2.ready())
             {
                 this.campaign = Campaigns.findOne({_id: id});
+                console.log(this.campaign);
             }
 
             this.forceUpdate();
@@ -73,23 +74,68 @@ export default class CampaignScreen extends React.Component{
         return <div>{cards}</div>;
     }
 
+    setBroadcastAssetImage(url)
+    {
+        this.campaign.currentBroadcastItem = url;
+        this.campaign.currentBroadcastType = "image";
+        Meteor.call('campaigns.broadcastUpdate', this.campaign._id, url, "image");
+    }
+    
+    clearBroadcast()
+    {
+        this.campaign.currentBroadcastItem = "";        
+        this.campaign.currentBroadcastType = "";
+        Meteor.call('campaigns.broadcastUpdate', this.campaign._id, "", "");
+        console.log("eat a dick");
+    }
+
+    broadcastCurrentAsset()
+    {
+        if(!this.campaign || this.campaign.currentBroadcastItem == "" || this.campaign.currentBroadcastItem == null)
+        {
+            return null;
+        }
+
+        if(this.campaign.currentBroadcastType == "text")
+        {
+            return (
+                <div>
+                    <p className="p-override no-margin-override small-text full-width"> {this.campaign.currentBroadcastItem[0]}  {this.campaign.currentBroadcastItem[1]}</p>
+                </div>
+            );
+        }
+
+        if(this.campaign.currentBroadcastType == "image")
+        {
+            return (
+                <div>
+                    <div>
+                        <img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="image-asset-img" />
+                    </div>
+                </div>
+            );
+        }
+
+        if(this.campaign.currentBroadcastType == "npc")
+        {
+            return (
+                <div>
+
+                </div>
+            );
+        }
+    }
+
     renderImageAssets() {
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id} campaignID={this.campaign._id}/>);
+            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} func={this.setBroadcastAssetImage.bind(this)} _id={this.id} campaignID={this.campaign._id}/>);
         }
         return <div>{cards}</div>;
     }
 
     renderCharacterCard() {
-        //console.log(Meteor.userId());
-        //console.log(Characters._collection._docs._map);
-        //myCharacters = Characters.find({_id : "qqL8fF2Yim2GeHTeo"}).fetch();
-        //console.log(myCharacters);
-        //console.log(Characters.find().fetch());
-        //console.log(myCharacters);
-
         var cards = [];
         var numcharacters = this.characters.length;
         for (var i = 0; i < numcharacters; i++)
@@ -112,18 +158,19 @@ export default class CampaignScreen extends React.Component{
                     <div>
                         <div className="spacer col-sm-12"/>
                         <h3>NPCS</h3>
-                        {this.renderNPCs()}
                         <hr/>
-    
+                        {this.renderNPCs()}
+
                         <div className="spacer col-sm-12"/>
                         <h3>Text Assets</h3>
-                        {this.renderTextAssets()}
                         <hr/>
-    
+                        {this.renderTextAssets()}
+
                         <div className="spacer col-sm-12"/>
                         <h3>Image Assets</h3>
-                        {this.renderImageAssets()}
                         <hr/>
+                        {this.renderImageAssets()}
+                        <button onClick={this.clearBroadcast.bind(this)}>Clear Broadcast</button>
                     </div>
                 ) ;                                 
             }
@@ -282,7 +329,7 @@ export default class CampaignScreen extends React.Component{
                                 </div>
 
                                 <div className="col-md-6 col-xs-12 content-container-mid add-background" >
-
+                                    {this.broadcastCurrentAsset()}
                                 </div>
 
                                 <div className="col-md-3 col-xs-12 content-container-right">
