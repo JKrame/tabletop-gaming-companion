@@ -10,63 +10,46 @@ import UserCardMini from '../objects/UserCard';
 import ImagePopup from '../objects/ImageFormPopup';
 import PlayerPopup from '../objects/PlayerFormPopup';
 
-
-var name;
-var description;
-var meetTime;
-var meetDate;
-var players;
-var gm;
-var notes;
-var turnOrder;
-var URLs;
-var characters;
-var user;
-var NPCs;
-
-var popupStyle = {
-    display: 'none'
-};
-
 export default class CampaignSetup extends React.Component{
     constructor() {
         super();
         this.state = {
-          showImagePopup: false,
-          showPlayerPopup: false
+            showImagePopup: false,
+            showPlayerPopup: false
         };
-      }
-      toggleImagePopup() {
+    }
+
+    toggleImagePopup() {
         this.setState({
-          showImagePopup: !this.state.showImagePopup
+            showImagePopup: !this.state.showImagePopup
         });
-      }
-      togglePlayerPopup() {
+    }
+
+    togglePlayerPopup() {
         this.setState({
-          showPlayerPopup: !this.state.showPlayerPopup
+            showPlayerPopup: !this.state.showPlayerPopup
         });
-      }
+    }
+
     componentWillMount(){
         this.id = this.props.match.params._id;
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
             const sub2 = Meteor.subscribe('characters');
-            const sub3 = Meteor.subscribe('userData')
+            const sub3 = Meteor.subscribe('userData');
             if(sub.ready())
             {
-                this.campaign = Campaigns.findOne({_id : this.id}); 
-                this.players = this.campaign.players;
+                this.campaign = Campaigns.findOne({_id : this.id});
+                this.pendingInvites = this.campaign.pendingInvites;
             }
             if(sub2.ready())
             {
-                //this.characters = Characters.find({campaignID: this.id}).fetch();
-
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
             if(sub3.ready())
             {
-                this.user = Meteor.users.find({}).fetch();
+                this.users = Meteor.users.find({}).fetch();
             }
             this.forceUpdate();
         });
@@ -95,23 +78,19 @@ export default class CampaignSetup extends React.Component{
         this.props.history.push('/character/edit/' + characterID);
     }
 
-    renderContacts() {
-        var cards = [];
-        var numcharacters = 12;
-        for (var i = 0; i < numcharacters; i++)
-        {
-            cards.push(<UserCardMini key={i}/>);
-        }
-        return <div>{cards}</div>;
-    }
-
-
     renderPlayers() {
         var cards = [];
         if (this.characters){
             for (var i = 0; i < this.characters.length; i++)
             {
                 cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
+            }
+        }
+
+        if (this.pendingInvites){
+            for (var i = 0; i < this.pendingInvites.length; i++)
+            {
+                //cards.push(<CharacterCardMiniWithOwner key={i} character={this.pendingInvites[i]}/>);
             }
         }
         return <div>{cards}</div>;
@@ -127,7 +106,7 @@ export default class CampaignSetup extends React.Component{
     }
 
     insertTextAssets(newTitle, newNote) {
-        notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
+        var notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
         Meteor.call("campaignNote.push", 
             _id = this.id,
             notes,    
@@ -137,7 +116,7 @@ export default class CampaignSetup extends React.Component{
     }
 
     addPlayer(userID) {
-        Meteor.call("campaignPlayer.addToSet", 
+        Meteor.call("campaignPendingInvites.addToSet", 
             _id = this.id,
             userID,    
         );
@@ -165,16 +144,18 @@ export default class CampaignSetup extends React.Component{
     }
 
     saveChanges(){
-        name = this.refs.campaignTitle.value;
-        description = this.refs.campaignDescription.value;
-        campaignImageURL = this.refs.campaignImageURL.value;
+        var name = this.refs.campaignTitle.value;
+        var description = this.refs.campaignDescription.value;
+        var campaignImageURL = this.refs.campaignImageURL.value;
         
         Campaigns.update({
             _id : this.id},{
                 $set:{
                     name, 
                     description, 
-                    campaignImageURL}});
+                    campaignImageURL}
+            }
+        );
     }
 
     addImageAsset(url){
@@ -412,9 +393,9 @@ export default class CampaignSetup extends React.Component{
                             <PlayerPopup
                                 text='Close Me'
                                 closePopup={this.togglePlayerPopup.bind(this)}
-                                renderContacts={this.renderContacts.bind(this)}
                                 addPlayer={this.addPlayer.bind(this)}
-                                players={this.players}
+                                pendingInvites={this.pendingInvites}
+                                characters={this.characters}
                             />
                             : null
                             }
