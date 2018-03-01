@@ -257,7 +257,7 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>NPCs</h3>
                             <hr/>
-                            <div className=" height-600 scrolling-container">
+                            <div className="max-600 scrolling-container">
                                 {this.renderNPCs()}
 
                                 <NavLink to='#' onClick={() => this.loadNPC()} className='nav-item nav-link'>   
@@ -280,7 +280,8 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>Text Assets</h3>
                             <hr/>
-                            <div className="">
+
+                            <div className="max-600 scrolling-container">
                                 {this.renderTextAssets()}
                                 <a>
                                     <div className='nav-item nav-link'>   
@@ -292,8 +293,7 @@ export default class CampaignSetup extends React.Component{
                                                 <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
                                             </div>
                                             <div className="col-xs-10">
-                                                <textarea rows={3} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
-                                                
+                                                <textarea rows={1} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
                                             </div>
                                         </div>
                                     </div>
@@ -307,7 +307,7 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>Image Assets</h3>
                             <hr/> 
-                            <div className="flex-grid container-fluid">
+                            <div className="max-600 scrolling-containerflex-grid container-fluid">
                                 {this.renderImageAssets()}
 
                                 <div className="add-image-card rid-item add-container">
