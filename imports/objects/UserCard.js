@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 export default class UserCard extends React.Component{
     callParent(){
-        if (this.props.loadConversation){
-            this.props.loadConversation(this.props.conversation);
+        if (this.props.func){
+            this.props.func(this.props.param);
         }
     }
     render() {
