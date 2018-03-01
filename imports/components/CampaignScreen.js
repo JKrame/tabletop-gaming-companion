@@ -34,7 +34,6 @@ export default class CampaignScreen extends React.Component{
             if(sub2.ready())
             {
                 this.campaign = Campaigns.findOne({_id: id});
-                console.log(this.campaign);
             }
 
             this.forceUpdate();
@@ -60,7 +59,12 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.NPCs.length; i++)
         {
-            cards.push(<NPCCard key={i} characterImageURL={this.NPCs[i].characterImageURL} id={this.NPCs[i]._id} somehistory={this.props.history} func={this.loadNPC} characterName={this.NPCs[i].characterName} characterClass={this.NPCs[i].characterClass} level={this.NPCs[i].level} race={this.NPCs[i].race}/>);
+            cards.push(<NPCCard
+                key={i}
+                func={this.setBroadcastAssetNPC.bind(this)}
+                NPC={this.NPCs[i]}
+                somehistory={this.props.history}/>
+            );
         }
         return <div>{cards}</div>;
     }
@@ -69,7 +73,7 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard key={i} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
+            cards.push(<TextAssetcard key={i} func={this.setBroadcastAssetText.bind(this)} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
         }
         return <div>{cards}</div>;
     }
@@ -81,12 +85,25 @@ export default class CampaignScreen extends React.Component{
         Meteor.call('campaigns.broadcastUpdate', this.campaign._id, url, "image");
     }
     
+    setBroadcastAssetText(noteTitle, noteDescription)
+    {
+        this.campaign.currentBroadcastItem = {noteTitle, noteDescription};
+        this.campaign.currentBroadcastType = "text";
+        Meteor.call('campaigns.broadcastUpdate', this.campaign._id, {noteTitle, noteDescription}, "text");
+    }
+
+    setBroadcastAssetNPC(NPC)
+    {
+        this.campaign.currentBroadcastItem = NPC;
+        this.campaign.currentBroadcastType = "npc";
+        Meteor.call('campaigns.broadcastUpdate', this.campaign._id, NPC, "npc");
+    }
+
     clearBroadcast()
     {
         this.campaign.currentBroadcastItem = "";        
         this.campaign.currentBroadcastType = "";
         Meteor.call('campaigns.broadcastUpdate', this.campaign._id, "", "");
-        console.log("eat a dick");
     }
 
     broadcastCurrentAsset()
@@ -97,10 +114,10 @@ export default class CampaignScreen extends React.Component{
         }
 
         if(this.campaign.currentBroadcastType == "text")
-        {
+        {           
             return (
                 <div>
-                    <p className="p-override no-margin-override small-text full-width"> {this.campaign.currentBroadcastItem[0]}  {this.campaign.currentBroadcastItem[1]}</p>
+                    <p className="p-override no-margin-override small-text full-width"> {this.campaign.currentBroadcastItem.noteTitle}  {this.campaign.currentBroadcastItem.noteDescription}</p>
                 </div>
             );
         }
@@ -120,7 +137,7 @@ export default class CampaignScreen extends React.Component{
         {
             return (
                 <div>
-
+                    <img src={this.campaign.currentBroadcastItem.characterImageURL} />
                 </div>
             );
         }
@@ -148,12 +165,10 @@ export default class CampaignScreen extends React.Component{
     }
 
     renderPanel(){
-        console.log(this.campaign);
         if(this.campaign != null)
         {
             
             if(Meteor.userId() == this.campaign.gm){
-                console.log("you're the fucking man!");
                 return(
                     <div>
                         <div className="spacer col-sm-12"/>
@@ -175,7 +190,6 @@ export default class CampaignScreen extends React.Component{
                 ) ;                                 
             }
             else{
-                console.log(this.campaign.gm + " | " + Meteor.userId());
                 return(
                     <div> 
                         <h3>Spell Slots</h3>
@@ -293,7 +307,6 @@ export default class CampaignScreen extends React.Component{
         for(i=0;i<d;i++){
             result = result + this.randomDice(dice)
         }
-        console.log(result)
         this.refs.d4roller.value=""
         this.refs.d6roller.value=""
         this.refs.d8roller.value=""

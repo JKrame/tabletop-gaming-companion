@@ -7,7 +7,11 @@ import { NavLink } from 'react-router-dom';
 
 export default class PlayerFormPopup extends React.Component {
 
+    constructor(){
+        super();
+        this.renderCharacterForm = this.renderCharacterForm.bind(this);
 
+    }
     
     componentWillMount(){
         this.homeTracker = Tracker.autorun(() => {
@@ -17,6 +21,7 @@ export default class PlayerFormPopup extends React.Component {
             if(sub.ready())
             {
                 charactersArray = Characters.find({UID: UID}).fetch();
+                //console.log(charactersArray)
                 if(charactersArray != undefined)
                 {
                     this.characters = charactersArray;
@@ -44,22 +49,26 @@ export default class PlayerFormPopup extends React.Component {
         for (var i = 0; i < this.characters.length; i++)
         {   
             cards.push(
-                <CharacterCardHalf key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.addCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+                <CharacterCardHalf parentPage={this} campaign={this.campaign} key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.addCharacter.bind(this)} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
             );
         }
         return <div>{cards}</div>;
     }
 
-    addCharacter(cid , somehistory, characterid){
-        console.log(characterid)
+    addCharacter(characterid , somehistory, campaignid){
+        // Meteor.call("campaignPendingInvites.addToSet",
+        //     _id = campaignid,
+        //     Meteor.userId()
+        // );
         Meteor.call("campaignCharacter.addToSet", 
-            _id = this.id,
-            characterid,    
+            _id = campaignid,
+            characterid    
         );
-
+        this.props.closePopup()
     }
 
     loadCharacter(cid, somehistory){
+
         if (!cid)
         {
             cid = Random.id();
@@ -74,6 +83,7 @@ export default class PlayerFormPopup extends React.Component {
     }
 
     renderCharacterForm(){
+
         if(this.characters == undefined)
         {
             return;
@@ -85,7 +95,9 @@ export default class PlayerFormPopup extends React.Component {
     }
 
     render() {
-      return (
+        this.campaign=this.props.campaign
+
+        return (
             <div className='popup'>
                 <div className="pending-invite-popup popup_inner">
                     <div className="full-height full-width">

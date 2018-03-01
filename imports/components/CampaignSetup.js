@@ -10,62 +10,46 @@ import UserCardMini from '../objects/UserCard';
 import ImagePopup from '../objects/ImageFormPopup';
 import PlayerPopup from '../objects/PlayerFormPopup';
 
-
-var name;
-var description;
-var meetTime;
-var meetDate;
-var players;
-var gm;
-var notes;
-var turnOrder;
-var URLs;
-var characters;
-var user;
-var NPCs;
-
-var popupStyle = {
-    display: 'none'
-};
-
 export default class CampaignSetup extends React.Component{
     constructor() {
         super();
         this.state = {
-          showImagePopup: false,
-          showPlayerPopup: false
+            showImagePopup: false,
+            showPlayerPopup: false
         };
-      }
-      toggleImagePopup() {
+    }
+
+    toggleImagePopup() {
         this.setState({
-          showImagePopup: !this.state.showImagePopup
+            showImagePopup: !this.state.showImagePopup
         });
-      }
-      togglePlayerPopup() {
+    }
+
+    togglePlayerPopup() {
         this.setState({
-          showPlayerPopup: !this.state.showPlayerPopup
+            showPlayerPopup: !this.state.showPlayerPopup
         });
-      }
+    }
+
     componentWillMount(){
         this.id = this.props.match.params._id;
-        console.log(this.id);
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
             const sub2 = Meteor.subscribe('characters');
-            const sub3 = Meteor.subscribe('userData')
+            const sub3 = Meteor.subscribe('userData');
             if(sub.ready())
             {
-                this.campaign = Campaigns.findOne({_id : this.id});               
+                this.campaign = Campaigns.findOne({_id : this.id});
+                this.pendingInvites = this.campaign.pendingInvites;
             }
             if(sub2.ready())
             {
-                //this.characters = Characters.find({campaignID: this.id}).fetch();
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
             if(sub3.ready())
             {
-                this.user = Meteor.users.find({}).fetch();
+                this.users = Meteor.users.find({}).fetch();
             }
             this.forceUpdate();
         });
@@ -77,9 +61,11 @@ export default class CampaignSetup extends React.Component{
     
     renderNPCs() {
         var cards = [];
-        for (var i = 0; i < this.NPCs.length; i++)
-        {
-            cards.push(<CharacterCardMini key={i} characterImageURL={this.NPCs[i].characterImageURL} id={this.NPCs[i]._id} somehistory={this.props.history} func={this.loadNPC} characterName={this.NPCs[i].characterName} characterClass={this.NPCs[i].characterClass} level={this.NPCs[i].level} race={this.NPCs[i].race}/>);
+        if (this.NPCs){
+            for (var i = 0; i < this.NPCs.length; i++)
+            {
+                cards.push(<CharacterCardMini key={i} characterImageURL={this.NPCs[i].characterImageURL} id={this.NPCs[i]._id} somehistory={this.props.history} func={this.loadNPC} characterName={this.NPCs[i].characterName} characterClass={this.NPCs[i].characterClass} level={this.NPCs[i].level} race={this.NPCs[i].race}/>);
+            }
         }
         return <div>{cards}</div>;
     }
@@ -92,23 +78,20 @@ export default class CampaignSetup extends React.Component{
         this.props.history.push('/character/edit/' + characterID);
     }
 
-    renderContacts() {
-        var cards = [];
-        var numcharacters = 12;
-        for (var i = 0; i < numcharacters; i++)
-        {
-            cards.push(<UserCardMini key={i}/>);
-        }
-        return <div>{cards}</div>;
-    }
-
-
     renderPlayers() {
         var cards = [];
-        console.log(this.characters.length);
-        for (var i = 0; i < this.characters.length; i++)
-        {
-            cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
+        if (this.characters){
+            for (var i = 0; i < this.characters.length; i++)
+            {
+                cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
+            }
+        }
+
+        if (this.pendingInvites){
+            for (var i = 0; i < this.pendingInvites.length; i++)
+            {
+                //cards.push(<CharacterCardMiniWithOwner key={i} character={this.pendingInvites[i]}/>);
+            }
         }
         return <div>{cards}</div>;
     }
@@ -123,7 +106,7 @@ export default class CampaignSetup extends React.Component{
     }
 
     insertTextAssets(newTitle, newNote) {
-        notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
+        var notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
         Meteor.call("campaignNote.push", 
             _id = this.id,
             notes,    
@@ -132,16 +115,15 @@ export default class CampaignSetup extends React.Component{
         this.refs.newNoteText.value = "";
     }
 
-    addPlayer(username) {
-        Meteor.call("campaignPlayer.push", 
+    addPlayer(userID) {
+        Meteor.call("campaignPendingInvites.addToSet", 
             _id = this.id,
-            username,    
+            userID,    
         );
         this.togglePlayerPopup();
     }
     
     updateTextAssets(){
-        console.log("fix this mike");
     }
 
     renderImageAssets() {
@@ -161,16 +143,18 @@ export default class CampaignSetup extends React.Component{
     }
 
     saveChanges(){
-        name = this.refs.campaignTitle.value;
-        description = this.refs.campaignDescription.value;
-        campaignImageURL = this.refs.campaignImageURL.value;
+        var name = this.refs.campaignTitle.value;
+        var description = this.refs.campaignDescription.value;
+        var campaignImageURL = this.refs.campaignImageURL.value;
         
         Campaigns.update({
             _id : this.id},{
                 $set:{
                     name, 
                     description, 
-                    campaignImageURL}});
+                    campaignImageURL}
+            }
+        );
     }
 
     addImageAsset(url){
@@ -255,11 +239,11 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>NPCs</h3>
                             <hr/>
-                            <div className=" height-600 scrolling-container">
+                            <div className="max-600 scrolling-container">
                                 {this.renderNPCs()}
 
                                 <NavLink to='#' onClick={() => this.loadNPC()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
@@ -278,11 +262,12 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>Text Assets</h3>
                             <hr/>
-                            <div className="">
+
+                            <div className="max-600 scrolling-container">
                                 {this.renderTextAssets()}
                                 <a>
                                     <div className='nav-item nav-link'>   
-                                        <div className="objectCardMini add-container">
+                                        <div className="textAssetMini add-container">
                                             <div onClick={() => this.insertTextAssets(this.refs.newNoteTitle.value, this.refs.newNoteText.value)} className="textCardMiniImage">
                                                 <img src={'/images/addIcon.png'} className="stretch-image"/>
                                             </div>
@@ -290,8 +275,7 @@ export default class CampaignSetup extends React.Component{
                                                 <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
                                             </div>
                                             <div className="col-xs-10">
-                                                <textarea rows={3} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
-                                                
+                                                <textarea rows={1} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
                                             </div>
                                         </div>
                                     </div>
@@ -305,14 +289,12 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>Image Assets</h3>
                             <hr/> 
-                            <div className="flex-grid container-fluid">
+                            <div className="max-600 scrolling-containerflex-grid container-fluid">
                                 {this.renderImageAssets()}
 
-                                <div className='nav-item nav-link'>   
-                                    <div className="objectCardMini grid-item add-container">
-                                        <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
-                                       
-                                    </div>
+                                <div className="add-image-card rid-item add-container">
+                                    <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
+                                    
                                 </div>
                             </div>
 
@@ -410,8 +392,9 @@ export default class CampaignSetup extends React.Component{
                             <PlayerPopup
                                 text='Close Me'
                                 closePopup={this.togglePlayerPopup.bind(this)}
-                                renderContacts={this.renderContacts.bind(this)}
                                 addPlayer={this.addPlayer.bind(this)}
+                                pendingInvites={this.pendingInvites}
+                                characters={this.characters}
                             />
                             : null
                             }

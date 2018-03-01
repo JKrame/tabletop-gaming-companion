@@ -22,14 +22,14 @@ hr{
 
 .hr-override{
     margin-top:5px !important;
-    border-top: 4px solid #606060 !important;
+    border-top: 4px solid #d5d5d5 !important;
     margin-bottom:5px !important;
     
 }
 
 .hr-override-light{
     margin-top:5px !important;
-    border-top: 2px solid #606060 !important;
+    border-top: 2px solid #d5d5d5 !important;
     margin-bottom:5px !important;
 }
 
@@ -228,9 +228,9 @@ body{
 }
 
 .objectCardHalf{
-    margin:10px;
+    margin:10px 60px 10px 60px;
     padding:10px;
-    border: solid 2px #606060;
+    border: solid 2px #d5d5d5;
     overflow:hidden;
     border-radius: 10px 10px 10px 10px;
 }
@@ -243,6 +243,8 @@ body{
     border-radius: 5px 5px 5px 5px;
     overflow: hidden;
 }
+.grow { transition: height .2s ease-in-out; }
+.grow:hover { transform: scale(1.05); }
 
 .objectCardHalfInfo{
     margin:0px;
@@ -254,16 +256,18 @@ body{
 
 .objectCardHalf:hover{
     transition:.5s;
-    background-color:rgba(255, 64, 76, .415);
+    background-color:rgba(1, 44, 64, .815);
+    color:#DAEBF2 !important;
+    border-radius: solid 2px #1CA5B8;   
 }
 .textAssetMini{
     display: -webkit-flex;
     display: flex;
+    overflow:hidden;
     margin:5px;
     padding:5px;
-    border: solid 2px #606060;
-    overflow:hidden;
-    max-height:80px;
+    border: solid 2px #d5d5d5;
+    max-height:50px;
     border-radius: 10px 10px 10px 10px;
 }
 .NPCCardMini{
@@ -271,7 +275,8 @@ body{
     display: flex;
     margin:5px;
     padding:5px;
-    border: solid 2px #606060;
+    border: solid 2px #d5d5d5;
+    border-radius:5px;
     overflow:hidden;
 }
 
@@ -291,8 +296,10 @@ body{
     display: -webkit-flex;
     display: flex;
     margin:5px;
+    margin-left:30px;
+    margin-right:30px;
     padding:5px;
-    border: solid 2px #606060;
+    border: solid 2px #d5d5d5;
     overflow:hidden;
     border-radius: 10px 10px 10px 10px;
 }
@@ -314,13 +321,33 @@ body{
     margin-top:0px;
 }
 .textAssetMini:hover{
+    overflow-y:auto;
+    max-height:300px;
     transition:.5s;
-    max-height:180px;
-    background-color:rgba(255, 64, 76, .415);
+    background-color: rgba(28, 168, 184, 0.415);
 }
 .objectCardMini:hover{
     transition:.5s;
-    background-color:rgba(255, 64, 76, .415);
+    background-color:rgba(1, 44, 64, .815);
+    color:#DAEBF2 !important;
+    border-radius: solid 2px #1CA5B8;   
+
+}
+
+.hoverBox:hover p{
+    transition:.5s;
+    color:#DAEBF2 !important;
+    text-decoration: none;
+}
+.hoverBox:hover h5{
+    transition:.5s;
+    color:#DAEBF2 !important;
+    text-decoration: none;
+}
+.hoverBox:hover h4{
+    transition:.5s;
+    color:#DAEBF2 !important;
+    text-decoration: none;
 }
 
 .textCardMiniImage
@@ -332,7 +359,8 @@ body{
 
 .textCardMini:hover{
     transition:.5s;
-    background-color:rgba(255, 64, 76, .415);
+    background-color:rgba(1, 44, 64, .415);
+    color:#DAEBF2;
 }
 
 .right-border{
@@ -431,6 +459,22 @@ body{
 
 .image-card{
     float:left;
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    overflow: hidden;
+    border: solid 2px #606060;
+    border-radius: 10px 10px 10px 10px;
+    width:130px;
+    height:130px;
+}
+.image-card:hover{
+    transition:.5s;
+    background-color:rgba(28, 168, 184, 0.415) ;
+}
+
+.add-image-card{
+    float:left;
     padding:10px;    
     display: -webkit-flex;
     display: flex;
@@ -441,28 +485,127 @@ body{
     width:130px;
     height:130px;
 }
-.image-card:hover{
+.add-image-card:hover{
     transition:.5s;
-    height:170px;
     background-color:rgba(255, 64, 76, .415);
 }
 
+
 .image-asset{
-    width:110px;
-    height:110px;
-    clear:both;
+   position:relative;
+    width:130px;
+    height:130px;
+}
+
+.image-buttons{
+    opacity: 0;
+    margin-left:-130px;
+    height:500px;
+    padding:0;
+    z-index: 999;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    width:130px;
+}
+
+.image-buttons:hover{
+    opacity:100;
+    margin-top:0px;
+    transition:.5s;
+    display:visible !important;
+}
+.title{
+    font-size:13px;
+    font-weight:bolder;
+}
+.text-asset-txt{
+    margin-top:-500px;
+}
+
+.text-image-buttons{
+    margin-top:20px;
+    margin-bottom:10px;
+    float:right;
+    position:relative;
+    padding:0;
+    z-index: 999;
+    top:0;
+    right:0;
+    display: flex;
+}
+
+.text-image-buttons:hover{
+    opacity:100;
+    transition:.5s;
+    display:visible !important;
 }
 
 .image-asset-img{
     display:block;
     margin: 0 auto;
-    width:110px;
-    height:110px;
-    max-width: 110px;
-    max-height:110px;
+    max-width: 130px;
 }
 .delete-btn{
     margin-top:10px;
+}
+
+.tiny-delete-btn{
+    overflow:hidden;
+    max-width:30px;
+    height:30px;
+    border-radius: 20px;
+    margin-top:10px;
+    margin-right:10px;
+    float:right;
+    background-color: rgba(255, 64, 76, .715);
+    padding:0;
+}
+
+.tiny-button-txt p{
+
+    color: #fff;
+}
+
+.tiny-delete-btn:hover{
+    width:100px;
+    max-width:100px !important;
+    transition: .5s;
+    
+}
+
+.tiny-button-txt{
+    margin:0;
+    margin-top:-2px;
+    margin-left: -2px;
+    color:#fff;
+    white-space:  pre;
+    
+}
+
+
+.tiny-expand-btn{
+    overflow:hidden;
+    max-width:25px;
+    height:25px;
+    border-radius: 20px;
+    margin-top:10px;
+    margin-right:10px;
+    float:right;
+    background-color: rgba(28, 165, 184, .7);
+    padding:0;
+}
+
+.tiny-expand-btn p{
+    color:#fff;
+}
+
+.tiny-expand-btn:hover{
+    width:100px;
+    max-width:100px !important;
+    transition: .5s;
+    
 }
 
 .no-margin-override{
@@ -502,6 +645,9 @@ body{
     height:400px;
 }
 
+.max-600{
+    max-height: 600px;
+}
 .bottom-button{
     margin:auto;
     margin-top:3vh;
