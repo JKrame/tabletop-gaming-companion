@@ -45,7 +45,7 @@ export default class Home extends React.Component {
             if(sub2.ready())
             {
                 this.campaigns = Campaigns.find({gm: UID}).fetch();
-                this.otherCampaigns = Campaigns.find({"characters": {"UID": UID}});
+                this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
             }
             if(sub.ready())
             {
@@ -99,7 +99,30 @@ export default class Home extends React.Component {
         for (var i = 0; i < this.campaigns.length; i++)
         {
             cards.push(
-                <CampaignCardHalf key={i} campaignImageURL={this.campaigns[i].campaignImageURL} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.campaigns} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+                <CampaignCardHalf 
+                    key={i} 
+                    campaignImageURL={this.campaigns[i].campaignImageURL} 
+                    id={this.campaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.campaigns} 
+                    campaignName={this.campaigns[i].name} 
+                    campaignDescription={this.campaigns[i].description}/>
+            );
+        }
+
+        for (var i = 0; i < this.otherCampaigns.length; i++)
+        {
+            cards.push(
+                <CampaignCardHalf 
+                    key={i} 
+                    campaignImageURL={this.otherCampaigns[i].campaignImageURL} 
+                    id={this.otherCampaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.otherCampaigns} 
+                    campaignName={this.otherCampaigns[i].name} 
+                    campaignDescription={this.otherCampaigns[i].description}/>
             );
         }
         return <div>{cards}</div>;
