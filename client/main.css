@@ -861,6 +861,14 @@ a.menu_links{
     background-color: rgba(200, 200, 200, 0.801);
 }
 
+.broadcast-asset{
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    margin:auto;
+}
+
 .initiative-popup{
     position: fixed;
     left:0;
@@ -873,6 +881,12 @@ a.menu_links{
     padding:30px;
     margin:auto;
     background-color: rgba(255, 255, 255, 1);
+}
+
+.broadcast-screen{
+    padding:20px;
+    text-align: center;
+    vertical-align: center;
 }
 
 .pending-invite-popup{

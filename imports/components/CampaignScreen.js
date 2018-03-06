@@ -138,8 +138,9 @@ export default class CampaignScreen extends React.Component{
         if(this.campaign.currentBroadcastType == "text")
         {           
             return (
-                <div>
-                    <p className="p-override no-margin-override small-text full-width"> {this.campaign.currentBroadcastItem.noteTitle}  {this.campaign.currentBroadcastItem.noteDescription}</p>
+                <div className="broadcast-asset">
+                    <h1>{this.campaign.currentBroadcastItem.noteTitle}</h1>
+                    <h3>{this.campaign.currentBroadcastItem.noteDescription}</h3>
                 </div>
             );
         }
@@ -147,9 +148,9 @@ export default class CampaignScreen extends React.Component{
         if(this.campaign.currentBroadcastType == "image")
         {
             return (
-                <div>
+                <div className="broadcast-asset">
                     <div>
-                        <img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="image-asset-img" />
+                        <img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="" />
                     </div>
                 </div>
             );
@@ -158,7 +159,7 @@ export default class CampaignScreen extends React.Component{
         if(this.campaign.currentBroadcastType == "npc")
         {
             return (
-                <div>
+                <div className="broadcast-asset">
                     <img src={this.campaign.currentBroadcastItem.characterImageURL} />
                 </div>
             );
@@ -369,7 +370,7 @@ export default class CampaignScreen extends React.Component{
                                     </div>
                                 </div>
 
-                                <div className="col-md-6 col-xs-12 content-container-mid add-background" >
+                                <div className="col-md-6 col-xs-12 content-container-mid add-background broadcast-screen scrolling-container" >
                                     {this.broadcastCurrentAsset()}
                                 </div>
 
