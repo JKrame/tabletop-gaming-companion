@@ -156,11 +156,15 @@ export default class Home extends React.Component {
     PlayersNearYou(){
         if(!this.user){
             return;
-        }
+        }  
 
         for(var i=0;i<this.user.length;i++){
-            if(this.user[i]._id == Meteor.userId())
+            if(this.user[i]._id == Meteor.userId()){
+                if(this.user[i].profile.location == null){
+                    return;
+                }
                 currUserLocation=this.user[i].profile.location;
+            }
         }
         console.log(currUserLocation)
 
