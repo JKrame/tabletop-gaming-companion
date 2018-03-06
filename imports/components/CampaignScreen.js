@@ -54,9 +54,11 @@ export default class CampaignScreen extends React.Component{
                     });
                 }
                 else{
-                    for (i = 0; i < this.campaign.characters.length; i++){
-                        if (this.campaign.characters[i].UID == Meteor.userId()){
-                            this.myCharacter = this.campaign.characters[i];
+                    if (this.characters){
+                        for (i = 0; i < this.characters.length; i++){
+                            if (this.characters[i].campaignID == this.campaign._id && this.characters[i].UID == Meteor.userId()){
+                                this.myCharacter = this.characters[i];
+                            }
                         }
                     }
                 }
@@ -352,11 +354,11 @@ export default class CampaignScreen extends React.Component{
 
     renderInitiativeOrder(){
         isSorted = true;
-        prev = 0;
+        prev = Number.MAX_SAFE_INTEGER;
         cards = []
         for (i = 0; i < this.campaign.turnOrder.length; i++){
             for (j = 0; j < this.characters.length; j++){
-                if (this.campaign.turnOrder[i] == this.characters[j]._id){
+                if (this.campaign.turnOrder[i].cid == this.characters[j]._id){
                     cards.push(
                         <CharacterCard
                         key={j}
@@ -373,23 +375,23 @@ export default class CampaignScreen extends React.Component{
                 }
             }
 
-            if (this.campaign.turnOrder[i].initiative < prev){
+            if (this.campaign.turnOrder[i].initiative > prev){
                 isSorted = false;
                 break;
             }
         }
 
-        if (this.state.isGm && !isSorted){
+        if (Meteor.userId() == this.campaign.gm && !isSorted){
             this.sortTurnOrder()
         }
 
-        return <div>cards</div>;
+        return <div>{cards}</div>;
     }
 
     sortTurnOrder(){
         newTurnOrder = this.campaign.turnOrder;
         newTurnOrder.sort(this.compareInitiative);
-        Meteor.call('campaigns.setTurnOrder', this.campaignID, newTurnOrder);
+        Meteor.call('campaigns.setTurnOrder', this.campaign._id, newTurnOrder);
     }
 
     compareInitiative(a, b){
@@ -409,21 +411,21 @@ export default class CampaignScreen extends React.Component{
     }
 
     startCombat() {
-        Meteor.call("campaigns.startCombat", this.campaignID);
+        Meteor.call("campaigns.startCombat", this.campaign._id);
     }
 
     endCombat() {
-        Meteor.call("campaigns.endCombat", this.campaignID);
+        Meteor.call("campaigns.endCombat", this.campaign._id);
     }
 
     endTurn() {
-        Meteor.call("campaigns.endTurn", this.campaignID, this.campaign.turnOrderIndex + 1 % this.campaign.turnOrder.length)
+        Meteor.call("campaigns.endTurn", this.campaign._id, this.campaign.turnOrderIndex + 1 % this.campaign.turnOrder.length)
     }
 
     showInitiativeButton(){
-        if (this.campaign.combat && !this.state.isGm){
-            for (i = 0; i < this.turnOrder.length; i++){
-                if (this.turnOrder[i].characterID == this.myCharacter){
+        if (this.campaign.combat && Meteor.userId() != this.campaign.gm){
+            for (i = 0; i < this.campaign.turnOrder.length; i++){
+                if (this.campaign.turnOrder[i].characterID == this.myCharacter){
                     return null;
                 }
             }
@@ -431,15 +433,19 @@ export default class CampaignScreen extends React.Component{
             alreadyAdded = false;
             return <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px", "backgroundColor":"limegreen"}} onClick={this.rollInitiative.bind(this)}>INITIATIVE</button>;
         }
+        else{
+            return null;
+        }
     }
 
     rollInitiative(){
-        val = Math.floor(Math.random() * max) + 1 + this.myCharacter.dex;
-        Meteor.call('campaigns.addToTurnOrder', this.myCharacter._id, val, dex);
+        dex = this.myCharacter.attributes[1];
+        val = Math.floor(Math.random() * 20) + 1 + dex;
+        Meteor.call('campaigns.addToTurnOrder', this.campaign._id, this.myCharacter._id, val, dex);
     }
 
     render() {
-        if (!this.characters){
+        if (!this.characters || !this.campaign){
             return null;
         }
         return(
