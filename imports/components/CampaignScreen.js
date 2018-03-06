@@ -22,14 +22,12 @@ export default class CampaignScreen extends React.Component{
         super();
         this.state = {
             isGm: false,
-            showInitiativePopup: false
+            showInitiativePopup: false,
         };
     }
 
-    toggleInitiativePopup() {
-        this.setState({
-            showInitiativePopup: !this.state.showInitiativePopup
-        });
+    toggleInitiativePopup(){
+        this.setState({showInitiativePopup: !this.state.showInitiativePopup});
     }
 
     componentWillMount(){
@@ -55,6 +53,13 @@ export default class CampaignScreen extends React.Component{
                         isGm: true
                     });
                 }
+                else{
+                    for (i = 0; i < this.campaign.characters.length; i++){
+                        if (this.campaign.characters[i].UID == Meteor.userId()){
+                            this.myCharacter = this.campaign.characters[i];
+                        }
+                    }
+                }
             }
 
 
@@ -64,17 +69,6 @@ export default class CampaignScreen extends React.Component{
 
     componentWillUnmount(){
         this.charactersCampaignScreenTracker.stop();
-    }
-
-    renderRightSideCharacterForm(){
-        if(this.characters == undefined)
-        {
-            return;
-        }
-        else
-        {
-            return this.renderCharacterCard();
-        }
     }
 
     renderNPCs() {
@@ -313,7 +307,7 @@ export default class CampaignScreen extends React.Component{
     }
 
     randomDice(max){
-       return( Math.floor(Math.random() * max) + 1)
+       return( Math.floor(Math.random() * max) + 1);
     }
 
     rollDice(){
@@ -356,9 +350,98 @@ export default class CampaignScreen extends React.Component{
 
     }
 
-    render() {
-        Meteor.subscribe("characters");
+    renderInitiativeOrder(){
+        isSorted = true;
+        prev = 0;
+        cards = []
+        for (i = 0; i < this.campaign.turnOrder.length; i++){
+            for (j = 0; j < this.characters.length; j++){
+                if (this.campaign.turnOrder[i] == this.characters[j]._id){
+                    cards.push(
+                        <CharacterCard
+                        key={j}
+                        characterImageURL={this.characters[j].characterImageURL} 
+                        id={this.characters[j]._id} 
+                        somehistory={this.props.history} 
+                        func={this.loadCharacter} 
+                        characterName={this.characters[j].characterName} 
+                        characterClass={this.characters[j].characterClass} 
+                        level={this.characters[j].level} 
+                        race={this.characters[j].race}
+                        />
+                    );
+                }
+            }
 
+            if (this.campaign.turnOrder[i].initiative < prev){
+                isSorted = false;
+                break;
+            }
+        }
+
+        if (this.state.isGm && !isSorted){
+            this.sortTurnOrder()
+        }
+
+        return <div>cards</div>;
+    }
+
+    sortTurnOrder(){
+        newTurnOrder = this.campaign.turnOrder;
+        newTurnOrder.sort(this.compareInitiative);
+        Meteor.call('campaigns.setTurnOrder', this.campaignID, newTurnOrder);
+    }
+
+    compareInitiative(a, b){
+        if (a.initiative < b.initiative){
+            return -1;
+        }
+        if (a.initiative > b.initiative){
+            return 1;
+        }
+        if (a.dex < b.dex){
+            return -1;
+        }
+        if (a.dex > b.dex){
+            return 1;
+        }
+        return Math.random() >= 0.5;
+    }
+
+    startCombat() {
+        Meteor.call("campaigns.startCombat", this.campaignID);
+    }
+
+    endCombat() {
+        Meteor.call("campaigns.endCombat", this.campaignID);
+    }
+
+    endTurn() {
+        Meteor.call("campaigns.endTurn", this.campaignID, this.campaign.turnOrderIndex + 1 % this.campaign.turnOrder.length)
+    }
+
+    showInitiativeButton(){
+        if (this.campaign.combat && !this.state.isGm){
+            for (i = 0; i < this.turnOrder.length; i++){
+                if (this.turnOrder[i].characterID == this.myCharacter){
+                    return null;
+                }
+            }
+
+            alreadyAdded = false;
+            return <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px", "backgroundColor":"limegreen"}} onClick={this.rollInitiative.bind(this)}>INITIATIVE</button>;
+        }
+    }
+
+    rollInitiative(){
+        val = Math.floor(Math.random() * max) + 1 + this.myCharacter.dex;
+        Meteor.call('campaigns.addToTurnOrder', this.myCharacter._id, val, dex);
+    }
+
+    render() {
+        if (!this.characters){
+            return null;
+        }
         return(
             <div className="page-wrapper">
                 <div className="col-md-12">
@@ -371,19 +454,19 @@ export default class CampaignScreen extends React.Component{
                                     <h3>Initiative</h3>
                                     <hr/>
                                     <div className="scrolling-container initiative">
-                                        {this.renderRightSideCharacterForm()}
+                                        {this.renderInitiativeOrder()}
                                     </div>
 
                         
                                     
                                     <div className="col-sm-12">
-                                        <button className="full-width submit-button ">END TURN</button>
+                                        <button className="full-width submit-button " onClick={this.endTurn.bind(this)}>END TURN</button>
                                     </div>
                                     <div className="col-sm-12">
-                                        <button className="full-width submit-button blue-button " onClick={this.toggleInitiativePopup.bind(this)}>START COMBAT</button>
+                                        <button className="full-width submit-button blue-button " onClick={this.startCombat.bind(this)}>START COMBAT</button>
                                     </div>                                    
                                     <div className="col-sm-12">
-                                        <button className="full-width submit-button" onClick={this.toggleInitiativePopup.bind(this)}>END COMBAT</button>
+                                        <button className="full-width submit-button" onClick={this.endCombat.bind(this)}>END COMBAT</button>
                                     </div>
                                 </div>
 
@@ -396,7 +479,7 @@ export default class CampaignScreen extends React.Component{
                                     <h3>Characters</h3>
                                     <hr/>
                                     <div className="scrolling-container-content-top">
-                                        {this.renderRightSideCharacterForm()}
+                                        {this.renderCharacterCard()}
                                     </div>
                                 </div>
                             </div>
@@ -502,7 +585,7 @@ export default class CampaignScreen extends React.Component{
                                         <div className="col-md-2  col-xs-12 ">
                                             <div className="col-sm-12">
                                                 <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
-                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px", "backgroundColor":"limegreen"}} onClick={this.rollDice.bind(this)}>INITIATIVE</button>
+                                                {this.showInitiativeButton()}
                                             </div>
                                         </div>
                                     
