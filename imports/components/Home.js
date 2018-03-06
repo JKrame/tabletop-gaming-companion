@@ -170,12 +170,18 @@ export default class Home extends React.Component {
 
         for(var i=0;i<this.user.length;i++){
             if(this.user._id != Meteor.userId()){
+                if(this.user[i].profile.location == null){
+                    return;
+                }
                 userLocation=this.user[i].profile.location;
             }
-            console.log( geolib.getDistance(
-                {latitude: currUserLocation[0], longitude: currUserLocation[1]},
-                {latitude: userLocation[0], longitude: userLocation[1]}
-            ));
+            if(currUserLocation != null && userLocation != null)
+            {
+                console.log( geolib.getDistance(
+                    {latitude: currUserLocation[0], longitude: currUserLocation[1]},
+                    {latitude: userLocation[0], longitude: userLocation[1]}
+                ));
+            }
         }
     }
 
