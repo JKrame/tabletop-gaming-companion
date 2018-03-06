@@ -15,7 +15,8 @@ export default class CampaignSetup extends React.Component{
         super();
         this.state = {
             showImagePopup: false,
-            showPlayerPopup: false
+            showPlayerPopup: false,
+            isGm: false
         };
     }
 
@@ -51,6 +52,8 @@ export default class CampaignSetup extends React.Component{
             {
                 this.users = Meteor.users.find({}).fetch();
             }
+
+            
             this.forceUpdate();
         });
     }
