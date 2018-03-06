@@ -85,7 +85,8 @@ export default class CampaignScreen extends React.Component{
                 key={i}
                 func={this.setBroadcastAssetNPC.bind(this)}
                 NPC={this.NPCs[i]}
-                somehistory={this.props.history}/>
+                somehistory={this.props.history}
+                />
             );
         }
         return <div>{cards}</div>;
@@ -95,7 +96,15 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard key={i} func={this.setBroadcastAssetText.bind(this)} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
+            cards.push(<TextAssetcard
+                key={i}
+                func={this.setBroadcastAssetText.bind(this)}
+                noteTitle={this.campaign.notes[i][0]}
+                noteDescription={this.campaign.notes[i][1]}
+                id={this.campaign._id}
+                isCampaignScreen={true}
+                />
+            );
         }
         return <div>{cards}</div>;
     }
@@ -170,7 +179,15 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} func={this.setBroadcastAssetImage.bind(this)} _id={this.id} campaignID={this.campaign._id}/>);
+            cards.push(<ImageAssetCard
+                key={i}
+                URL={this.campaign.URLs[i]}
+                func={this.setBroadcastAssetImage.bind(this)}
+                _id={this.id}
+                campaignID={this.campaign._id}
+                isCampaignScreen={true}
+                />
+            );
         }
         return <div>{cards}</div>;
     }
