@@ -44,11 +44,8 @@ export default class Home extends React.Component {
             }
             if(sub2.ready())
             {
-                campaignsArray = Campaigns.find({gm: UID}).fetch();
-                if(campaignsArray != undefined)
-                {
-                    this.campaigns = campaignsArray;
-                }
+                this.campaigns = Campaigns.find({gm: UID}).fetch();
+                this.otherCampaigns = Campaigns.find({"characters": {"UID": UID}});
             }
             if(sub.ready())
             {

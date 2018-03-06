@@ -49,26 +49,41 @@ export default class PlayerFormPopup extends React.Component {
         for (var i = 0; i < this.characters.length; i++)
         {   
             cards.push(
-                <CharacterCardHalf parentPage={this} campaign={this.campaign} key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.addCharacter.bind(this)} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+                <CharacterCardHalf 
+                    key={i} 
+                    parentPage={this} 
+                    campaign={this.campaign} 
+                    characterImageURL={this.characters[i].characterImageURL} 
+                    id={this.characters[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.addCharacter.bind(this)} 
+                    characterName={this.characters[i].characterName} 
+                    characterClass={this.characters[i].characterClass} 
+                    level={this.characters[i].level} 
+                    race={this.characters[i].race}
+                    character={this.characters[i]}/>
             );
         }
         return <div>{cards}</div>;
     }
 
-    addCharacter(characterid , somehistory, campaignid){
-        // Meteor.call("campaignPendingInvites.addToSet",
-        //     _id = campaignid,
-        //     Meteor.userId()
-        // );
+    addCharacter(characterid , somehistory, campaign, character){
+        console.log(characterid);
+        console.log(campaign);
         Meteor.call("campaignCharacter.addToSet", 
-            _id = campaignid,
-            characterid    
+            _id = campaign,
+            character    
         );
+
+        Meteor.call("characters.setCampaign", 
+            characterid, 
+            campaign
+        );
+
         this.props.closePopup()
     }
 
     loadCharacter(cid, somehistory){
-
         if (!cid)
         {
             cid = Random.id();
