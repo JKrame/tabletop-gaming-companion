@@ -70,6 +70,7 @@ export default class PlayerFormPopup extends React.Component {
                     <h2>NPCs</h2>
 
                     <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
+                    <button onClick={this.props.closePopup} className=" submit-button button">Start Combat</button>
 
                 </div>
             </div>
