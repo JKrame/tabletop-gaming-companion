@@ -151,6 +151,7 @@ export default class Home extends React.Component {
     }
 
     PlayersNearYou(){
+        var cards = [];
         if(!this.user){
             return;
         }  
@@ -163,7 +164,6 @@ export default class Home extends React.Component {
                 currUserLocation=this.user[i].profile.location;
             }
         }
-        console.log(currUserLocation)
 
         for(var i=0;i<this.user.length;i++){
             if(this.user._id != Meteor.userId()){
@@ -174,10 +174,19 @@ export default class Home extends React.Component {
             }
             if(currUserLocation != null && userLocation != null)
             {
-                console.log( geolib.getDistance(
+                distance = geolib.getDistance(
                     {latitude: currUserLocation[0], longitude: currUserLocation[1]},
                     {latitude: userLocation[0], longitude: userLocation[1]}
-                ));
+                );
+                //30 miles
+                if (distance<48280){
+                    console.log("hit")
+                    cards.push(
+                        <PlayerNearYou key={i} somehistory={this.props.history} username={this.user[i].profile.username}/>
+                    );
+                
+                }
+                return <div>{cards}</div>;
             }
         }
     }
@@ -187,7 +196,6 @@ export default class Home extends React.Component {
         Meteor.subscribe('characters');
         return(
         <div className="page-wrapper">
-        {this.PlayersNearYou()}
             <div className="col-lg-8 col-lg-offset-2">
                 <div className="col-lg-6 ">
                     <div className="page-content-half">
@@ -253,19 +261,8 @@ export default class Home extends React.Component {
                             <h3>Players Nearby >></h3>
                         </NavLink>
                         <hr className="hr-thicc"/>
+                        {this.PlayersNearYou()}
                         <div className="scrolling-container negate-vertical-margins">
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>                    
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
                         </div>
                     </div>
                 </div>

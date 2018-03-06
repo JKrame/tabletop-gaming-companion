@@ -410,6 +410,10 @@ body{
     overflow-y:auto;
 }
 
+.initiative{
+    max-height: 70vh;
+}
+
 .scrolling-container-80{
     height:80vh;
     overflow-y:auto;
@@ -430,6 +434,7 @@ body{
     overflow-x:hidden;
     height:75%;
 }
+
 
 .vertical-image{
     height:300px;
@@ -856,6 +861,34 @@ a.menu_links{
     background-color: rgba(200, 200, 200, 0.801);
 }
 
+.broadcast-asset{
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    margin:auto;
+}
+
+.initiative-popup{
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    height: 60vh;
+    width:60vw;
+    z-index: 999;
+    padding:30px;
+    margin:auto;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.broadcast-screen{
+    padding:20px;
+    text-align: center;
+    vertical-align: center;
+}
+
 .pending-invite-popup{
     position: absolute;
     left:0;
@@ -906,6 +939,19 @@ a.menu_links{
     margin: auto;
     background-color: rgba(0,0,0, 0.5);
   }
+
+  .wide-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0, 0.5);
+  }
+
   .popup_inner {
     position: absolute;
     left: 25%;

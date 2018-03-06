@@ -10,12 +10,27 @@ import ChatWindow from '../objects/ChatWindow';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 import NPCCard from '../objects/NPCcard';
+import InitiativePopup from '../objects/InitiativePopup';
+
 
 
 var characters;
 var NPCs;
 
 export default class CampaignScreen extends React.Component{
+    constructor() {
+        super();
+        this.state = {
+            isGm: false,
+            showInitiativePopup: false
+        };
+    }
+
+    toggleInitiativePopup() {
+        this.setState({
+            showInitiativePopup: !this.state.showInitiativePopup
+        });
+    }
 
     componentWillMount(){
         var id = this.props.match.params._id
@@ -34,7 +49,14 @@ export default class CampaignScreen extends React.Component{
             if(sub2.ready())
             {
                 this.campaign = Campaigns.findOne({_id: id});
+                if(this.userID == this.campaign.gm)
+                {
+                    this.setState({
+                        isGm: true
+                    });
+                }
             }
+
 
             this.forceUpdate();
         });
@@ -63,7 +85,8 @@ export default class CampaignScreen extends React.Component{
                 key={i}
                 func={this.setBroadcastAssetNPC.bind(this)}
                 NPC={this.NPCs[i]}
-                somehistory={this.props.history}/>
+                somehistory={this.props.history}
+                />
             );
         }
         return <div>{cards}</div>;
@@ -73,7 +96,15 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard key={i} func={this.setBroadcastAssetText.bind(this)} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
+            cards.push(<TextAssetcard
+                key={i}
+                func={this.setBroadcastAssetText.bind(this)}
+                noteTitle={this.campaign.notes[i][0]}
+                noteDescription={this.campaign.notes[i][1]}
+                id={this.campaign._id}
+                isCampaignScreen={true}
+                />
+            );
         }
         return <div>{cards}</div>;
     }
@@ -116,8 +147,9 @@ export default class CampaignScreen extends React.Component{
         if(this.campaign.currentBroadcastType == "text")
         {           
             return (
-                <div>
-                    <p className="p-override no-margin-override small-text full-width"> {this.campaign.currentBroadcastItem.noteTitle}  {this.campaign.currentBroadcastItem.noteDescription}</p>
+                <div className="broadcast-asset">
+                    <h1>{this.campaign.currentBroadcastItem.noteTitle}</h1>
+                    <h3>{this.campaign.currentBroadcastItem.noteDescription}</h3>
                 </div>
             );
         }
@@ -125,9 +157,9 @@ export default class CampaignScreen extends React.Component{
         if(this.campaign.currentBroadcastType == "image")
         {
             return (
-                <div>
+                <div className="broadcast-asset">
                     <div>
-                        <img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="image-asset-img" />
+                        <img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="" />
                     </div>
                 </div>
             );
@@ -136,7 +168,7 @@ export default class CampaignScreen extends React.Component{
         if(this.campaign.currentBroadcastType == "npc")
         {
             return (
-                <div>
+                <div className="broadcast-asset">
                     <img src={this.campaign.currentBroadcastItem.characterImageURL} />
                 </div>
             );
@@ -147,7 +179,15 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} func={this.setBroadcastAssetImage.bind(this)} _id={this.id} campaignID={this.campaign._id}/>);
+            cards.push(<ImageAssetCard
+                key={i}
+                URL={this.campaign.URLs[i]}
+                func={this.setBroadcastAssetImage.bind(this)}
+                _id={this.id}
+                campaignID={this.campaign._id}
+                isCampaignScreen={true}
+                />
+            );
         }
         return <div>{cards}</div>;
     }
@@ -326,22 +366,28 @@ export default class CampaignScreen extends React.Component{
 
                             <div className="sub-content-top">
                                 <div className="col-md-3 col-xs-12 content-container-left">
-                                        <div className="spacer col-sm-12"/>
+                                    <div className="spacer col-sm-12"/>
 
-                                        <h3>Initiative</h3>
-                                        <hr/>
-                                        <div className="scrolling-container-content-top">
-                                            {this.renderRightSideCharacterForm()}
-                                        </div>
+                                    <h3>Initiative</h3>
+                                    <hr/>
+                                    <div className="scrolling-container initiative">
+                                        {this.renderRightSideCharacterForm()}
+                                    </div>
 
-                         
-                                        
-                                        <div className="col-sm-12">
-                                            <button className="full-width submit-button ">END TURN</button>
-                                        </div>
+                        
+                                    
+                                    <div className="col-sm-12">
+                                        <button className="full-width submit-button ">END TURN</button>
+                                    </div>
+                                    <div className="col-sm-12">
+                                        <button className="full-width submit-button blue-button " onClick={this.toggleInitiativePopup.bind(this)}>START COMBAT</button>
+                                    </div>                                    
+                                    <div className="col-sm-12">
+                                        <button className="full-width submit-button" onClick={this.toggleInitiativePopup.bind(this)}>END COMBAT</button>
+                                    </div>
                                 </div>
 
-                                <div className="col-md-6 col-xs-12 content-container-mid add-background" >
+                                <div className="col-md-6 col-xs-12 content-container-mid add-background broadcast-screen scrolling-container" >
                                     {this.broadcastCurrentAsset()}
                                 </div>
 
@@ -456,6 +502,7 @@ export default class CampaignScreen extends React.Component{
                                         <div className="col-md-2  col-xs-12 ">
                                             <div className="col-sm-12">
                                                 <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
+                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px", "backgroundColor":"limegreen"}} onClick={this.rollDice.bind(this)}>INITIATIVE</button>
                                             </div>
                                         </div>
                                     
@@ -468,6 +515,15 @@ export default class CampaignScreen extends React.Component{
 
                                     </div>
                                 </div>
+
+                                {this.state.showInitiativePopup ? 
+                                    <InitiativePopup
+                                        text='Close Me'
+                                        closePopup={this.toggleInitiativePopup.bind(this)}
+                                    />
+                                    : null
+                                    }
+                        
                         </div>
                 </div>
             </div>
