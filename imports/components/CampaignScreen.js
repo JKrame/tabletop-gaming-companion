@@ -10,12 +10,27 @@ import ChatWindow from '../objects/ChatWindow';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 import NPCCard from '../objects/NPCcard';
+import InitiativePopup from '../objects/InitiativePopup';
+
 
 
 var characters;
 var NPCs;
 
 export default class CampaignScreen extends React.Component{
+    constructor() {
+        super();
+        this.state = {
+            isGm: false,
+            showInitiativePopup: false
+        };
+    }
+
+    toggleInitiativePopup() {
+        this.setState({
+            showInitiativePopup: !this.state.showInitiativePopup
+        });
+    }
 
     componentWillMount(){
         var id = this.props.match.params._id
@@ -34,7 +49,14 @@ export default class CampaignScreen extends React.Component{
             if(sub2.ready())
             {
                 this.campaign = Campaigns.findOne({_id: id});
+                if(this.userID == this.campaign.gm)
+                {
+                    this.setState({
+                        isGm: true
+                    });
+                }
             }
+
 
             this.forceUpdate();
         });
@@ -343,19 +365,25 @@ export default class CampaignScreen extends React.Component{
 
                             <div className="sub-content-top">
                                 <div className="col-md-3 col-xs-12 content-container-left">
-                                        <div className="spacer col-sm-12"/>
+                                    <div className="spacer col-sm-12"/>
 
-                                        <h3>Initiative</h3>
-                                        <hr/>
-                                        <div className="scrolling-container-content-top">
-                                            {this.renderRightSideCharacterForm()}
-                                        </div>
+                                    <h3>Initiative</h3>
+                                    <hr/>
+                                    <div className="scrolling-container initiative">
+                                        {this.renderRightSideCharacterForm()}
+                                    </div>
 
-                         
-                                        
-                                        <div className="col-sm-12">
-                                            <button className="full-width submit-button ">END TURN</button>
-                                        </div>
+                        
+                                    
+                                    <div className="col-sm-12">
+                                        <button className="full-width submit-button ">END TURN</button>
+                                    </div>
+                                    <div className="col-sm-12">
+                                        <button className="full-width submit-button blue-button " onClick={this.toggleInitiativePopup.bind(this)}>START COMBAT</button>
+                                    </div>                                    
+                                    <div className="col-sm-12">
+                                        <button className="full-width submit-button" onClick={this.toggleInitiativePopup.bind(this)}>END COMBAT</button>
+                                    </div>
                                 </div>
 
                                 <div className="col-md-6 col-xs-12 content-container-mid add-background" >
@@ -473,6 +501,7 @@ export default class CampaignScreen extends React.Component{
                                         <div className="col-md-2  col-xs-12 ">
                                             <div className="col-sm-12">
                                                 <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
+                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px", "backgroundColor":"limegreen"}} onClick={this.rollDice.bind(this)}>INITIATIVE</button>
                                             </div>
                                         </div>
                                     
@@ -485,6 +514,15 @@ export default class CampaignScreen extends React.Component{
 
                                     </div>
                                 </div>
+
+                                {this.state.showInitiativePopup ? 
+                                    <InitiativePopup
+                                        text='Close Me'
+                                        closePopup={this.toggleInitiativePopup.bind(this)}
+                                    />
+                                    : null
+                                    }
+                        
                         </div>
                 </div>
             </div>
