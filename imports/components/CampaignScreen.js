@@ -221,7 +221,9 @@ export default class CampaignScreen extends React.Component{
                         <h3>Image Assets</h3>
                         <hr/>
                         {this.renderImageAssets()}
-                        <button onClick={this.clearBroadcast.bind(this)}>Clear Broadcast</button>
+
+                        <div className="spacer col-sm-12"/>
+                        <button onClick={this.clearBroadcast.bind(this)} className="submit-button col-xs-12">Clear Broadcast</button>
                     </div>
                 ) ;                                 
             }
@@ -521,9 +523,9 @@ export default class CampaignScreen extends React.Component{
                                 </div>
                             </div>
                                 
-                            <div className="col-lg-6 col-xs-12 top-content content-container-mid scrolling-container ">
-                                <div className="add-background">
-                                    <div className="broadcast-screen" >
+                            <div className="col-lg-6 col-xs-12 top-content content-container-mid scrolling-container add-background">
+                                <div className="broadcast-screen">
+                                    <div className="broadcast-object" >
                                         <ToastContainer store={ToastStore}/>
                                         {this.broadcastCurrentAsset()}
                                     </div>
@@ -588,37 +590,37 @@ export default class CampaignScreen extends React.Component{
                                             <div className="spacer col-sm-12"/>
 
                                             <div className="dice-panel">
-                                                <img src={'/images/d4.png'} className=""/>
+                                                <img src={'/images/d4.png'} className="dice-img"/>
                                                 <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d6.png'} className=""/>
+                                                <img src={'/images/d6.png'} className="dice-img"/>
                                                 <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d8.png'} className=""/>
+                                                <img src={'/images/d8.png'} className="dice-img"/>
                                                 <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d10.png'} className=""/>
+                                                <img src={'/images/d10.png'} className="dice-img"/>
                                                 <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d12.png'} className=""/>
+                                                <img src={'/images/d12.png'} className="dice-img"/>
                                                 <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d20.png'} className=""/>
+                                                <img src={'/images/d20.png'} className="dice-img"/>
                                                 <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d100.png'} className=""/>
+                                                <img src={'/images/d100.png'} className="dice-img"/>
                                                 <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
                                             </div>
                                         </div>
                                     </div>
                                 
-                                    <div className="col-md-3  col-xs-12">
+                                    <div className="col-sm-3  col-xs-12">
                                         <div className="spacer col-sm-12"/>
                                         <div className="mod-block">
                                             <h4>ADD MODS</h4>
