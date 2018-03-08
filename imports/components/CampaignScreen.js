@@ -11,7 +11,7 @@ import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 import NPCCard from '../objects/NPCcard';
 import InitiativePopup from '../objects/InitiativePopup';
-
+import {ToastContainer, ToastStore} from 'react-toasts';
 
 
 var characters;
@@ -341,8 +341,10 @@ export default class CampaignScreen extends React.Component{
         }
         result=0
         for(i=0;i<d;i++){
-            result = result + this.randomDice(dice)
+            result = result + this.randomDice(dice);
         }
+        ToastStore.warning(this.myCharacter + " rolled a " + result);
+        
         this.refs.d4roller.value=""
         this.refs.d6roller.value=""
         this.refs.d8roller.value=""
@@ -477,6 +479,7 @@ export default class CampaignScreen extends React.Component{
                                 </div>
 
                                 <div className="col-md-6 col-xs-12 content-container-mid add-background broadcast-screen scrolling-container" >
+                                    <ToastContainer store={ToastStore}/>
                                     {this.broadcastCurrentAsset()}
                                 </div>
 
