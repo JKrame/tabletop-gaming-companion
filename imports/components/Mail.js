@@ -100,7 +100,14 @@ export default class Mail extends React.Component{
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
-                cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture} param={this.conversations[i]} func={this.loadConversation.bind(this)}/>);
+                cards.push(<UserCard
+                    key={i}
+                    username={partner.profile.username}
+                    accountPicture={partner.profile.accountPicture}
+                    param={this.conversations[i]}
+                    func={this.loadConversation.bind(this)}
+                    />
+                );
             }
         }
 

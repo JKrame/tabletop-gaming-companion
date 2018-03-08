@@ -29,7 +29,7 @@ export default class CampaignSetup extends React.Component{
     togglePlayerPopup() {
         this.setState({
             showPlayerPopup: !this.state.showPlayerPopup
-        });
+        }); 
     }
 
     componentWillMount(){
@@ -67,7 +67,18 @@ export default class CampaignSetup extends React.Component{
         if (this.NPCs){
             for (var i = 0; i < this.NPCs.length; i++)
             {
-                cards.push(<CharacterCardMini key={i} characterImageURL={this.NPCs[i].characterImageURL} id={this.NPCs[i]._id} somehistory={this.props.history} func={this.loadNPC} characterName={this.NPCs[i].characterName} characterClass={this.NPCs[i].characterClass} level={this.NPCs[i].level} race={this.NPCs[i].race}/>);
+                cards.push(<CharacterCardMini
+                    key={i}
+                    characterImageURL={this.NPCs[i].characterImageURL}
+                    id={this.NPCs[i]._id}
+                    somehistory={this.props.history}
+                    func={this.loadNPC}
+                    characterName={this.NPCs[i].characterName}
+                    characterClass={this.NPCs[i].characterClass}
+                    level={this.NPCs[i].level}
+                    race={this.NPCs[i].race}
+                    />
+                );
             }
         }
         return <div>{cards}</div>;
@@ -86,7 +97,11 @@ export default class CampaignSetup extends React.Component{
         if (this.characters){
             for (var i = 0; i < this.characters.length; i++)
             {
-                cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
+                cards.push(<CharacterCardMiniWithOwner
+                    key={i}
+                    character={this.characters[i]}
+                    />
+                );
             }
         }
 
@@ -103,7 +118,13 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard key={i} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
+            cards.push(<TextAssetcard
+                key={i}
+                noteTitle={this.campaign.notes[i][0]}
+                noteDescription={this.campaign.notes[i][1]}
+                id={this.campaign._id}
+                />
+            );
         }
         return <div>{cards}</div>;
     }
@@ -118,11 +139,19 @@ export default class CampaignSetup extends React.Component{
         this.refs.newNoteText.value = "";
     }
 
-    addPlayer(userID) {
+    addPlayer(username) {
+        console.log("getting called");
+        console.log(this.id);
         Meteor.call("campaignPendingInvites.addToSet", 
             _id = this.id,
-            userID,    
+            username
         );
+        // var invitedUserID = Meteor.users.findOne({"profile.username" : username})._id;
+        // Meteor.users.update(invitedUserID, {
+        //     $addToSet : {
+        //         "profile.pendingInvites" : this.id
+        //     }
+        // });
         this.togglePlayerPopup();
     }
     
@@ -133,7 +162,13 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id} campaignID={this.campaign._id}/>);
+            cards.push(<ImageAssetCard
+                key={i}
+                URL={this.campaign.URLs[i]}
+                _id ={this.id}
+                campaignID={this.campaign._id}
+                />
+            );
         }
         return <div>{cards}</div>;
     }

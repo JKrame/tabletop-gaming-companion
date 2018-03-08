@@ -14,6 +14,9 @@ var charactersArray;
 var campaigns;
 var campaignsArray;
 
+var pendingInvites;
+var username;
+
 export default class Home extends React.Component {
     constructor() {
         super();
@@ -42,14 +45,17 @@ export default class Home extends React.Component {
                     this.characters = charactersArray;
                 }
             }
-            if(sub2.ready())
+            if(sub2.ready() && sub3.ready())
             {
+                var username = this.username;
                 this.campaigns = Campaigns.find({gm: UID}).fetch();
                 this.otherCampaigns = Campaigns.find({"characters": {"UID": UID}});
+                this.pendingInvites = Campaigns.find({pendingInvites : {$in : username}}).fetch();
             }
-            if(sub.ready())
+            if(sub3.ready())
             {
                 this.user = Meteor.users.find({}).fetch();
+                this.username = Meteor.users.findOne({_id : Meteor.userId()}).username;
             }
             this.forceUpdate();
         });
@@ -86,8 +92,17 @@ export default class Home extends React.Component {
         var UID = Meteor.userId();
         for (var i = 0; i < this.characters.length; i++)
         {   
-            cards.push(
-                <CharacterCardHalf key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+            cards.push(<CharacterCardHalf
+                key={i}
+                characterImageURL={this.characters[i].characterImageURL}
+                id={this.characters[i]._id}
+                somehistory={this.props.history}
+                func={this.loadCharacter}
+                characterName={this.characters[i].characterName}
+                characterClass={this.characters[i].characterClass}
+                level={this.characters[i].level}
+                race={this.characters[i].race}
+                />
             );
         }
         return <div>{cards}</div>;
@@ -96,10 +111,19 @@ export default class Home extends React.Component {
     renderCampaignCard() {
         var cards = [];
         var UID = Meteor.userId();
+
         for (var i = 0; i < this.campaigns.length; i++)
         {
-            cards.push(
-                <CampaignCardHalf key={i} campaignImageURL={this.campaigns[i].campaignImageURL} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.campaigns} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+            cards.push(<CampaignCardHalf 
+                key={i} 
+                campaignImageURL={this.campaigns[i].campaignImageURL}
+                id={this.campaigns[i]._id} 
+                somehistory={this.props.history} 
+                func={this.loadCampaign} 
+                campaigns={this.campaigns} 
+                campaignName={this.campaigns[i].name} 
+                campaignDescription={this.campaigns[i].description}
+                />
             );
         }
         return <div>{cards}</div>;
