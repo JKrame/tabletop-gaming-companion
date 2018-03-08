@@ -357,37 +357,44 @@ export default class CampaignScreen extends React.Component{
     renderInitiativeOrder(){
         isSorted = true;
         prev = Number.MAX_SAFE_INTEGER;
-        cards = []
-        for (i = 0; i < this.campaign.turnOrder.length; i++){
-            for (j = 0; j < this.characters.length; j++){
-                if (this.campaign.turnOrder[i].cid == this.characters[j]._id){
-                    cards.push(
-                        <CharacterCard
-                        key={j}
-                        characterImageURL={this.characters[j].characterImageURL} 
-                        id={this.characters[j]._id} 
-                        somehistory={this.props.history} 
-                        func={this.loadCharacter} 
-                        characterName={this.characters[j].characterName} 
-                        characterClass={this.characters[j].characterClass} 
-                        level={this.characters[j].level} 
-                        race={this.characters[j].race}
-                        />
-                    );
+        cards = [];
+
+        if (this.campaign && this.characters){
+            for (i = 0; i < this.campaign.turnOrder.length; i++){
+                index = (i + this.campaign.turnIndex) % this.campaign.turnOrder.length;
+
+                if (this.campaign.turnOrder[index].initiative > prev){
+                    isSorted = false;
+                    break;
+                }
+
+                for (j = 0; j < this.characters.length; j++){
+                    if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
+                        cards.push(
+                            <CharacterCard
+                            key={i}
+                            characterImageURL={this.characters[j].characterImageURL} 
+                            id={this.characters[j]._id} 
+                            somehistory={this.props.history} 
+                            func={this.loadCharacter} 
+                            characterName={this.characters[j].characterName} 
+                            characterClass={this.characters[j].characterClass} 
+                            level={this.characters[j].level} 
+                            race={this.characters[j].race}
+                            />
+                        );
+                    }
                 }
             }
 
-            if (this.campaign.turnOrder[i].initiative > prev){
-                isSorted = false;
-                break;
+            if (Meteor.userId() == this.campaign.gm && !isSorted){
+                this.sortTurnOrder()
             }
+
+            return <div>{cards}</div>;
         }
 
-        if (Meteor.userId() == this.campaign.gm && !isSorted){
-            this.sortTurnOrder()
-        }
-
-        return <div>{cards}</div>;
+        return null;
     }
 
     sortTurnOrder(){
@@ -421,18 +428,11 @@ export default class CampaignScreen extends React.Component{
     }
 
     endTurn() {
-        Meteor.call("campaigns.endTurn", this.campaign._id, this.campaign.turnOrderIndex + 1 % this.campaign.turnOrder.length)
+        Meteor.call("campaigns.endTurn", this.campaign._id, (this.campaign.turnIndex + 1) % this.campaign.turnOrder.length)
     }
 
     showInitiativeButton(){
-        if (this.campaign.combat && Meteor.userId() != this.campaign.gm){
-            for (i = 0; i < this.campaign.turnOrder.length; i++){
-                if (this.campaign.turnOrder[i].characterID == this.myCharacter){
-                    return null;
-                }
-            }
-
-            alreadyAdded = false;
+        if (this.campaign.combat && Meteor.userId() != this.campaign.gm && !this.alreadyInInitiative()){
             return <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px", "backgroundColor":"limegreen"}} onClick={this.rollInitiative.bind(this)}>INITIATIVE</button>;
         }
         else{
@@ -441,9 +441,58 @@ export default class CampaignScreen extends React.Component{
     }
 
     rollInitiative(){
+        if (this.alreadyInInitiative()){
+            return;
+        }
+
         dex = this.myCharacter.attributes[1];
         val = Math.floor(Math.random() * 20) + 1 + dex;
         Meteor.call('campaigns.addToTurnOrder', this.campaign._id, this.myCharacter._id, val, dex);
+    }
+
+    alreadyInInitiative(){
+        if (this.campaign && this.myCharacter){
+            for (i = 0; i < this.campaign.turnOrder.length; i++){
+                if (this.campaign.turnOrder[i].cid == this.myCharacter._id){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    renderEndCombatButton(){
+        if (this.campaign.combat && this.campaign.gm == Meteor.userId()){
+            return (
+                <div className="col-sm-12">
+                    <button className="full-width submit-button" onClick={this.endCombat.bind(this)}>END COMBAT</button>
+                </div>
+            );
+        }
+    }
+
+    renderEndTurnButton(){
+        if (this.campaign.combat && 
+            this.campaign.turnOrder.length > 0 && 
+            (this.campaign.gm == Meteor.userId() || this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id)
+        ){
+            return (
+                <div className="col-sm-12">
+                    <button className="full-width submit-button " onClick={this.endTurn.bind(this)}>END TURN</button>
+                </div>
+            );
+        }
+    }
+
+    renderStartCombatButton(){
+        if (!this.campaign.combat && this.campaign.gm == Meteor.userId()){
+            return (
+                <div className="col-sm-12">
+                    <button className="full-width submit-button blue-button " onClick={this.startCombat.bind(this)}>START COMBAT</button>
+                </div>
+            );
+        }
     }
 
     render() {
@@ -465,17 +514,9 @@ export default class CampaignScreen extends React.Component{
                                         {this.renderInitiativeOrder()}
                                     </div>
 
-                        
-                                    
-                                    <div className="col-sm-12">
-                                        <button className="full-width submit-button " onClick={this.endTurn.bind(this)}>END TURN</button>
-                                    </div>
-                                    <div className="col-sm-12">
-                                        <button className="full-width submit-button blue-button " onClick={this.startCombat.bind(this)}>START COMBAT</button>
-                                    </div>                                    
-                                    <div className="col-sm-12">
-                                        <button className="full-width submit-button" onClick={this.endCombat.bind(this)}>END COMBAT</button>
-                                    </div>
+                                    {this.renderEndTurnButton()}
+                                    {this.renderEndCombatButton()}
+                                    {this.renderStartCombatButton()}                                   
                                 </div>
 
                                 <div className="col-md-6 col-xs-12 content-container-mid add-background broadcast-screen scrolling-container" >
