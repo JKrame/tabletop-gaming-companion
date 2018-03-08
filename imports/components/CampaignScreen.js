@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 import ToggleButton from 'react-toggle-button'
+
+import Header from './Header';
 //import { Random } from 'meteor/random'
 
 import CharacterCard from '../objects/CampaignCharacterTile';
@@ -171,7 +173,7 @@ export default class CampaignScreen extends React.Component{
             return (
                 <div className="broadcast-asset">
                     <div>
-                        <img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="" />
+                        <NavLink to={this.campaign.currentBroadcastItem} target="_blank" ><img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="broadcast-item" /></NavLink>
                     </div>
                 </div>
             );
@@ -181,7 +183,7 @@ export default class CampaignScreen extends React.Component{
         {
             return (
                 <div className="broadcast-asset">
-                    <img src={this.campaign.currentBroadcastItem.characterImageURL} />
+                    <NavLink to={this.campaign.currentBroadcastItem.characterImageURL} target="_blank" ><img src={this.campaign.currentBroadcastItem.characterImageURL} className="broadcast-item" /></NavLink>
                 </div>
             );
         }
@@ -237,7 +239,9 @@ export default class CampaignScreen extends React.Component{
                         <h3>Image Assets</h3>
                         <hr/>
                         {this.renderImageAssets()}
-                        <button onClick={this.clearBroadcast.bind(this)}>Clear Broadcast</button>
+
+                        <div className="spacer col-sm-12"/>
+                        <button onClick={this.clearBroadcast.bind(this)} className="submit-button col-xs-12">Clear Broadcast</button>
                     </div>
                 ) ;                                 
             }
@@ -359,7 +363,7 @@ export default class CampaignScreen extends React.Component{
         for(i=0;i<d;i++){
             result = result + this.randomDice(dice);
         }
-        ToastStore.warning(this.myCharacter + " rolled a " + result);
+        ToastStore.warning(this.myCharacter.characterName + " rolled a " + result);
         
         this.refs.d4roller.value=""
         this.refs.d6roller.value=""
@@ -572,11 +576,12 @@ export default class CampaignScreen extends React.Component{
         }
         return(
             <div className="page-wrapper">
+                <Header/>
                 <div className="col-md-12">
                     <div className=" game-screen">
 
-                            <div className="sub-content-top">
-                                <div className="col-md-3 col-xs-12 content-container-left">
+                            <div className="col-lg-3  col-xs-12 top-content content-container-left">
+                                <div className="inner-content-container">
                                     <div className="spacer col-sm-12"/>
 
                                     <h3>Initiative</h3>
@@ -585,17 +590,24 @@ export default class CampaignScreen extends React.Component{
                                         {this.renderInitiativeOrder()}
                                     </div>
 
+
                                     {this.renderEndTurnButton()}
                                     {this.renderEndCombatButton()}
                                     {this.renderStartCombatButton()}                                   
                                 </div>
-
-                                <div className="col-md-6 col-xs-12 content-container-mid add-background broadcast-screen scrolling-container" >
-                                    <ToastContainer store={ToastStore}/>
-                                    {this.broadcastCurrentAsset()}
+                            </div>
+                                
+                            <div className="col-lg-6 col-xs-12 top-content content-container-mid scrolling-container add-background">
+                                <div className="broadcast-screen">
+                                    <div className="broadcast-object" >
+                                        <ToastContainer store={ToastStore}/>
+                                        {this.broadcastCurrentAsset()}
+                                    </div>
                                 </div>
+                            </div>
 
-                                <div className="col-md-3 col-xs-12 content-container-right">
+                            <div className="col-lg-3  col-xs-12 top-content content-container-left">
+                                <div className="inner-content-container">
                                     <div className="spacer col-sm-12"/>
                                     <h3>Characters</h3>
                                     <hr/>
@@ -605,127 +617,139 @@ export default class CampaignScreen extends React.Component{
                                 </div>
                             </div>
 
-                            <div className="sub-content-bottom">
 
-                                <div className="col-md-3 col-xs-12 content-container-left  no-padding">
-                                    <div className="col-sm-4 in-game-chat-btn-container scrolling-container">
-                                        <div className="spacer col-sm-12"/>
-                                        
-                                        {this.renderContacts()}
-                                      
-                                        <div className="spacer col-sm-12"/>
-                                        
-                                    </div>
-                                    <div className="col-sm-8 no-padding">
-                                        <div className="scrolling-container chat-box in-game-chat-window">
-                                            <ChatWindow conversation={this.state.conversation}/>
+                    <div className="spacer col-sm-12"/>
+                            
 
-                                        </div>
-                                        <div className="col-sm-12 negate-margins" style={{"height":"50px", "marginTop":"10px"}}>
-                                            <div className="col-sm-8">
-                                                    <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"50px"}}/>
-                                                </div>
-                                                <div className="col-sm-4 negate-margins">
-                                                        <button onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px"}}>SEND</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
+                    <div className="sub-content-bottom col-lg-3 col-xs-12 content-container-left  no-padding">
+                        <div className="inner-content-container">
+                            <div className="col-sm-4 in-game-chat-btn-container scrolling-container">
+                                <div className="spacer col-sm-12"/>
+                                
+                                {this.renderContacts()}
+                                
+                                <div className="spacer col-sm-12"/>
+                                
+                            </div>
+                            <div className="col-sm-8 no-padding">
+                                <div className="scrolling-container chat-box in-game-chat-window">
+                                <ChatWindow conversation={this.state.conversation}/>
 
-                                    <div className="col-md-6 col-xs-12 content-container-mid" >
-                                        <div className="col-md-7  col-xs-12">
-                                            <div className="dice-display scrolling-container center">
-                                               <div className="spacer col-sm-12"/>
-
-                                                <div className="dice-panel">
-                                                    <img src={'/images/d4.png'} className=""/>
-                                                    <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
-                                                </div>
-                                                <div className="dice-panel">
-                                                    <img src={'/images/d6.png'} className=""/>
-                                                    <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
-                                                </div>
-                                                <div className="dice-panel">
-                                                    <img src={'/images/d8.png'} className=""/>
-                                                    <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
-                                                </div>
-                                                <div className="dice-panel">
-                                                    <img src={'/images/d10.png'} className=""/>
-                                                    <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
-                                                </div>
-                                                <div className="dice-panel">
-                                                    <img src={'/images/d12.png'} className=""/>
-                                                    <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
-                                                </div>
-                                                <div className="dice-panel">
-                                                    <img src={'/images/d20.png'} className=""/>
-                                                    <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
-                                                </div>
-                                                <div className="dice-panel">
-                                                    <img src={'/images/d100.png'} className=""/>
-                                                    <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-3  col-xs-12">
-                                            <div className="spacer col-sm-12"/>
-                                            <div className="mod-block">
-                                                <h4>ADD MODS</h4>
-                                                <hr/>
-                                                <div>
-                                                    <input type="checkbox"/> STR
-                                                </div>
-                                                <div>
-                                                    <input type="checkbox"/> DEX
-                                                </div>
-                                                <div>
-                                                    <input type="checkbox"/> CON
-                                                </div>
-                                                <div>
-                                                    <input type="checkbox"/> INT
-                                                </div>
-                                                <div>
-                                                    <input type="checkbox"/> WIS
-                                                </div>
-                                                <div>
-                                                    <input type="checkbox"/> CHA
-                                                </div>
-                                                <div>
-                                                    <input type="checkbox"/> PROF
-                                                </div>
-                                            </div>
+                                </div>
+                                <div className="col-sm-12 negate-margins" style={{"height":"50px", "marginTop":"10px"}}>
+                                    <div className="col-sm-8">
+                                            <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"50px"}}/>
                                         </div>
 
-
-                                        <div className="col-md-2  col-xs-12 ">
-                                            <div className="col-sm-12">
-                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
-                                                {this.showInitiativeButton()}
-                                            </div>
+                                        <div className="col-sm-4 negate-margins">
+                                                <button  onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px"}}>SEND</button>
                                         </div>
-                                    
-                                    </div>
-
-                                    <div className="col-md-3 col-xs-12 content-container-right scrolling-container">
-                                        
-                                        {this.renderPanel()}
-
-
                                     </div>
                                 </div>
-
-                                {this.state.showInitiativePopup ? 
-                                    <InitiativePopup
-                                        text='Close Me'
-                                        closePopup={this.toggleInitiativePopup.bind(this)}
-                                    />
-                                    : null
-                                    }
-                        
+                            </div>
                         </div>
+
+
+
+
+
+                            <div className="sub-content-bottom col-lg-6 col-xs-12 content-container-mid add-background">
+                                <div className="inner-content-container" >
+                                    <div className="col-md-7  col-xs-12">
+                                        <div className="dice-display scrolling-container center">
+                                            <div className="spacer col-sm-12"/>
+
+                                            <div className="dice-panel">
+                                                <img src={'/images/d4.png'} className="dice-img"/>
+                                                <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
+                                            </div>
+                                            <div className="dice-panel">
+                                                <img src={'/images/d6.png'} className="dice-img"/>
+                                                <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
+                                            </div>
+                                            <div className="dice-panel">
+                                                <img src={'/images/d8.png'} className="dice-img"/>
+                                                <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
+                                            </div>
+                                            <div className="dice-panel">
+                                                <img src={'/images/d10.png'} className="dice-img"/>
+                                                <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
+                                            </div>
+                                            <div className="dice-panel">
+                                                <img src={'/images/d12.png'} className="dice-img"/>
+                                                <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
+                                            </div>
+                                            <div className="dice-panel">
+                                                <img src={'/images/d20.png'} className="dice-img"/>
+                                                <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
+                                            </div>
+                                            <div className="dice-panel">
+                                                <img src={'/images/d100.png'} className="dice-img"/>
+                                                <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div className="col-sm-3  col-xs-12">
+                                        <div className="spacer col-sm-12"/>
+                                        <div className="mod-block">
+                                            <h4>ADD MODS</h4>
+                                            <hr/>
+                                            <div>
+                                                <input type="checkbox"/> STR
+                                            </div>
+                                            <div>
+                                                <input type="checkbox"/> DEX
+                                            </div>
+                                            <div>
+                                                <input type="checkbox"/> CON
+                                            </div>
+                                            <div>
+                                                <input type="checkbox"/> INT
+                                            </div>
+                                            <div>
+                                                <input type="checkbox"/> WIS
+                                            </div>
+                                            <div>
+                                                <input type="checkbox"/> CHA
+                                            </div>
+                                            <div>
+                                                <input type="checkbox"/> PROF
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="col-md-2  col-xs-12 ">
+                                        <div className="col-sm-12">
+                                            <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
+                                            {this.showInitiativeButton()}
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </div>
+
+                            <div className="sub-content-bottom col-lg-3 col-xs-12 content-container-right  no-padding">
+                                <div className=" inner-content-container scrolling-container">
+                                    
+                                    {this.renderPanel()}
+
+
+                                </div>
+                            </div>
+
+                    {this.state.showInitiativePopup ? 
+                        <InitiativePopup
+                            text='Close Me'
+                            closePopup={this.toggleInitiativePopup.bind(this)}
+                        />
+                        : null
+                        }
+                        
                 </div>
             </div>
+        </div>
     );
   }
 }  
