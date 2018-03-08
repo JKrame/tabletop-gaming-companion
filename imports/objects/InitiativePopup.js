@@ -31,7 +31,15 @@ export default class PlayerFormPopup extends React.Component {
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
                 if (!this.alreadyInvited(partner)){
-                    cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture} func={this.props.addPlayer} param={partner._id}/>);
+                    cards.push(
+                        <UserCard
+                            key={i}
+                            username={partner.profile.username}
+                            accountPicture={partner.profile.accountPicture}
+                            func={this.props.addPlayer}
+                            param={partner._id}
+                        />
+                    );
                 }
             }
         }
@@ -70,6 +78,7 @@ export default class PlayerFormPopup extends React.Component {
                     <h2>NPCs</h2>
 
                     <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
+                    <button onClick={this.props.closePopup} className=" submit-button button">Start Combat</button>
 
                 </div>
             </div>

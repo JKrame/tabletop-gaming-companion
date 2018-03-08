@@ -11,7 +11,7 @@ import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 import NPCCard from '../objects/NPCcard';
 import InitiativePopup from '../objects/InitiativePopup';
-
+import {ToastContainer, ToastStore} from 'react-toasts';
 
 
 var characters;
@@ -22,14 +22,12 @@ export default class CampaignScreen extends React.Component{
         super();
         this.state = {
             isGm: false,
-            showInitiativePopup: false
+            showInitiativePopup: false,
         };
     }
 
-    toggleInitiativePopup() {
-        this.setState({
-            showInitiativePopup: !this.state.showInitiativePopup
-        });
+    toggleInitiativePopup(){
+        this.setState({showInitiativePopup: !this.state.showInitiativePopup});
     }
 
     componentWillMount(){
@@ -55,6 +53,15 @@ export default class CampaignScreen extends React.Component{
                         isGm: true
                     });
                 }
+                else{
+                    if (this.characters){
+                        for (i = 0; i < this.characters.length; i++){
+                            if (this.characters[i].campaignID == this.campaign._id && this.characters[i].UID == Meteor.userId()){
+                                this.myCharacter = this.characters[i];
+                            }
+                        }
+                    }
+                }
             }
 
 
@@ -64,17 +71,6 @@ export default class CampaignScreen extends React.Component{
 
     componentWillUnmount(){
         this.charactersCampaignScreenTracker.stop();
-    }
-
-    renderRightSideCharacterForm(){
-        if(this.characters == undefined)
-        {
-            return;
-        }
-        else
-        {
-            return this.renderCharacterCard();
-        }
     }
 
     renderNPCs() {
@@ -313,7 +309,7 @@ export default class CampaignScreen extends React.Component{
     }
 
     randomDice(max){
-       return( Math.floor(Math.random() * max) + 1)
+       return( Math.floor(Math.random() * max) + 1);
     }
 
     rollDice(){
@@ -345,8 +341,10 @@ export default class CampaignScreen extends React.Component{
         }
         result=0
         for(i=0;i<d;i++){
-            result = result + this.randomDice(dice)
+            result = result + this.randomDice(dice);
         }
+        ToastStore.warning(this.myCharacter + " rolled a " + result);
+        
         this.refs.d4roller.value=""
         this.refs.d6roller.value=""
         this.refs.d8roller.value=""
@@ -356,9 +354,102 @@ export default class CampaignScreen extends React.Component{
 
     }
 
-    render() {
-        Meteor.subscribe("characters");
+    renderInitiativeOrder(){
+        isSorted = true;
+        prev = Number.MAX_SAFE_INTEGER;
+        cards = []
+        for (i = 0; i < this.campaign.turnOrder.length; i++){
+            for (j = 0; j < this.characters.length; j++){
+                if (this.campaign.turnOrder[i].cid == this.characters[j]._id){
+                    cards.push(
+                        <CharacterCard
+                        key={j}
+                        characterImageURL={this.characters[j].characterImageURL} 
+                        id={this.characters[j]._id} 
+                        somehistory={this.props.history} 
+                        func={this.loadCharacter} 
+                        characterName={this.characters[j].characterName} 
+                        characterClass={this.characters[j].characterClass} 
+                        level={this.characters[j].level} 
+                        race={this.characters[j].race}
+                        />
+                    );
+                }
+            }
 
+            if (this.campaign.turnOrder[i].initiative > prev){
+                isSorted = false;
+                break;
+            }
+        }
+
+        if (Meteor.userId() == this.campaign.gm && !isSorted){
+            this.sortTurnOrder()
+        }
+
+        return <div>{cards}</div>;
+    }
+
+    sortTurnOrder(){
+        newTurnOrder = this.campaign.turnOrder;
+        newTurnOrder.sort(this.compareInitiative);
+        Meteor.call('campaigns.setTurnOrder', this.campaign._id, newTurnOrder);
+    }
+
+    compareInitiative(a, b){
+        if (a.initiative < b.initiative){
+            return -1;
+        }
+        if (a.initiative > b.initiative){
+            return 1;
+        }
+        if (a.dex < b.dex){
+            return -1;
+        }
+        if (a.dex > b.dex){
+            return 1;
+        }
+        return Math.random() >= 0.5;
+    }
+
+    startCombat() {
+        Meteor.call("campaigns.startCombat", this.campaign._id);
+    }
+
+    endCombat() {
+        Meteor.call("campaigns.endCombat", this.campaign._id);
+    }
+
+    endTurn() {
+        Meteor.call("campaigns.endTurn", this.campaign._id, this.campaign.turnOrderIndex + 1 % this.campaign.turnOrder.length)
+    }
+
+    showInitiativeButton(){
+        if (this.campaign.combat && Meteor.userId() != this.campaign.gm){
+            for (i = 0; i < this.campaign.turnOrder.length; i++){
+                if (this.campaign.turnOrder[i].characterID == this.myCharacter){
+                    return null;
+                }
+            }
+
+            alreadyAdded = false;
+            return <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px", "backgroundColor":"limegreen"}} onClick={this.rollInitiative.bind(this)}>INITIATIVE</button>;
+        }
+        else{
+            return null;
+        }
+    }
+
+    rollInitiative(){
+        dex = this.myCharacter.attributes[1];
+        val = Math.floor(Math.random() * 20) + 1 + dex;
+        Meteor.call('campaigns.addToTurnOrder', this.campaign._id, this.myCharacter._id, val, dex);
+    }
+
+    render() {
+        if (!this.characters || !this.campaign){
+            return null;
+        }
         return(
             <div className="page-wrapper">
                 <div className="col-md-12">
@@ -371,23 +462,24 @@ export default class CampaignScreen extends React.Component{
                                     <h3>Initiative</h3>
                                     <hr/>
                                     <div className="scrolling-container initiative">
-                                        {this.renderRightSideCharacterForm()}
+                                        {this.renderInitiativeOrder()}
                                     </div>
 
                         
                                     
                                     <div className="col-sm-12">
-                                        <button className="full-width submit-button ">END TURN</button>
+                                        <button className="full-width submit-button " onClick={this.endTurn.bind(this)}>END TURN</button>
                                     </div>
                                     <div className="col-sm-12">
-                                        <button className="full-width submit-button blue-button " onClick={this.toggleInitiativePopup.bind(this)}>START COMBAT</button>
+                                        <button className="full-width submit-button blue-button " onClick={this.startCombat.bind(this)}>START COMBAT</button>
                                     </div>                                    
                                     <div className="col-sm-12">
-                                        <button className="full-width submit-button" onClick={this.toggleInitiativePopup.bind(this)}>END COMBAT</button>
+                                        <button className="full-width submit-button" onClick={this.endCombat.bind(this)}>END COMBAT</button>
                                     </div>
                                 </div>
 
                                 <div className="col-md-6 col-xs-12 content-container-mid add-background broadcast-screen scrolling-container" >
+                                    <ToastContainer store={ToastStore}/>
                                     {this.broadcastCurrentAsset()}
                                 </div>
 
@@ -396,7 +488,7 @@ export default class CampaignScreen extends React.Component{
                                     <h3>Characters</h3>
                                     <hr/>
                                     <div className="scrolling-container-content-top">
-                                        {this.renderRightSideCharacterForm()}
+                                        {this.renderCharacterCard()}
                                     </div>
                                 </div>
                             </div>
@@ -502,7 +594,7 @@ export default class CampaignScreen extends React.Component{
                                         <div className="col-md-2  col-xs-12 ">
                                             <div className="col-sm-12">
                                                 <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
-                                                <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px", "backgroundColor":"limegreen"}} onClick={this.rollDice.bind(this)}>INITIATIVE</button>
+                                                {this.showInitiativeButton()}
                                             </div>
                                         </div>
                                     

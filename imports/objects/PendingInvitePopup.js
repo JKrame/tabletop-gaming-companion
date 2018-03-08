@@ -52,7 +52,7 @@ export default class PlayerFormPopup extends React.Component {
                 <CharacterCardHalf 
                     key={i} 
                     parentPage={this} 
-                    campaign={this.campaign} 
+                    campaign={this.props.campaignID} 
                     characterImageURL={this.characters[i].characterImageURL} 
                     id={this.characters[i]._id} 
                     somehistory={this.props.history} 
@@ -61,7 +61,8 @@ export default class PlayerFormPopup extends React.Component {
                     characterClass={this.characters[i].characterClass} 
                     level={this.characters[i].level} 
                     race={this.characters[i].race}
-                    character={this.characters[i]}/>
+                    character={this.characters[i]}
+                />
             );
         }
         return <div>{cards}</div>;

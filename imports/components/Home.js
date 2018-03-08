@@ -5,6 +5,7 @@ import geolib from 'geolib';
 //import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardMini';
 import CampaignCardHalf from '../objects/CampaignCardMini';
+import PendingCampaignCard from '../objects/PendingCampaignCard';
 import PlayerNearYou from '../objects/PlayerNearYou';
 import InvitePopup from '../objects/PendingInvitePopup';
 
@@ -17,6 +18,8 @@ var campaignsArray;
 var pendingInvites;
 var username;
 
+var pendingInviteCampaignID;
+
 export default class Home extends React.Component {
     constructor() {
         super();
@@ -25,17 +28,17 @@ export default class Home extends React.Component {
         };
     }
 
-    toggleInvitePopup() {
+    toggleInvitePopup(campaignID) {
         this.setState({
             showInvitePopup: !this.state.showInvitePopup
         });
+        //this.pendingInviteCampaignID = campaignID;
     }
 
     componentWillMount(){
         this.homeTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
             const sub2 = Meteor.subscribe('campaigns');
-            const sub3 = Meteor.subscribe('userData');
             var UID = Meteor.userId();
             if(sub.ready())
             {
@@ -45,17 +48,11 @@ export default class Home extends React.Component {
                     this.characters = charactersArray;
                 }
             }
-            if(sub2.ready() && sub3.ready())
+            if(sub2.ready())
             {
-                var username = this.username;
                 this.campaigns = Campaigns.find({gm: UID}).fetch();
-                this.otherCampaigns = Campaigns.find({"characters": {"UID": UID}});
-                this.pendingInvites = Campaigns.find({pendingInvites : {$in : username}}).fetch();
-            }
-            if(sub3.ready())
-            {
-                this.user = Meteor.users.find({}).fetch();
-                this.username = Meteor.users.findOne({_id : Meteor.userId()}).username;
+                this.pendingInvites = Meteor.users.findOne({_id : Meteor.userId()}).profile.pendingInvites;
+                this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
             }
             this.forceUpdate();
         });
@@ -92,16 +89,17 @@ export default class Home extends React.Component {
         var UID = Meteor.userId();
         for (var i = 0; i < this.characters.length; i++)
         {   
-            cards.push(<CharacterCardHalf
-                key={i}
-                characterImageURL={this.characters[i].characterImageURL}
-                id={this.characters[i]._id}
-                somehistory={this.props.history}
-                func={this.loadCharacter}
-                characterName={this.characters[i].characterName}
-                characterClass={this.characters[i].characterClass}
-                level={this.characters[i].level}
-                race={this.characters[i].race}
+            cards.push(
+                <CharacterCardHalf
+                    key={i}
+                    characterImageURL={this.characters[i].characterImageURL}
+                    id={this.characters[i]._id}
+                    somehistory={this.props.history}
+                    func={this.loadCharacter}
+                    characterName={this.characters[i].characterName}
+                    characterClass={this.characters[i].characterClass}
+                    level={this.characters[i].level}
+                    race={this.characters[i].race}
                 />
             );
         }
@@ -114,15 +112,46 @@ export default class Home extends React.Component {
 
         for (var i = 0; i < this.campaigns.length; i++)
         {
-            cards.push(<CampaignCardHalf 
-                key={i} 
-                campaignImageURL={this.campaigns[i].campaignImageURL}
-                id={this.campaigns[i]._id} 
-                somehistory={this.props.history} 
-                func={this.loadCampaign} 
-                campaigns={this.campaigns} 
-                campaignName={this.campaigns[i].name} 
-                campaignDescription={this.campaigns[i].description}
+            cards.push(
+                <CampaignCardHalf 
+                    key={i} 
+                    campaignImageURL={this.campaigns[i].campaignImageURL} 
+                    id={this.campaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.campaigns} 
+                    campaignName={this.campaigns[i].name} 
+                    campaignDescription={this.campaigns[i].description}
+                />
+            );
+        }
+
+        for (var i = 0; i < this.otherCampaigns.length; i++)
+        {
+            cards.push(
+                <CampaignCardHalf 
+                    key={i} 
+                    campaignImageURL={this.otherCampaigns[i].campaignImageURL} 
+                    id={this.otherCampaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.otherCampaigns} 
+                    campaignName={this.otherCampaigns[i].name} 
+                    campaignDescription={this.otherCampaigns[i].description}
+                />
+            );
+        }
+
+        for (var i = 0; i < this.pendingInvites.length; i++)
+        {
+            var pendingCampaign = Campaigns.findOne({_id : this.pendingInvites[i]});
+            cards.push(
+                <PendingCampaignCard
+                    key={i}
+                    campaignID={pendingCampaign._id}
+                    campaignImageURL={pendingCampaign.campaignImageURL}
+                    campaignName={pendingCampaign.name}
+                    toggleInvitePopup={this.toggleInvitePopup.bind(this)}
                 />
             );
         }
@@ -206,7 +235,11 @@ export default class Home extends React.Component {
                 if (distance<48280){
                     console.log("hit")
                     cards.push(
-                        <PlayerNearYou key={i} somehistory={this.props.history} username={this.user[i].profile.username}/>
+                        <PlayerNearYou
+                            key={i}
+                            somehistory={this.props.history}
+                            username={this.user[i].profile.username}
+                        />
                     );
                 
                 }
@@ -253,17 +286,6 @@ export default class Home extends React.Component {
                         
                         <div className="page-content-scroller">
                             {this.renderCampaignForm()}
-                            
-                            <NavLink to="#" ><div className="objectCardMini grow add-container" onClick={this.toggleInvitePopup.bind(this)}>
-                                        <div className="objectCardMiniImage ">
-                                            <img src={'/images/pending.png'} className="stretch-image"/>
-                                        </div>
-                                        <div className="objectCardMiniInfo container-fluid">
-                                            <h4 className="no-margin-override">PENDING INVITE</h4>
-                                            <hr className="hr-override-light"/>
-                                            <p className="p-override">Click for Details...</p>
-                                        </div>
-                                    </div></NavLink>
                                
                                 <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container grow">
@@ -308,6 +330,9 @@ export default class Home extends React.Component {
                 <InvitePopup
                     text='Close Me'
                     closePopup={this.toggleInvitePopup.bind(this)}
+                    campaignID={this.pendingInviteCampaignID}
+                    //campaignImageURL={this.pendingCampaign.campaignImageURL}
+                    ///campaignName={this.pendingCampaign.name}
                 />
                 : null
             }
