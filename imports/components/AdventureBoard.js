@@ -54,6 +54,10 @@ export default class AdventureBoard extends React.Component{
     }
 
     contains(campaign, character){
+        if (campaign.gm == Meteor.userId()){
+            return false;
+        }
+
         for(var i=0;i<campaign.characters.length;i++){
             for(var j=0;j<character.length;j++){
                 if (campaign.characters[i]._id==character[j]._id){
@@ -63,6 +67,15 @@ export default class AdventureBoard extends React.Component{
                 }
             }
         }
+
+        for(var i=0;i<campaign.pendingInvites.length;i++){
+            for(var j=0;j<character.length;j++){
+                if (campaign.pendingInvites[i]._id==character[j].UID){
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
