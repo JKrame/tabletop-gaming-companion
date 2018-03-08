@@ -11,12 +11,14 @@ export default class Header extends React.Component{
 
     logOut(){
         Meteor.logout();
+
+        //this.state.isLoggedIn = !Meteor.userId();
+        //this.forceUpdate();
     }
 
     ComponentWillMount(){
 
     }
-
 
     render(){
         if(!!Meteor.userId())

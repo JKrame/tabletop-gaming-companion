@@ -5,6 +5,8 @@ import {Random} from 'meteor/random';
 import CampaignCardHalf from '../objects/CampaignCardHalf';
 import InvitePopup from '../objects/PendingInvitePopup';
 
+import Header from './Header';
+
 export default class AdventureBoard extends React.Component{
     constructor() {
         super();
@@ -87,6 +89,7 @@ export default class AdventureBoard extends React.Component{
   render() {
     return(
         <div className="page-wrapper">
+            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height" >
 
