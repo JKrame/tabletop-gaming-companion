@@ -18,13 +18,17 @@ export default class Mail extends React.Component{
             const sub = Meteor.subscribe('conversations');
             if(sub.ready())
             {
-                this.conversations = Conversations.find( {$or: [{"userOne._id": Meteor.userId()}, {"userTwo._id": Meteor.userId()}]}).fetch();
+                id = Meteor.userId();
+                this.conversations = Conversations.find().fetch();
                 if (this.state.conversation != null){
                     for(i = 0; i < this.conversations.length; i++){
                         if (this.conversations[i]._id == this.state.conversation._id){
                             this.setState({conversation: this.conversations[i]});
                         }
                     }
+                }
+                else if (this.conversations.length > 0){
+                    this.setState({conversation: this.conversations[0]});
                 }
             }
 
@@ -78,7 +82,7 @@ export default class Mail extends React.Component{
         {
             alreadyFriends = false;
             for (i = 0; i < this.conversations.length; i++){
-                if (contact._id == this.conversations[i].userOne._id || contact._id == this.conversations[i].userTwo._id){
+                if (contact._id == this.conversations[i].particpants[0].id || contact._id == this.conversations[i].participants[1].id){
                     alreadyFriends = true;
                 }
             }
@@ -99,8 +103,13 @@ export default class Mail extends React.Component{
         var cards = [];
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
-                partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
-                cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture} param={this.conversations[i]} func={this.loadConversation.bind(this)}/>);
+                partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
+                cards.push(<UserCard 
+                    key={i} 
+                    username={partner.name} 
+                    accountPicture={partner.accountPicture} 
+                    param={this.conversations[i]} 
+                    func={this.loadConversation.bind(this)}/>);
             }
         }
 
@@ -111,11 +120,11 @@ export default class Mail extends React.Component{
         if (conversation){ 
             this.setState({conversation: conversation});
 
-            if (conversation.userID == Meteor.userId()){
-                this.setState({contactUsername : conversation.contactUsername});
+            if (conversation.participants[0].id == Meteor.userId()){
+                this.setState({contactUsername : conversation.participants[1].name});
             }
             else{
-                this.setState({contactUsername : conversation.username});
+                this.setState({contactUsername : conversation.participants[0].name});
             }
 
             this.forceUpdate();

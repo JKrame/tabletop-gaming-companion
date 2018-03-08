@@ -12,10 +12,7 @@ import ImageAssetCard from '../objects/ImageAssetCard';
 import NPCCard from '../objects/NPCcard';
 import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
-
-
-var characters;
-var NPCs;
+import UserCard from '../objects/UserCard';
 
 export default class CampaignScreen extends React.Component{
     constructor() {
@@ -23,6 +20,7 @@ export default class CampaignScreen extends React.Component{
         this.state = {
             isGm: false,
             showInitiativePopup: false,
+            conversation: null
         };
     }
 
@@ -31,6 +29,8 @@ export default class CampaignScreen extends React.Component{
     }
 
     componentWillMount(){
+        console.log("props");
+        console.log(this.props);
         var id = this.props.match.params._id
         var UID = Meteor.userId();
 
@@ -43,10 +43,13 @@ export default class CampaignScreen extends React.Component{
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
+
             const sub2 = Meteor.subscribe('campaigns');
             if(sub2.ready())
             {
+                console.log(id);
                 this.campaign = Campaigns.findOne({_id: id});
+                console.log(this.campaign);
                 if(this.userID == this.campaign.gm)
                 {
                     this.setState({
@@ -64,6 +67,19 @@ export default class CampaignScreen extends React.Component{
                 }
             }
 
+            const sub3 = Meteor.subscribe('conversations');
+            if(sub3.ready())
+            {
+                id = Meteor.userId();
+                this.conversations = Conversations.find().fetch();
+                if (this.state.conversation != null){
+                    for(i = 0; i < this.conversations.length; i++){
+                        if (this.conversations[i]._id == this.state.conversation._id){
+                            this.setState({conversation: this.conversations[i]});
+                        }
+                    }
+                }
+            }
 
             this.forceUpdate();
         });
@@ -495,6 +511,61 @@ export default class CampaignScreen extends React.Component{
         }
     }
 
+    sendMessage(){
+        if (this.state.conversation){
+            message = this.refs.messageBox.value;
+            Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
+            this.loadConversation(this.state.conversation);
+        }
+    }
+
+    loadConversation(conversation) {
+        if (conversation){ 
+            this.setState({conversation: conversation});
+
+            this.forceUpdate();
+        }
+    }
+
+    establishContact(){
+    }
+
+    renderContacts() {
+        if (!this.conversations){
+            return;
+        }
+
+        var cards = [];
+        if (this.conversations){
+            for (var i = 0; i < this.conversations.length; i++){
+                partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
+                cards.push(<UserCard 
+                    key={i} 
+                    username={partner.name} 
+                    accountPicture={partner.accountPicture} 
+                    param={this.conversations[i]} 
+                    func={this.loadConversation.bind(this)}/>);
+            }
+        }
+
+        return <div>{cards}</div>;
+    }
+
+    loadConversation(conversation) {
+        if (conversation){ 
+            this.setState({conversation: conversation});
+            this.forceUpdate();
+        }
+    }
+
+    sendMessage(){
+        if (this.state.conversation){
+            message = this.refs.messageBox.value;
+            Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
+            this.loadConversation(this.state.conversation);
+        }
+    }
+
     render() {
         if (!this.characters || !this.campaign){
             return null;
@@ -540,27 +611,22 @@ export default class CampaignScreen extends React.Component{
                                     <div className="col-sm-4 in-game-chat-btn-container scrolling-container">
                                         <div className="spacer col-sm-12"/>
                                         
-                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
-                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
-                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
-                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
-                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
-                                        <button className="in-game-chat-btn blue-button">USERNAME 1</button>
+                                        {this.renderContacts()}
                                       
                                         <div className="spacer col-sm-12"/>
                                         
                                     </div>
                                     <div className="col-sm-8 no-padding">
                                         <div className="scrolling-container chat-box in-game-chat-window">
-                                            <ChatWindow/>
+                                            <ChatWindow conversation={this.state.conversation}/>
 
                                         </div>
                                         <div className="col-sm-12 negate-margins" style={{"height":"50px", "marginTop":"10px"}}>
                                             <div className="col-sm-8">
-                                                    <textarea rows={4} className="full-width"  style={{"height":"50px"}}/>
+                                                    <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"50px"}}/>
                                                 </div>
                                                 <div className="col-sm-4 negate-margins">
-                                                        <button className="full-width blue-button" style={{"height":"50px"}}>SEND</button>
+                                                        <button onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px"}}>SEND</button>
                                                 </div>
                                             </div>
                                         </div>
