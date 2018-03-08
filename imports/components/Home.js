@@ -8,6 +8,8 @@ import CampaignCardHalf from '../objects/CampaignCardMini';
 import PlayerNearYou from '../objects/PlayerNearYou';
 import InvitePopup from '../objects/PendingInvitePopup';
 
+import Header from './Header';
+
 var characters;
 var charactersArray;
 
@@ -175,6 +177,7 @@ export default class Home extends React.Component {
 
     PlayersNearYou(){
         var cards = [];
+        var currUserLocation=null
         if(!this.user){
             return;
         }  
@@ -195,7 +198,7 @@ export default class Home extends React.Component {
                 }
                 userLocation=this.user[i].profile.location;
             }
-            if(currUserLocation != null && userLocation != null)
+            if(currUserLocation && userLocation != null)
             {
                 distance = geolib.getDistance(
                     {latitude: currUserLocation[0], longitude: currUserLocation[1]},
@@ -218,7 +221,9 @@ export default class Home extends React.Component {
     render() {
         Meteor.subscribe('characters');
         return(
+        
         <div className="page-wrapper">
+        <Header/>
             <div className="col-lg-8 col-lg-offset-2">
                 <div className="col-lg-6 ">
                     <div className="page-content-half">

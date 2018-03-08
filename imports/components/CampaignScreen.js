@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
 import ToggleButton from 'react-toggle-button'
+
+import Header from './Header';
 //import { Random } from 'meteor/random'
 
 import CharacterCard from '../objects/CampaignCharacterTile';
@@ -503,6 +505,7 @@ export default class CampaignScreen extends React.Component{
         }
         return(
             <div className="page-wrapper">
+                <Header/>
                 <div className="col-md-12">
                     <div className=" game-screen">
 
