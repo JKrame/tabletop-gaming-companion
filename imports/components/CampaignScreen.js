@@ -11,7 +11,7 @@ import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 import NPCCard from '../objects/NPCcard';
 import InitiativePopup from '../objects/InitiativePopup';
-
+import {ToastContainer, ToastStore} from 'react-toasts';
 
 
 var characters;
@@ -107,6 +107,7 @@ export default class CampaignScreen extends React.Component{
 
     setBroadcastAssetImage(url)
     {
+        ToastStore.warning('Hey, it worked !');
         this.campaign.currentBroadcastItem = url;
         this.campaign.currentBroadcastType = "image";
         Meteor.call('campaigns.broadcastUpdate', this.campaign._id, url, "image");
@@ -477,6 +478,7 @@ export default class CampaignScreen extends React.Component{
                                 </div>
 
                                 <div className="col-md-6 col-xs-12 content-container-mid add-background broadcast-screen scrolling-container" >
+                                    <ToastContainer store={ToastStore}/>
                                     {this.broadcastCurrentAsset()}
                                 </div>
 
