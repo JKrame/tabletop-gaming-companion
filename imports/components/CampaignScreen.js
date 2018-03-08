@@ -155,7 +155,7 @@ export default class CampaignScreen extends React.Component{
             return (
                 <div className="broadcast-asset">
                     <div>
-                        <img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="" />
+                        <NavLink to={this.campaign.currentBroadcastItem} target="_blank" ><img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="broadcast-item" /></NavLink>
                     </div>
                 </div>
             );
@@ -165,7 +165,7 @@ export default class CampaignScreen extends React.Component{
         {
             return (
                 <div className="broadcast-asset">
-                    <img src={this.campaign.currentBroadcastItem.characterImageURL} />
+                    <NavLink to={this.campaign.currentBroadcastItem.characterImageURL} target="_blank" ><img src={this.campaign.currentBroadcastItem.characterImageURL} className="broadcast-item" /></NavLink>
                 </div>
             );
         }

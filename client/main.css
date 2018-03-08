@@ -939,6 +939,10 @@ a.menu_links{
     margin:auto;
 }
 
+.broadcast-item{
+    max-height: 54vh;
+}
+
 .broadcast-object{
     text-align: center;
     vertical-align: center;
