@@ -3,6 +3,8 @@ import UserCard from '../objects/UserCard';
 import UserCardMicro from '../objects/UserCardMicro';
 import ChatWindow from '../objects/ChatWindow';
 
+import Header from './Header';
+
 var searchPlayerUsername = "";
 var searchPlayerURL = null;
 var users;
@@ -140,6 +142,7 @@ export default class Mail extends React.Component{
   render() {
     return(
         <div className="page-wrapper">
+        <Header/>
             <div className="col-lg-8 col-lg-offset-2">
                 <div className=" col-xs-12 fill-height scrolling-container" >
                     <div className="col-lg-4">

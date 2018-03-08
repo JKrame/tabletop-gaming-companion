@@ -5,6 +5,8 @@ import {Random} from 'meteor/random';
 import CampaignCardHalf from '../objects/CampaignCardHalf';
 import InvitePopup from '../objects/PendingInvitePopup';
 
+import Header from './Header';
+
 export default class AdventureBoard extends React.Component{
     constructor() {
         super();
@@ -52,6 +54,10 @@ export default class AdventureBoard extends React.Component{
     }
 
     contains(campaign, character){
+        if (campaign.gm == Meteor.userId()){
+            return false;
+        }
+
         for(var i=0;i<campaign.characters.length;i++){
             for(var j=0;j<character.length;j++){
                 if (campaign.characters[i]._id==character[j]._id){
@@ -61,6 +67,15 @@ export default class AdventureBoard extends React.Component{
                 }
             }
         }
+
+        for(var i=0;i<campaign.pendingInvites.length;i++){
+            for(var j=0;j<character.length;j++){
+                if (campaign.pendingInvites[i]._id==character[j].UID){
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -87,6 +102,7 @@ export default class AdventureBoard extends React.Component{
   render() {
     return(
         <div className="page-wrapper">
+            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height" >
 

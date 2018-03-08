@@ -7,6 +7,8 @@ import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
 import InvitePopup from '../objects/PendingInvitePopup';
 
+import Header from './Header';
+
 
 var characters;
 var charactersArray;
@@ -153,6 +155,7 @@ export default class Binder extends React.Component{
     render() {
         return(
             <div className="page-wrapper">
+            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height" >
                         <div className="col-lg-6 split-page-left">

@@ -11,7 +11,7 @@ export default class Signin extends React.Component{
 
     ComponentDidMount()
     {
-        this.forceUpdate();
+        //this.forceUpdate();
     }
 
     onSubmit(e){
