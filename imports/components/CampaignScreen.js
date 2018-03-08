@@ -107,7 +107,6 @@ export default class CampaignScreen extends React.Component{
 
     setBroadcastAssetImage(url)
     {
-        ToastStore.warning('Hey, it worked !');
         this.campaign.currentBroadcastItem = url;
         this.campaign.currentBroadcastType = "image";
         Meteor.call('campaigns.broadcastUpdate', this.campaign._id, url, "image");
@@ -342,8 +341,10 @@ export default class CampaignScreen extends React.Component{
         }
         result=0
         for(i=0;i<d;i++){
-            result = result + this.randomDice(dice)
+            result = result + this.randomDice(dice);
         }
+        ToastStore.warning(this.myCharacter + " rolled a " + result);
+        
         this.refs.d4roller.value=""
         this.refs.d6roller.value=""
         this.refs.d8roller.value=""
