@@ -3,6 +3,10 @@
     color: #606060;
 }
 
+html{
+    height:100%;
+    width:100%;
+}
 
 hr{
     padding:0;
@@ -67,8 +71,8 @@ a.hover{
 body{
     background-image:url('/images/bg3.jpg');
     background-size:cover !important;
-    width:100%;
-    height:100%;
+    width:100vw;
+    height:100vh;
     resize:both;
     overflow:auto;
 }
@@ -139,22 +143,23 @@ body{
 
 .content-container-left{
     background-color: rgba(255, 255, 255, 0.801);
-    margin-right:10px;
     padding-right:10px;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
 }
+
+.inner-content-container{
+    margin:10px;
+}
 .content-container-mid{
     top:0px;
     bottom:0px;
     overflow-y: hidden;
-    background-color: rgba(255, 255, 255, 0.801);
 }
 
 .content-container-right{
     background-color: rgba(255, 255, 255, 0.801);
-    margin-left:10px;
     padding-left:10px;
     top:0px;
     bottom:0px;
@@ -186,12 +191,18 @@ body{
     height:60vh;
     color: #012C40;
 }
+
+.top-content{
+        min-height:500px;
+        height:57vh;
+        color: #012C40;
+}
+
 .sub-content-bottom{
     display: -webkit-flex;
     display: flex;
     min-height:300px;
     height:29vh;
-    margin-top:1vh;
     color: #012C40;
 }
   
@@ -672,7 +683,6 @@ body{
   }
 
   .game-screen{
-      min-height:900px;
   }
 
   
@@ -884,7 +894,6 @@ a.menu_links{
 }
 
 .broadcast-screen{
-    padding:20px;
     text-align: center;
     vertical-align: center;
 }
