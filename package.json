@@ -7,11 +7,14 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "bootstrap": "^3.3.7",
+    "geolib": "^2.0.24",
     "meteor-node-stubs": "^0.3.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-toast": "^0.1.0",
+    "react-toasts": "^1.2.3",
     "react-toggle-button": "^2.2.0",
     "simpl-schema": "^1.2.2"
   },

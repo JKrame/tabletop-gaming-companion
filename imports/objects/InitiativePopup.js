@@ -65,23 +65,13 @@ export default class PlayerFormPopup extends React.Component {
     render() {
         return (
             <div className='popup'>
-                <div className="add-player-popup popup_inner">
-                    <h2>Enter Player Username</h2>
-                    <input type="text" ref="username" className="full-width"/>
-                    <div className="col-sm-12">
-                        <div className="right-align">
-                            <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
-                            <button onClick={this.addPlayer.bind(this)} className="submit-button blue-button button">Add Player</button>
-                        </div>       
-                        <div className="spacer col-sm-12"/>                      
-                        <div className="spacer col-sm-12"/>
-                        <h4>Or select from Contacts</h4>
-                        <div className="full-height">
-                            <div className="scrolling-container" style={{"height":"250px", "width":"340px"}}>
-                                {this.renderContacts()}
-                            </div>
-                        </div>
-                    </div>
+                <div className="initiative-popup">
+                    <h2>Players</h2>
+                    <h2>NPCs</h2>
+
+                    <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
+                    <button onClick={this.props.closePopup} className=" submit-button button">Start Combat</button>
+
                 </div>
             </div>
         );

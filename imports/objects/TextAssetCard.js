@@ -8,14 +8,25 @@ export default class TextAssetcard extends React.Component{
             notes,    
         );   
     }
+
+    nothing()
+    {
+        return;
+    }
+
     render() {
         return (
-            <div className="objectCardMini">
-                <div className="objectCardMiniInfo container-fluid">
-                    <p className="p-override no-margin-override small-text"> {this.props.noteTitle}  {this.props.noteDescription}</p>
-                    <div onClick={this.deleteAsset.bind(this)}>
-                        <p>DELETE</p>
+            <div className="textAssetMini" onClick={this.props.func ? () => this.props.func(this.props.noteTitle, this.props.noteDescription) : this.nothing()}>
+                <div className="objectCardMiniInfo container-fluid full-width">
+
+                    <p className="text-asset-txt p-override no-margin-override small-text full-width"> <strong className="title">{this.props.noteTitle}</strong>  {this.props.noteDescription}</p>
+                    <div className={this.props.isCampaignScreen ? "" : "text-image-buttons"}>
+                        <button onClick={this.props.isCampaignScreen ? this.nothing() : this.deleteAsset.bind(this)} className="tiny-delete-btn">
+                            <p  className="tiny-button-txt"><img src={'/images/x-icon.png'} className=""/>  DELETE</p>
+                        </button>
                     </div>
+                       
+
                 </div>
             </div>
         );

@@ -1,11 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Random } from 'meteor/random';
-
+import geolib from 'geolib';
 //import { Characters } from '../api/character';
 import CharacterCardHalf from '../objects/CharacterCardMini';
 import CampaignCardHalf from '../objects/CampaignCardMini';
 import PlayerNearYou from '../objects/PlayerNearYou';
+import InvitePopup from '../objects/PendingInvitePopup';
+
+import Header from './Header';
 
 var characters;
 var charactersArray;
@@ -14,11 +17,24 @@ var campaigns;
 var campaignsArray;
 
 export default class Home extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            showInvitePopup: false
+        };
+    }
+
+    toggleInvitePopup() {
+        this.setState({
+            showInvitePopup: !this.state.showInvitePopup
+        });
+    }
 
     componentWillMount(){
         this.homeTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
             const sub2 = Meteor.subscribe('campaigns');
+            const sub3 = Meteor.subscribe('userData');
             var UID = Meteor.userId();
             if(sub.ready())
             {
@@ -30,11 +46,12 @@ export default class Home extends React.Component {
             }
             if(sub2.ready())
             {
-                campaignsArray = Campaigns.find({gm: UID}).fetch();
-                if(campaignsArray != undefined)
-                {
-                    this.campaigns = campaignsArray;
-                }
+                this.campaigns = Campaigns.find({gm: UID}).fetch();
+                this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
+            }
+            if(sub.ready())
+            {
+                this.user = Meteor.users.find({}).fetch();
             }
             this.forceUpdate();
         });
@@ -84,7 +101,30 @@ export default class Home extends React.Component {
         for (var i = 0; i < this.campaigns.length; i++)
         {
             cards.push(
-                <CampaignCardHalf key={i} campaignImageURL={this.campaigns[i].campaignImageURL} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.campaigns} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+                <CampaignCardHalf 
+                    key={i} 
+                    campaignImageURL={this.campaigns[i].campaignImageURL} 
+                    id={this.campaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.campaigns} 
+                    campaignName={this.campaigns[i].name} 
+                    campaignDescription={this.campaigns[i].description}/>
+            );
+        }
+
+        for (var i = 0; i < this.otherCampaigns.length; i++)
+        {
+            cards.push(
+                <CampaignCardHalf 
+                    key={i} 
+                    campaignImageURL={this.otherCampaigns[i].campaignImageURL} 
+                    id={this.otherCampaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.otherCampaigns} 
+                    campaignName={this.otherCampaigns[i].name} 
+                    campaignDescription={this.otherCampaigns[i].description}/>
             );
         }
         return <div>{cards}</div>;
@@ -135,10 +175,55 @@ export default class Home extends React.Component {
         }
     }
 
+    PlayersNearYou(){
+        var cards = [];
+        var currUserLocation=null
+        if(!this.user){
+            return;
+        }  
+
+        for(var i=0;i<this.user.length;i++){
+            if(this.user[i]._id == Meteor.userId()){
+                if(this.user[i].profile.location == null){
+                    return;
+                }
+                currUserLocation=this.user[i].profile.location;
+            }
+        }
+
+        for(var i=0;i<this.user.length;i++){
+            if(this.user._id != Meteor.userId()){
+                if(this.user[i].profile.location == null){
+                    return;
+                }
+                userLocation=this.user[i].profile.location;
+            }
+            if(currUserLocation && userLocation != null)
+            {
+                distance = geolib.getDistance(
+                    {latitude: currUserLocation[0], longitude: currUserLocation[1]},
+                    {latitude: userLocation[0], longitude: userLocation[1]}
+                );
+                //30 miles
+                if (distance<48280){
+                    console.log("hit")
+                    cards.push(
+                        <PlayerNearYou key={i} somehistory={this.props.history} username={this.user[i].profile.username}/>
+                    );
+                
+                }
+                return <div>{cards}</div>;
+            }
+        }
+    }
+
+
     render() {
         Meteor.subscribe('characters');
         return(
+        
         <div className="page-wrapper">
+        <Header/>
             <div className="col-lg-8 col-lg-offset-2">
                 <div className="col-lg-6 ">
                     <div className="page-content-half">
@@ -149,7 +234,7 @@ export default class Home extends React.Component {
                         <div className="page-content-scroller">
                             {this.renderCharacterForm()}
                             <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
-                                <div className="objectCardMini add-container">
+                                <div className="objectCardMini add-container grow">
                                     <div className="objectCardMiniImage">
                                         <img src={'/images/addIcon.png'} className="stretch-image"/>
                                     </div>
@@ -173,8 +258,8 @@ export default class Home extends React.Component {
                         <div className="page-content-scroller">
                             {this.renderCampaignForm()}
                             
-                            <div className="objectCardMini add-container">
-                                        <div className="objectCardMiniImage">
+                            <NavLink to="#" ><div className="objectCardMini grow add-container" onClick={this.toggleInvitePopup.bind(this)}>
+                                        <div className="objectCardMiniImage ">
                                             <img src={'/images/pending.png'} className="stretch-image"/>
                                         </div>
                                         <div className="objectCardMiniInfo container-fluid">
@@ -182,10 +267,10 @@ export default class Home extends React.Component {
                                             <hr className="hr-override-light"/>
                                             <p className="p-override">Click for Details...</p>
                                         </div>
-                                    </div>
+                                    </div></NavLink>
                                
                                 <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
@@ -204,19 +289,8 @@ export default class Home extends React.Component {
                             <h3>Players Nearby >></h3>
                         </NavLink>
                         <hr className="hr-thicc"/>
+                        {this.PlayersNearYou()}
                         <div className="scrolling-container negate-vertical-margins">
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>                    
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
-                            <PlayerNearYou/>
                         </div>
                     </div>
                 </div>
@@ -234,7 +308,15 @@ export default class Home extends React.Component {
                     </div>
                 </div>
             </div>
+            {this.state.showInvitePopup ? 
+                <InvitePopup
+                    text='Close Me'
+                    closePopup={this.toggleInvitePopup.bind(this)}
+                />
+                : null
+            }
         </div>
+        
         );
     }
 }  

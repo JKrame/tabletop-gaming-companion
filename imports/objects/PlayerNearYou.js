@@ -6,9 +6,9 @@ export default class PlayerNearYou extends React.Component{
         return (
             <div className='col-sm-12 player-near-you full-width'>
                 <div className="online-indicator">
-
+                
                 </div>
-                <h5 className="player-near-you-text">USERNAME1</h5>
+                <h5 className="player-near-you-text">{this.props.username}</h5>
             </div>
         );
     }

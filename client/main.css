@@ -3,7 +3,26 @@
     color: #606060;
 }
 
+html{
+    height:100%;
+    width:100%;
+}
 
+h3{
+    font-size:18px;
+}
+
+h4{
+    font-size:16px;
+}
+
+h5{
+    font-size:14px;
+}
+
+p{
+    font-size:12px;
+}
 hr{
     padding:0;
     margin-top:5px;
@@ -22,14 +41,14 @@ hr{
 
 .hr-override{
     margin-top:5px !important;
-    border-top: 4px solid #606060 !important;
+    border-top: 4px solid #d5d5d5 !important;
     margin-bottom:5px !important;
     
 }
 
 .hr-override-light{
     margin-top:5px !important;
-    border-top: 2px solid #606060 !important;
+    border-top: 2px solid #d5d5d5 !important;
     margin-bottom:5px !important;
 }
 
@@ -67,8 +86,8 @@ a.hover{
 body{
     background-image:url('/images/bg3.jpg');
     background-size:cover !important;
-    width:100%;
-    height:100%;
+    width:100vw;
+    height:100vh;
     resize:both;
     overflow:auto;
 }
@@ -139,22 +158,23 @@ body{
 
 .content-container-left{
     background-color: rgba(255, 255, 255, 0.801);
-    margin-right:10px;
     padding-right:10px;
     top:0px;
     bottom:0px;
     overflow-y: hidden;
 }
+
+.inner-content-container{
+    margin:10px;
+}
 .content-container-mid{
     top:0px;
     bottom:0px;
     overflow-y: hidden;
-    background-color: rgba(255, 255, 255, 0.801);
 }
 
 .content-container-right{
     background-color: rgba(255, 255, 255, 0.801);
-    margin-left:10px;
     padding-left:10px;
     top:0px;
     bottom:0px;
@@ -186,12 +206,18 @@ body{
     height:60vh;
     color: #012C40;
 }
+
+.top-content{
+        min-height:500px;
+        height:57vh;
+        color: #012C40;
+}
+
 .sub-content-bottom{
     display: -webkit-flex;
     display: flex;
     min-height:300px;
     height:29vh;
-    margin-top:1vh;
     color: #012C40;
 }
   
@@ -207,7 +233,7 @@ body{
 }
 .page-content-scroller{
     height:350px;
-    overflow-y:scroll;
+    overflow-y:auto;
     overflow-x: hidden;
 }
 
@@ -228,9 +254,9 @@ body{
 }
 
 .objectCardHalf{
-    margin:10px;
+    margin:10px 60px 10px 60px;
     padding:10px;
-    border: solid 2px #606060;
+    border: solid 2px #d5d5d5;
     overflow:hidden;
     border-radius: 10px 10px 10px 10px;
 }
@@ -243,6 +269,8 @@ body{
     border-radius: 5px 5px 5px 5px;
     overflow: hidden;
 }
+.grow { transition: height .2s ease-in-out; }
+.grow:hover { transform: scale(1.05); }
 
 .objectCardHalfInfo{
     margin:0px;
@@ -253,19 +281,71 @@ body{
 }
 
 .objectCardHalf:hover{
-    background-color:rgba(255, 64, 76, .415);
+    transition:.5s;
+    background-color:rgba(1, 44, 64, .815);
+    color:#DAEBF2 !important;
+    border-radius: solid 2px #1CA5B8;   
 }
-
-.objectCardMini{
+.textAssetMini{
+    display: -webkit-flex;
+    display: flex;
+    overflow:hidden;
+    margin:5px;
+    padding:5px;
+    border: solid 2px #d5d5d5;
+    max-height:50px;
+    border-radius: 10px 10px 10px 10px;
+}
+.NPCCardMini{
     display: -webkit-flex;
     display: flex;
     margin:5px;
     padding:5px;
-    border: solid 2px #606060;
+    border: solid 2px #d5d5d5;
+    border-radius:5px;
+    overflow:hidden;
+}
+
+.NPCCardMiniImage{
+    float:left;
+    width:30px;
+    height:30px;
+    overflow: hidden;    
+}
+
+.NPCCardMini:hover{
+    transition:.5s;
+    background-color:rgba(255, 64, 76, .415);
+}
+
+.objectCardMini{
+    text-decoration: none;
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    margin-left:30px;
+    margin-right:30px;
+    max-height:75px;
+    padding:5px;
+    border: solid 2px #d5d5d5;
     overflow:hidden;
     border-radius: 10px 10px 10px 10px;
 }
 
+.objectCardMini:hover{
+    text-decoration: none;
+    transition: .5s;
+    max-height:200px;
+}
+
+.objectCardMini:hover h5{
+    color:#fff;
+}
+
+.objectCardMini:hover p{
+    color:#fff;
+    
+}
 .objectCardMiniImage{
     float:left;
     width:60px;
@@ -282,9 +362,34 @@ body{
 .objectCardMiniInfo p{
     margin-top:0px;
 }
-
+.textAssetMini:hover{
+    overflow-y:auto;
+    max-height:300px;
+    transition:.5s;
+    background-color: rgba(28, 168, 184, 0.415);
+}
 .objectCardMini:hover{
-    background-color:rgba(255, 64, 76, .415);
+    transition:.5s;
+    background-color:rgba(1, 44, 64, .815);
+    color:#DAEBF2 !important;
+    border-radius: solid 2px #1CA5B8;   
+
+}
+
+.hoverBox:hover p{
+    transition:.5s;
+    color:#DAEBF2 !important;
+    text-decoration: none;
+}
+.hoverBox:hover h5{
+    transition:.5s;
+    color:#DAEBF2 !important;
+    text-decoration: none;
+}
+.hoverBox:hover h4{
+    transition:.5s;
+    color:#DAEBF2 !important;
+    text-decoration: none;
 }
 
 .textCardMiniImage
@@ -295,7 +400,9 @@ body{
 }
 
 .textCardMini:hover{
-    background-color:rgba(255, 64, 76, .415);
+    transition:.5s;
+    background-color:rgba(1, 44, 64, .415);
+    color:#DAEBF2;
 }
 
 .right-border{
@@ -345,11 +452,14 @@ body{
     overflow-y:auto;
 }
 
+.initiative{
+    max-height: 70vh;
+}
+
 .scrolling-container-80{
     height:80vh;
     overflow-y:auto;
 }
-
 
 .scrolling-container-50{
     height:50vh;
@@ -367,6 +477,7 @@ body{
     height:75%;
 }
 
+
 .vertical-image{
     height:300px;
     overflow:hidden;
@@ -379,8 +490,9 @@ body{
 .vertical-card-contents{
     height:450px;
     padding:10px;
+    height:440px;
     border: solid 2px #606060;
-    overflow:auto;
+    overflow:hidden;
     border-radius: 10px 10px 10px 10px;
 }
 
@@ -389,11 +501,26 @@ body{
 }
 
 .stretch-image{
-    width:100%;
     height:100%;
 }
 
 .image-card{
+    float:left;
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    overflow: hidden;
+    border: solid 2px #606060;
+    border-radius: 10px 10px 10px 10px;
+    width:130px;
+    height:130px;
+}
+.image-card:hover{
+    transition:.5s;
+    background-color:rgba(28, 168, 184, 0.415) ;
+}
+
+.add-image-card{
     float:left;
     padding:10px;    
     display: -webkit-flex;
@@ -402,21 +529,130 @@ body{
     border: solid 2px #606060;
     overflow:hidden;
     border-radius: 10px 10px 10px 10px;
+    width:130px;
+    height:130px;
 }
-.image-card:hover{
+.add-image-card:hover{
+    transition:.5s;
     background-color:rgba(255, 64, 76, .415);
 }
 
+
 .image-asset{
-    width:110px;
-    height:110px;
+   position:relative;
+    width:130px;
+    height:130px;
+}
+
+.image-buttons{
+    opacity: 0;
+    margin-left:-130px;
+    height:500px;
+    padding:0;
+    z-index: 999;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    width:130px;
+}
+
+.image-buttons:hover{
+    opacity:100;
+    margin-top:0px;
+    transition:.5s;
+    display:visible !important;
+}
+.title{
+    font-size:13px;
+    font-weight:bolder;
+}
+.text-asset-txt{
+    margin-top:-500px;
+}
+
+.text-image-buttons{
+    margin-top:20px;
+    margin-bottom:10px;
+    float:right;
+    position:relative;
+    padding:0;
+    z-index: 999;
+    top:0;
+    right:0;
+    display: flex;
+}
+
+.text-image-buttons:hover{
+    opacity:100;
+    transition:.5s;
+    display:visible !important;
 }
 
 .image-asset-img{
     display:block;
     margin: 0 auto;
-    max-width: 110px;
-    max-height:110px;
+    max-width: 130px;
+}
+.delete-btn{
+    margin-top:10px;
+}
+
+.tiny-delete-btn{
+    overflow:hidden;
+    max-width:30px;
+    height:30px;
+    border-radius: 20px;
+    margin-top:10px;
+    margin-right:10px;
+    float:right;
+    background-color: rgba(255, 64, 76, .715);
+    padding:0;
+}
+
+.tiny-button-txt p{
+
+    color: #fff;
+}
+
+.tiny-delete-btn:hover{
+    width:100px;
+    max-width:100px !important;
+    transition: .5s;
+    
+}
+
+.tiny-button-txt{
+    margin:0;
+    margin-top:-2px;
+    margin-left: -2px;
+    color:#fff;
+    white-space:  pre;
+    
+}
+
+
+.tiny-expand-btn{
+    overflow:hidden;
+    max-width:25px;
+    height:25px;
+    border-radius: 20px;
+    margin-top:10px;
+    margin-right:10px;
+    float:right;
+    background-color: rgba(28, 165, 184, .7);
+    padding:0;
+}
+
+.tiny-expand-btn p{
+    color:#fff;
+}
+
+.tiny-expand-btn:hover{
+    width:100px;
+    max-width:100px !important;
+    transition: .5s;
+    
 }
 
 .no-margin-override{
@@ -434,10 +670,11 @@ body{
 }
 
 .small-text{
-    font-size:10px;
+    font-size:12px;
 }
 
 .add-container:hover{
+    transition:.5s;
     background-color:rgba(28, 168, 184, 0.415) !important;
 }
 
@@ -455,6 +692,9 @@ body{
     height:400px;
 }
 
+.max-600{
+    max-height: 600px;
+}
 .bottom-button{
     margin:auto;
     margin-top:3vh;
@@ -474,7 +714,6 @@ body{
   }
 
   .game-screen{
-      min-height:900px;
   }
 
   
@@ -490,21 +729,28 @@ body{
   .roll-display{
       float:left;
   }
+  .dice-img{
+      max-width:60px;
+  }
 
   .dice-panel{
     float:left;
-    width:80px;
-    margin: 0 20px 20px 10px;
+    width:60px;
+    margin: 0 10px 10px 10px;
   }
 
   .rollbox{
       margin-top:5px;
-      width:80px;
+      width:60px;
   }
 
 .add-background{
     background-color:rgba(255, 255, 255, 0.801);
 }   
+
+.add-blue-background{
+    background-color:#DAEBF2;
+}
 
 .negate-margin{
     margin-left:-10px;
@@ -554,15 +800,14 @@ center{
 }
 
 .spell-slots{
-    height:auto;
+    margin-bottom:10%;
     display:inline-block;
     margin:0 auto;
 }
 
 .spell-slot-panel{
-    float:left;
     width:100px;
-    margin:15 0;
+    margin:10 0;
     margin-bottom:15px;
     
 }
@@ -599,6 +844,7 @@ center{
     min-height:80px;
     border-radius: 20px;
     float:left;
+    padding:20px;
 }
 a.menu_links{
     cursor:pointer;
@@ -610,6 +856,7 @@ a.menu_links{
 
 
 .player-near-you:hover{
+    transition:.5s;
     background-color:#606060;
     color:#eee;
 }
@@ -657,13 +904,91 @@ a.menu_links{
     background-color: rgba(200, 200, 200, 0.801);
 }
 
+.broadcast-asset{
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    margin:auto;
+}
+
+.initiative-popup{
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    height: 60vh;
+    width:60vw;
+    z-index: 999;
+    padding:30px;
+    margin:auto;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.broadcast-screen{
+    display:flex;
+    height:100%;
+    min-height:500px;
+    height:57vh;
+    text-align: center;
+    vertical-align: center;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+}
+
+.broadcast-item{
+    max-height: 54vh;
+}
+
+.broadcast-object{
+    text-align: center;
+    vertical-align: center;
+    top:0;
+    bottom:0;
+    left:0;
+    margin:auto;
+    
+    right:0;
+}
+.pending-invite-popup{
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    height: 540px;
+    width:500px;
+    z-index: 999;
+    padding:30px;
+    margin:5vw auto;
+    background-color: rgba(200, 200, 200, 0.801);
+}
+
 
 .button{
     margin:10px;
     width:100px;
     float:left;
 }
+
+.delete-btn{
+    height:25px;
+    color: #fff;
+    background-color:red;
+}
  
+
+.delete-txt-btn{
+    display:relative;
+    margin-top:100px;
+    height:25px;
+    color: #fff;
+    background-color:red;
+}
 .right-align{
     float:right;
 }
@@ -679,6 +1004,19 @@ a.menu_links{
     margin: auto;
     background-color: rgba(0,0,0, 0.5);
   }
+
+  .wide-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0, 0.5);
+  }
+
   .popup_inner {
     position: absolute;
     left: 25%;
@@ -689,9 +1027,44 @@ a.menu_links{
     background: white;
   }
 
-@media only screen and (max-width: 800px) {
+  .no-padding{
+      padding:0 0 !important;
+  }
+  .in-game-chat-window{
+      height:200px; 
+  }
+  .in-game-chat-btn-container{
+      max-height:300px;
+  }
+  .in-game-chat-btn{
+  }
 
-      
+  .chat-box{
+    background-color:rgba(51, 50, 44, .5);
+    
+  }
+  
+
+  .user-bubble{
+      margin-left:auto;
+      margin-right:0;
+  }
+
+  .spell-slot{
+      background-color:#1CA5B8;
+      height:5px;
+      width:10px;
+      margin:2px;
+      float:left;
+  }
+
+  .spell-slot-container{
+      float:left;
+      width:10px;
+      margin-right:10px;
+  }
+
+@media only screen and (max-width: 800px) {
     .logo{
         max-width:60%;
     }
@@ -703,10 +1076,10 @@ a.menu_links{
         overflow-y: scroll;
     }
     .sub-content-top{
-        height:1500px;
+        height:auto;
     }
     .sub-content-bottom{
-        height:900px;
+        height:auto;
     }
 }
 

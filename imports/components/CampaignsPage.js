@@ -1,5 +1,10 @@
 import React from 'react'
 import CampaignCardVertical from '../objects/CampaignCardVertical';
+import { NavLink } from 'react-router-dom';
+import { Random } from 'meteor/random';
+import InvitePopup from '../objects/PendingInvitePopup';
+
+import Header from './Header';
 
 var campaigns;
 var campaignsArray;
@@ -11,10 +16,22 @@ var SortParameters = Object.freeze({
 });
 
 export default class CampaignsPage extends React.Component{
-    
+    constructor() {
+        super();
+        this.state = {
+            showInvitePopup: false
+        };
+    }
+
+    toggleInvitePopup() {
+        this.setState({
+            showInvitePopup: !this.state.showInvitePopup
+        });
+    }
     componentWillMount(){
         this.campaignsTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
+            const sub2 = Meteor.subscribe('characters');
             var UID = Meteor.userId();
             if(sub.ready())
             {
@@ -97,43 +114,29 @@ export default class CampaignsPage extends React.Component{
         if (!campaignId)
         {
             campaignId = Random.id();
-            name = null;
-            description = null;
-            meetTime = null;
-            meetDate = null;
-            players = null;
-            gm = null;
-            notes = [];
-            turnOrder = null;
-            URLs = null;
-
-            Meteor.call("campaigns.insert", 
-                campaignId,
-                name,
-                description,
-                meetTime,
-                meetDate,
-                players,
-                gm,
-                notes,
-                turnOrder,
-                URLs
-            );
+            Meteor.call("campaigns.insert", campaignId);
         }
 
-        for(var i = 0; i < campaigns.length; i++)
+        if (!somehistory){ 
+            somehistory = this.props.history;
+            somehistory.push('/campaign/edit/' + campaignId);
+        }
+        else
         {
-            if(campaigns[i]._id == campaignId)
+            for(var i = 0; i < campaigns.length; i++)
             {
-                if(campaigns[i].gm == Meteor.userId())
+                if(campaigns[i]._id == campaignId)
                 {
-                    somehistory.push('/campaign/edit/' + campaignId); //first send them to the editing page
+                    if(campaigns[i].gm == Meteor.userId())
+                    {
+                        somehistory.push('/campaign/edit/' + campaignId); //first send them to the editing page
+                    }
+                    else
+                    {
+                        somehistory.push('/campaigns/' + campaignId); //if they dont own it, send them to game screen
+                    }
+                    break;
                 }
-                else
-                {
-                    somehistory.push('/campaigns/' + campaignId); //if they dont own it, send them to game screen
-                }
-                break;
             }
         }
     }
@@ -141,16 +144,49 @@ export default class CampaignsPage extends React.Component{
     render() {
         return(
             <div className="page-wrapper">
+            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height">
                         <h3>Your Campaigns</h3>
                         <hr/>
-                        <div className="scrolling-container">
+                        <div className="scrolling-container-80">
                             {this.renderCampaignForm()}
+
+                            <NavLink to='#' onClick={this.toggleInvitePopup.bind(this)} className='nav-item nav-link'>
+                                <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
+                                    <div className="vertical-card-contents">
+                                        <div className="vertical-image">
+                                            <img src={'/images/photoMissing.png'} className="full-width vertical-image"/>
+                                        </div>
+                                        <div className="vertical-data">
+                                            <h3 className="no-margin-override">PENDING INVITE</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </NavLink>
+                            <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>
+                                <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
+                                    <div className="vertical-card-contents">
+                                        <div className="vertical-image">
+                                            <img src={'/images/addIcon.png'} className="full-width vertical-image"/>
+                                        </div>
+                                        <div className="vertical-data">
+                                            <h3 className="no-margin-override">CREATE NEW CAMPAIGN</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                 </div>
+                {this.state.showInvitePopup ? 
+                    <InvitePopup
+                        text='Close Me'
+                        closePopup={this.toggleInvitePopup.bind(this)}
+                    />
+                    : null
+                }
             </div>
         );
     }
-    }  
+}  

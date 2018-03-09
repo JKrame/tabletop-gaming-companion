@@ -11,5 +11,5 @@ Meteor.publish('campaigns', function(){
 });
 
 Meteor.publish('conversations', function(){
-    return Conversations.find({});
+    return Conversations.find({"participants.id": Meteor.userId()});
 })

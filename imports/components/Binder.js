@@ -5,6 +5,10 @@ import {Random} from 'meteor/random';
 //import { Characters } from '../api/character';
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
+import InvitePopup from '../objects/PendingInvitePopup';
+
+import Header from './Header';
+
 
 var characters;
 var charactersArray;
@@ -13,6 +17,18 @@ var campaigns;
 var campaignsArray;
 
 export default class Binder extends React.Component{
+    constructor() {
+        super();
+        this.state = {
+            showInvitePopup: false
+        };
+    }
+
+    toggleInvitePopup() {
+        this.setState({
+            showInvitePopup: !this.state.showInvitePopup
+        });
+    }
 
     componentWillMount(){
         this.binderTracker = Tracker.autorun(() => {
@@ -109,7 +125,6 @@ export default class Binder extends React.Component{
         if (!campaignId)
         {
             campaignId = Random.id();
-
             Meteor.call("campaigns.insert",  campaignId);
         }
 
@@ -140,6 +155,7 @@ export default class Binder extends React.Component{
     render() {
         return(
             <div className="page-wrapper">
+            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-6">
@@ -147,11 +163,11 @@ export default class Binder extends React.Component{
                                     <h3>Your Characters >></h3>
                             </NavLink>
                             <hr/>
-                            <div className="scrolling-container">
+                            <div className="scrolling-container-80">
                                 {this.renderCharacterForm()}
 
                                 <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
@@ -174,10 +190,10 @@ export default class Binder extends React.Component{
                             </NavLink>
                             <hr className="container-fluid"/>
 
-                            <div className="scrolling-container">
+                            <div className="scrolling-container-80">
                                 {this.renderCampaignForm()}
 
-                                <div className="objectCardMini add-container">
+                                <div className="objectCardMini grow add-container" onClick={this.toggleInvitePopup.bind(this)}>
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/pending.png'} className="stretch-image"/>
                                         </div>
@@ -189,7 +205,7 @@ export default class Binder extends React.Component{
                                     </div>
                                
                                 <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
@@ -203,6 +219,13 @@ export default class Binder extends React.Component{
                         </div>
                     </div>
                 </div>
+                {this.state.showInvitePopup ? 
+                    <InvitePopup
+                        text='Close Me'
+                        closePopup={this.toggleInvitePopup.bind(this)}
+                    />
+                    : null
+                }
             </div>
         );
     }
