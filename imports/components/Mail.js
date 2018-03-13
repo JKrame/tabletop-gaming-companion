@@ -20,13 +20,17 @@ export default class Mail extends React.Component{
             const sub = Meteor.subscribe('conversations');
             if(sub.ready())
             {
-                this.conversations = Conversations.find( {$or: [{"userOne._id": Meteor.userId()}, {"userTwo._id": Meteor.userId()}]}).fetch();
+                id = Meteor.userId();
+                this.conversations = Conversations.find().fetch();
                 if (this.state.conversation != null){
                     for(i = 0; i < this.conversations.length; i++){
                         if (this.conversations[i]._id == this.state.conversation._id){
                             this.setState({conversation: this.conversations[i]});
                         }
                     }
+                }
+                else if (this.conversations.length > 0){
+                    this.setState({conversation: this.conversations[0]});
                 }
             }
 
@@ -80,7 +84,7 @@ export default class Mail extends React.Component{
         {
             alreadyFriends = false;
             for (i = 0; i < this.conversations.length; i++){
-                if (contact._id == this.conversations[i].userOne._id || contact._id == this.conversations[i].userTwo._id){
+                if (contact._id == this.conversations[i].particpants[0].id || contact._id == this.conversations[i].participants[1].id){
                     alreadyFriends = true;
                 }
             }
@@ -120,11 +124,11 @@ export default class Mail extends React.Component{
         if (conversation){ 
             this.setState({conversation: conversation});
 
-            if (conversation.userID == Meteor.userId()){
-                this.setState({contactUsername : conversation.contactUsername});
+            if (conversation.participants[0].id == Meteor.userId()){
+                this.setState({contactUsername : conversation.participants[1].name});
             }
             else{
-                this.setState({contactUsername : conversation.username});
+                this.setState({contactUsername : conversation.participants[0].name});
             }
 
             this.forceUpdate();

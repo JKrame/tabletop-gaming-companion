@@ -488,6 +488,7 @@ body{
 }
 
 .vertical-card-contents{
+    height:450px;
     padding:10px;
     height:440px;
     border: solid 2px #606060;

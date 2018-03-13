@@ -1,9 +1,6 @@
 import React from 'react';
 import CharacterCardVertical from '../objects/CharacterCardVertical';
 import { NavLink } from 'react-router-dom';
-import { Random } from 'meteor/random';
-
-import Header from './Header';
 
 var characters;
 var charactersArray;
@@ -112,16 +109,6 @@ export default class CharactersPage extends React.Component{
     }
 
     loadCharacter(cid, somehistory){
-        if (!cid)
-        {
-            cid = Random.id();
-            Meteor.call('characters.insert', cid);
-        }
-
-        if (!somehistory){
-            somehistory = this.props.history;
-        }
-
         somehistory.push('/character/edit/' + cid);
     }
 
@@ -129,23 +116,16 @@ export default class CharactersPage extends React.Component{
         Meteor.subscribe('characters');
         return(
             <div className="page-wrapper">
-            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
-                    <div className="page-content col-xs-12 fill-height">
+                    <div className="page-content col-xs-12 fill-height scrolling-container">
                         <h3>Characters</h3>
                         <hr/>
-                        <div className="scrolling-container-80">
+                        <div className="scrolling-container">
                             {this.renderForm()}
-                            <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>
+                            <NavLink to='#' onClick={() => this.props.func(this.props.id, this.props.somehistory)} className='nav-item nav-link'>
                                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
                                     <div className="vertical-card-contents">
-                                        <div className="vertical-image">
-                                            <img src={'/images/addIcon.png'} className="full-width vertical-image"/>
-                                        </div>
-                                        <div className="vertical-data">
-                                            <h3 className="no-margin-override">CREATE NEW CHARACTER</h3>
-                                            <hr className="hr-override-light"/>
-                                        </div>
+                                        <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/add-image-card-icon.png'} className="stretch-image"/>
                                     </div>
                                 </div>
                             </NavLink>
