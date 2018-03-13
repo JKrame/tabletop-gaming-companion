@@ -9,6 +9,8 @@ import UserCardMini from '../objects/UserCard';
 import ImagePopup from '../objects/ImageFormPopup';
 import PlayerPopup from '../objects/PlayerFormPopup';
 
+import Header from './Header';
+
 
 var name;
 var description;
@@ -239,7 +241,7 @@ export default class CampaignSetup extends React.Component{
 
         return(
             <div className="page-wrapper">
-
+            <Header/>
                 <div className="add-image-popup" style={popupStyle}>
                     <h2>Enter the Image URL</h2>
                     <input type="text" className="full-width"/>
