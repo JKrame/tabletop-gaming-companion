@@ -144,14 +144,22 @@ export default class CampaignSetup extends React.Component{
     addPlayer(username) {
         console.log("getting called");
         console.log(this.id);
+        var invitedUserID = Meteor.users.findOne({"profile.username" : username})._id;
+        if (invitedUserID == Meteor.userId())
+        {
+            return;
+        }
         Meteor.call("campaignPendingInvites.addToSet", 
             _id = this.id,
             username
         );
-        var invitedUserID = Meteor.users.findOne({"profile.username" : username})._id;
+        var campaignToBePushed = [3];
+        campaignToBePushed[0] = this.campaign._id;
+        campaignToBePushed[1] = this.campaign.campaignImageURL;
+        campaignToBePushed[2] = this.campaign.name;
         Meteor.call("userPendingInvites.addToSet",
             invitedUserID,
-            campaignID = this.id
+            campaignToBePushed
         );
         this.togglePlayerPopup();
     }

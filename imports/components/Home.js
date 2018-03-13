@@ -34,7 +34,8 @@ export default class Home extends React.Component {
         this.setState({
             showInvitePopup: !this.state.showInvitePopup
         });
-        //this.pendingInviteCampaignID = campaignID;
+        this.pendingInviteCampaignID = campaignID;
+        console.log(campaignID);
     }
 
     componentWillMount(){
@@ -146,15 +147,16 @@ export default class Home extends React.Component {
 
         for (var i = 0; i < this.pendingInvites.length; i++)
         {
-            var pendingCampaign = Campaigns.findOne({_id : this.pendingInvites[i]});
+            console.log(this.pendingInvites[i][0]);
             cards.push(
-                <PendingCampaignCard
-                    key={i}
-                    campaignID={pendingCampaign._id}
-                    campaignImageURL={pendingCampaign.campaignImageURL}
-                    campaignName={pendingCampaign.name}
-                    toggleInvitePopup={this.toggleInvitePopup.bind(this)}
-                />
+                <div onClick={this.toggleInvitePopup.bind(this, this.pendingInvites[i][0])}>
+                    <PendingCampaignCard
+                        key={i}
+                        campaignID={this.pendingInvites[i][0]}
+                        campaignImageURL={this.pendingInvites[i][1]}
+                        campaignName={this.pendingInvites[i][2]}
+                    />
+                </div>
             );
         }
         return <div>{cards}</div>;
@@ -333,11 +335,10 @@ export default class Home extends React.Component {
             </div>
             {this.state.showInvitePopup ? 
                 <InvitePopup
+                    key={6666}
                     text='Close Me'
                     closePopup={this.toggleInvitePopup.bind(this)}
                     campaignID={this.pendingInviteCampaignID}
-                    //campaignImageURL={this.pendingCampaign.campaignImageURL}
-                    ///campaignName={this.pendingCampaign.name}
                 />
                 : null
             }

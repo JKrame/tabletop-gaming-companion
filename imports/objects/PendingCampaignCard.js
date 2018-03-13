@@ -3,9 +3,11 @@ import { NavLink } from 'react-router-dom';
 
 export default class PendingCampaignCard extends React.Component {
     render() {
+        console.log("from within the card" + this.props.campaignID);
+        var campaignID = this.props.campaignID;
         return(
             <NavLink to="#" >
-                <div className="objectCardMini grow add-container" onClick={this.props.toggleInvitePopup(this.props.campaignID)}>
+                <div className="objectCardMini grow add-container">
                     <div className="objectCardMiniImage ">
                         <img src={this.props.campaignImageURL!=null && this.props.campaignImageURL!="" ? this.props.campaignImageURL : '/images/photoMissing.png'} className="stretch-image"/>
                     </div>
