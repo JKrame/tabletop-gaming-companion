@@ -12,6 +12,23 @@ import PlayerPopup from '../objects/PlayerFormPopup';
 
 import Header from './Header';
 
+
+var name;
+var description;
+var meetTime;
+var meetDate;
+var players;
+var gm;
+var notes;
+var turnOrder;
+var URLs;
+var characters;
+var user;
+
+var popupStyle = {
+    display: 'none'
+};
+
 export default class CampaignSetup extends React.Component{
     constructor() {
         super();
@@ -190,9 +207,9 @@ export default class CampaignSetup extends React.Component{
     }
 
     saveChanges(){
-        var name = this.refs.campaignTitle.value;
-        var description = this.refs.campaignDescription.value;
-        var campaignImageURL = this.refs.campaignImageURL.value;
+        name = this.refs.campaignTitle.value;
+        description = this.refs.campaignDescription.value;
+        campaignImageURL = this.refs.campaignImageURL.value;
         
         Campaigns.update({
             _id : this.id},{
@@ -264,16 +281,16 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
                             
                             <h3>Campaign Title</h3>
-                            <hr/>
-                            <div className="scrolling-container">
-                                <input type="text" ref="campaignTitle" defaultValue={this.campaign.name != null ? this.campaign.name : ""} className="fill-width"/>
-                            </div>
+                                <hr/>
+                                <div className="scrolling-container">
+                                    <input type="text" ref="campaignTitle" defaultValue={this.campaign.name != null ? this.campaign.name : ""} className="fill-width"/>
+                                </div>
 
-                            <div className="spacer col-sm-12"/>                      
-                            <div className="spacer col-sm-12"/>
-                            <div className="spacer col-sm-12"/>                      
-                            <div className="spacer col-sm-12"/>
-                            
+                                <div className="spacer col-sm-12"/>                      
+                                <div className="spacer col-sm-12"/>
+                                <div className="spacer col-sm-12"/>                      
+                                <div className="spacer col-sm-12"/>
+                                
                             <h3>Campaign Description</h3>
                             <hr/>
                             <div className="scrolling-container">
@@ -287,8 +304,8 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>NPCs</h3>
                             <hr/>
-                            <div className="max-600 scrolling-container">
-                                {this.renderNPCs()}
+                            <div className=" height-600 scrolling-container">
+                                {this.renderPlayers()}
 
                                 <NavLink to='#' onClick={() => this.loadNPC()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container grow">
@@ -310,12 +327,11 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>Text Assets</h3>
                             <hr/>
-
-                            <div className="max-600 scrolling-container">
+                            <div className="">
                                 {this.renderTextAssets()}
                                 <a>
                                     <div className='nav-item nav-link'>   
-                                        <div className="textAssetMini add-container">
+                                        <div className="objectCardMini add-container">
                                             <div onClick={() => this.insertTextAssets(this.refs.newNoteTitle.value, this.refs.newNoteText.value)} className="textCardMiniImage">
                                                 <img src={'/images/addIcon.png'} className="stretch-image"/>
                                             </div>
@@ -323,7 +339,8 @@ export default class CampaignSetup extends React.Component{
                                                 <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
                                             </div>
                                             <div className="col-xs-10">
-                                                <textarea rows={1} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
+                                                <textarea rows={3} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -337,12 +354,14 @@ export default class CampaignSetup extends React.Component{
 
                             <h3>Image Assets</h3>
                             <hr/> 
-                            <div className="max-600 scrolling-containerflex-grid container-fluid">
+                            <div className="flex-grid container-fluid">
                                 {this.renderImageAssets()}
 
-                                <div className="add-image-card rid-item add-container">
-                                    <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="stretch-image"/>
-                                    
+                                <div className='nav-item nav-link'>   
+                                    <div className="objectCardMini grid-item add-container">
+                                        <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="image-asset-img"/>
+                                       
+                                    </div>
                                 </div>
                             </div>
 
