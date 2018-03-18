@@ -20,7 +20,7 @@ export default class PlayerFormPopup extends React.Component {
             var UID = Meteor.userId();
             if(sub.ready())
             {
-                charactersArray = Characters.find({UID: UID}).fetch();
+                charactersArray = Characters.find({ $and: [ { UID: { $eq: Meteor.userId() } }, { campaignID: { $eq: null } } ] }).fetch();
                 //console.log(charactersArray)
                 if(charactersArray != undefined)
                 {
@@ -46,13 +46,14 @@ export default class PlayerFormPopup extends React.Component {
     renderCharacterCard() {
         var cards = [];
         var UID = Meteor.userId();
+        //console.log(this.props.campaignID);
         for (var i = 0; i < this.characters.length; i++)
         {   
             cards.push(
                 <CharacterCardHalf 
                     key={i} 
                     parentPage={this} 
-                    campaign={this.campaign} 
+                    campaign={this.props.campaignID} 
                     characterImageURL={this.characters[i].characterImageURL} 
                     id={this.characters[i]._id} 
                     somehistory={this.props.history} 
@@ -61,26 +62,37 @@ export default class PlayerFormPopup extends React.Component {
                     characterClass={this.characters[i].characterClass} 
                     level={this.characters[i].level} 
                     race={this.characters[i].race}
-                    character={this.characters[i]}/>
+                    character={this.characters[i]}
+                />
             );
         }
         return <div>{cards}</div>;
     }
 
     addCharacter(characterid , somehistory, campaign, character){
-        console.log(characterid);
-        console.log(campaign);
+        //console.log(characterid);
+        //console.log(campaign);
         Meteor.call("campaignCharacter.addToSet", 
             _id = campaign,
             character    
         );
 
         Meteor.call("characters.setCampaign", 
-            characterid, 
+            characterid,
             campaign
         );
 
-        this.props.closePopup()
+        var campaignToBePulled = [3];
+        var campaignObject = Campaigns.findOne({_id : this.props.campaignID});
+        campaignToBePulled[0] = this.props.campaignID;
+        campaignToBePulled[1] = campaignObject.campaignImageURL;
+        campaignToBePulled[2] = campaignObject.name;
+        Meteor.call("userPendingInvites.pull",
+            Meteor.userId(),
+            campaignToBePulled
+        );
+
+        this.props.closePopup();
     }
 
     loadCharacter(cid, somehistory){

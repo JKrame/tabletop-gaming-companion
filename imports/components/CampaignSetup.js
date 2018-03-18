@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { Random } from 'meteor/random';
 import CharacterCardMini from '../objects/CharacterCardMini';
 import CharacterCardMiniWithOwner from '../objects/CharacterCardMiniWithOwner';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
@@ -8,6 +9,8 @@ import ImageAssetCard from '../objects/ImageAssetCard';
 import UserCardMini from '../objects/UserCard';
 import ImagePopup from '../objects/ImageFormPopup';
 import PlayerPopup from '../objects/PlayerFormPopup';
+
+import Header from './Header';
 
 
 var name;
@@ -30,39 +33,46 @@ export default class CampaignSetup extends React.Component{
     constructor() {
         super();
         this.state = {
-          showImagePopup: false,
-          showPlayerPopup: false
+            showImagePopup: false,
+            showPlayerPopup: false,
+            isGm: false
         };
-      }
-      toggleImagePopup() {
+    }
+
+    toggleImagePopup() {
         this.setState({
-          showImagePopup: !this.state.showImagePopup
+            showImagePopup: !this.state.showImagePopup
         });
-      }
-      togglePlayerPopup() {
+    }
+
+    togglePlayerPopup() {
         this.setState({
-          showPlayerPopup: !this.state.showPlayerPopup
-        });
-      }
+            showPlayerPopup: !this.state.showPlayerPopup
+        }); 
+    }
+
     componentWillMount(){
         this.id = this.props.match.params._id;
-        UID = Meteor.userId();
         this.campaignSheetTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('campaigns');
             const sub2 = Meteor.subscribe('characters');
-            const sub3 = Meteor.subscribe('userData')
+            const sub3 = Meteor.subscribe('userData');
             if(sub.ready())
             {
-                this.campaign = Campaigns.findOne({_id : this.id});               
+                this.campaign = Campaigns.findOne({_id : this.id});
+                this.pendingInvites = this.campaign.pendingInvites;
             }
             if(sub2.ready())
             {
-                this.characters = Characters.find({campaignID: this.id}).fetch();
+                this.characters = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $ne: "npc" } } ] }).fetch();
+                this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: this.id } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
             if(sub3.ready())
             {
-                this.user = Meteor.users.findOne({_id : Meteor.userId()});
+                this.users = Meteor.users.find({}).fetch();
             }
+
+            
             this.forceUpdate();
         });
     }
@@ -71,16 +81,28 @@ export default class CampaignSetup extends React.Component{
         this.campaignSheetTracker.stop();
     }
     
-    renderCharacterCard() {
+    renderNPCs() {
         var cards = [];
-        var numcharacters = 4;
-        for (var i = 0; i < numcharacters; i++)
-        {
-            cards.push(<CharacterCardMini key={i}/>);
+        if (this.NPCs){
+            for (var i = 0; i < this.NPCs.length; i++)
+            {
+                cards.push(<CharacterCardMini
+                    key={i}
+                    characterImageURL={this.NPCs[i].characterImageURL}
+                    id={this.NPCs[i]._id}
+                    somehistory={this.props.history}
+                    func={this.loadNPC}
+                    characterName={this.NPCs[i].characterName}
+                    characterClass={this.NPCs[i].characterClass}
+                    level={this.NPCs[i].level}
+                    race={this.NPCs[i].race}
+                    />
+                );
+            }
         }
         return <div>{cards}</div>;
     }
-    
+
     loadCharacter(characterID){
         if (!characterID){
             characterID = Random.id();
@@ -89,23 +111,24 @@ export default class CampaignSetup extends React.Component{
         this.props.history.push('/character/edit/' + characterID);
     }
 
-    renderContacts() {
-        var cards = [];
-        var numcharacters = 12;
-        for (var i = 0; i < numcharacters; i++)
-        {
-            cards.push(<UserCardMini key={i}/>);
-        }
-        return <div>{cards}</div>;
-    }
-
-
     renderPlayers() {
         var cards = [];
-        //var numcharacters = 4;
-        for (var i = 0; i < this.characters.length; i++)
-        {
-            cards.push(<CharacterCardMiniWithOwner key={i} character={this.characters[i]}/>);
+        if (this.characters){
+            for (var i = 0; i < this.characters.length; i++)
+            {
+                cards.push(<CharacterCardMiniWithOwner
+                    key={i}
+                    character={this.characters[i]}
+                    />
+                );
+            }
+        }
+
+        if (this.pendingInvites){
+            for (var i = 0; i < this.pendingInvites.length; i++)
+            {
+                //cards.push(<CharacterCardMiniWithOwner key={i} character={this.pendingInvites[i]}/>);
+            }
         }
         return <div>{cards}</div>;
     }
@@ -114,13 +137,19 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard key={i} noteTitle={this.campaign.notes[i][0]} noteDescription={this.campaign.notes[i][1]} id={this.campaign._id}/>);
+            cards.push(<TextAssetcard
+                key={i}
+                noteTitle={this.campaign.notes[i][0]}
+                noteDescription={this.campaign.notes[i][1]}
+                id={this.campaign._id}
+                />
+            );
         }
         return <div>{cards}</div>;
     }
 
     insertTextAssets(newTitle, newNote) {
-        notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
+        var notes = [newTitle, newNote]//null;//{title=newTitle,note=newNote};
         Meteor.call("campaignNote.push", 
             _id = this.id,
             notes,    
@@ -130,29 +159,42 @@ export default class CampaignSetup extends React.Component{
     }
 
     addPlayer(username) {
-        // if(!Meteor.users.findOne({"emails.address" : username}))
-        // {
-        //     alert(username + " does not exist.");
-        //     return;
-        // }
-
-        Meteor.call("campaignPlayer.push", 
+        console.log("getting called");
+        console.log(this.id);
+        var invitedUserID = Meteor.users.findOne({"profile.username" : username})._id;
+        if (invitedUserID == Meteor.userId())
+        {
+            return;
+        }
+        Meteor.call("campaignPendingInvites.addToSet", 
             _id = this.id,
-            username,    
+            username
         );
-
-        this.refs.addplayer.value = "";
+        var campaignToBePushed = [3];
+        campaignToBePushed[0] = this.campaign._id;
+        campaignToBePushed[1] = this.campaign.campaignImageURL;
+        campaignToBePushed[2] = this.campaign.name;
+        Meteor.call("userPendingInvites.addToSet",
+            invitedUserID,
+            campaignToBePushed
+        );
+        this.togglePlayerPopup();
     }
     
     updateTextAssets(){
-        console.log("fix this mike");
     }
 
     renderImageAssets() {
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard key={i} URL={this.campaign.URLs[i]} _id ={this.id} campaignID={this.campaign._id}/>);
+            cards.push(<ImageAssetCard
+                key={i}
+                URL={this.campaign.URLs[i]}
+                _id ={this.id}
+                campaignID={this.campaign._id}
+                />
+            );
         }
         return <div>{cards}</div>;
     }
@@ -174,38 +216,15 @@ export default class CampaignSetup extends React.Component{
                 $set:{
                     name, 
                     description, 
-                    campaignImageURL}});
+                    campaignImageURL}
+            }
+        );
     }
 
-    makeVisibleAddImageAsset()
-    {   //ugh ive completely run out of ideas
-        this.popupStyle = {
-            display : 'visible'
-        };
-        this.render();
-        // this.setState(this.state);
-        // this.forceUpdate();
-        //forceUpdate();
-        // return (
-        //     <div className="add-image-popup">
-        //         <h2>Enter the Image URL</h2>
-        //         <input type="text" className="full-width"/>
-        //         <div className="col-sm-12">
-        //             <div className="right-align">
-        //                 <button className=" submit-button button">Cancel</button>
-        //                 <button className="submit-button blue-button button">Add Image</button>
-        //             </div>
-        //         </div>
-        //     </div>
-        // );
-        console.log("calling some bullshit");
-    }
-
-    addImageAsset(){
-        newURL = this.refs.newImageURL.value;
+    addImageAsset(url){
+        //newURL = this.refs.imageUrlBox.value;
+        newURL = url;
         urlExists = Campaigns.find({ URLs: { $elemMatch: { $eq: newURL}}}).fetch().length > 0;
-
-        console.log(urlExists);
 
         if(newURL == "")
         {
@@ -218,10 +237,10 @@ export default class CampaignSetup extends React.Component{
         else{
             Meteor.call("campaignImage.addToSet", 
                 this.id,
-                this.refs.newImageURL.value,    
+                newURL,    
             );
         }
-        this.refs.newImageURL.value = "";
+        this.toggleImagePopup();
     }
 
     addToAdventureBoard(){
@@ -232,6 +251,22 @@ export default class CampaignSetup extends React.Component{
         Meteor.call('makeCampaignPrivate', this.id);
     }
 
+    loadNPC(cid, somehistory){
+        console.log("this hit");
+        if (!cid)
+        {
+            console.log("this hit2");
+            cid = Random.id();
+            Meteor.call('characters.insert', cid, this.campaign._id, 'npc');
+        }
+
+        if (!somehistory){
+            somehistory = this.props.history;
+        }
+
+        somehistory.push('/character/edit/' + cid);
+    }
+
     render() {
         if (this.campaign == null){
             return (<div></div>);
@@ -239,20 +274,7 @@ export default class CampaignSetup extends React.Component{
 
         return(
             <div className="page-wrapper">
-
-                <div className="add-image-popup" style={popupStyle}>
-                    <h2>Enter the Image URL</h2>
-                    <input type="text" className="full-width"/>
-                    <div className="col-sm-12">
-                        <div className="right-align">
-                            <button className=" submit-button button">Cancel</button>
-                            <button className="submit-button blue-button button">Add Image</button>
-                        </div>
-                    </div>
-                </div>
-
-
-
+            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-8">
@@ -285,8 +307,8 @@ export default class CampaignSetup extends React.Component{
                             <div className=" height-600 scrolling-container">
                                 {this.renderPlayers()}
 
-                                <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>   
-                                    <div className="objectCardMini add-container">
+                                <NavLink to='#' onClick={() => this.loadNPC()} className='nav-item nav-link'>   
+                                    <div className="objectCardMini add-container grow">
                                         <div className="objectCardMiniImage">
                                             <img src={'/images/addIcon.png'} className="stretch-image"/>
                                         </div>
@@ -341,8 +363,6 @@ export default class CampaignSetup extends React.Component{
                                        
                                     </div>
                                 </div>
-                                <input className="full-width" type="text" ref="newImageURL"/>
-                                <button onClick={this.addImageAsset.bind(this)}>show popup</button>
                             </div>
 
                             <div className="spacer col-sm-12"/>                      
@@ -379,9 +399,6 @@ export default class CampaignSetup extends React.Component{
                             <hr/>
                             <div className="scrolling-container">
                                 {this.renderPlayers()}
-                                <div>
-                                    <input type="text" ref="addplayer" className="fill-width" placeholder=""/>  
-                                </div>
                                 <div onClick={this.togglePlayerPopup.bind(this)} className='nav-item nav-link'> 
                                     <div className="objectCardMini add-container">
                                         <div className="objectCardMiniImage">
@@ -434,6 +451,7 @@ export default class CampaignSetup extends React.Component{
                             <ImagePopup
                                 text='Close Me'
                                 closePopup={this.toggleImagePopup.bind(this)}
+                                addImageAsset={this.addImageAsset.bind(this)}
                             />
                             : null
                             }
@@ -441,7 +459,9 @@ export default class CampaignSetup extends React.Component{
                             <PlayerPopup
                                 text='Close Me'
                                 closePopup={this.togglePlayerPopup.bind(this)}
-                                renderContacts={this.renderContacts.bind(this)}
+                                addPlayer={this.addPlayer.bind(this)}
+                                pendingInvites={this.pendingInvites}
+                                characters={this.characters}
                             />
                             : null
                             }

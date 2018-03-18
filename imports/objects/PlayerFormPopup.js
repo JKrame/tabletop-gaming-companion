@@ -54,12 +54,10 @@ export default class PlayerFormPopup extends React.Component {
         return false;
     }
 
-    addPlayer(userID){
-        if (!userID){
-            userID = this.refs.username.value;
-        }
-
-        this.props.addPlayer(userID);
+    addPlayer(){
+        var username = this.refs.username.value;
+        console.log(username);
+        this.props.addPlayer(username);
     }
 
     render() {

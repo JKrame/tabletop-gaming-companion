@@ -9,6 +9,26 @@ export default class CharacterForm extends React.Component{
     onSubmit(e){  
         e.preventDefault();
 
+        //gets saving throws
+        var savingThrowOptions = this.refs.savingThrows;
+        var savingThrowValue = [];
+        for (var i = 0, l = savingThrowOptions.length; i < l; i++) {
+            if (savingThrowOptions[i].selected) {
+                savingThrowValue.push(savingThrowOptions[i].value);
+            }
+        }
+        console.log(savingThrowValue)
+        
+        //gets skills
+        var skillOptions = this.refs.characterSkills;
+        var skillValue = [];
+        for (var i = 0, l = skillOptions.length; i < l; i++) {
+            if (skillOptions[i].selected) {
+                skillValue.push(skillOptions[i].value);
+            }
+        }
+        console.log(skillValue)
+
         character = this.props.character;
         
         attributes = [str=this.refs.str.value.trim(), dex=this.refs.dex.value.trim(), con=this.refs.con.value.trim(), int=this.refs.int.value.trim(), wis=this.refs.wis.value.trim(), cha=this.refs.cha.value.trim()];
@@ -69,12 +89,14 @@ export default class CharacterForm extends React.Component{
             },
             this.refs.proficiencies.value.trim(),
             attributes,
-            this.refs.savingThrows.value.trim(),
+            savingThrowValue,
             spellSlotsMax,
             spellSlotsCurr,
             statuses,
             money,
-            this.refs.characterImageURL.value.trim()
+            this.refs.characterImageURL.value.trim(),
+            false,
+            skillValue
         );
     }
 
@@ -259,7 +281,7 @@ export default class CharacterForm extends React.Component{
 
                             <div className="col-sm-6">
                                 <p className="p-override">SAVING THROWS (ctrl+click for multi-select)</p>
-                                <select className="full-width no-scrollbar" ref="savingThrows" /*defaultValue={character.savingThrows != null ? character.savingThrows : ""}*/ size={6} multiple>
+                                <select className="full-width no-scrollbar" ref="savingThrows" defaultValue={character.savingThrows != null ? character.savingThrows : ""} size={6} multiple>
                                     <option value="savingThrowStrength">Strength</option>
                                     <option value="savingThrowDexterity">Dexterity</option>
                                     <option value="savingThrowConstitution">Constitution</option>
@@ -270,7 +292,7 @@ export default class CharacterForm extends React.Component{
                             </div>
                             <div className="col-sm-6">
                                 <p className="p-override">SKILLS (ctrl+click for multi-select)</p>
-                                <select className="full-width no-scrollbar" ref="characterSkills" /*defaultValue={character.characterSkills != null ? character.characterSkills : ""}*/ size={18} multiple>
+                                <select className="full-width no-scrollbar" ref="characterSkills" defaultValue={character.skills != null ? character.skills : ""} size={18} multiple>
                                     <option value="skillAcrobatics">Acrobatics</option>
                                     <option value="skillAnimalHandling">Animal handling</option>
                                     <option value="skillArcana">Arcana</option>

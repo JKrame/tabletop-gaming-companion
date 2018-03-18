@@ -83,6 +83,11 @@ export default class CampaignScreen extends React.Component{
                 }
             }
 
+            const sub4 = Meteor.subscribe('userData');
+            if(sub4.ready()){
+                this.user = Meteor.users.findOne({_id : Meteor.userId()});
+            }
+
             this.forceUpdate();
         });
     }
@@ -363,7 +368,14 @@ export default class CampaignScreen extends React.Component{
         for(i=0;i<d;i++){
             result = result + this.randomDice(dice);
         }
-        ToastStore.warning(this.myCharacter.characterName + " rolled a " + result);
+        if(Meteor.userId() == this.campaign.gm){
+            console.log("gm rolled")
+            ToastStore.warning("The GM rolled a " + result);
+        }
+        else{
+            console.log("character rolled")
+            ToastStore.warning(this.myCharacter.characterName + " rolled a " + result);
+        }
         
         this.refs.d4roller.value=""
         this.refs.d6roller.value=""
