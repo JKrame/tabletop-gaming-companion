@@ -1,9 +1,9 @@
 import React from 'react'
 import UserCard from '../objects/UserCard';
-import CharacterCardMini from '../objects/CharacterCardMini';
+import NPCCard from '../objects/NPCcard';
 
 
-export default class PlayerFormPopup extends React.Component {
+export default class InitiativePopup extends React.Component {
     componentWillMount(){
         this.playerFormPopupTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('conversations');
@@ -83,7 +83,7 @@ export default class PlayerFormPopup extends React.Component {
                     <div className="col-xs-10"/>
                     <h2>NPCs</h2>
 
-                    <CharacterCardMini/>
+                    <NPCCard/>
                     <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
                     <button onClick={this.props.closePopup} className=" submit-button button">Start Combat</button>
 

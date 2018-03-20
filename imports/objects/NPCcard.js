@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-export default class CharacterCardMini extends React.Component{
+export default class NPCcard extends React.Component{
     callParent(){
         this.props.loadConversation(this.props.conversation);
     }

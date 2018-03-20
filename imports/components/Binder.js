@@ -180,9 +180,6 @@ export default class Binder extends React.Component{
                             </div>
                         </div>
 
-                        <div className="spacer col-sm-12"/>
-                        <div className="spacer col-sm-12"/>
-                        <div className="spacer col-sm-12"/>
 
                         <div className="col-lg-6">
                             <NavLink to="Campaigns">
