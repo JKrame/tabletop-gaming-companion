@@ -453,6 +453,7 @@ export default class CampaignScreen extends React.Component{
     }
 
     startCombat() {
+        this.toggleInitiativePopup();
         Meteor.call("campaigns.startCombat", this.campaign._id);
     }
 
