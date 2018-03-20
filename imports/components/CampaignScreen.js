@@ -16,6 +16,8 @@ import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
 import UserCard from '../objects/UserCard';
 
+var campaignID;
+
 export default class CampaignScreen extends React.Component{
     constructor() {
         super();
@@ -42,6 +44,7 @@ export default class CampaignScreen extends React.Component{
             if(sub.ready())
             {
                 var campaignID = id.toString();
+                this.campaignID = campaignID;
                 //this.characters = Characters.find({campaignID: campaignID}).fetch();
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
@@ -101,11 +104,12 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.NPCs.length; i++)
         {
-            cards.push(<NPCCard
-                key={i}
-                func={this.setBroadcastAssetNPC.bind(this)}
-                NPC={this.NPCs[i]}
-                somehistory={this.props.history}
+            cards.push(
+                <NPCCard
+                    key={i}
+                    func={this.setBroadcastAssetNPC.bind(this)}
+                    NPC={this.NPCs[i]}
+                    somehistory={this.props.history}
                 />
             );
         }
@@ -757,6 +761,7 @@ export default class CampaignScreen extends React.Component{
                         <InitiativePopup
                             text='Close Me'
                             closePopup={this.toggleInitiativePopup.bind(this)}
+                            campaignID={this.campaignID}
                         />
                         : null
                         }

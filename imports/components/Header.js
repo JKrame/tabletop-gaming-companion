@@ -7,6 +7,9 @@ import {Accounts} from 'meteor/accounts-base';
 
 // The Header creates links that can be used to navigate
 // between routes.
+
+var username;
+
 export default class Header extends React.Component{
 
     logOut(){
@@ -16,8 +19,20 @@ export default class Header extends React.Component{
         //this.forceUpdate();
     }
 
-    ComponentWillMount(){
+    componentWillMount(){
+        this.headerTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('userData');
+            if(sub.ready())
+            {
+                this.username = Meteor.users.findOne({_id : Meteor.userId()}).profile.username;
+            }
+   
+            this.forceUpdate();
+        });
+    }
 
+    componentWillUnmount(){
+        this.headerTracker.stop();
     }
 
     render(){
@@ -38,6 +53,7 @@ export default class Header extends React.Component{
 
                             <div className="collapse navbar-collapse pull-right" id="collapsibleNavbarContent" >
                                 <ul className="nav navbar-nav mr-auto">
+                                    <li >Welcome back {this.username}</li>
                                     <li ><NavLink to="/home">Home</NavLink></li>
                                     <li ><NavLink to="/adventureboard">Adventure Board</NavLink></li>
                                     <li ><NavLink to="/binder">Binder</NavLink></li>
