@@ -305,7 +305,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>NPCs</h3>
                             <hr/>
                             <div className=" height-600 scrolling-container">
-                                {this.renderPlayers()}
+                                {this.renderNPCs()}
 
                                 <NavLink to='#' onClick={() => this.loadNPC()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container grow">
