@@ -77,7 +77,7 @@ export default class PlayerFormPopup extends React.Component {
                 <div className="initiative-popup">
                     <div className="col-xs-2">
                         <h2>Qty</h2>
-                        <input type="text"/>
+                        <input type="text" className="npc-qty"/>
                     </div>
 
                     <div className="col-xs-10"/>
