@@ -115,13 +115,13 @@ export default class AdventureBoard extends React.Component{
                     </div>
                 </div>
                 {this.state.showInvitePopup ? 
-                <InvitePopup
-                    text='Close Me'
-                    closePopup={this.toggleInvitePopup.bind(this)}
-                    campaign={this.state.campaignID}
-                />
-                : null
-            }
+                    <InvitePopup
+                        text='Close Me'
+                        closePopup={this.toggleInvitePopup.bind(this)}
+                        campaign={this.state.campaignID}
+                    />
+                    : null
+                }
             </div>
     );
   }
