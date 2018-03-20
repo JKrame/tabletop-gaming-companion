@@ -358,7 +358,7 @@ export default class CampaignSetup extends React.Component{
                                 {this.renderImageAssets()}
 
                                 <div className='nav-item nav-link'>   
-                                    <div className="objectCardMini grid-item add-container">
+                                    <div className="imageMini grid-item add-container">
                                         <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="image-asset-img"/>
                                        
                                     </div>
