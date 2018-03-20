@@ -9,7 +9,7 @@ export default class UserSpeechBubble extends React.Component{
                         <p>{this.props.message}</p>
                     </div>
                     <div style={{"width":"20px","height":"20px", "float":"left","marginTop":"40px"}}>
-                        <img src={'/images/userSpeechBubble.png'}/>
+                        <img src={'/images/userSpeechBubble.png'} draggable="false"/>
                     </div>
             </div>
         );

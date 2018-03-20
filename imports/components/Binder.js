@@ -189,17 +189,6 @@ export default class Binder extends React.Component{
 
                             <div className="scrolling-container-80">
                                 {this.renderCampaignForm()}
-
-                                <div className="objectCardMini grow add-container" onClick={this.toggleInvitePopup.bind(this)}>
-                                        <div className="objectCardMiniImage">
-                                            <img src={'/images/pending.png'} className="stretch-image"/>
-                                        </div>
-                                        <div className="objectCardMiniInfo container-fluid">
-                                            <h4 className="no-margin-override">PENDING INVITE</h4>
-                                            <hr className="hr-override-light"/>
-                                            <p className="p-override">Click for Details...</p>
-                                        </div>
-                                    </div>
                                
                                 <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container grow">

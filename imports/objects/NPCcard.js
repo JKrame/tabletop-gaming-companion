@@ -13,9 +13,9 @@ export default class NPCcard extends React.Component{
 
     render() {
         return (
-            <div className="NPCCardMini highlight-container" onClick={this.props.func ? () => this.props.func(this.props.NPC) : this.nothing()}>
+            <div className="NPCCardMini highlight-container" onClick={this.props.func ? () => this.props.func(this.props.NPC) : this.nothing()} draggable="false">
                 <div className="NPCCardMiniImage">
-                    <img src={this.props.NPC.characterImageURL!=null && this.props.NPC.characterImageURL!="" ? this.props.NPC.characterImageURL : '/images/photoMissing.png'} className="stretch-image"/>
+                    <img src={this.props.NPC.characterImageURL!=null && this.props.NPC.characterImageURL!="" ? this.props.NPC.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                 </div>
                 <div className="objectCardMiniInfo container-fluid  col-xs-10">
                     <h5 className="no-margin-override h5-overflow-hidden">{this.props.NPC.characterName}</h5>
