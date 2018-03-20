@@ -33,7 +33,7 @@ export default class CampaignScreen extends React.Component{
     componentWillMount(){
         console.log("props");
         console.log(this.props);
-        var id = this.props.match.params._id
+        var id = this.props.match.params._id;
         var UID = Meteor.userId();
 
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
@@ -452,6 +452,7 @@ export default class CampaignScreen extends React.Component{
     }
 
     startCombat() {
+        this.toggleInitiativePopup();
         Meteor.call("campaigns.startCombat", this.campaign._id);
     }
 
