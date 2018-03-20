@@ -17,7 +17,6 @@ export default class CharacterForm extends React.Component{
                 savingThrowValue.push(savingThrowOptions[i].value);
             }
         }
-        console.log(savingThrowValue)
         
         //gets skills
         var skillOptions = this.refs.characterSkills;
@@ -27,13 +26,13 @@ export default class CharacterForm extends React.Component{
                 skillValue.push(skillOptions[i].value);
             }
         }
-        console.log(skillValue)
+        //console.log(skillValue)
 
         character = this.props.character;
         
         attributes = [str=this.refs.str.value.trim(), dex=this.refs.dex.value.trim(), con=this.refs.con.value.trim(), int=this.refs.int.value.trim(), wis=this.refs.wis.value.trim(), cha=this.refs.cha.value.trim()];
-        spellSlotsMax = null;
-        spellSlotsCurr = null;
+        spellSlotsMax = [this.refs.lvl1Spell.value, this.refs.lvl2Spell.value, this.refs.lvl3Spell.value, this.refs.lvl4Spell.value, this.refs.lvl5Spell.value, this.refs.lvl6Spell.value, this.refs.lvl7Spell.value, this.refs.lvl8Spell.value, this.refs.lvl9Spell.value];
+        spellSlotsCurr = spellSlotsMax;
         statuses = null;
         money = [cp=null, sp=null, ep=null, gp=null];
         //inventory subdocuments
@@ -319,9 +318,25 @@ export default class CharacterForm extends React.Component{
 
                                         <div className="spacer col-sm-12"/>
                                         <div className="hr full-width col-sm-12"/>
-
                             <div className="col-sm-12">
-                                <h4>ATTACK & SPELLCASTING</h4>
+                                <h4>SPELLCASTING</h4>
+                                <div className="col-sm-2">
+                                    <input className="full-width" type="text" ref="lvl1Spell" defaultValue={character.spellSlotsMax[0] != null ? character.spellSlotsMax[0] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl2Spell" defaultValue={character.spellSlotsMax[1] != null ? character.spellSlotsMax[1] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl3Spell" defaultValue={character.spellSlotsMax[2] != null ? character.spellSlotsMax[2] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl4Spell" defaultValue={character.spellSlotsMax[3] != null ? character.spellSlotsMax[3] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl5Spell" defaultValue={character.spellSlotsMax[4] != null ? character.spellSlotsMax[4] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl6Spell" defaultValue={character.spellSlotsMax[5] != null ? character.spellSlotsMax[5] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl7Spell" defaultValue={character.spellSlotsMax[6] != null ? character.spellSlotsMax[6] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl8Spell" defaultValue={character.spellSlotsMax[7] != null ? character.spellSlotsMax[7] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl9Spell" defaultValue={character.spellSlotsMax[8] != null ? character.spellSlotsMax[8] : ""} placeholder=""/>
+                                </div>
+                            </div>
+
+                            <div className="spacer col-sm-12"/>
+                                        <div className="hr full-width col-sm-12"/>
+                            <div className="col-sm-12">
+                                <h4>ATTACK</h4>
                             </div>
                             <div className="col-sm-5">
                                 <p className="p-override">NAME</p>
