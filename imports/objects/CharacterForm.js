@@ -186,7 +186,7 @@ export default class CharacterForm extends React.Component{
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">TEMP HP</p>
-                                <input className="full-width" type="text" ref="currHP" defaultValue={character.currHP != null ? character.currHP : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="tempHP" defaultValue={character.tempHP != null ? character.tempHP : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -198,6 +198,10 @@ export default class CharacterForm extends React.Component{
                             <div className="col-sm-4">
                                 <p className="p-override">SPEED</p>
                                 <input className="full-width" type="text" ref="speed" defaultValue={character.speed != null ? character.speed : ""} placeholder=""/>
+                            </div>
+                            <div className="col-sm-4">
+                                <p className="p-override">Curr HP</p>
+                                <input className="full-width" type="text" ref="currHP" defaultValue={character.currHP != null ? character.currHP : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>

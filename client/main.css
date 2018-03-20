@@ -146,7 +146,7 @@ body{
   }
 
   .page-wrapper{
-      margin-top:20px;
+      margin-top:0px;
   }
 
   .page-content{
@@ -316,6 +316,18 @@ body{
 .NPCCardMini:hover{
     transition:.5s;
     background-color:rgba(255, 64, 76, .415);
+}
+
+.imageMini{
+    float:left;
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    overflow: hidden;
+    border: solid 2px #606060;
+    border-radius: 10px 10px 10px 10px;
+    width:130px;
+    height:130px;
 }
 
 .objectCardMini{
@@ -801,7 +813,8 @@ center{
 
 .spell-slots{
     margin-bottom:10%;
-    display:inline-block;
+    display: -webkit-flex;
+    display: flex;
     margin:0 auto;
 }
 

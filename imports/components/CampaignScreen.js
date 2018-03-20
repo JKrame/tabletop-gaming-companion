@@ -371,7 +371,7 @@ export default class CampaignScreen extends React.Component{
         }
         if(Meteor.userId() == this.campaign.gm){
             console.log("gm rolled")
-            ToastStore.warning("The GM rolled a " + result);
+            ToastStore.warning("You rolled a " + result);
         }
         else{
             console.log("character rolled")
@@ -745,7 +745,7 @@ export default class CampaignScreen extends React.Component{
                             </div>
 
                             <div className="sub-content-bottom col-lg-3 col-xs-12 content-container-right  no-padding">
-                                <div className=" inner-content-container scrolling-container">
+                                <div className=" inner-content-container scrolling-container col-xs-12" >
                                     
                                     {this.renderPanel()}
 

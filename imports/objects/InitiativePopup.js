@@ -1,5 +1,6 @@
 import React from 'react'
 import UserCard from '../objects/UserCard';
+import CharacterCardMini from '../objects/CharacterCardMini';
 
 
 export default class PlayerFormPopup extends React.Component {
@@ -74,9 +75,15 @@ export default class PlayerFormPopup extends React.Component {
         return (
             <div className='popup'>
                 <div className="initiative-popup">
-                    <h2>Players</h2>
+                    <div className="col-xs-2">
+                        <h2>Qty</h2>
+                        <input type="text"/>
+                    </div>
+
+                    <div className="col-xs-10"/>
                     <h2>NPCs</h2>
 
+                    <CharacterCardMini/>
                     <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
                     <button onClick={this.props.closePopup} className=" submit-button button">Start Combat</button>
 
