@@ -9,7 +9,7 @@ export default class PendingCampaignCard extends React.Component {
             <NavLink to="#" >
                 <div className="objectCardMini grow add-container">
                     <div className="objectCardMiniImage ">
-                        <img src={this.props.campaignImageURL!=null && this.props.campaignImageURL!="" ? this.props.campaignImageURL : '/images/photoMissing.png'} className="stretch-image"/>
+                        <img src={this.props.campaignImageURL!=null && this.props.campaignImageURL!="" ? this.props.campaignImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className="objectCardMiniInfo container-fluid">
                         <h4 className="no-margin-override">{this.props.campaignName} - PENDING INVITE</h4>

@@ -12,7 +12,7 @@ var users;
 export default class Mail extends React.Component{
     constructor(props){
         super(props);
-        this.state = { conversation: null, contactUsername: null } ;
+        this.state = { conversation: null, contactUsername: null, conversationList: null } ;
     }
 
     componentWillMount(){
@@ -21,7 +21,9 @@ export default class Mail extends React.Component{
             if(sub.ready())
             {
                 id = Meteor.userId();
+                console.log(id);
                 this.conversations = Conversations.find().fetch();
+                this.setState({conversationList: this.conversations});
                 if (this.state.conversation != null){
                     for(i = 0; i < this.conversations.length; i++){
                         if (this.conversations[i]._id == this.state.conversation._id){
@@ -60,6 +62,7 @@ export default class Mail extends React.Component{
         var username = this.refs.friendSearchInput.value;
         var image;
         var found = false;
+        var contact;
 
         for(var i = 0; i < this.users.length; i++)
         {
@@ -71,7 +74,7 @@ export default class Mail extends React.Component{
                 break;
             }
         }
-
+        
         if(!found)
         {
             alert(username + " does not exist.");
@@ -82,18 +85,28 @@ export default class Mail extends React.Component{
         }
         else
         {
-            alreadyFriends = false;
-            for (i = 0; i < this.conversations.length; i++){
-                if (contact._id == this.conversations[i].particpants[0].id || contact._id == this.conversations[i].participants[1].id){
-                    alreadyFriends = true;
+            
+            for(i = 0; i < this.conversations.length; i++)
+            {
+                console.log(this.conversations[i]);
+                console.log(this.conversations[i].participants[0].id)
+                console.log(this.conversations[i].participants[1].id)
+                if(contact._id == this.conversations[i].participants[0].id)
+                {
+                    return;
+                }
+                else if(contact._id == this.conversations[i].participants[1].id)
+                {
+                    return;
                 }
             }
-
-            if (!alreadyFriends){
-                Meteor.call('conversations.insert', this.user, contact);
-                this.searchPlayerUsername = username;
-                this.searchPlayerURL = image
-            }
+            
+            Meteor.call('conversations.insert', this.user, contact);
+            
+            console.log(contact);
+            this.searchPlayerUsername = username;
+            this.searchPlayer = contact;
+            this.searchPlayerURL = image;
         }
     }
 
@@ -106,7 +119,7 @@ export default class Mail extends React.Component{
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                cards.push(<UserCard 
+                cards.push(<UserCard
                     key={i} 
                     username={partner.name} 
                     accountPicture={partner.accountPicture} 
@@ -152,7 +165,7 @@ export default class Mail extends React.Component{
                             <p>Find Friends</p>
                             <input type="text" ref="friendSearchInput" className="full-width"/>
                             <button onClick={() => this.findPlayer()} className="full-width blue-button" >Find</button>
-                            <UserCardMicro userImageURL={this.searchPlayerURL} username={this.searchPlayerUsername}/>
+                            <UserCardMicro userImageURL={this.searchPlayerURL} username={this.searchPlayerUsername} contact={this.searchPlayer} user={this.user}/>
                         </div>
                         <div className="spacer col-sm-12"/>                      
                         <div className="spacer col-sm-12"/>

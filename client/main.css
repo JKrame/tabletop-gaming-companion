@@ -330,6 +330,20 @@ body{
     height:130px;
 }
 
+.npcCard{
+    text-decoration: none;
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    margin-left:30px;
+    margin-right:30px;
+    max-height:75px;
+    padding:5px;
+    border: solid 2px #d5d5d5;
+    overflow:hidden;
+    border-radius: 10px 10px 10px 10px;
+}
+
 .objectCardMini{
     text-decoration: none;
     display: -webkit-flex;
@@ -514,6 +528,7 @@ body{
 
 .stretch-image{
     height:100%;
+    width:100%;
 }
 
 .image-card{
@@ -1038,6 +1053,10 @@ a.menu_links{
     bottom: 25%;
     margin: auto;
     background: white;
+  }
+
+  .npc-qty{
+
   }
 
   .no-padding{

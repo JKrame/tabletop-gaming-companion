@@ -116,9 +116,11 @@ export default class CampaignSetup extends React.Component{
         if (this.characters){
             for (var i = 0; i < this.characters.length; i++)
             {
+                var user = Meteor.users.findOne({_id: this.characters[i].UID}).profile.username;
                 cards.push(<CharacterCardMiniWithOwner
                     key={i}
                     character={this.characters[i]}
+                    username={this.user}
                     />
                 );
             }

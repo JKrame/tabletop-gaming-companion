@@ -90,7 +90,7 @@ export default class SettingsForm extends React.Component{
         return(
             <div>   
                         <div className="col-sm-4 split-page-left container">
-                            <img  src={user.profile.accountPicture != null && user.profile.accountPicture != "" ? user.profile.accountPicture : '/images/photoMissing.png'} className="full-width" />
+                            <img  src={user.profile.accountPicture != null && user.profile.accountPicture != "" ? user.profile.accountPicture : '/images/photoMissing.png'} className="full-width"  draggable="false"/>
                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
