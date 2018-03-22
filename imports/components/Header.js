@@ -9,6 +9,7 @@ import {Accounts} from 'meteor/accounts-base';
 // between routes.
 
 var username;
+var url;
 
 export default class Header extends React.Component{
 
@@ -25,9 +26,13 @@ export default class Header extends React.Component{
             if(sub.ready())
             {
                 this.username = Meteor.users.findOne({_id : Meteor.userId()}).profile.username;
+                this.url = Meteor.users.findOne({_id : Meteor.userId()}).profile.accountPicture;
+                console.log(this.username);
+                console.log(this.url);
+                
+                this.forceUpdate();
             }
-   
-            this.forceUpdate();
+
         });
     }
 
@@ -53,12 +58,11 @@ export default class Header extends React.Component{
 
                             <div className="collapse navbar-collapse pull-right" id="collapsibleNavbarContent" >
                                 <ul className="nav navbar-nav mr-auto">
-                                    <li >Welcome back {this.username}</li>
                                     <li ><NavLink to="/home">Home</NavLink></li>
                                     <li ><NavLink to="/adventureboard">Adventure Board</NavLink></li>
                                     <li ><NavLink to="/binder">Binder</NavLink></li>
                                     <li ><NavLink to="/mail">Mail</NavLink></li>
-                                    <li ><NavLink to="/settings">Settings</NavLink></li>
+                                    <li ><NavLink to="/settings"><div><img src={this.url != null && this.url != "" ? this.url : '/images/photoMissing.png'} style={{"maxWidth":"50px","maxHeight":"20px", "padding":"0px"}}/>    <strong>{this.username}</strong></div></NavLink></li>
                                     <li ><NavLink to="/signin" onClick={this.logOut}>Log Out</NavLink></li>
                                 </ul>
                             </div>
