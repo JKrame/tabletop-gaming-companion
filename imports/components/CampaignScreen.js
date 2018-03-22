@@ -761,6 +761,7 @@ export default class CampaignScreen extends React.Component{
                         <InitiativePopup
                             text='Close Me'
                             closePopup={this.toggleInitiativePopup.bind(this)}
+                            endCombat={this.endCombat.bind(this)}
                             campaignID={this.campaignID}
                         />
                         : null

@@ -7,6 +7,12 @@ import NPCCard from '../objects/NPCcard';
 var NPCs;
 
 export default class InitiativePopup extends React.Component {
+
+    constructor(props, context){
+        super(props, context);
+        this.endCombat = this.endCombat.bind(this);
+    }
+
     componentWillMount(){
         this.playerFormPopupTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('conversations');
@@ -103,6 +109,7 @@ export default class InitiativePopup extends React.Component {
                 <input type="text" ref="" className="npc-qty"/>
             );
         }
+        return <div>{boxes}</div>;
     }
 
     addPlayer(userID){
@@ -112,20 +119,26 @@ export default class InitiativePopup extends React.Component {
         this.props.addPlayer(userID);
     }
 
+    endCombat()
+    {
+        this.props.endCombat();
+        this.props.closePopup();
+    }
+
     render() {
         return (
             <div className='popup'>
                 <div className="initiative-popup">
                     <div className="col-xs-2">
                         <h2>Qty</h2>
-                        <input type="text" className="npc-qty"/>
+                        {this.renderQtyBoxes()}
                     </div>
 
                     <div className="col-xs-10"/>
                     <h2>NPCs</h2>
 
                     {this.renderNPCs()}
-                    <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
+                    <button onClick={this.endCombat} className=" submit-button button">Cancel</button>
                     <button onClick={this.props.closePopup} className=" submit-button button">Start Combat</button>
 
                 </div>
