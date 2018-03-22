@@ -57,7 +57,7 @@ export default class AdventureBoard extends React.Component{
         if (campaign.gm == Meteor.userId()){
             return false;
         }
-
+        
         for(var i=0;i<campaign.characters.length;i++){
             for(var j=0;j<character.length;j++){
                 if (campaign.characters[i]._id==character[j]._id){
