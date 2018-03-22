@@ -117,10 +117,11 @@ export default class CampaignSetup extends React.Component{
             for (var i = 0; i < this.characters.length; i++)
             {
                 var user = Meteor.users.findOne({_id: this.characters[i].UID}).profile.username;
-                cards.push(<CharacterCardMiniWithOwner
-                    key={i}
-                    character={this.characters[i]}
-                    username={this.user}
+                cards.push(
+                    <CharacterCardMiniWithOwner
+                        key={i}
+                        character={this.characters[i]}
+                        username={user}
                     />
                 );
             }
@@ -139,11 +140,12 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard
-                key={i}
-                noteTitle={this.campaign.notes[i][0]}
-                noteDescription={this.campaign.notes[i][1]}
-                id={this.campaign._id}
+            cards.push(
+                <TextAssetcard
+                    key={i}
+                    noteTitle={this.campaign.notes[i][0]}
+                    noteDescription={this.campaign.notes[i][1]}
+                    id={this.campaign._id}
                 />
             );
         }
