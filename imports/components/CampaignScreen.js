@@ -16,6 +16,8 @@ import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
 import UserCard from '../objects/UserCard';
 
+var campaignID;
+
 export default class CampaignScreen extends React.Component{
     constructor() {
         super();
@@ -33,14 +35,16 @@ export default class CampaignScreen extends React.Component{
     componentWillMount(){
         console.log("props");
         console.log(this.props);
-        var id = this.props.match.params._id
-        var UID = Meteor.userId();
 
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
+            var id = this.props.match.params._id;
+            var UID = Meteor.userId();
+
             const sub = Meteor.subscribe('characters');
             if(sub.ready())
             {
                 var campaignID = id.toString();
+                this.campaignID = campaignID;
                 //this.characters = Characters.find({campaignID: campaignID}).fetch();
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
@@ -83,6 +87,11 @@ export default class CampaignScreen extends React.Component{
                 }
             }
 
+            const sub4 = Meteor.subscribe('userData');
+            if(sub4.ready()){
+                this.user = Meteor.users.findOne({_id : Meteor.userId()});
+            }
+
             this.forceUpdate();
         });
     }
@@ -95,11 +104,12 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.NPCs.length; i++)
         {
-            cards.push(<NPCCard
-                key={i}
-                func={this.setBroadcastAssetNPC.bind(this)}
-                NPC={this.NPCs[i]}
-                somehistory={this.props.history}
+            cards.push(
+                <NPCCard
+                    key={i}
+                    func={this.setBroadcastAssetNPC.bind(this)}
+                    NPC={this.NPCs[i]}
+                    somehistory={this.props.history}
                 />
             );
         }
@@ -173,7 +183,7 @@ export default class CampaignScreen extends React.Component{
             return (
                 <div className="broadcast-asset">
                     <div>
-                        <NavLink to={this.campaign.currentBroadcastItem} target="_blank" ><img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="broadcast-item" /></NavLink>
+                        <NavLink to={this.campaign.currentBroadcastItem} target="_blank" ><img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="broadcast-item" draggable="false" /></NavLink>
                     </div>
                 </div>
             );
@@ -183,7 +193,7 @@ export default class CampaignScreen extends React.Component{
         {
             return (
                 <div className="broadcast-asset">
-                    <NavLink to={this.campaign.currentBroadcastItem.characterImageURL} target="_blank" ><img src={this.campaign.currentBroadcastItem.characterImageURL} className="broadcast-item" /></NavLink>
+                    <NavLink to={this.campaign.currentBroadcastItem.characterImageURL} target="_blank" ><img src={this.campaign.currentBroadcastItem.characterImageURL} className="broadcast-item"  draggable="false" /></NavLink>
                 </div>
             );
         }
@@ -363,7 +373,14 @@ export default class CampaignScreen extends React.Component{
         for(i=0;i<d;i++){
             result = result + this.randomDice(dice);
         }
-        ToastStore.warning(this.myCharacter.characterName + " rolled a " + result);
+        if(Meteor.userId() == this.campaign.gm){
+            console.log("gm rolled")
+            ToastStore.warning("You rolled a " + result);
+        }
+        else{
+            console.log("character rolled")
+            ToastStore.warning(this.myCharacter.characterName + " rolled a " + result);
+        }
         
         this.refs.d4roller.value=""
         this.refs.d6roller.value=""
@@ -440,6 +457,7 @@ export default class CampaignScreen extends React.Component{
     }
 
     startCombat() {
+        this.toggleInitiativePopup();
         Meteor.call("campaigns.startCombat", this.campaign._id);
     }
 
@@ -660,31 +678,31 @@ export default class CampaignScreen extends React.Component{
                                             <div className="spacer col-sm-12"/>
 
                                             <div className="dice-panel">
-                                                <img src={'/images/d4.png'} className="dice-img"/>
+                                                <img src={'/images/d4.png'} className="dice-img" draggable="false"/>
                                                 <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d6.png'} className="dice-img"/>
+                                                <img src={'/images/d6.png'} className="dice-img" draggable="false"/>
                                                 <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d8.png'} className="dice-img"/>
+                                                <img src={'/images/d8.png'} className="dice-img" draggable="false"/>
                                                 <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d10.png'} className="dice-img"/>
+                                                <img src={'/images/d10.png'} className="dice-img" draggable="false"/>
                                                 <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d12.png'} className="dice-img"/>
+                                                <img src={'/images/d12.png'} className="dice-img" draggable="false"/>
                                                 <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d20.png'} className="dice-img"/>
+                                                <img src={'/images/d20.png'} className="dice-img" draggable="false"/>
                                                 <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
                                             </div>
                                             <div className="dice-panel">
-                                                <img src={'/images/d100.png'} className="dice-img"/>
+                                                <img src={'/images/d100.png'} className="dice-img" draggable="false"/>
                                                 <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
                                             </div>
                                         </div>
@@ -731,7 +749,7 @@ export default class CampaignScreen extends React.Component{
                             </div>
 
                             <div className="sub-content-bottom col-lg-3 col-xs-12 content-container-right  no-padding">
-                                <div className=" inner-content-container scrolling-container">
+                                <div className=" inner-content-container scrolling-container col-xs-12" >
                                     
                                     {this.renderPanel()}
 
@@ -743,6 +761,7 @@ export default class CampaignScreen extends React.Component{
                         <InitiativePopup
                             text='Close Me'
                             closePopup={this.toggleInitiativePopup.bind(this)}
+                            campaignID={this.campaignID}
                         />
                         : null
                         }

@@ -9,11 +9,30 @@ export default class CharacterForm extends React.Component{
     onSubmit(e){  
         e.preventDefault();
 
+        //gets saving throws
+        var savingThrowOptions = this.refs.savingThrows;
+        var savingThrowValue = [];
+        for (var i = 0, l = savingThrowOptions.length; i < l; i++) {
+            if (savingThrowOptions[i].selected) {
+                savingThrowValue.push(savingThrowOptions[i].value);
+            }
+        }
+        
+        //gets skills
+        var skillOptions = this.refs.characterSkills;
+        var skillValue = [];
+        for (var i = 0, l = skillOptions.length; i < l; i++) {
+            if (skillOptions[i].selected) {
+                skillValue.push(skillOptions[i].value);
+            }
+        }
+        //console.log(skillValue)
+
         character = this.props.character;
         
         attributes = [str=this.refs.str.value.trim(), dex=this.refs.dex.value.trim(), con=this.refs.con.value.trim(), int=this.refs.int.value.trim(), wis=this.refs.wis.value.trim(), cha=this.refs.cha.value.trim()];
-        spellSlotsMax = null;
-        spellSlotsCurr = null;
+        spellSlotsMax = [this.refs.lvl1Spell.value, this.refs.lvl2Spell.value, this.refs.lvl3Spell.value, this.refs.lvl4Spell.value, this.refs.lvl5Spell.value, this.refs.lvl6Spell.value, this.refs.lvl7Spell.value, this.refs.lvl8Spell.value, this.refs.lvl9Spell.value];
+        spellSlotsCurr = spellSlotsMax;
         statuses = null;
         money = [cp=null, sp=null, ep=null, gp=null];
         //inventory subdocuments
@@ -69,12 +88,14 @@ export default class CharacterForm extends React.Component{
             },
             this.refs.proficiencies.value.trim(),
             attributes,
-            this.refs.savingThrows.value.trim(),
+            savingThrowValue,
             spellSlotsMax,
             spellSlotsCurr,
             statuses,
             money,
-            this.refs.characterImageURL.value.trim()
+            this.refs.characterImageURL.value.trim(),
+            false,
+            skillValue
         );
     }
 
@@ -95,7 +116,7 @@ export default class CharacterForm extends React.Component{
         return(
             <div className="col-xs-12">
                 <div className="col-sm-4 split-page-left container">
-                    <img src={character.characterImageURL != null && character.characterImageURL != "" ? character.characterImageURL : '/images/photoMissing.png'} className="full-width"/>
+                    <img src={character.characterImageURL != null && character.characterImageURL != "" ? character.characterImageURL : '/images/photoMissing.png'} className="full-width" draggable="false"/>
                     <div className="spacer col-sm-12"/>
 
                         <div className="col-sm-12">
@@ -165,7 +186,7 @@ export default class CharacterForm extends React.Component{
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">TEMP HP</p>
-                                <input className="full-width" type="text" ref="currHP" defaultValue={character.currHP != null ? character.currHP : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="tempHP" defaultValue={character.tempHP != null ? character.tempHP : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -177,6 +198,10 @@ export default class CharacterForm extends React.Component{
                             <div className="col-sm-4">
                                 <p className="p-override">SPEED</p>
                                 <input className="full-width" type="text" ref="speed" defaultValue={character.speed != null ? character.speed : ""} placeholder=""/>
+                            </div>
+                            <div className="col-sm-4">
+                                <p className="p-override">Curr HP</p>
+                                <input className="full-width" type="text" ref="currHP" defaultValue={character.currHP != null ? character.currHP : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -259,7 +284,7 @@ export default class CharacterForm extends React.Component{
 
                             <div className="col-sm-6">
                                 <p className="p-override">SAVING THROWS (ctrl+click for multi-select)</p>
-                                <select className="full-width no-scrollbar" ref="savingThrows" /*defaultValue={character.savingThrows != null ? character.savingThrows : ""}*/ size={6} multiple>
+                                <select className="full-width no-scrollbar" ref="savingThrows" defaultValue={character.savingThrows != null ? character.savingThrows : ""} size={6} multiple>
                                     <option value="savingThrowStrength">Strength</option>
                                     <option value="savingThrowDexterity">Dexterity</option>
                                     <option value="savingThrowConstitution">Constitution</option>
@@ -270,7 +295,7 @@ export default class CharacterForm extends React.Component{
                             </div>
                             <div className="col-sm-6">
                                 <p className="p-override">SKILLS (ctrl+click for multi-select)</p>
-                                <select className="full-width no-scrollbar" ref="characterSkills" /*defaultValue={character.characterSkills != null ? character.characterSkills : ""}*/ size={18} multiple>
+                                <select className="full-width no-scrollbar" ref="characterSkills" defaultValue={character.skills != null ? character.skills : ""} size={18} multiple>
                                     <option value="skillAcrobatics">Acrobatics</option>
                                     <option value="skillAnimalHandling">Animal handling</option>
                                     <option value="skillArcana">Arcana</option>
@@ -293,9 +318,25 @@ export default class CharacterForm extends React.Component{
 
                                         <div className="spacer col-sm-12"/>
                                         <div className="hr full-width col-sm-12"/>
-
                             <div className="col-sm-12">
-                                <h4>ATTACK & SPELLCASTING</h4>
+                                <h4>SPELLCASTING</h4>
+                                <div className="col-sm-2">
+                                    <input className="full-width" type="text" ref="lvl1Spell" defaultValue={character.spellSlotsMax[0] != null ? character.spellSlotsMax[0] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl2Spell" defaultValue={character.spellSlotsMax[1] != null ? character.spellSlotsMax[1] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl3Spell" defaultValue={character.spellSlotsMax[2] != null ? character.spellSlotsMax[2] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl4Spell" defaultValue={character.spellSlotsMax[3] != null ? character.spellSlotsMax[3] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl5Spell" defaultValue={character.spellSlotsMax[4] != null ? character.spellSlotsMax[4] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl6Spell" defaultValue={character.spellSlotsMax[5] != null ? character.spellSlotsMax[5] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl7Spell" defaultValue={character.spellSlotsMax[6] != null ? character.spellSlotsMax[6] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl8Spell" defaultValue={character.spellSlotsMax[7] != null ? character.spellSlotsMax[7] : ""} placeholder=""/>
+                                    <input className="full-width" type="text" ref="lvl9Spell" defaultValue={character.spellSlotsMax[8] != null ? character.spellSlotsMax[8] : ""} placeholder=""/>
+                                </div>
+                            </div>
+
+                            <div className="spacer col-sm-12"/>
+                                        <div className="hr full-width col-sm-12"/>
+                            <div className="col-sm-12">
+                                <h4>ATTACK</h4>
                             </div>
                             <div className="col-sm-5">
                                 <p className="p-override">NAME</p>

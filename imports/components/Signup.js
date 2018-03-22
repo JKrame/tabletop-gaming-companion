@@ -32,7 +32,8 @@ export default class Signup extends React.Component{
                     accountPicture: null,
                     location: null,
                     schedule: [false, false, false, false, false, false, false],
-                    friends:[]
+                    friends:[],
+                    pendingInvites:[]
                 }
 
             }, 
