@@ -76,36 +76,36 @@ export default class StaticCharacterSheet extends React.Component {
                         <div className="col-sm-8 split-page-right left-border container">
                             <div className="scrolling-container-smaller">
                                 <div className="col-sm-12">
-                                    <p className="p-override">NAME: {character.characterName != null ? character.characterName : ""} </p>
+                                    <p className="p-override">NAME: <span className="chardata">{character.characterName != null ? character.characterName : ""}</span></p>
                                 </div>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
                                     <p className="p-override">BACKSTORY:</p>
-                                    <p className="full-width"  >{character.characterName != null ? character.characterName : undefined}</p>
+                                    <p className="full-width"  ><span className="chardata">{character.characterName != null ? character.characterName : undefined}</span></p>
                                 </div>
     
                                     <div className="spacer col-sm-12"/>
                                     <div className="hr full-width col-sm-12"/>
     
                                 <div className="col-sm-4">
-                                    <p className="p-override">LEVEL: {character.level != null ? character.level : ""}</p>
+                                    <p className="p-override">LEVEL:<span className="chardata"> {character.level != null ? character.level : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">CLASS: {character.characterClass != null ? character.characterClass : ""}</p>
+                                    <p className="p-override">CLASS:<span className="chardata"> {character.characterClass != null ? character.characterClass : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">RACE: {character.race != null ? character.race : ""}</p>
+                                    <p className="p-override">RACE:<span className="chardata"> {character.race != null ? character.race : ""}</span></p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-6">
-                                    <p className="p-override">ALIGNMENT: {character.alignment != null ? character.alignment : ""} </p>
+                                    <p className="p-override">ALIGNMENT: <span className="chardata">{character.alignment != null ? character.alignment : ""}</span> </p>
                                 </div>
                                 <div className="col-sm-6">
-                                    <p className="p-override">BACKGROUND: {character.background != null ? character.background : ""}</p>
+                                    <p className="p-override">BACKGROUND:<span className="chardata"> {character.background != null ? character.background : ""}</span></p>
                                 </div>
     
                                         <div className="spacer col-sm-12"/>
@@ -113,25 +113,25 @@ export default class StaticCharacterSheet extends React.Component {
                                         <div className="hr full-width col-sm-12"/>
     
                                 <div className="col-sm-4">
-                                    <p className="p-override">AC: {character.AC != null ? character.AC : ""}</p>
+                                    <p className="p-override">AC: <span className="chardata">{character.AC != null ? character.AC : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">MAX HP: {character.maxHP != null ? character.maxHP : ""}</p>
+                                    <p className="p-override">MAX HP: <span className="chardata">{character.maxHP != null ? character.maxHP : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">TEMP HP: {character.tempHP != null ? character.tempHP : ""}</p>
+                                    <p className="p-override">TEMP HP:<span className="chardata"> {character.tempHP != null ? character.tempHP : ""}</span></p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-4">
-                                    <p className="p-override">INITIATIVE: {character.characterInitiative != null ? character.characterInitiative : ""} </p>
+                                    <p className="p-override">INITIATIVE: <span className="chardata">{character.characterInitiative != null ? character.characterInitiative : ""} </span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">SPEED: {character.speed != null ? character.speed : ""}</p>
+                                    <p className="p-override">SPEED: <span className="chardata">{character.speed != null ? character.speed : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">Curr HP: {character.currHP != null ? character.currHP : ""}</p>
+                                    <p className="p-override">Curr HP: <span className="chardata">{character.currHP != null ? character.currHP : ""}</span></p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
@@ -139,22 +139,22 @@ export default class StaticCharacterSheet extends React.Component {
     
                                             
                                 <div className="col-sm-4">
-                                    <p className="p-override">HIT DICE: {character.hitDie != null ? character.hitDie : ""}</p>
+                                    <p className="p-override">HIT DICE: <span className="chardata">{character.hitDie != null ? character.hitDie : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">TOTAL HIT DICE: {character.maxHitDie != null ? character.maxHitDie : ""}</p>
+                                    <p className="p-override">TOTAL HIT DICE:<span className="chardata"> {character.maxHitDie != null ? character.maxHitDie : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">TEMP HIT DICE: {character.currHitDie != null ? character.currHitDie : ""}</p>
+                                    <p className="p-override">TEMP HIT DICE: <span className="chardata">{character.currHitDie != null ? character.currHitDie : ""}</span></p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-4">
-                                    <p className="p-override">DEATH SAVE SUCCESSES: {character.characterDeathSaveSuccesses != null ? character.characterDeathSaveSuccesses : ""}</p>
+                                    <p className="p-override">DEATH SAVE SUCCESSES:<span className="chardata"> {character.characterDeathSaveSuccesses != null ? character.characterDeathSaveSuccesses : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">DEATH SAVE FAILURES: {character.characterDeathSaveFailures != null ? character.characterDeathSaveFailures : ""}</p>
+                                    <p className="p-override">DEATH SAVE FAILURES:<span className="chardata"> {character.characterDeathSaveFailures != null ? character.characterDeathSaveFailures : ""}</span></p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
@@ -163,92 +163,88 @@ export default class StaticCharacterSheet extends React.Component {
     
                                                                         
                                 <div className="col-sm-4 col-xs-4">
-                                    <p className="p-override">STRENGTH: {character.attributes != null ? character.attributes[0] : ""}</p>
+                                    <p className="p-override">STRENGTH: <span className="chardata">{character.attributes != null ? character.attributes[0] : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4 col-xs-4">
-                                    <p className="p-override">DEXTERITY: {character.attributes != null ? character.attributes[1] : ""}</p>
+                                    <p className="p-override">DEXTERITY: <span className="chardata">{character.attributes != null ? character.attributes[1] : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4 col-xs-4">
-                                    <p className="p-override">CONSTITUTION: {character.attributes != null ? character.attributes[2] : ""}</p>
+                                    <p className="p-override">CONSTITUTION: <span className="chardata">{character.attributes != null ? character.attributes[2] : ""}</span></p>
                                 </div>
     
                                 <div className="col-sm-4 col-xs-4">
-                                    <p className="p-override">INTELLIGENCE: {character.attributes != null ? character.attributes[3] : ""}</p>
+                                    <p className="p-override">INTELLIGENCE: <span className="chardata">{character.attributes != null ? character.attributes[3] : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4 col-xs-4">
-                                    <p className="p-override">WISDOM: {character.attributes != null ? character.attributes[4] : ""}</p>
+                                    <p className="p-override">WISDOM: <span className="chardata">{character.attributes != null ? character.attributes[4] : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4 col-xs-4">
-                                    <p className="p-override">CHARISMA: {character.attributes != null ? character.attributes[5] : ""}</p>
+                                    <p className="p-override">CHARISMA: <span className="chardata">{character.attributes != null ? character.attributes[5] : ""}</span></p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
     
                                             
                                 <div className="col-sm-4">
-                                    <p className="p-override">PROFICIENCY BONUS</p>
-                                    <input className="full-width" type="text" ref="profBonus" defaultValue={character.profBonus != null ? character.profBonus : ""} placeholder=""/>
+                                    <p className="p-override">PROFICIENCY BONUS: <span className="chardata">{character.profBonus != null ? character.profBonus : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">INSPIRATION</p>
-                                    <input className="full-width" type="text" ref="characterInspiration" defaultValue={character.characterInspiration != null ? character.characterInspiration : ""} placeholder=""/>
+                                    <p className="p-override">INSPIRATION: <span className="chardata"> {character.characterInspiration != null ? character.characterInspiration : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">PERCEPTION</p>
-                                    <input className="full-width" type="text" ref="characterPerception" defaultValue={character.characterPerception != null ? character.characterPerception : ""} placeholder=""/>
+                                    <p className="p-override">PERCEPTION: <span className="chardata">{character.characterPerception != null ? character.characterPerception : ""}  </span></p>
                                 </div>
                                             
                                         <div className="spacer col-sm-12"/>
                                         <div className="hr full-width col-sm-12"/>
     
                                 <div className="col-sm-6">
-                                    <p className="p-override">SAVING THROWS (ctrl+click for multi-select)</p>
-                                    <select className="full-width no-scrollbar" ref="savingThrows" defaultValue={character.savingThrows != null ? character.savingThrows : ""} size={6} multiple>
-                                        <option value="savingThrowStrength">Strength</option>
-                                        <option value="savingThrowDexterity">Dexterity</option>
-                                        <option value="savingThrowConstitution">Constitution</option>
-                                        <option value="savingThrowIntelligence">Intelligence</option>
-                                        <option value="savingThrowWisdom">Wisdom</option>
-                                        <option value="savingThrowCharisma">Charisma</option>
-                                    </select>
+                                    <p className="p-override">SAVING THROWS:</p>
+                                    <span className="chardata">
+                                        {character.savingThrows.forEach(function(element) {
+                                            <p>{element}</p>
+                                        }, this)}
+                                    </span>
                                 </div>
                                 <div className="col-sm-6">
-                                    <p className="p-override">SKILLS (ctrl+click for multi-select)</p>
-                                    <select className="full-width no-scrollbar" ref="characterSkills" defaultValue={character.skills != null ? character.skills : ""} size={18} multiple>
-                                        <option value="skillAcrobatics">Acrobatics</option>
-                                        <option value="skillAnimalHandling">Animal handling</option>
-                                        <option value="skillArcana">Arcana</option>
-                                        <option value="skillAthletics">Athletics</option>
-                                        <option value="skillDeception">Deception</option>
-                                        <option value="skillHistory">History</option>
-                                        <option value="skillInsight">Insight</option>
-                                        <option value="skillIntimidation">Intimidation</option>
-                                        <option value="skillInvestigation">Investigation</option>
-                                        <option value="skillMedicine">Medicine</option>
-                                        <option value="skillNature">Nature</option>
-                                        <option value="skillPerception">Perception</option>
-                                        <option value="skillPersuasion">Persuasion</option>
-                                        <option value="skillRelgion">Religion</option>
-                                        <option value="skillSleightOfHand">Sleight Of Hand</option>
-                                        <option value="skillStealth">Stealth</option>
-                                        <option value="skillSurvival">Survival</option>
-                                    </select>
+                                    <p className="p-override">SKILLS:</p>
+                                    <span className="chardata">
+                                        {character.skills.forEach(function(element) {
+                                            <p>{element}</p>
+                                        }, this)}
+                                    </span>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
                                             <div className="hr full-width col-sm-12"/>
                                 <div className="col-sm-12">
-                                    <h4>SPELLCASTING</h4>
-                                    <div className="col-sm-2">
-                                        <input className="full-width" type="text" ref="lvl1Spell" defaultValue={character.spellSlotsMax[0] != null ? character.spellSlotsMax[0] : ""} placeholder=""/>
-                                        <input className="full-width" type="text" ref="lvl2Spell" defaultValue={character.spellSlotsMax[1] != null ? character.spellSlotsMax[1] : ""} placeholder=""/>
-                                        <input className="full-width" type="text" ref="lvl3Spell" defaultValue={character.spellSlotsMax[2] != null ? character.spellSlotsMax[2] : ""} placeholder=""/>
-                                        <input className="full-width" type="text" ref="lvl4Spell" defaultValue={character.spellSlotsMax[3] != null ? character.spellSlotsMax[3] : ""} placeholder=""/>
-                                        <input className="full-width" type="text" ref="lvl5Spell" defaultValue={character.spellSlotsMax[4] != null ? character.spellSlotsMax[4] : ""} placeholder=""/>
-                                        <input className="full-width" type="text" ref="lvl6Spell" defaultValue={character.spellSlotsMax[5] != null ? character.spellSlotsMax[5] : ""} placeholder=""/>
-                                        <input className="full-width" type="text" ref="lvl7Spell" defaultValue={character.spellSlotsMax[6] != null ? character.spellSlotsMax[6] : ""} placeholder=""/>
-                                        <input className="full-width" type="text" ref="lvl8Spell" defaultValue={character.spellSlotsMax[7] != null ? character.spellSlotsMax[7] : ""} placeholder=""/>
-                                        <input className="full-width" type="text" ref="lvl9Spell" defaultValue={character.spellSlotsMax[8] != null ? character.spellSlotsMax[8] : ""} placeholder=""/>
+                                    <h4>SPELL SLOTS</h4>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 1: <span className="chardata">{character.spellSlotsMax[0] != null ? character.spellSlotsMax[0] : ""} </span></p>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 2: <span className="chardata">{character.spellSlotsMax[1] != null ? character.spellSlotsMax[1] : ""} </span></p>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 3: <span className="chardata">{character.spellSlotsMax[2] != null ? character.spellSlotsMax[2] : ""} </span></p>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 4: <span className="chardata">{character.spellSlotsMax[3] != null ? character.spellSlotsMax[3] : ""} </span></p>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 5: <span className="chardata">{character.spellSlotsMax[4] != null ? character.spellSlotsMax[4] : ""} </span></p>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 6: <span className="chardata">{character.spellSlotsMax[5] != null ? character.spellSlotsMax[5] : ""} </span></p>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 7: <span className="chardata">{character.spellSlotsMax[6] != null ? character.spellSlotsMax[6] : ""} </span></p>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 8: <span className="chardata">{character.spellSlotsMax[7] != null ? character.spellSlotsMax[7] : ""} </span></p>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <p>LEVEL 9: <span className="chardata">{character.spellSlotsMax[8] != null ? character.spellSlotsMax[8] : ""} </span></p>
                                     </div>
                                 </div>
     
@@ -258,43 +254,43 @@ export default class StaticCharacterSheet extends React.Component {
                                     <h4>ATTACK</h4>
                                 </div>
                                 <div className="col-sm-5">
-                                    <p className="p-override">NAME</p>
-                                    <input className="full-width" type="text" ref="currWeaponName" defaultValue={character.currWeaponName != null ? character.currWeaponName : ""} placeholder=""/>
+                                    <p className="p-override"><strong>NAME</strong></p>
+                                    <p className="chardata">{character.currWeaponName != null ? character.currWeaponName : ""} </p>
                                 </div>
                                 <div className="col-sm-2">
-                                    <p className="p-override">ATK BONUS</p>
-                                    <input className="full-width" type="text" ref="weapon1Atk" defaultValue={character.weapon1Atk != null ? character.weapon1Atk : ""} placeholder=""/>
+                                    <p className="p-override"><strong>ATK BONUS</strong></p>
+                                    <p className="chardata">{character.weapon1Atk != null ? character.weapon1Atk : ""}</p>
                                 </div>
                                 <div className="col-sm-5">
-                                    <p className="p-override">DAMAGE/TYPE</p>
-                                    <input className="full-width" type="text" ref="weapon1DamageType" defaultValue={character.weapon1DamageType != null ? character.weapon1DamageType : ""} placeholder=""/>
+                                    <p className="p-override"><strong>DAMAGE/TYPE</strong></p>
+                                    <p className="chardata">{character.weapon1DamageType != null ? character.weapon1DamageType : ""}</p>
                                 </div>
                                 <div className="half-spacer col-sm-12"/>
                                 
                                 <div className="col-sm-5">
-                                    <input className="full-width" type="text" ref="weapon2Name" defaultValue={character.weapon2Name != null ? character.weapon2Name : ""} placeholder=""/>
+                                    <p className="chardata">{character.weapon2Name != null ? character.weapon2Name : ""} </p>
                                 </div>
                                 <div className="col-sm-2">
-                                    <input className="full-width" type="text" ref="weapon2Atk" defaultValue={character.weapon2Atk != null ? character.weapon2Atk : ""} placeholder=""/>
+                                    <p className="chardata">{character.weapon2Atk != null ? character.weapon2Atk : ""} </p>
                                 </div>
                                 <div className="col-sm-5">
-                                    <input className="full-width" type="text" ref="weapon2DamageType" defaultValue={character.weapon2DamageType != null ? character.weapon2DamageType : ""} placeholder=""/>
+                                    <p className="chardata">{character.weapon2DamageType != null ? character.weapon2DamageType : ""}</p>
                                 </div>
                                 <div className="half-spacer col-sm-12"/>
                                 
                                 <div className="col-sm-5">
-                                    <input className="full-width" type="text" ref="weapon3Name" defaultValue={character.weapon3Name != null ? character.weapon3Name : ""} placeholder=""/>
+                                    <p className="chardata">{character.weapon3Name != null ? character.weapon3Name : ""}</p>
                                 </div>
                                 <div className="col-sm-2">
-                                    <input className="full-width" type="text" ref="weapon3Atk" defaultValue={character.weapon3Atk != null ? character.weapon3Atk : ""} placeholder=""/>
+                                    <p className="chardata">{character.weapon3Atk != null ? character.weapon3Atk : ""}</p>
                                 </div>
                                 <div className="col-sm-5">
-                                    <input className="full-width" type="text" ref="weapon3DamageType" defaultValue={character.weapon3DamageType != null ? character.weapon3DamageType : ""} placeholder=""/>
+                                    <p className="chardata">{character.weapon3DamageType != null ? character.weapon3DamageType : ""}</p>
                                 </div>
                                 <div className="half-spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
-                                    <textarea rows={10} className="full-width"  ref="attackNotes" defaultValue={character.attackNotes != null ? character.attackNotes : ""}/>
+                                    <p className="chardata">{character.attackNotes != null ? character.attackNotes : ""}</p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
@@ -305,7 +301,7 @@ export default class StaticCharacterSheet extends React.Component {
                                 </div>
                                 
                                 <div className="col-sm-12">
-                                    <textarea rows={10} className="full-width"  ref="proficiencies" defaultValue={character.proficiencies != null ? character.proficiencies : ""} />
+                                    <p className="chardata">{character.proficiencies != null ? character.proficiencies : ""} </p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
@@ -316,7 +312,7 @@ export default class StaticCharacterSheet extends React.Component {
                                 </div>
                                 
                                 <div className="col-sm-12">
-                                    <textarea rows={10} className="full-width"  ref="equipmentNotes" defaultValue={character.equipmentNotes != null ? character.equipmentNotes : ""} />
+                                    <p className="chardata">{character.equipmentNotes != null ? character.equipmentNotes : ""}</p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
@@ -327,7 +323,7 @@ export default class StaticCharacterSheet extends React.Component {
                                 </div>
                                 
                                 <div className="col-sm-12">
-                                    <textarea rows={10} className="full-width"  ref="notes" defaultValue={character.notes != null ? character.notes : ""}  />
+                                    <p className="chardata">{character.notes != null ? character.notes : ""} </p>
                                 </div>
                                         
                                 <div className="spacer col-sm-12"/>
@@ -335,7 +331,7 @@ export default class StaticCharacterSheet extends React.Component {
                                 <div className="spacer col-sm-12"/>
                             
                             </div>
-                            <button onClick={this.props.closePopup} className=" submit-button button">Close</button>
+                            <button onClick={this.props.closePopup} className=" submit-button button" style={{"float":"right"}}>Close</button>
 
                         </div>
                     </div>

@@ -45,6 +45,12 @@ hr{
     margin-bottom:5px !important;
     
 }
+
+.chardata{
+    font-weight: bold;
+    color:black;
+}
+
 .static-cs-popup{
     position: absolute;
     top:0;
@@ -884,10 +890,12 @@ center{
 
 .speechBubble{
     min-width:80px;
-    min-height:80px;
+    min-height:40px;
+    text-align: center;
+    vertical-align: center;
     border-radius: 20px;
     float:left;
-    padding:20px;
+    padding-top:10px;
 }
 a.menu_links{
     cursor:pointer;

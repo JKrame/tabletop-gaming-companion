@@ -5,11 +5,8 @@ export default class UserSpeechBubble extends React.Component{
     render() {
         return (
             <div style={{"marginTop":"15px", "float":"right"}} className="col-xs-12 user-bubble">
-                    <div className="speechBubble" style={{"backgroundColor":"#EEEEEE",  "float":"left"}}>
-                        <p>{this.props.message}</p>
-                    </div>
-                    <div style={{"width":"20px","height":"20px", "float":"left","marginTop":"40px"}}>
-                        <img src={'/images/userSpeechBubble.png'} draggable="false"/>
+                    <div className="speechBubble" style={{"backgroundColor":"#012C40",  "float":"right"}}>
+                        <p style={{ "color":"white"}}>{this.props.message}</p>
                     </div>
             </div>
         );

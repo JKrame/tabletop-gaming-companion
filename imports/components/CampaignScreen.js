@@ -16,6 +16,7 @@ import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
 import UserCard from '../objects/UserCard';
 import StaticCharacterSheet from '../objects/StaticCharacterSheet';
+import UserNameCard from '../objects/UserNameCard';
 
 var campaignID;
 
@@ -570,7 +571,7 @@ export default class CampaignScreen extends React.Component{
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                cards.push(<UserCard 
+                cards.push(<UserNameCard 
                     key={i} 
                     username={partner.name} 
                     accountPicture={partner.accountPicture} 
@@ -658,113 +659,109 @@ export default class CampaignScreen extends React.Component{
                                 <div className="spacer col-sm-12"/>
                                 
                             </div>
+
                             <div className="col-sm-8 no-padding">
-                                <div className="scrolling-container chat-box in-game-chat-window">
+                                <div className="col-sm-12 scrolling-container in-game-chat-window full-width">
                                 <ChatWindow conversation={this.state.conversation}/>
 
                                 </div>
-                                <div className="col-sm-12 negate-margins" style={{"height":"50px", "marginTop":"10px"}}>
-                                    <div className="col-sm-8">
-                                            <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"50px"}}/>
-                                        </div>
 
-                                        <div className="col-sm-4 negate-margins">
-                                                <button  onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px"}}>SEND</button>
-                                        </div>
-                                    </div>
+                                <div className="col-sm-12"  style={{"marginTop":"10px"}}>
+                                    <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"40px"}}/>
+                                </div>
+
+                                <div className="col-sm-12 negate-margins" style={{"marginTop":"5px"}}>
+                                    <button  onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"25px"}}>SEND</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div className="sub-content-bottom col-lg-6 col-xs-12 content-container-mid add-background">
+                        <div className="inner-content-container" >
+                            <div className="col-md-7  col-xs-12">
+                                <div className="dice-display scrolling-container center">
+                                    <div className="spacer col-sm-12"/>
 
-
-
-
-                            <div className="sub-content-bottom col-lg-6 col-xs-12 content-container-mid add-background">
-                                <div className="inner-content-container" >
-                                    <div className="col-md-7  col-xs-12">
-                                        <div className="dice-display scrolling-container center">
-                                            <div className="spacer col-sm-12"/>
-
-                                            <div className="dice-panel">
-                                                <img src={'/images/d4.png'} className="dice-img" draggable="false"/>
-                                                <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d6.png'} className="dice-img" draggable="false"/>
-                                                <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d8.png'} className="dice-img" draggable="false"/>
-                                                <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d10.png'} className="dice-img" draggable="false"/>
-                                                <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d12.png'} className="dice-img" draggable="false"/>
-                                                <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d20.png'} className="dice-img" draggable="false"/>
-                                                <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d100.png'} className="dice-img" draggable="false"/>
-                                                <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
-                                            </div>
-                                        </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d4.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
                                     </div>
-                                
-                                    <div className="col-sm-3  col-xs-12">
-                                        <div className="spacer col-sm-12"/>
-                                        <div className="mod-block">
-                                            <h4>ADD MODS</h4>
-                                            <hr/>
-                                            <div>
-                                                <input type="checkbox"/> STR
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> DEX
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> CON
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> INT
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> WIS
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> CHA
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> PROF
-                                            </div>
-                                        </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d6.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
                                     </div>
-
-
-                                    <div className="col-md-2  col-xs-12 ">
-                                        <div className="col-sm-12">
-                                            <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
-                                            {this.showInitiativeButton()}
-                                        </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d8.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
                                     </div>
-                                
+                                    <div className="dice-panel">
+                                        <img src={'/images/d10.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
+                                    </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d12.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
+                                    </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d20.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
+                                    </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d100.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div className="col-sm-3  col-xs-12">
+                                <div className="spacer col-sm-12"/>
+                                <div className="mod-block">
+                                    <h4>ADD MODS</h4>
+                                    <hr/>
+                                    <div>
+                                        <input type="checkbox"/> STR
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> DEX
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> CON
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> INT
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> WIS
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> CHA
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> PROF
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="sub-content-bottom col-lg-3 col-xs-12 content-container-right  no-padding">
-                                <div className=" inner-content-container scrolling-container col-xs-12" >
-                                    
-                                    {this.renderPanel()}
 
-
+                            <div className="col-md-2  col-xs-12 ">
+                                <div className="col-sm-12">
+                                    <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
+                                    {this.showInitiativeButton()}
                                 </div>
                             </div>
+                        
+                        </div>
+                    </div>
+
+                    <div className="sub-content-bottom col-lg-3 col-xs-12 content-container-right  no-padding">
+                        <div className=" inner-content-container scrolling-container col-xs-12" >
+                            
+                            {this.renderPanel()}
+
+
+                        </div>
+                    </div>
 
                     {this.state.showInitiativePopup ? 
                         <InitiativePopup
