@@ -12,7 +12,7 @@ var users;
 export default class Mail extends React.Component{
     constructor(props){
         super(props);
-        this.state = { conversation: null, contactUsername: null, conversationList: null } ;
+        this.state = { conversation: null, contactUsername: null, conversationList: null, contactImage: null } ;
     }
 
     componentWillMount(){
@@ -136,10 +136,11 @@ export default class Mail extends React.Component{
             this.setState({conversation: conversation});
 
             if (conversation.participants[0].id == Meteor.userId()){
-                this.setState({contactUsername : conversation.participants[1].name});
+                this.setState({contactUsername : conversation.participants[1].name, contactImage : conversation.participants[1].image});
+                
             }
             else{
-                this.setState({contactUsername : conversation.participants[0].name});
+                this.setState({contactUsername : conversation.participants[0].name, contactImage : conversation.participants[0].image});
             }
 
             this.forceUpdate();
@@ -180,7 +181,7 @@ export default class Mail extends React.Component{
                 <div className="col-lg-8">
                     <div className="page-content col-sm-12" style={{"height":"80px"}}>
                         <div style={{"float":"left"}}>
-                            <div style={{ "width":"60px","height":"60px", "backgroundColor":"red"}}/>
+                            <img src={this.state.contactImage != null && this.state.contactImage != "" ? this.state.contactImage : '/images/photoMissing.png'}  style={{ "width":"60px","height":"60px"}}/>
                         </div>
                         <div style={{"float":"left", "width":"300px","marginLeft":"30px"}}>
                             <h4>Chatting With: {this.state.contactUsername}</h4>

@@ -8,7 +8,7 @@ export default class PlayerFormPopup extends React.Component {
             const sub = Meteor.subscribe('conversations');
             if(sub.ready())
             {
-                this.conversations = Conversations.find( {$or: [{"userOne._id": Meteor.userId()}, {"userTwo._id": Meteor.userId()}]}).fetch();
+                this.conversations = Conversations.find({ participants:{$elemMatch : {id : Meteor.userId()}}}).fetch();
             }
 
             const sub2 = Meteor.subscribe('userData');
@@ -30,10 +30,11 @@ export default class PlayerFormPopup extends React.Component {
         if (this.conversations){
             console.log(this.conversations)
             for (var i = 0; i < this.conversations.length; i++){
-                console.log("rendercontacts   " + i)
-                partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
+                console.log(this.conversations[i]);
+                partner = (this.conversations[i].participants[0].id === Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
+                console.log(partner);
                 if (!this.alreadyInvited(partner)){
-                    cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture} func={this.props.addPlayer} param={partner._id}/>);
+                    cards.push(<UserCard key={i} username={partner.name} accountPicture={partner.picture} func={this.props.addPlayer} param={partner.id}/>);
                 }
             }
         }
@@ -57,7 +58,8 @@ export default class PlayerFormPopup extends React.Component {
     }
 
     addPlayer(){
-        var username = this.refs.username.value;
+        console.log('this is calling ');
+        var username = this.username.value;
         console.log(username);
         this.props.addPlayer(username);
     }
