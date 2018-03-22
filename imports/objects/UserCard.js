@@ -12,6 +12,7 @@ export default class UserCard extends React.Component{
             <div onClick={this.callParent.bind(this)} className='nav-item nav-link'>
                 <div className="userCardMini highlight-container">
                     <div className="userCardMiniImage">
+                        {console.log(this.props.accountPicture) }
                         <img src={this.props.accountPicture !=null && this.props.accountPicture!="" ? this.props.accountPicture : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className="userCardMiniInfo container-fluid">
