@@ -1,8 +1,10 @@
-import React from 'react'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import UserCard from '../objects/UserCard';
 import CharacterCardMini from '../objects/CharacterCardMini';
 import { BADQUERY } from 'dns';
 import NPCCard from '../objects/NPCcard';
+import { Random } from 'meteor/random';
 
 var NPCs;
 
@@ -11,6 +13,7 @@ export default class InitiativePopup extends React.Component {
     constructor(props, context){
         super(props, context);
         this.endCombat = this.endCombat.bind(this);
+        this.createActiveNPCs = this.createActiveNPCs.bind(this);
     }
 
     componentWillMount(){
@@ -106,7 +109,7 @@ export default class InitiativePopup extends React.Component {
         for(var i = 0; i < this.NPCs.length; i++)
         {
             boxes.push(
-                <input type="text" ref="" className="npc-qty"/>
+                <input type="text" ref={"npc" + i} className="npc-qty"/>
             );
         }
         return <div>{boxes}</div>;
@@ -125,6 +128,28 @@ export default class InitiativePopup extends React.Component {
         this.props.closePopup();
     }
 
+    createActiveNPCs()
+    {
+        for(var i = 0; i < this.NPCs.length; i++)
+        {
+            var refID = "npc" + i;
+            var copies = ReactDOM.findDOMNode(this.refs[refID]).value;
+            var npc_id = this.NPCs[i]._id;
+            for(var j = 0; j < copies; j++)
+            {
+                var unique_id = Random.id();
+                var initiative = Math.round(Math.random() * 19 + 1);
+                Meteor.call("campaignsActiveNPCs.addToSet",
+                    this.props.campaignID,
+                    unique_id,
+                    npc_id,
+                    initiative
+                );
+            }
+        }
+        this.props.closePopup();
+    }
+
     render() {
         return (
             <div className='popup'>
@@ -139,7 +164,7 @@ export default class InitiativePopup extends React.Component {
 
                     {this.renderNPCs()}
                     <button onClick={this.endCombat} className=" submit-button button">Cancel</button>
-                    <button onClick={this.props.closePopup} className=" submit-button button">Start Combat</button>
+                    <button onClick={this.createActiveNPCs} className=" submit-button button">Start Combat</button>
 
                 </div>
             </div>
