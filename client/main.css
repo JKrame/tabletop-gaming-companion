@@ -45,6 +45,21 @@ hr{
     margin-bottom:5px !important;
     
 }
+.static-cs-popup{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height: 85vh;
+    width:70vw;
+    z-index: 999;
+    padding:30px;
+    margin:5vw auto;
+    background-color: rgba(200, 200, 200, 0.901);
+
+
+}
 
 .hr-override-light{
     margin-top:5px !important;

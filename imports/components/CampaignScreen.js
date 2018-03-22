@@ -15,6 +15,7 @@ import NPCCard from '../objects/NPCcard';
 import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
 import UserCard from '../objects/UserCard';
+import StaticCharacterSheet from '../objects/StaticCharacterSheet';
 
 var campaignID;
 
@@ -24,12 +25,29 @@ export default class CampaignScreen extends React.Component{
         this.state = {
             isGm: false,
             showInitiativePopup: false,
+            showCharacterPopup: false,
+            characterClick: null,
             conversation: null
         };
+        var toggleCharacterPopup = this.toggleCharacterPopup.bind(this);
     }
+
 
     toggleInitiativePopup(){
         this.setState({showInitiativePopup: !this.state.showInitiativePopup});
+    }
+    toggleCharacterPopup(character){
+        this.setState({characterClick: character});
+        this.setState({showCharacterPopup: !this.showCharacterPopup});
+    }
+    
+    closeCharacterPopup(){
+        this.setState({showCharacterPopup: false});
+    }
+
+    setCharacterTarget(character){
+        alert(character.characterName);
+        this.toggleCharacterPopup(character);
     }
 
     componentWillMount(){
@@ -115,6 +133,7 @@ export default class CampaignScreen extends React.Component{
         }
         return <div>{cards}</div>;
     }
+
 
     renderTextAssets() {
         var cards = [];
@@ -222,7 +241,18 @@ export default class CampaignScreen extends React.Component{
         for (var i = 0; i < numcharacters; i++)
         {
             cards.push(
-                <CharacterCard key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+                <CharacterCard key={i} 
+                                character={this.characters[i]} 
+                                characterImageURL={this.characters[i].characterImageURL} 
+                                id={this.characters[i]._id} 
+                                somehistory={this.props.history} 
+                                parent={this}
+                                func={this.setCharacterTarget} 
+                                characterName={this.characters[i].characterName} 
+                                characterClass={this.characters[i].characterClass} 
+                                level={this.characters[i].level} 
+                                race={this.characters[i].race}
+                                />
             );
         }
         return <div>{cards}</div>;
@@ -744,6 +774,14 @@ export default class CampaignScreen extends React.Component{
                             campaignID={this.campaignID}
                         />
                         : null
+                        }
+                    {this.state.showCharacterPopup ? 
+                            <StaticCharacterSheet
+                            text='Close Me'
+                            closePopup={this.closeCharacterPopup.bind(this)}
+                            campaignID={this.campaignID}
+                            character ={this.state.characterClick}/>                        
+                            : null
                         }
                         
                 </div>
