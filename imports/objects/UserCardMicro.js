@@ -2,6 +2,10 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 export default class UserCardMicro extends React.Component{
+    insertFriend(){
+            Meteor.call('conversations.insert', this.props.user, this.props.searchPlayer)
+    }
+
     render() {
         return (
             <div className='nav-item nav-link'>
@@ -11,9 +15,10 @@ export default class UserCardMicro extends React.Component{
                     </div>
                     <div className="userCardMiniInfo container-fluid">
                         <h4 className="no-margin-override h5-overflow-hidden verticalCenter">{this.props.username}</h4>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+ 
     }
-}
