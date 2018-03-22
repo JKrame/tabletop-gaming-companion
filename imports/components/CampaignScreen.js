@@ -33,8 +33,8 @@ export default class CampaignScreen extends React.Component{
     }
 
     componentWillMount(){
-        console.log("props");
-        console.log(this.props);
+        //console.log("props");
+        //console.log(this.props);
 
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
             var id = this.props.match.params._id;
@@ -53,9 +53,9 @@ export default class CampaignScreen extends React.Component{
             const sub2 = Meteor.subscribe('campaigns');
             if(sub2.ready())
             {
-                console.log(id);
+                //console.log(id);
                 this.campaign = Campaigns.findOne({_id: id});
-                console.log(this.campaign);
+                //console.log(this.campaign);
                 if(this.userID == this.campaign.gm)
                 {
                     this.setState({
@@ -256,6 +256,12 @@ export default class CampaignScreen extends React.Component{
                 ) ;                                 
             }
             else{
+                for(var i=0;i<this.characters.length;i++){
+                    if (this.characters[i].UID == Meteor.userId()){
+                        currCharacter = i;
+                    }
+                }
+                console.log(this.characters[currCharacter].spellSlotsCurr[0])
                 return(
                     <div> 
                         <h3>Spell Slots</h3>
@@ -263,66 +269,39 @@ export default class CampaignScreen extends React.Component{
                         <div className="spell-slots scrolling-container" >
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 1</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level1slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[0]} placeholder=""/>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 2</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level2slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[1]} placeholder=""/>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 3</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level3slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[2]} placeholder=""/>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 4</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level4slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[3]} placeholder=""/>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 5</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level5slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[4]} placeholder=""/>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 6</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level6slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[5]} placeholder=""/>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 7</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level7slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[6]} placeholder=""/>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 8</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level8slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[7]} placeholder=""/>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 9</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level9slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[8]} placeholder=""/>
                             </div>
                         </div>
                     </div>

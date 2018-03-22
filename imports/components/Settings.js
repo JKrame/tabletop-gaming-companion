@@ -18,7 +18,9 @@ export default class Settings extends React.Component{
             if(sub.ready())
             {
                 this.user = Meteor.users.findOne({_id : id});
-            }
+            } 
+            const sub2 = Meteor.subscribe('conversations');
+
             this.forceUpdate();
         });
     }
