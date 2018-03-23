@@ -34,7 +34,15 @@ export default class StaticCharacterSheet extends React.Component {
                 partner = (this.conversations[i].participants[0].id === Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
                 console.log(partner);
                 if (!this.alreadyInvited(partner)){
-                    cards.push(<UserCard key={i} username={partner.name} accountPicture={partner.picture} func={this.props.addPlayer} param={partner.id}/>);
+                    cards.push(
+                        <UserCard
+                            key={i}
+                            username={partner.name}
+                            accountPicture={partner.picture}
+                            func={this.props.addPlayer}
+                            param={partner.id}
+                        />
+                    );
                 }
             }
         }
@@ -125,7 +133,7 @@ export default class StaticCharacterSheet extends React.Component {
                                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-4">
-                                    <p className="p-override">INITIATIVE: <span className="chardata">{character.characterInitiative != null ? character.characterInitiative : ""} </span></p>
+                                    <p className="p-override">INITIATIVE: <span className="chardata">{character.initiative != null ? character.initiative : ""} </span></p>
                                 </div>
                                 <div className="col-sm-4">
                                     <p className="p-override">SPEED: <span className="chardata">{character.speed != null ? character.speed : ""}</span></p>
@@ -151,10 +159,10 @@ export default class StaticCharacterSheet extends React.Component {
                                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-4">
-                                    <p className="p-override">DEATH SAVE SUCCESSES:<span className="chardata"> {character.characterDeathSaveSuccesses != null ? character.characterDeathSaveSuccesses : ""}</span></p>
+                                    <p className="p-override">DEATH SAVE SUCCESSES:<span className="chardata"> {character.deathSaveSuccesses != null ? character.deathSaveSuccesses : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">DEATH SAVE FAILURES:<span className="chardata"> {character.characterDeathSaveFailures != null ? character.characterDeathSaveFailures : ""}</span></p>
+                                    <p className="p-override">DEATH SAVE FAILURES:<span className="chardata"> {character.deathSaveFailures != null ? character.deathSaveFailures : ""}</span></p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
@@ -189,10 +197,10 @@ export default class StaticCharacterSheet extends React.Component {
                                     <p className="p-override">PROFICIENCY BONUS: <span className="chardata">{character.profBonus != null ? character.profBonus : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">INSPIRATION: <span className="chardata"> {character.characterInspiration != null ? character.characterInspiration : ""}</span></p>
+                                    <p className="p-override">INSPIRATION: <span className="chardata"> {character.inspiration != null ? character.inspiration : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">PERCEPTION: <span className="chardata">{character.characterPerception != null ? character.characterPerception : ""}  </span></p>
+                                    <p className="p-override">PERCEPTION: <span className="chardata">{character.perception != null ? character.perception : ""}  </span></p>
                                 </div>
                                             
                                         <div className="spacer col-sm-12"/>
@@ -312,7 +320,7 @@ export default class StaticCharacterSheet extends React.Component {
                                 </div>
                                 
                                 <div className="col-sm-12">
-                                    <p className="chardata">{character.equipmentNotes != null ? character.equipmentNotes : ""}</p>
+                                    <p className="chardata">{character.equipment != null ? character.equipment : ""}</p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>

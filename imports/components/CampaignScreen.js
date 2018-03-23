@@ -574,12 +574,15 @@ export default class CampaignScreen extends React.Component{
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                cards.push(<UserNameCard 
-                    key={i} 
-                    username={partner.name} 
-                    accountPicture={partner.accountPicture} 
-                    param={this.conversations[i]} 
-                    func={this.loadConversation.bind(this)}/>);
+                cards.push(
+                    <UserNameCard 
+                        key={i} 
+                        username={partner.name} 
+                        accountPicture={partner.accountPicture} 
+                        param={this.conversations[i]} 
+                        func={this.loadConversation.bind(this)}
+                    />
+                );
             }
         }
 
