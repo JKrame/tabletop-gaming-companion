@@ -140,13 +140,14 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard
-                key={i}
-                func={this.setBroadcastAssetText.bind(this)}
-                noteTitle={this.campaign.notes[i][0]}
-                noteDescription={this.campaign.notes[i][1]}
-                id={this.campaign._id}
-                isCampaignScreen={true}
+            cards.push(
+                <TextAssetcard
+                    key={i}
+                    func={this.setBroadcastAssetText.bind(this)}
+                    noteTitle={this.campaign.notes[i][0]}
+                    noteDescription={this.campaign.notes[i][1]}
+                    id={this.campaign._id}
+                    isCampaignScreen={true}
                 />
             );
         }
@@ -223,13 +224,14 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard
-                key={i}
-                URL={this.campaign.URLs[i]}
-                func={this.setBroadcastAssetImage.bind(this)}
-                _id={this.id}
-                campaignID={this.campaign._id}
-                isCampaignScreen={true}
+            cards.push(
+                <ImageAssetCard
+                    key={i}
+                    URL={this.campaign.URLs[i]}
+                    func={this.setBroadcastAssetImage.bind(this)}
+                    _id={this.id}
+                    campaignID={this.campaign._id}
+                    isCampaignScreen={true}
                 />
             );
         }
@@ -242,18 +244,19 @@ export default class CampaignScreen extends React.Component{
         for (var i = 0; i < numcharacters; i++)
         {
             cards.push(
-                <CharacterCard key={i} 
-                                character={this.characters[i]} 
-                                characterImageURL={this.characters[i].characterImageURL} 
-                                id={this.characters[i]._id} 
-                                somehistory={this.props.history} 
-                                parent={this}
-                                func={this.setCharacterTarget} 
-                                characterName={this.characters[i].characterName} 
-                                characterClass={this.characters[i].characterClass} 
-                                level={this.characters[i].level} 
-                                race={this.characters[i].race}
-                                />
+                <CharacterCard
+                    key={i} 
+                    character={this.characters[i]} 
+                    characterImageURL={this.characters[i].characterImageURL} 
+                    id={this.characters[i]._id} 
+                    somehistory={this.props.history} 
+                    parent={this}
+                    func={this.setCharacterTarget} 
+                    characterName={this.characters[i].characterName} 
+                    characterClass={this.characters[i].characterClass} 
+                    level={this.characters[i].level} 
+                    race={this.characters[i].race}
+                />
             );
         }
         return <div>{cards}</div>;
@@ -419,15 +422,15 @@ export default class CampaignScreen extends React.Component{
                     if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
                         cards.push(
                             <CharacterCard
-                            key={i}
-                            characterImageURL={this.characters[j].characterImageURL} 
-                            id={this.characters[j]._id} 
-                            somehistory={this.props.history} 
-                            func={this.loadCharacter} 
-                            characterName={this.characters[j].characterName} 
-                            characterClass={this.characters[j].characterClass} 
-                            level={this.characters[j].level} 
-                            race={this.characters[j].race}
+                                key={i}
+                                characterImageURL={this.characters[j].characterImageURL} 
+                                id={this.characters[j]._id} 
+                                somehistory={this.props.history} 
+                                func={this.loadCharacter} 
+                                characterName={this.characters[j].characterName} 
+                                characterClass={this.characters[j].characterClass} 
+                                level={this.characters[j].level} 
+                                race={this.characters[j].race}
                             />
                         );
                     }
@@ -771,15 +774,16 @@ export default class CampaignScreen extends React.Component{
                             campaignID={this.campaignID}
                         />
                         : null
-                        }
+                    }
                     {this.state.showCharacterPopup ? 
-                            <StaticCharacterSheet
+                        <StaticCharacterSheet
                             text='Close Me'
                             closePopup={this.closeCharacterPopup.bind(this)}
                             campaignID={this.campaignID}
-                            character ={this.state.characterClick}/>                        
-                            : null
-                        }
+                            character ={this.state.characterClick}
+                        />                        
+                        : null
+                    }
                         
                 </div>
             </div>

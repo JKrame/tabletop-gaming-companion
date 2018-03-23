@@ -21,45 +21,87 @@ export default class PlayerFormPopup extends React.Component {
         });
     }
 
-    componentWillUnmount(){
+    componentWillUnmount()
+    {
         this.playerFormPopupTracker.stop();
     }
 
-    renderContacts() {
+    renderContacts()
+    {
         var cards = [];
-        if (this.conversations){
+        if (this.conversations)
+        {
             console.log(this.conversations)
-            for (var i = 0; i < this.conversations.length; i++){
+            for (var i = 0; i < this.conversations.length; i++)
+            {
                 console.log(this.conversations[i]);
                 partner = (this.conversations[i].participants[0].id === Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
                 console.log(partner);
-                if (!this.alreadyInvited(partner)){
-                    cards.push(<UserCard key={i} username={partner.name} accountPicture={partner.picture} func={this.props.addPlayer} param={partner.id}/>);
+                if (!this.alreadyInvited(partner))
+                {
+                    cards.push(
+                        <UserCard
+                            key={i}
+                            username={partner.name}
+                            accountPicture={partner.picture}
+                            func={this.props.addPlayer}
+                            param={partner.id}
+                        />
+                    );
                 }
             }
         }
         return <div>{cards}</div>;
     }
 
-    alreadyInvited(player){
-        for (var i = 0; i < this.props.pendingInvites.length; i++){
-            if (this.props.pendingInvites[i] == player._id){
+    alreadyInvited(player)
+    {
+        for (var i = 0; i < this.props.pendingInvites.length; i++)
+        {
+            if (this.props.pendingInvites[i] == player._id)
+            {
                 return true;
             }
         }
 
-        for (var i = 0; i < this.props.characters.length; i++){
-            if (this.props.characters[i].UID == player._id){
+        for (var i = 0; i < this.props.characters.length; i++)
+        {
+            if (this.props.characters[i].UID == player._id)
+            {
                 return true;
             }
         }
-
         return false;
     }
 
-    addPlayer(){
+    addPlayer()
+    {
         var username = this.refs.username.value;
         console.log(username);
+        var invitedUser = Meteor.users.findOne({"profile.username" : username});
+        var currentCharacters = Campaigns.findOne({_id : this.props.campaignID}).characters;
+
+        if (invitedUser == null || invitedUser == undefined)
+        {
+            alert("Username does not exist.");
+            return;
+        }
+        var invitedUserID = invitedUser._id;
+        if (invitedUserID == Meteor.userId())
+        {
+            alert("You cannot add yourself to your own campaign.");
+            return;
+        }
+        
+        for (var i = 0; i < currentCharacters.length; i++)
+        {
+            if (currentCharacters[i].UID == invitedUserID)
+            {
+                alert("Player already invited.");
+                return;
+            }
+        }
+
         this.props.addPlayer(username);
     }
 
