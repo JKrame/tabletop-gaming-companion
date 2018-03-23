@@ -104,7 +104,7 @@ export default class SettingsForm extends React.Component{
                                 <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
-                                    <button className="full-width submit-button blue-button" onClick={this.setAccountImage}>SUBMIT CHANGES</button>
+                                    <button className="full-width submit-button blue-button" onClick={this.setAccountImage}>SAVE IMAGE</button>
                                 </div>
                         </div>
     
