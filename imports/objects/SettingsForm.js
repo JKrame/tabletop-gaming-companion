@@ -78,7 +78,7 @@ export default class SettingsForm extends React.Component{
 
     setAccountImage(){
         Meteor.users.update(Meteor.userId(), {
-            $set: {"profile.picture": this.refs.userImageURL.value.trim()}
+            $set: {"profile.picture": this.refs.userImageURL.value.trim(), "profile.accountPicture": this.refs.userImageURL.value.trim()}
         });
         Meteor.call('conversations.update', Meteor.userId(), this.refs.userImageURL.value.trim());
     }
