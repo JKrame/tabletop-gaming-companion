@@ -95,7 +95,15 @@ export default class CharacterForm extends React.Component{
             money,
             this.refs.characterImageURL.value.trim(),
             false,
-            skillValue
+            skillValue,
+            this.refs.characterInitiative.value.trim(),
+            this.refs.tempHP.value.trim(),
+            this.refs.characterDeathSaveSuccesses.value.trim(),
+            this.refs.characterDeathSaveFailures.value.trim(),
+            this.refs.characterInspiration.value.trim(),
+            this.refs.characterPerception.value.trim(),
+            this.refs.attackNotes.value.trim(),
+            this.refs.equipmentNotes.value.trim()
         );
     }
 
