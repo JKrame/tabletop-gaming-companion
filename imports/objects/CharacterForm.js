@@ -201,7 +201,7 @@ export default class CharacterForm extends React.Component{
 
                             <div className="col-sm-4">
                                 <p className="p-override">INITIATIVE</p>
-                                <input className="full-width" type="number" ref="characterInitiative" defaultValue={character.initiative != null ? character.initiative : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterInitiative" defaultValue={character.characterInitiative != null ? character.characterInitiative : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">SPEED</p>
@@ -233,11 +233,11 @@ export default class CharacterForm extends React.Component{
 
                             <div className="col-sm-4">
                                 <p className="p-override">DEATH SAVE SUCCESSES</p>
-                                <input className="full-width" type="number" ref="characterDeathSaveSuccesses" defaultValue={character.deathSaveSuccesses != null ? character.deathSaveSuccesses : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterDeathSaveSuccesses" defaultValue={character.characterInitiative != null ? character.characterInitiative : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">DEATH SAVE FAILURES</p>
-                                <input className="full-width" type="number" ref="characterDeathSaveFailures" defaultValue={character.deathSaveFailures != null ? character.deathSaveFailures : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterDeathSaveFailures" defaultValue={character.characterDeathSaveFailures != null ? character.characterDeathSaveFailures : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -280,11 +280,11 @@ export default class CharacterForm extends React.Component{
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">INSPIRATION</p>
-                                <input className="full-width" type="number" ref="characterInspiration" defaultValue={character.inspiration != null ? character.inspiration : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterInspiration" defaultValue={character.characterInspiration != null ? character.characterInspiration : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">PERCEPTION</p>
-                                <input className="full-width" type="number" ref="characterPerception" defaultValue={character.perception != null ? character.perception : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterPerception" defaultValue={character.characterPerception != null ? character.characterPerception : ""} placeholder=""/>
                             </div>
                                         
                                     <div className="spacer col-sm-12"/>
@@ -405,7 +405,7 @@ export default class CharacterForm extends React.Component{
                             </div>
                             
                             <div className="col-sm-12">
-                                <textarea rows={10} className="full-width"  ref="equipmentNotes" defaultValue={character.equipment != null ? character.equipment : ""} />
+                                <textarea rows={10} className="full-width"  ref="equipmentNotes" defaultValue={character.equipmentNotes != null ? character.equipmentNotes : ""} />
                             </div>
 
                                         <div className="spacer col-sm-12"/>
