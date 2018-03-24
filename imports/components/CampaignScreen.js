@@ -295,7 +295,7 @@ export default class CampaignScreen extends React.Component{
                         currCharacter = i;
                     }
                 }
-                console.log(this.characters[currCharacter].spellSlotsCurr[0])
+                //console.log(this.characters[currCharacter].spellSlotsCurr[0])
                 return(
                     <div> 
                         <h3>Spell Slots</h3>
@@ -304,38 +304,56 @@ export default class CampaignScreen extends React.Component{
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 1</strong></h5>
                                 <input className="rollbox" ref="level1slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[0]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 0)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 0)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 2</strong></h5>
                                 <input className="rollbox" ref="level2slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[1]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 1)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 1)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 3</strong></h5>
                                 <input className="rollbox" ref="level3slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[2]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 2)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 2)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 4</strong></h5>
                                 <input className="rollbox" ref="level4slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[3]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 3)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 3)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 5</strong></h5>
                                 <input className="rollbox" ref="level5slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[4]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 4)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 4)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 6</strong></h5>
                                 <input className="rollbox" ref="level6slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[5]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 5)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 5)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 7</strong></h5>
                                 <input className="rollbox" ref="level7slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[6]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 6)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 6)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 8</strong></h5>
                                 <input className="rollbox" ref="level8slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[7]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 7)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 7)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 9</strong></h5>
                                 <input className="rollbox" ref="level9slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[8]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 8)}>-</button>
                             </div>
                         </div>
                     </div>
@@ -346,6 +364,78 @@ export default class CampaignScreen extends React.Component{
         
     }
 
+    addSpell(currCharacter, level){
+        spellSlotTemp = this.characters[currCharacter].spellSlotsCurr
+        spellSlotTemp[level] = spellSlotTemp[level] + 1
+
+        if(level==0){
+            this.refs.level1slot.value = spellSlotTemp[level]
+        }
+        else if(level==1){
+            this.refs.level2slot.value = spellSlotTemp[level]
+        }
+        else if(level==2){
+            this.refs.level3slot.value = spellSlotTemp[level]
+        }
+        else if(level==3){
+            this.refs.level4slot.value = spellSlotTemp[level]
+        }
+        else if(level==4){
+            this.refs.level5slot.value = spellSlotTemp[level]
+        }
+        else if(level==5){
+            this.refs.level6slot.value = spellSlotTemp[level]
+        }
+        else if(level==6){
+            this.refs.level7slot.value = spellSlotTemp[level]
+        }
+        else if(level==7){
+            this.refs.level8slot.value = spellSlotTemp[level]
+        }
+        else if(level==8){
+            this.refs.level9slot.value = spellSlotTemp[level]
+        }
+
+            Meteor.call("characters.updateSpells", this.characters[currCharacter]._id, spellSlotTemp);
+        
+    }
+    removeSpell(currCharacter, level){
+        spellSlotTemp = this.characters[currCharacter].spellSlotsCurr
+        spellSlotTemp[level] = spellSlotTemp[level] - 1
+
+        if(level==0 && spellSlotTemp[level] >= 0){
+            this.refs.level1slot.value = spellSlotTemp[level]
+        }
+        else if(level==1 && spellSlotTemp[level] >= 0){
+            this.refs.level2slot.value = spellSlotTemp[level]
+        }
+        else if(level==2 && spellSlotTemp[level] >= 0){
+            this.refs.level3slot.value = spellSlotTemp[level]
+        }
+        else if(level==3 && spellSlotTemp[level] >= 0){
+            this.refs.level4slot.value = spellSlotTemp[level]
+        }
+        else if(level==4 && spellSlotTemp[level] >= 0){
+            this.refs.level5slot.value = spellSlotTemp[level]
+        }
+        else if(level==5 && spellSlotTemp[level] >= 0){
+            this.refs.level6slot.value = spellSlotTemp[level]
+        }
+        else if(level==6 && spellSlotTemp[level] >= 0){
+            this.refs.level7slot.value = spellSlotTemp[level]
+        }
+        else if(level==7 && spellSlotTemp[level] >= 0){
+            this.refs.level8slot.value = spellSlotTemp[level]
+        }
+        else if(level==8 && spellSlotTemp[level] >= 0){
+            this.refs.level9slot.value = spellSlotTemp[level]
+        }
+
+        if(spellSlotTemp[level] >= 0){
+            Meteor.call("characters.updateSpells", this.characters[currCharacter]._id, spellSlotTemp);
+        }
+    }
+    
     toggleButton_Click(event){
         var clicked = event.target;
         clicked.backgroundColor = red;
