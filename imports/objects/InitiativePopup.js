@@ -109,7 +109,7 @@ export default class InitiativePopup extends React.Component {
         for(var i = 0; i < this.NPCs.length; i++)
         {
             boxes.push(
-                <input type="text" ref={"npc" + i} className="npc-qty"/>
+                <input type="text" ref={"npc" + i} className="npc-qty textBoxMini"/>
             );
         }
         return <div>{boxes}</div>;
@@ -159,10 +159,12 @@ export default class InitiativePopup extends React.Component {
                         {this.renderQtyBoxes()}
                     </div>
 
-                    <div className="col-xs-10"/>
-                    <h2>NPCs</h2>
+                    <div className="col-xs-10">
+                        <h2>NPCs</h2>
 
-                    {this.renderNPCs()}
+                        {this.renderNPCs()}
+                    </div>
+                    <div className="spacer col-xs-12"/>
                     <button onClick={this.endCombat} className=" submit-button button">Cancel</button>
                     <button onClick={this.createActiveNPCs} className=" submit-button button">Start Combat</button>
 

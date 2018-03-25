@@ -576,7 +576,8 @@ export default class CampaignScreen extends React.Component{
                     username={partner.name} 
                     accountPicture={partner.accountPicture} 
                     param={this.conversations[i]} 
-                    func={this.loadConversation.bind(this)}/>);
+                    func={this.loadConversation.bind(this)}
+                    />);
             }
         }
 
