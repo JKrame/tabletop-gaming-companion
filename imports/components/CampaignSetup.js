@@ -86,16 +86,17 @@ export default class CampaignSetup extends React.Component{
         if (this.NPCs){
             for (var i = 0; i < this.NPCs.length; i++)
             {
-                cards.push(<CharacterCardMini
-                    key={i}
-                    characterImageURL={this.NPCs[i].characterImageURL}
-                    id={this.NPCs[i]._id}
-                    somehistory={this.props.history}
-                    func={this.loadNPC}
-                    characterName={this.NPCs[i].characterName}
-                    characterClass={this.NPCs[i].characterClass}
-                    level={this.NPCs[i].level}
-                    race={this.NPCs[i].race}
+                cards.push(
+                    <CharacterCardMini
+                        key={i}
+                        characterImageURL={this.NPCs[i].characterImageURL}
+                        id={this.NPCs[i]._id}
+                        somehistory={this.props.history}
+                        func={this.loadNPC}
+                        characterName={this.NPCs[i].characterName}
+                        characterClass={this.NPCs[i].characterClass}
+                        level={this.NPCs[i].level}
+                        race={this.NPCs[i].race}
                     />
                 );
             }
@@ -170,10 +171,11 @@ export default class CampaignSetup extends React.Component{
             username = this.refs.username;
         }
         var invitedUserID = Meteor.users.findOne({"profile.username" : username})._id;
-        if (invitedUserID == Meteor.userId())
-        {
-            return;
-        }
+        // if (invitedUserID == Meteor.userId())
+        // {
+        //     alert("You cannot add yourself to your own campaign.");
+        //     return;
+        // }
         Meteor.call("campaignPendingInvites.addToSet", 
             _id = this.id,
             username
@@ -196,11 +198,12 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard
-                key={i}
-                URL={this.campaign.URLs[i]}
-                _id ={this.id}
-                campaignID={this.campaign._id}
+            cards.push(
+                <ImageAssetCard
+                    key={i}
+                    URL={this.campaign.URLs[i]}
+                    _id ={this.id}
+                    campaignID={this.campaign._id}
                 />
             );
         }
@@ -462,7 +465,7 @@ export default class CampaignSetup extends React.Component{
                                 addImageAsset={this.addImageAsset.bind(this)}
                             />
                             : null
-                            }
+                        }
                         {this.state.showPlayerPopup ? 
                             <PlayerPopup
                                 text='Close Me'
@@ -470,9 +473,10 @@ export default class CampaignSetup extends React.Component{
                                 addPlayer={this.addPlayer.bind(this)}
                                 pendingInvites={this.pendingInvites}
                                 characters={this.characters}
+                                campaignID={this.id}
                             />
                             : null
-                            }
+                        }
                         
                     </div>
                 </div>

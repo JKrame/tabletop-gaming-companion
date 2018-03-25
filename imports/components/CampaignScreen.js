@@ -140,13 +140,14 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard
-                key={i}
-                func={this.setBroadcastAssetText.bind(this)}
-                noteTitle={this.campaign.notes[i][0]}
-                noteDescription={this.campaign.notes[i][1]}
-                id={this.campaign._id}
-                isCampaignScreen={true}
+            cards.push(
+                <TextAssetcard
+                    key={i}
+                    func={this.setBroadcastAssetText.bind(this)}
+                    noteTitle={this.campaign.notes[i][0]}
+                    noteDescription={this.campaign.notes[i][1]}
+                    id={this.campaign._id}
+                    isCampaignScreen={true}
                 />
             );
         }
@@ -223,13 +224,14 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard
-                key={i}
-                URL={this.campaign.URLs[i]}
-                func={this.setBroadcastAssetImage.bind(this)}
-                _id={this.id}
-                campaignID={this.campaign._id}
-                isCampaignScreen={true}
+            cards.push(
+                <ImageAssetCard
+                    key={i}
+                    URL={this.campaign.URLs[i]}
+                    func={this.setBroadcastAssetImage.bind(this)}
+                    _id={this.id}
+                    campaignID={this.campaign._id}
+                    isCampaignScreen={true}
                 />
             );
         }
@@ -242,18 +244,19 @@ export default class CampaignScreen extends React.Component{
         for (var i = 0; i < numcharacters; i++)
         {
             cards.push(
-                <CharacterCard key={i} 
-                                character={this.characters[i]} 
-                                characterImageURL={this.characters[i].characterImageURL} 
-                                id={this.characters[i]._id} 
-                                somehistory={this.props.history} 
-                                parent={this}
-                                func={this.setCharacterTarget} 
-                                characterName={this.characters[i].characterName} 
-                                characterClass={this.characters[i].characterClass} 
-                                level={this.characters[i].level} 
-                                race={this.characters[i].race}
-                                />
+                <CharacterCard
+                    key={i} 
+                    character={this.characters[i]} 
+                    characterImageURL={this.characters[i].characterImageURL} 
+                    id={this.characters[i]._id} 
+                    somehistory={this.props.history} 
+                    parent={this}
+                    func={this.setCharacterTarget} 
+                    characterName={this.characters[i].characterName} 
+                    characterClass={this.characters[i].characterClass} 
+                    level={this.characters[i].level} 
+                    race={this.characters[i].race}
+                />
             );
         }
         return <div>{cards}</div>;
@@ -292,7 +295,7 @@ export default class CampaignScreen extends React.Component{
                         currCharacter = i;
                     }
                 }
-                console.log(this.characters[currCharacter].spellSlotsCurr[0])
+                //console.log(this.characters[currCharacter].spellSlotsCurr[0])
                 return(
                     <div> 
                         <h3>Spell Slots</h3>
@@ -301,38 +304,56 @@ export default class CampaignScreen extends React.Component{
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 1</strong></h5>
                                 <input className="rollbox" ref="level1slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[0]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 0)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 0)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 2</strong></h5>
                                 <input className="rollbox" ref="level2slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[1]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 1)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 1)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 3</strong></h5>
                                 <input className="rollbox" ref="level3slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[2]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 2)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 2)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 4</strong></h5>
                                 <input className="rollbox" ref="level4slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[3]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 3)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 3)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 5</strong></h5>
                                 <input className="rollbox" ref="level5slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[4]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 4)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 4)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 6</strong></h5>
                                 <input className="rollbox" ref="level6slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[5]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 5)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 5)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 7</strong></h5>
                                 <input className="rollbox" ref="level7slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[6]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 6)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 6)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 8</strong></h5>
                                 <input className="rollbox" ref="level8slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[7]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 7)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 7)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 9</strong></h5>
                                 <input className="rollbox" ref="level9slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[8]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 8)}>-</button>
                             </div>
                         </div>
                     </div>
@@ -343,6 +364,78 @@ export default class CampaignScreen extends React.Component{
         
     }
 
+    addSpell(currCharacter, level){
+        spellSlotTemp = this.characters[currCharacter].spellSlotsCurr
+        spellSlotTemp[level] = spellSlotTemp[level] + 1
+
+        if(level==0){
+            this.refs.level1slot.value = spellSlotTemp[level]
+        }
+        else if(level==1){
+            this.refs.level2slot.value = spellSlotTemp[level]
+        }
+        else if(level==2){
+            this.refs.level3slot.value = spellSlotTemp[level]
+        }
+        else if(level==3){
+            this.refs.level4slot.value = spellSlotTemp[level]
+        }
+        else if(level==4){
+            this.refs.level5slot.value = spellSlotTemp[level]
+        }
+        else if(level==5){
+            this.refs.level6slot.value = spellSlotTemp[level]
+        }
+        else if(level==6){
+            this.refs.level7slot.value = spellSlotTemp[level]
+        }
+        else if(level==7){
+            this.refs.level8slot.value = spellSlotTemp[level]
+        }
+        else if(level==8){
+            this.refs.level9slot.value = spellSlotTemp[level]
+        }
+
+            Meteor.call("characters.updateSpells", this.characters[currCharacter]._id, spellSlotTemp);
+        
+    }
+    removeSpell(currCharacter, level){
+        spellSlotTemp = this.characters[currCharacter].spellSlotsCurr
+        spellSlotTemp[level] = spellSlotTemp[level] - 1
+
+        if(level==0 && spellSlotTemp[level] >= 0){
+            this.refs.level1slot.value = spellSlotTemp[level]
+        }
+        else if(level==1 && spellSlotTemp[level] >= 0){
+            this.refs.level2slot.value = spellSlotTemp[level]
+        }
+        else if(level==2 && spellSlotTemp[level] >= 0){
+            this.refs.level3slot.value = spellSlotTemp[level]
+        }
+        else if(level==3 && spellSlotTemp[level] >= 0){
+            this.refs.level4slot.value = spellSlotTemp[level]
+        }
+        else if(level==4 && spellSlotTemp[level] >= 0){
+            this.refs.level5slot.value = spellSlotTemp[level]
+        }
+        else if(level==5 && spellSlotTemp[level] >= 0){
+            this.refs.level6slot.value = spellSlotTemp[level]
+        }
+        else if(level==6 && spellSlotTemp[level] >= 0){
+            this.refs.level7slot.value = spellSlotTemp[level]
+        }
+        else if(level==7 && spellSlotTemp[level] >= 0){
+            this.refs.level8slot.value = spellSlotTemp[level]
+        }
+        else if(level==8 && spellSlotTemp[level] >= 0){
+            this.refs.level9slot.value = spellSlotTemp[level]
+        }
+
+        if(spellSlotTemp[level] >= 0){
+            Meteor.call("characters.updateSpells", this.characters[currCharacter]._id, spellSlotTemp);
+        }
+    }
+    
     toggleButton_Click(event){
         var clicked = event.target;
         clicked.backgroundColor = red;
@@ -419,15 +512,15 @@ export default class CampaignScreen extends React.Component{
                     if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
                         cards.push(
                             <CharacterCard
-                            key={i}
-                            characterImageURL={this.characters[j].characterImageURL} 
-                            id={this.characters[j]._id} 
-                            somehistory={this.props.history} 
-                            func={this.loadCharacter} 
-                            characterName={this.characters[j].characterName} 
-                            characterClass={this.characters[j].characterClass} 
-                            level={this.characters[j].level} 
-                            race={this.characters[j].race}
+                                key={i}
+                                characterImageURL={this.characters[j].characterImageURL} 
+                                id={this.characters[j]._id} 
+                                somehistory={this.props.history} 
+                                func={this.loadCharacter} 
+                                characterName={this.characters[j].characterName} 
+                                characterClass={this.characters[j].characterClass} 
+                                level={this.characters[j].level} 
+                                race={this.characters[j].race}
                             />
                         );
                     }
@@ -571,13 +664,15 @@ export default class CampaignScreen extends React.Component{
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                cards.push(<UserNameCard 
-                    key={i} 
-                    username={partner.name} 
-                    accountPicture={partner.accountPicture} 
-                    param={this.conversations[i]} 
-                    func={this.loadConversation.bind(this)}
-                    />);
+                cards.push(
+                    <UserNameCard 
+                        key={i} 
+                        username={partner.name} 
+                        accountPicture={partner.accountPicture} 
+                        param={this.conversations[i]} 
+                        func={this.loadConversation.bind(this)}
+                    />
+                );
             }
         }
 
@@ -772,15 +867,16 @@ export default class CampaignScreen extends React.Component{
                             campaignID={this.campaignID}
                         />
                         : null
-                        }
+                    }
                     {this.state.showCharacterPopup ? 
-                            <StaticCharacterSheet
+                        <StaticCharacterSheet
                             text='Close Me'
                             closePopup={this.closeCharacterPopup.bind(this)}
                             campaignID={this.campaignID}
-                            character ={this.state.characterClick}/>                        
-                            : null
-                        }
+                            character ={this.state.characterClick}
+                        />                        
+                        : null
+                    }
                         
                 </div>
             </div>

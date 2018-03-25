@@ -95,7 +95,15 @@ export default class CharacterForm extends React.Component{
             money,
             this.refs.characterImageURL.value.trim(),
             false,
-            skillValue
+            skillValue,
+            this.refs.characterInitiative.value.trim(),
+            this.refs.tempHP.value.trim(),
+            this.refs.characterDeathSaveSuccesses.value.trim(),
+            this.refs.characterDeathSaveFailures.value.trim(),
+            this.refs.characterInspiration.value.trim(),
+            this.refs.characterPerception.value.trim(),
+            this.refs.attackNotes.value.trim(),
+            this.refs.equipmentNotes.value.trim()
         );
     }
 
@@ -150,7 +158,7 @@ export default class CharacterForm extends React.Component{
 
                             <div className="col-sm-4">
                                 <p className="p-override">LEVEL</p>
-                                <input className="full-width" type="text" ref="level" defaultValue={character.level != null ? character.level : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="level" defaultValue={character.level != null ? character.level : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">CLASS</p>
@@ -178,30 +186,30 @@ export default class CharacterForm extends React.Component{
 
                             <div className="col-sm-4">
                                 <p className="p-override">AC</p>
-                                <input className="full-width" type="text" ref="AC" defaultValue={character.AC != null ? character.AC : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="AC" defaultValue={character.AC != null ? character.AC : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">MAX HP</p>
-                                <input className="full-width" type="text" ref="maxHP" defaultValue={character.maxHP != null ? character.maxHP : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="maxHP" defaultValue={character.maxHP != null ? character.maxHP : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">TEMP HP</p>
-                                <input className="full-width" type="text" ref="tempHP" defaultValue={character.tempHP != null ? character.tempHP : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="tempHP" defaultValue={character.tempHP != null ? character.tempHP : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
 
                             <div className="col-sm-4">
                                 <p className="p-override">INITIATIVE</p>
-                                <input className="full-width" type="text" ref="characterInitiative" defaultValue={character.characterInitiative != null ? character.characterInitiative : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterInitiative" defaultValue={character.characterInitiative != null ? character.characterInitiative : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">SPEED</p>
-                                <input className="full-width" type="text" ref="speed" defaultValue={character.speed != null ? character.speed : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="speed" defaultValue={character.speed != null ? character.speed : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">Curr HP</p>
-                                <input className="full-width" type="text" ref="currHP" defaultValue={character.currHP != null ? character.currHP : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="currHP" defaultValue={character.currHP != null ? character.currHP : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -210,26 +218,26 @@ export default class CharacterForm extends React.Component{
                                         
                             <div className="col-sm-4">
                                 <p className="p-override">HIT DICE</p>
-                                <input className="full-width" type="text" ref="hitDie" defaultValue={character.hitDie != null ? character.hitDie : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="hitDie" defaultValue={character.hitDie != null ? character.hitDie : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">TOTAL HIT DICE</p>
-                                <input className="full-width" type="text" ref="maxHitDie" defaultValue={character.maxHitDie != null ? character.maxHitDie : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="maxHitDie" defaultValue={character.maxHitDie != null ? character.maxHitDie : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">TEMP HIT DICE</p>
-                                <input className="full-width" type="text" ref="currHitDie" defaultValue={character.currHitDie != null ? character.currHitDie : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="currHitDie" defaultValue={character.currHitDie != null ? character.currHitDie : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
 
                             <div className="col-sm-4">
                                 <p className="p-override">DEATH SAVE SUCCESSES</p>
-                                <input className="full-width" type="text" ref="characterDeathSaveSuccesses" defaultValue={character.characterDeathSaveSuccesses != null ? character.characterDeathSaveSuccesses : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterDeathSaveSuccesses" defaultValue={character.characterInitiative != null ? character.characterInitiative : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">DEATH SAVE FAILURES</p>
-                                <input className="full-width" type="text" ref="characterDeathSaveFailures" defaultValue={character.characterDeathSaveFailures != null ? character.characterDeathSaveFailures : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterDeathSaveFailures" defaultValue={character.characterDeathSaveFailures != null ? character.characterDeathSaveFailures : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -239,28 +247,28 @@ export default class CharacterForm extends React.Component{
                                                                     
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">STRENGTH</p>
-                                <input className="full-width" type="text" ref="str" defaultValue={character.attributes != null ? character.attributes[0] : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="str" defaultValue={character.attributes != null ? character.attributes[0] : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">DEXTERITY</p>
-                                <input className="full-width" type="text" ref="dex" defaultValue={character.attributes != null ? character.attributes[1] : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="dex" defaultValue={character.attributes != null ? character.attributes[1] : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">CONSTITUTION</p>
-                                <input className="full-width" type="text" ref="con" defaultValue={character.attributes != null ? character.attributes[2] : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="con" defaultValue={character.attributes != null ? character.attributes[2] : ""} placeholder=""/>
                             </div>
 
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">INTELLIGENCE</p>
-                                <input className="full-width" type="text" ref="int" defaultValue={character.attributes != null ? character.attributes[3] : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="int" defaultValue={character.attributes != null ? character.attributes[3] : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">WISDOM</p>
-                                <input className="full-width" type="text" ref="wis" defaultValue={character.attributes != null ? character.attributes[4] : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="wis" defaultValue={character.attributes != null ? character.attributes[4] : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2 col-xs-4">
                                 <p className="p-override">CHARISMA</p>
-                                <input className="full-width" type="text" ref="cha" defaultValue={character.attributes != null ? character.attributes[5] : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="cha" defaultValue={character.attributes != null ? character.attributes[5] : ""} placeholder=""/>
                             </div>
 
                                         <div className="spacer col-sm-12"/>
@@ -268,15 +276,15 @@ export default class CharacterForm extends React.Component{
                                         
                             <div className="col-sm-4">
                                 <p className="p-override">PROFICIENCY BONUS</p>
-                                <input className="full-width" type="text" ref="profBonus" defaultValue={character.profBonus != null ? character.profBonus : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="profBonus" defaultValue={character.profBonus != null ? character.profBonus : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">INSPIRATION</p>
-                                <input className="full-width" type="text" ref="characterInspiration" defaultValue={character.characterInspiration != null ? character.characterInspiration : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterInspiration" defaultValue={character.characterInspiration != null ? character.characterInspiration : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-4">
                                 <p className="p-override">PERCEPTION</p>
-                                <input className="full-width" type="text" ref="characterPerception" defaultValue={character.characterPerception != null ? character.characterPerception : ""} placeholder=""/>
+                                <input className="full-width" type="number" ref="characterPerception" defaultValue={character.characterPerception != null ? character.characterPerception : ""} placeholder=""/>
                             </div>
                                         
                                     <div className="spacer col-sm-12"/>

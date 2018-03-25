@@ -31,7 +31,15 @@ export default class PlayerFormPopup extends React.Component {
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
                 if (!this.alreadyInvited(partner)){
-                    cards.push(<UserCard key={i} username={partner.profile.username} accountPicture={partner.profile.accountPicture} func={this.props.addPlayer} param={partner._id}/>);
+                    cards.push(
+                        <UserCard
+                            key={i}
+                            username={partner.profile.username}
+                            accountPicture={partner.profile.accountPicture}
+                            func={this.props.addPlayer}
+                            param={partner._id}
+                        />
+                    );
                 }
             }
         }
