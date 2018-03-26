@@ -35,13 +35,11 @@ export default class CampaignScreen extends React.Component{
         console.log(this.props);
 
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
-            var id = this.props.match.params._id;
-            var UID = Meteor.userId();
+            var campaignID = this.props.match.params._id;
 
             const sub = Meteor.subscribe('characters');
             if(sub.ready())
             {
-                var campaignID = id.toString();
                 //this.characters = Characters.find({campaignID: campaignID}).fetch();
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
@@ -50,9 +48,7 @@ export default class CampaignScreen extends React.Component{
             const sub2 = Meteor.subscribe('campaigns');
             if(sub2.ready())
             {
-                console.log(id);
-                this.campaign = Campaigns.findOne({_id: id});
-                console.log(this.campaign);
+                this.campaign = Campaigns.findOne({_id: campaignID});
                 if(this.userID == this.campaign.gm)
                 {
                     this.setState({
@@ -73,7 +69,6 @@ export default class CampaignScreen extends React.Component{
             const sub3 = Meteor.subscribe('conversations');
             if(sub3.ready())
             {
-                id = Meteor.userId();
                 this.conversations = Conversations.find().fetch();
                 if (this.state.conversation != null){
                     for(i = 0; i < this.conversations.length; i++){
@@ -87,6 +82,7 @@ export default class CampaignScreen extends React.Component{
             const sub4 = Meteor.subscribe('userData');
             if(sub4.ready()){
                 this.user = Meteor.users.findOne({_id : Meteor.userId()});
+                this.users = Meteor.users.find({}).fetch();
             }
 
             this.forceUpdate();
@@ -546,23 +542,84 @@ export default class CampaignScreen extends React.Component{
     }
 
     establishContact(){
-    }
+        needContactWithGm = true;
 
-    renderContacts() {
-        if (!this.conversations){
-            return;
+        if (Meteor.userId() == this.gm){
+            needContactWithGm = false;
         }
 
-        var cards = [];
-        if (this.conversations){
+        for (j = 0; j < this.conversations.length && needContactWithGm; j++){
+            partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
+
+            if (partner.id == this.gm){
+                needContactWithGm = false;
+            }
+        }
+
+        if (needContactWithGm){
+            this.addContact(this.gm);
+        }
+
+        for (i = 0; i < this.characters.length; i++){
+            needContact = true;
+            
+            if (this.characters[i].UID == Meteor.userId()){
+                continue;
+            }
+
+            for (j = 0; j < this.conversations.length; j++){
+                partner = (this.conversations[j].participants[0].id == Meteor.userId()) ? this.conversations[j].participants[1] : this.conversations[j].participants[0];
+                
+                if (partner.id == this.characters[i].UID){
+                    needContact = false;
+                }
+            }
+
+            if (needContact){
+                this.addContact(this.characters[i].UID);
+            }
+        }
+    }
+
+    addContact(UID){
+        for(var i = 0; i < this.users.length; i++)
+        {
+            if(this.users[i]._id == UID)
+            {
+                Meteor.call('conversations.insert', this.user, this.users[i]);
+                return;
+            }
+        }
+    }
+
+    renderContacts(){
+        if (this.conversations && this.characters){
+            this.establishContact();
+            var cards = [];
+        
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                cards.push(<UserCard 
-                    key={i} 
-                    username={partner.name} 
-                    accountPicture={partner.accountPicture} 
-                    param={this.conversations[i]} 
-                    func={this.loadConversation.bind(this)}/>);
+                inCampaign = false;
+                
+                if (partner.id == this.gm){
+                    inCampaign = true;
+                }
+
+                for (j = 0; j < this.characters.length && !inCampaign; j++){
+                    if (this.characters[j].UID == partner.id)
+                    {
+                        inCampaign = true;
+                    }
+                }
+                
+                if (inCampaign){
+                    cards.push(<UserCard 
+                        key={i} 
+                        username={partner.name} 
+                        accountPicture={partner.accountPicture} 
+                        param={this.conversations[i]} 
+                        func={this.loadConversation.bind(this)}/>);
+                }
             }
         }
 

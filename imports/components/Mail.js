@@ -82,9 +82,10 @@ export default class Mail extends React.Component{
         }
         else
         {
+            console.log(this.conversations);
             alreadyFriends = false;
             for (i = 0; i < this.conversations.length; i++){
-                if (contact._id == this.conversations[i].particpants[0].id || contact._id == this.conversations[i].participants[1].id){
+                if (contact._id == this.conversations[i].participants[0].id || contact._id == this.conversations[i].participants[1].id){
                     alreadyFriends = true;
                 }
             }
