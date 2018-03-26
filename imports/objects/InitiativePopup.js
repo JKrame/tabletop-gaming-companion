@@ -1,8 +1,21 @@
-import React from 'react'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import UserCard from '../objects/UserCard';
+import CharacterCardMini from '../objects/CharacterCardMini';
+import { BADQUERY } from 'dns';
+import NPCCard from '../objects/NPCcard';
+import { Random } from 'meteor/random';
 
+var NPCs;
 
-export default class PlayerFormPopup extends React.Component {
+export default class InitiativePopup extends React.Component {
+
+    constructor(props, context){
+        super(props, context);
+        this.endCombat = this.endCombat.bind(this);
+        this.createActiveNPCs = this.createActiveNPCs.bind(this);
+    }
+
     componentWillMount(){
         this.playerFormPopupTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('conversations');
@@ -15,6 +28,12 @@ export default class PlayerFormPopup extends React.Component {
             if(sub2.ready())
             {
                 this.users = Meteor.users.find({}).fetch();
+            }
+            
+            const sub3 = Meteor.subscribe('characters');
+            if(sub3.ready())
+            {
+                this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: this.props.campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
 
             this.forceUpdate();
@@ -52,33 +71,102 @@ export default class PlayerFormPopup extends React.Component {
                 return true;
             }
         }
-
         for (var i = 0; i < this.props.characters.length; i++){
             if (this.props.characters[i].UID == player._id){
                 return true;
             }
         }
-
         return false;
+    }
+
+    renderNPCs()
+    {
+        var cards = [];
+        if (this.NPCs){
+            for (var i = 0; i < this.NPCs.length; i++)
+            {
+                cards.push(
+                    <CharacterCardMini
+                        key={i}
+                        characterImageURL={this.NPCs[i].characterImageURL}
+                        id={this.NPCs[i]._id}
+                        somehistory={this.props.history}
+                        func={this.loadNPC}
+                        characterName={this.NPCs[i].characterName}
+                        characterClass={this.NPCs[i].characterClass}
+                        level={this.NPCs[i].level}
+                        race={this.NPCs[i].race}
+                    />
+                );
+            }
+        }
+        return <div>{cards}</div>;
+    }
+
+    renderQtyBoxes()
+    {
+        var boxes = [];
+        for(var i = 0; i < this.NPCs.length; i++)
+        {
+            boxes.push(
+                <input type="text" ref={"npc" + i} className="npc-qty textBoxMini"/>
+            );
+        }
+        return <div>{boxes}</div>;
     }
 
     addPlayer(userID){
         if (!userID){
             userID = this.refs.username.value;
         }
-
         this.props.addPlayer(userID);
+    }
+
+    endCombat()
+    {
+        this.props.endCombat();
+        this.props.closePopup();
+    }
+
+    createActiveNPCs()
+    {
+        for(var i = 0; i < this.NPCs.length; i++)
+        {
+            var refID = "npc" + i;
+            var copies = ReactDOM.findDOMNode(this.refs[refID]).value;
+            var npc_id = this.NPCs[i]._id;
+            for(var j = 0; j < copies; j++)
+            {
+                var unique_id = Random.id();
+                var initiative = Math.round(Math.random() * 19 + 1);
+                Meteor.call("campaignsActiveNPCs.addToSet",
+                    this.props.campaignID,
+                    unique_id,
+                    npc_id,
+                    initiative
+                );
+            }
+        }
+        this.props.closePopup();
     }
 
     render() {
         return (
             <div className='popup'>
                 <div className="initiative-popup">
-                    <h2>Players</h2>
-                    <h2>NPCs</h2>
+                    <div className="col-xs-2">
+                        <h2>Qty</h2>
+                        {this.renderQtyBoxes()}
+                    </div>
 
-                    <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
-                    <button onClick={this.props.closePopup} className=" submit-button button">Start Combat</button>
+                    <div className="col-xs-10">
+                        <h2>NPCs</h2>
+
+                        {this.renderNPCs()}
+                    </div>
+                    <div className="spacer col-xs-12"/>
+                    <button onClick={this.endCombat} className=" submit-button button">Cancel</button>
+                    <button onClick={this.createActiveNPCs} className=" submit-button button">Start Combat</button>
 
                 </div>
             </div>

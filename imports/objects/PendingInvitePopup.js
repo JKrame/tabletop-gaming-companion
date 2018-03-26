@@ -71,7 +71,12 @@ export default class PlayerFormPopup extends React.Component {
 
     addCharacter(characterid , somehistory, campaign, character){
         //console.log(characterid);
-        //console.log(campaign);
+        //console.log(character);
+        if(!campaign){
+            campaign = this.props.campaign
+        }
+        
+        
         Meteor.call("campaignCharacter.addToSet", 
             _id = campaign,
             character    
@@ -83,15 +88,20 @@ export default class PlayerFormPopup extends React.Component {
         );
 
         var campaignToBePulled = [3];
+        
         var campaignObject = Campaigns.findOne({_id : this.props.campaignID});
-        campaignToBePulled[0] = this.props.campaignID;
-        campaignToBePulled[1] = campaignObject.campaignImageURL;
-        campaignToBePulled[2] = campaignObject.name;
-        Meteor.call("userPendingInvites.pull",
-            Meteor.userId(),
-            campaignToBePulled
-        );
+        if (campaignObject){
 
+            campaignToBePulled[0] = this.props.campaignID;
+            campaignToBePulled[1] = campaignObject.campaignImageURL;
+            campaignToBePulled[2] = campaignObject.name;
+            Meteor.call("userPendingInvites.pull",
+                Meteor.userId(),
+                campaignToBePulled
+            );
+
+            
+        }
         this.props.closePopup();
     }
 
@@ -123,7 +133,6 @@ export default class PlayerFormPopup extends React.Component {
 
     render() {
         this.campaign=this.props.campaign
-
         return (
             <div className='popup'>
                 <div className="pending-invite-popup popup_inner">

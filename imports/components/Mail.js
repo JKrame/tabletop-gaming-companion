@@ -12,7 +12,7 @@ var users;
 export default class Mail extends React.Component{
     constructor(props){
         super(props);
-        this.state = { conversation: null, contactUsername: null } ;
+        this.state = { conversation: null, contactUsername: null, conversationList: null, contactImage: null } ;
     }
 
     componentWillMount(){
@@ -21,7 +21,9 @@ export default class Mail extends React.Component{
             if(sub.ready())
             {
                 id = Meteor.userId();
+                console.log(id);
                 this.conversations = Conversations.find().fetch();
+                this.setState({conversationList: this.conversations});
                 if (this.state.conversation != null){
                     for(i = 0; i < this.conversations.length; i++){
                         if (this.conversations[i]._id == this.state.conversation._id){
@@ -60,6 +62,7 @@ export default class Mail extends React.Component{
         var username = this.refs.friendSearchInput.value;
         var image;
         var found = false;
+        var contact;
 
         for(var i = 0; i < this.users.length; i++)
         {
@@ -71,7 +74,7 @@ export default class Mail extends React.Component{
                 break;
             }
         }
-
+        
         if(!found)
         {
             alert(username + " does not exist.");
@@ -82,19 +85,36 @@ export default class Mail extends React.Component{
         }
         else
         {
+<<<<<<< HEAD
             console.log(this.conversations);
             alreadyFriends = false;
             for (i = 0; i < this.conversations.length; i++){
                 if (contact._id == this.conversations[i].participants[0].id || contact._id == this.conversations[i].participants[1].id){
                     alreadyFriends = true;
+=======
+            
+            for(i = 0; i < this.conversations.length; i++)
+            {
+                console.log(this.conversations[i]);
+                console.log(this.conversations[i].participants[0].id)
+                console.log(this.conversations[i].participants[1].id)
+                if(contact._id == this.conversations[i].participants[0].id)
+                {
+                    return;
+                }
+                else if(contact._id == this.conversations[i].participants[1].id)
+                {
+                    return;
+>>>>>>> 686fa3a3a473ed1c006c706ee8f7b2be40050f41
                 }
             }
-
-            if (!alreadyFriends){
-                Meteor.call('conversations.insert', this.user, contact);
-                this.searchPlayerUsername = username;
-                this.searchPlayerURL = image
-            }
+            
+            Meteor.call('conversations.insert', this.user, contact);
+            
+            console.log(contact);
+            this.searchPlayerUsername = username;
+            this.searchPlayer = contact;
+            this.searchPlayerURL = image;
         }
     }
 
@@ -107,10 +127,10 @@ export default class Mail extends React.Component{
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                cards.push(<UserCard 
+                cards.push(<UserCard
                     key={i} 
                     username={partner.name} 
-                    accountPicture={partner.accountPicture} 
+                    accountPicture={partner.picture} 
                     param={this.conversations[i]} 
                     func={this.loadConversation.bind(this)}/>);
             }
@@ -124,10 +144,11 @@ export default class Mail extends React.Component{
             this.setState({conversation: conversation});
 
             if (conversation.participants[0].id == Meteor.userId()){
-                this.setState({contactUsername : conversation.participants[1].name});
+                this.setState({contactUsername : conversation.participants[1].name, contactImage : conversation.participants[1].image});
+                
             }
             else{
-                this.setState({contactUsername : conversation.participants[0].name});
+                this.setState({contactUsername : conversation.participants[0].name, contactImage : conversation.participants[0].image});
             }
 
             this.forceUpdate();
@@ -153,7 +174,7 @@ export default class Mail extends React.Component{
                             <p>Find Friends</p>
                             <input type="text" ref="friendSearchInput" className="full-width"/>
                             <button onClick={() => this.findPlayer()} className="full-width blue-button" >Find</button>
-                            <UserCardMicro userImageURL={this.searchPlayerURL} username={this.searchPlayerUsername}/>
+                            <UserCardMicro userImageURL={this.searchPlayerURL} username={this.searchPlayerUsername} contact={this.searchPlayer} user={this.user}/>
                         </div>
                         <div className="spacer col-sm-12"/>                      
                         <div className="spacer col-sm-12"/>
@@ -168,7 +189,7 @@ export default class Mail extends React.Component{
                 <div className="col-lg-8">
                     <div className="page-content col-sm-12" style={{"height":"80px"}}>
                         <div style={{"float":"left"}}>
-                            <div style={{ "width":"60px","height":"60px", "backgroundColor":"red"}}/>
+                            <img src={this.state.contactImage != null && this.state.contactImage != "" ? this.state.contactImage : '/images/photoMissing.png'}  style={{ "width":"60px","height":"60px"}}/>
                         </div>
                         <div style={{"float":"left", "width":"300px","marginLeft":"30px"}}>
                             <h4>Chatting With: {this.state.contactUsername}</h4>

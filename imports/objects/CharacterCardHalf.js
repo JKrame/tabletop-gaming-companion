@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom';
 export default class CharacterCardHalf extends React.Component{
     render() {
         return (
-            <div className="objectCardHalf highlight-container">
+            <div className="objectCardHalf highlight-container" draggable="false">
                 <div className="objectCardHalfImage">
-                    <img src={'/images/placeholder.jpg'} className="stretch-image"/>
+                    <img src={'/images/placeholder.jpg'} className="stretch-image" draggable="false"/>
                 </div>
                 <div className="objectCardHalfInfo container-fluid">
                     <h4 className="no-margin-override">{this.props.characterName}</h4>

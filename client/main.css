@@ -46,6 +46,27 @@ hr{
     
 }
 
+.chardata{
+    font-weight: bold;
+    color:black;
+}
+
+.static-cs-popup{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height: 85vh;
+    width:70vw;
+    z-index: 999;
+    padding:30px;
+    margin:5vw auto;
+    background-color: rgba(200, 200, 200, 0.901);
+
+
+}
+
 .hr-override-light{
     margin-top:5px !important;
     border-top: 2px solid #d5d5d5 !important;
@@ -146,7 +167,7 @@ body{
   }
 
   .page-wrapper{
-      margin-top:20px;
+      margin-top:0px;
   }
 
   .page-content{
@@ -317,6 +338,41 @@ body{
     transition:.5s;
     background-color:rgba(255, 64, 76, .415);
 }
+
+.imageMini{
+    float:left;
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    overflow: hidden;
+    border: solid 2px #606060;
+    border-radius: 10px 10px 10px 10px;
+    width:130px;
+    height:130px;
+}
+
+.npcCard{
+    text-decoration: none;
+    display: -webkit-flex;
+    display: flex;
+    margin:5px;
+    margin-left:30px;
+    margin-right:30px;
+    max-height:75px;
+    padding:5px;
+    border: solid 2px #d5d5d5;
+    overflow:hidden;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.textBoxMini{
+    height:74px;
+    text-align: center;
+    margin-bottom:6px;
+    border:solid 1px #d5d5d5;
+}
+
+
 
 .objectCardMini{
     text-decoration: none;
@@ -502,6 +558,7 @@ body{
 
 .stretch-image{
     height:100%;
+    width:100%;
 }
 
 .image-card{
@@ -801,7 +858,8 @@ center{
 
 .spell-slots{
     margin-bottom:10%;
-    display:inline-block;
+    display: -webkit-flex;
+    display: flex;
     margin:0 auto;
 }
 
@@ -841,10 +899,12 @@ center{
 
 .speechBubble{
     min-width:80px;
-    min-height:80px;
+    min-height:40px;
+    text-align: center;
+    vertical-align: center;
     border-radius: 20px;
     float:left;
-    padding:20px;
+    padding-top:10px;
 }
 a.menu_links{
     cursor:pointer;
@@ -1027,6 +1087,10 @@ a.menu_links{
     background: white;
   }
 
+  .npc-qty{
+
+  }
+
   .no-padding{
       padding:0 0 !important;
   }
@@ -1063,6 +1127,24 @@ a.menu_links{
       width:10px;
       margin-right:10px;
   }
+
+  .userNameCard{
+    height:30px;
+    background-color:rgba(255, 255, 255, 0.801);
+    display: flex;
+    margin:5px;
+    padding:5px;
+    overflow:hidden;
+    user-select: none;
+}
+.userNameCard:hover{
+    background: #1CA5B8;
+    color:#fff;
+}
+.userNameCard .select{
+    background: #FF404C;
+    color:#fff;
+}
 
 @media only screen and (max-width: 800px) {
     .logo{

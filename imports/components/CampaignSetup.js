@@ -86,16 +86,17 @@ export default class CampaignSetup extends React.Component{
         if (this.NPCs){
             for (var i = 0; i < this.NPCs.length; i++)
             {
-                cards.push(<CharacterCardMini
-                    key={i}
-                    characterImageURL={this.NPCs[i].characterImageURL}
-                    id={this.NPCs[i]._id}
-                    somehistory={this.props.history}
-                    func={this.loadNPC}
-                    characterName={this.NPCs[i].characterName}
-                    characterClass={this.NPCs[i].characterClass}
-                    level={this.NPCs[i].level}
-                    race={this.NPCs[i].race}
+                cards.push(
+                    <CharacterCardMini
+                        key={i}
+                        characterImageURL={this.NPCs[i].characterImageURL}
+                        id={this.NPCs[i]._id}
+                        somehistory={this.props.history}
+                        func={this.loadNPC}
+                        characterName={this.NPCs[i].characterName}
+                        characterClass={this.NPCs[i].characterClass}
+                        level={this.NPCs[i].level}
+                        race={this.NPCs[i].race}
                     />
                 );
             }
@@ -116,9 +117,12 @@ export default class CampaignSetup extends React.Component{
         if (this.characters){
             for (var i = 0; i < this.characters.length; i++)
             {
-                cards.push(<CharacterCardMiniWithOwner
-                    key={i}
-                    character={this.characters[i]}
+                var user = Meteor.users.findOne({_id: this.characters[i].UID}).profile.username;
+                cards.push(
+                    <CharacterCardMiniWithOwner
+                        key={i}
+                        character={this.characters[i]}
+                        username={user}
                     />
                 );
             }
@@ -137,11 +141,12 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard
-                key={i}
-                noteTitle={this.campaign.notes[i][0]}
-                noteDescription={this.campaign.notes[i][1]}
-                id={this.campaign._id}
+            cards.push(
+                <TextAssetcard
+                    key={i}
+                    noteTitle={this.campaign.notes[i][0]}
+                    noteDescription={this.campaign.notes[i][1]}
+                    id={this.campaign._id}
                 />
             );
         }
@@ -161,11 +166,16 @@ export default class CampaignSetup extends React.Component{
     addPlayer(username) {
         console.log("getting called");
         console.log(this.id);
-        var invitedUserID = Meteor.users.findOne({"profile.username" : username})._id;
-        if (invitedUserID == Meteor.userId())
+        if(username == null)
         {
-            return;
+            username = this.refs.username;
         }
+        var invitedUserID = Meteor.users.findOne({"profile.username" : username})._id;
+        // if (invitedUserID == Meteor.userId())
+        // {
+        //     alert("You cannot add yourself to your own campaign.");
+        //     return;
+        // }
         Meteor.call("campaignPendingInvites.addToSet", 
             _id = this.id,
             username
@@ -188,11 +198,12 @@ export default class CampaignSetup extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard
-                key={i}
-                URL={this.campaign.URLs[i]}
-                _id ={this.id}
-                campaignID={this.campaign._id}
+            cards.push(
+                <ImageAssetCard
+                    key={i}
+                    URL={this.campaign.URLs[i]}
+                    _id ={this.id}
+                    campaignID={this.campaign._id}
                 />
             );
         }
@@ -305,7 +316,7 @@ export default class CampaignSetup extends React.Component{
                             <h3>NPCs</h3>
                             <hr/>
                             <div className=" height-600 scrolling-container">
-                                {this.renderPlayers()}
+                                {this.renderNPCs()}
 
                                 <NavLink to='#' onClick={() => this.loadNPC()} className='nav-item nav-link'>   
                                     <div className="objectCardMini add-container grow">
@@ -358,7 +369,7 @@ export default class CampaignSetup extends React.Component{
                                 {this.renderImageAssets()}
 
                                 <div className='nav-item nav-link'>   
-                                    <div className="objectCardMini grid-item add-container">
+                                    <div className="imageMini grid-item add-container">
                                         <img onClick={this.toggleImagePopup.bind(this)} src={'/images/addIcon.png'} className="image-asset-img"/>
                                        
                                     </div>
@@ -454,7 +465,7 @@ export default class CampaignSetup extends React.Component{
                                 addImageAsset={this.addImageAsset.bind(this)}
                             />
                             : null
-                            }
+                        }
                         {this.state.showPlayerPopup ? 
                             <PlayerPopup
                                 text='Close Me'
@@ -462,9 +473,10 @@ export default class CampaignSetup extends React.Component{
                                 addPlayer={this.addPlayer.bind(this)}
                                 pendingInvites={this.pendingInvites}
                                 characters={this.characters}
+                                campaignID={this.id}
                             />
                             : null
-                            }
+                        }
                         
                     </div>
                 </div>

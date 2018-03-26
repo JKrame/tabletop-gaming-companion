@@ -13,7 +13,7 @@ export default class SettingsForm extends React.Component{
         super(init);
         this.handleLocationChange = this.handleLocationChange.bind(this);
         this.handleScheduleChange = this.handleScheduleChange.bind(this);
-        this.setAcountImage = this.setAcountImage.bind(this);
+        this.setAccountImage = this.setAccountImage.bind(this);
     }
 
     handleScheduleChange({target}){
@@ -76,33 +76,35 @@ export default class SettingsForm extends React.Component{
         });
     }
 
-    setAcountImage(){
+    setAccountImage(){
         Meteor.users.update(Meteor.userId(), {
-            $set: {"profile.accountPicture": this.refs.userImageURL.value.trim()}
+            $set: {"profile.picture": this.refs.userImageURL.value.trim(), "profile.accountPicture": this.refs.userImageURL.value.trim()}
         });
+        Meteor.call('conversations.update', Meteor.userId(), this.refs.userImageURL.value.trim());
     }
 
     render() {
         user = this.props.user;
         //console.log(user.profile.schedule[0])
         console.log(user.profile.accountPicture)
+        console.log(user.profile);
         
         return(
             <div>   
                         <div className="col-sm-4 split-page-left container">
-                            <img  src={user.profile.accountPicture != null && user.profile.accountPicture != "" ? user.profile.accountPicture : '/images/photoMissing.png'} className="full-width" />
+                            <img  src={user.profile.accountPicture != null && user.profile.accountPicture != "" ? user.profile.accountPicture : '/images/photoMissing.png'} className="full-width"  draggable="false"/>
                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
                                     <p className="p-override">IMAGE URL</p>
-                                    <input className="full-width" type="text" ref="userImageURL" />
+                                    <input className="full-width" type="text" ref="userImageURL"  defaultValue={user.profile.accountPicture != null ? user.profile.accountPicture : ""}/>
                                 </div>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
                                 <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-12">
-                                    <button className="full-width submit-button blue-button" onClick={this.setAcountImage}>SUBMIT CHANGES</button>
+                                    <button className="full-width submit-button blue-button" onClick={this.setAccountImage}>SAVE IMAGE</button>
                                 </div>
                         </div>
     
@@ -110,8 +112,8 @@ export default class SettingsForm extends React.Component{
                             <form>
                                 <div className="scrolling-container-smaller">
                                     <div className="col-sm-12">
-                                        <p className="p-override">NAME</p>
-                                        <input className="full-width" type="text" ref="characterName" />
+                                        <p className="p-override no-margin-override">USERNAME:</p>
+                                        <h2>{user.profile.username}</h2>
                                     </div>
                                 <div className="spacer col-sm-12"/>
                                     <div className="col-sm-12">
@@ -147,32 +149,7 @@ export default class SettingsForm extends React.Component{
                                         <br/>
                                         
                                     </div>                        
-                                <div className="spacer col-sm-12"/>
-                                    <div className="col-sm-12">
-                                        <p className="p-override">NAME</p>
-                                        <input className="full-width" type="text" ref="characterNames" />
-                                    </div>                        
-                                <div className="spacer col-sm-12"/>
-                                    <div className="col-sm-12">
-                                        <p className="p-override">NAME</p>
-                                        <input className="full-width" type="text" ref="characterName" />
-                                    </div>                       
-                                <div className="spacer col-sm-12"/>
-                                    <div className="col-sm-12">
-                                        <p className="p-override">NAME</p>
-                                        <input className="full-width" type="text" ref="characterName" />
-                                    </div>                       
-                                <div className="spacer col-sm-12"/>
-                                    <div className="col-sm-12">
-                                        <p className="p-override">NAME</p>
-                                        <input className="full-width" type="text" ref="characterName" />
-                                    </div>                       
-                                <div className="spacer col-sm-12"/>
-                                    <div className="col-sm-12">
-                                        <p className="p-override">NAME</p>
-                                        <input className="full-width" type="text" ref="characterName" />
-                                    </div>
-                                    
+                       
                                     <div className="spacer col-sm-12"/>
                                     <div className="spacer col-sm-12"/>
                                     <div className="spacer col-sm-12"/>

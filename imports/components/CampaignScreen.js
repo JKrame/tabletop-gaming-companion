@@ -15,6 +15,10 @@ import NPCCard from '../objects/NPCcard';
 import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
 import UserCard from '../objects/UserCard';
+import StaticCharacterSheet from '../objects/StaticCharacterSheet';
+import UserNameCard from '../objects/UserNameCard';
+
+var campaignID;
 
 export default class CampaignScreen extends React.Component{
     constructor() {
@@ -22,17 +26,34 @@ export default class CampaignScreen extends React.Component{
         this.state = {
             isGm: false,
             showInitiativePopup: false,
+            showCharacterPopup: false,
+            characterClick: null,
             conversation: null
         };
+        var toggleCharacterPopup = this.toggleCharacterPopup.bind(this);
     }
+
 
     toggleInitiativePopup(){
         this.setState({showInitiativePopup: !this.state.showInitiativePopup});
     }
+    toggleCharacterPopup(character){
+        this.setState({characterClick: character});
+        this.setState({showCharacterPopup: !this.showCharacterPopup});
+    }
+    
+    closeCharacterPopup(){
+        this.setState({showCharacterPopup: false});
+    }
+
+    setCharacterTarget(character){
+        alert(character.characterName);
+        this.toggleCharacterPopup(character);
+    }
 
     componentWillMount(){
-        console.log("props");
-        console.log(this.props);
+        //console.log("props");
+        //console.log(this.props);
 
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
             var campaignID = this.props.match.params._id;
@@ -40,6 +61,11 @@ export default class CampaignScreen extends React.Component{
             const sub = Meteor.subscribe('characters');
             if(sub.ready())
             {
+<<<<<<< HEAD
+=======
+                var campaignID = id.toString();
+                this.campaignID = campaignID;
+>>>>>>> 686fa3a3a473ed1c006c706ee8f7b2be40050f41
                 //this.characters = Characters.find({campaignID: campaignID}).fetch();
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
@@ -48,7 +74,13 @@ export default class CampaignScreen extends React.Component{
             const sub2 = Meteor.subscribe('campaigns');
             if(sub2.ready())
             {
+<<<<<<< HEAD
                 this.campaign = Campaigns.findOne({_id: campaignID});
+=======
+                //console.log(id);
+                this.campaign = Campaigns.findOne({_id: id});
+                //console.log(this.campaign);
+>>>>>>> 686fa3a3a473ed1c006c706ee8f7b2be40050f41
                 if(this.userID == this.campaign.gm)
                 {
                     this.setState({
@@ -97,28 +129,31 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.NPCs.length; i++)
         {
-            cards.push(<NPCCard
-                key={i}
-                func={this.setBroadcastAssetNPC.bind(this)}
-                NPC={this.NPCs[i]}
-                somehistory={this.props.history}
+            cards.push(
+                <NPCCard
+                    key={i}
+                    func={this.setBroadcastAssetNPC.bind(this)}
+                    NPC={this.NPCs[i]}
+                    somehistory={this.props.history}
                 />
             );
         }
         return <div>{cards}</div>;
     }
 
+
     renderTextAssets() {
         var cards = [];
         for (var i = 0; i < this.campaign.notes.length; i++)
         {
-            cards.push(<TextAssetcard
-                key={i}
-                func={this.setBroadcastAssetText.bind(this)}
-                noteTitle={this.campaign.notes[i][0]}
-                noteDescription={this.campaign.notes[i][1]}
-                id={this.campaign._id}
-                isCampaignScreen={true}
+            cards.push(
+                <TextAssetcard
+                    key={i}
+                    func={this.setBroadcastAssetText.bind(this)}
+                    noteTitle={this.campaign.notes[i][0]}
+                    noteDescription={this.campaign.notes[i][1]}
+                    id={this.campaign._id}
+                    isCampaignScreen={true}
                 />
             );
         }
@@ -175,7 +210,7 @@ export default class CampaignScreen extends React.Component{
             return (
                 <div className="broadcast-asset">
                     <div>
-                        <NavLink to={this.campaign.currentBroadcastItem} target="_blank" ><img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="broadcast-item" /></NavLink>
+                        <NavLink to={this.campaign.currentBroadcastItem} target="_blank" ><img src={this.campaign.currentBroadcastItem == null || this.campaign.currentBroadcastItem == "" ? '/images/addIcon.png' : this.campaign.currentBroadcastItem} className="broadcast-item" draggable="false" /></NavLink>
                     </div>
                 </div>
             );
@@ -185,7 +220,7 @@ export default class CampaignScreen extends React.Component{
         {
             return (
                 <div className="broadcast-asset">
-                    <NavLink to={this.campaign.currentBroadcastItem.characterImageURL} target="_blank" ><img src={this.campaign.currentBroadcastItem.characterImageURL} className="broadcast-item" /></NavLink>
+                    <NavLink to={this.campaign.currentBroadcastItem.characterImageURL} target="_blank" ><img src={this.campaign.currentBroadcastItem.characterImageURL} className="broadcast-item"  draggable="false" /></NavLink>
                 </div>
             );
         }
@@ -195,13 +230,14 @@ export default class CampaignScreen extends React.Component{
         var cards = [];
         for (var i = 0; i < this.campaign.URLs.length; i++)
         {
-            cards.push(<ImageAssetCard
-                key={i}
-                URL={this.campaign.URLs[i]}
-                func={this.setBroadcastAssetImage.bind(this)}
-                _id={this.id}
-                campaignID={this.campaign._id}
-                isCampaignScreen={true}
+            cards.push(
+                <ImageAssetCard
+                    key={i}
+                    URL={this.campaign.URLs[i]}
+                    func={this.setBroadcastAssetImage.bind(this)}
+                    _id={this.id}
+                    campaignID={this.campaign._id}
+                    isCampaignScreen={true}
                 />
             );
         }
@@ -214,7 +250,19 @@ export default class CampaignScreen extends React.Component{
         for (var i = 0; i < numcharacters; i++)
         {
             cards.push(
-                <CharacterCard key={i} characterImageURL={this.characters[i].characterImageURL} id={this.characters[i]._id} somehistory={this.props.history} func={this.loadCharacter} characterName={this.characters[i].characterName} characterClass={this.characters[i].characterClass} level={this.characters[i].level} race={this.characters[i].race}/>
+                <CharacterCard
+                    key={i} 
+                    character={this.characters[i]} 
+                    characterImageURL={this.characters[i].characterImageURL} 
+                    id={this.characters[i]._id} 
+                    somehistory={this.props.history} 
+                    parent={this}
+                    func={this.setCharacterTarget} 
+                    characterName={this.characters[i].characterName} 
+                    characterClass={this.characters[i].characterClass} 
+                    level={this.characters[i].level} 
+                    race={this.characters[i].race}
+                />
             );
         }
         return <div>{cards}</div>;
@@ -248,6 +296,12 @@ export default class CampaignScreen extends React.Component{
                 ) ;                                 
             }
             else{
+                for(var i=0;i<this.characters.length;i++){
+                    if (this.characters[i].UID == Meteor.userId()){
+                        currCharacter = i;
+                    }
+                }
+                //console.log(this.characters[currCharacter].spellSlotsCurr[0])
                 return(
                     <div> 
                         <h3>Spell Slots</h3>
@@ -255,66 +309,57 @@ export default class CampaignScreen extends React.Component{
                         <div className="spell-slots scrolling-container" >
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 1</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level1slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[0]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 0)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 0)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 2</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level2slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[1]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 1)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 1)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 3</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level3slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[2]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 2)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 2)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 4</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level4slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[3]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 3)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 3)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 5</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level5slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[4]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 4)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 4)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 6</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level6slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[5]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 5)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 5)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 7</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level7slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[6]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 6)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 6)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 8</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level8slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[7]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 7)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 7)}>-</button>
                             </div>
                             <div className="spell-slot-panel ">
                                 <h5><strong>Level 9</strong></h5>
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
-                                <div className="toggle-box" />
+                                <input className="rollbox" ref="level9slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[8]} placeholder=""/>
+                                <button className="submit-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
+                                <button className="submit-button" onClick={this.removeSpell.bind(this, currCharacter, 8)}>-</button>
                             </div>
                         </div>
                     </div>
@@ -325,6 +370,78 @@ export default class CampaignScreen extends React.Component{
         
     }
 
+    addSpell(currCharacter, level){
+        spellSlotTemp = this.characters[currCharacter].spellSlotsCurr
+        spellSlotTemp[level] = spellSlotTemp[level] + 1
+
+        if(level==0){
+            this.refs.level1slot.value = spellSlotTemp[level]
+        }
+        else if(level==1){
+            this.refs.level2slot.value = spellSlotTemp[level]
+        }
+        else if(level==2){
+            this.refs.level3slot.value = spellSlotTemp[level]
+        }
+        else if(level==3){
+            this.refs.level4slot.value = spellSlotTemp[level]
+        }
+        else if(level==4){
+            this.refs.level5slot.value = spellSlotTemp[level]
+        }
+        else if(level==5){
+            this.refs.level6slot.value = spellSlotTemp[level]
+        }
+        else if(level==6){
+            this.refs.level7slot.value = spellSlotTemp[level]
+        }
+        else if(level==7){
+            this.refs.level8slot.value = spellSlotTemp[level]
+        }
+        else if(level==8){
+            this.refs.level9slot.value = spellSlotTemp[level]
+        }
+
+            Meteor.call("characters.updateSpells", this.characters[currCharacter]._id, spellSlotTemp);
+        
+    }
+    removeSpell(currCharacter, level){
+        spellSlotTemp = this.characters[currCharacter].spellSlotsCurr
+        spellSlotTemp[level] = spellSlotTemp[level] - 1
+
+        if(level==0 && spellSlotTemp[level] >= 0){
+            this.refs.level1slot.value = spellSlotTemp[level]
+        }
+        else if(level==1 && spellSlotTemp[level] >= 0){
+            this.refs.level2slot.value = spellSlotTemp[level]
+        }
+        else if(level==2 && spellSlotTemp[level] >= 0){
+            this.refs.level3slot.value = spellSlotTemp[level]
+        }
+        else if(level==3 && spellSlotTemp[level] >= 0){
+            this.refs.level4slot.value = spellSlotTemp[level]
+        }
+        else if(level==4 && spellSlotTemp[level] >= 0){
+            this.refs.level5slot.value = spellSlotTemp[level]
+        }
+        else if(level==5 && spellSlotTemp[level] >= 0){
+            this.refs.level6slot.value = spellSlotTemp[level]
+        }
+        else if(level==6 && spellSlotTemp[level] >= 0){
+            this.refs.level7slot.value = spellSlotTemp[level]
+        }
+        else if(level==7 && spellSlotTemp[level] >= 0){
+            this.refs.level8slot.value = spellSlotTemp[level]
+        }
+        else if(level==8 && spellSlotTemp[level] >= 0){
+            this.refs.level9slot.value = spellSlotTemp[level]
+        }
+
+        if(spellSlotTemp[level] >= 0){
+            Meteor.call("characters.updateSpells", this.characters[currCharacter]._id, spellSlotTemp);
+        }
+    }
+    
     toggleButton_Click(event){
         var clicked = event.target;
         clicked.backgroundColor = red;
@@ -367,7 +484,7 @@ export default class CampaignScreen extends React.Component{
         }
         if(Meteor.userId() == this.campaign.gm){
             console.log("gm rolled")
-            ToastStore.warning("The GM rolled a " + result);
+            ToastStore.warning("You rolled a " + result);
         }
         else{
             console.log("character rolled")
@@ -401,15 +518,15 @@ export default class CampaignScreen extends React.Component{
                     if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
                         cards.push(
                             <CharacterCard
-                            key={i}
-                            characterImageURL={this.characters[j].characterImageURL} 
-                            id={this.characters[j]._id} 
-                            somehistory={this.props.history} 
-                            func={this.loadCharacter} 
-                            characterName={this.characters[j].characterName} 
-                            characterClass={this.characters[j].characterClass} 
-                            level={this.characters[j].level} 
-                            race={this.characters[j].race}
+                                key={i}
+                                characterImageURL={this.characters[j].characterImageURL} 
+                                id={this.characters[j]._id} 
+                                somehistory={this.props.history} 
+                                func={this.loadCharacter} 
+                                characterName={this.characters[j].characterName} 
+                                characterClass={this.characters[j].characterClass} 
+                                level={this.characters[j].level} 
+                                race={this.characters[j].race}
                             />
                         );
                     }
@@ -702,121 +819,128 @@ export default class CampaignScreen extends React.Component{
                                 <div className="spacer col-sm-12"/>
                                 
                             </div>
+
                             <div className="col-sm-8 no-padding">
-                                <div className="scrolling-container chat-box in-game-chat-window">
+                                <div className="col-sm-12 scrolling-container in-game-chat-window full-width">
                                 <ChatWindow conversation={this.state.conversation}/>
 
                                 </div>
-                                <div className="col-sm-12 negate-margins" style={{"height":"50px", "marginTop":"10px"}}>
-                                    <div className="col-sm-8">
-                                            <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"50px"}}/>
-                                        </div>
 
-                                        <div className="col-sm-4 negate-margins">
-                                                <button  onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px"}}>SEND</button>
-                                        </div>
-                                    </div>
+                                <div className="col-sm-12"  style={{"marginTop":"10px"}}>
+                                    <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"40px"}}/>
+                                </div>
+
+                                <div className="col-sm-12 negate-margins" style={{"marginTop":"5px"}}>
+                                    <button  onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"25px"}}>SEND</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div className="sub-content-bottom col-lg-6 col-xs-12 content-container-mid add-background">
+                        <div className="inner-content-container" >
+                            <div className="col-md-7  col-xs-12">
+                                <div className="dice-display scrolling-container center">
+                                    <div className="spacer col-sm-12"/>
 
-
-
-
-                            <div className="sub-content-bottom col-lg-6 col-xs-12 content-container-mid add-background">
-                                <div className="inner-content-container" >
-                                    <div className="col-md-7  col-xs-12">
-                                        <div className="dice-display scrolling-container center">
-                                            <div className="spacer col-sm-12"/>
-
-                                            <div className="dice-panel">
-                                                <img src={'/images/d4.png'} className="dice-img"/>
-                                                <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d6.png'} className="dice-img"/>
-                                                <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d8.png'} className="dice-img"/>
-                                                <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d10.png'} className="dice-img"/>
-                                                <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d12.png'} className="dice-img"/>
-                                                <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d20.png'} className="dice-img"/>
-                                                <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
-                                            </div>
-                                            <div className="dice-panel">
-                                                <img src={'/images/d100.png'} className="dice-img"/>
-                                                <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
-                                            </div>
-                                        </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d4.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d4roller" placeholder="Qty:"/>
                                     </div>
-                                
-                                    <div className="col-sm-3  col-xs-12">
-                                        <div className="spacer col-sm-12"/>
-                                        <div className="mod-block">
-                                            <h4>ADD MODS</h4>
-                                            <hr/>
-                                            <div>
-                                                <input type="checkbox"/> STR
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> DEX
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> CON
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> INT
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> WIS
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> CHA
-                                            </div>
-                                            <div>
-                                                <input type="checkbox"/> PROF
-                                            </div>
-                                        </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d6.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d6roller" placeholder="Qty:"/>
                                     </div>
-
-
-                                    <div className="col-md-2  col-xs-12 ">
-                                        <div className="col-sm-12">
-                                            <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
-                                            {this.showInitiativeButton()}
-                                        </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d8.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d8roller" placeholder="Qty:"/>    
                                     </div>
-                                
+                                    <div className="dice-panel">
+                                        <img src={'/images/d10.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d10roller" placeholder="Qty:"/>
+                                    </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d12.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d12roller" placeholder="Qty:"/>
+                                    </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d20.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d20roller" placeholder="Qty:"/>
+                                    </div>
+                                    <div className="dice-panel">
+                                        <img src={'/images/d100.png'} className="dice-img" draggable="false"/>
+                                        <input className="rollbox" ref="d100roller" placeholder="Qty:"/>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div className="col-sm-3  col-xs-12">
+                                <div className="spacer col-sm-12"/>
+                                <div className="mod-block">
+                                    <h4>ADD MODS</h4>
+                                    <hr/>
+                                    <div>
+                                        <input type="checkbox"/> STR
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> DEX
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> CON
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> INT
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> WIS
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> CHA
+                                    </div>
+                                    <div>
+                                        <input type="checkbox"/> PROF
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="sub-content-bottom col-lg-3 col-xs-12 content-container-right  no-padding">
-                                <div className=" inner-content-container scrolling-container">
-                                    
-                                    {this.renderPanel()}
 
-
+                            <div className="col-md-2  col-xs-12 ">
+                                <div className="col-sm-12">
+                                    <button className="full-width submit-button blue-button" style={{"height":"80px", "marginTop":"20px"}} onClick={this.rollDice.bind(this)}>ROLL</button>
+                                    {this.showInitiativeButton()}
                                 </div>
                             </div>
+                        
+                        </div>
+                    </div>
+
+                    <div className="sub-content-bottom col-lg-3 col-xs-12 content-container-right  no-padding">
+                        <div className=" inner-content-container scrolling-container col-xs-12" >
+                            
+                            {this.renderPanel()}
+
+
+                        </div>
+                    </div>
 
                     {this.state.showInitiativePopup ? 
                         <InitiativePopup
                             text='Close Me'
                             closePopup={this.toggleInitiativePopup.bind(this)}
+                            endCombat={this.endCombat.bind(this)}
+                            campaignID={this.campaignID}
                         />
                         : null
-                        }
+                    }
+                    {this.state.showCharacterPopup ? 
+                        <StaticCharacterSheet
+                            text='Close Me'
+                            closePopup={this.closeCharacterPopup.bind(this)}
+                            campaignID={this.campaignID}
+                            character ={this.state.characterClick}
+                        />                        
+                        : null
+                    }
                         
                 </div>
             </div>
