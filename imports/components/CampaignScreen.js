@@ -28,7 +28,8 @@ export default class CampaignScreen extends React.Component{
             showInitiativePopup: false,
             showCharacterPopup: false,
             characterClick: null,
-            conversation: null
+            conversation: null,
+            gameLog: null
         };
         var toggleCharacterPopup = this.toggleCharacterPopup.bind(this);
     }
@@ -68,6 +69,9 @@ export default class CampaignScreen extends React.Component{
             if(sub2.ready())
             {
                 this.campaign = Campaigns.findOne({_id: campaignID});
+                this.gameLog = this.campaign.gameLog;
+                this.setState({gameLog: this.gameLog});
+
                 this.gm = this.campaign.gm;
                 if(this.userID == this.campaign.gm)
                 {
@@ -487,7 +491,6 @@ export default class CampaignScreen extends React.Component{
         this.refs.d10roller.value=""
         this.refs.d12roller.value=""
         this.refs.d20roller.value=""
-
     }
 
     renderInitiativeOrder(){
@@ -640,14 +643,6 @@ export default class CampaignScreen extends React.Component{
         }
     }
 
-    loadConversation(conversation) {
-        if (conversation){ 
-            this.setState({conversation: conversation});
-
-            this.forceUpdate();
-        }
-    }
-
     establishContact(){
         needContactWithGm = true;
 
@@ -689,6 +684,10 @@ export default class CampaignScreen extends React.Component{
     }
 
     addContact(UID){
+        if (!this.users){
+            return;
+        }
+        
         for(var i = 0; i < this.users.length; i++)
         {
             if(this.users[i]._id == UID)
