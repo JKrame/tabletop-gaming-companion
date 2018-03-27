@@ -401,7 +401,8 @@ export default class CampaignScreen extends React.Component{
     }
     removeSpell(currCharacter, level){
         spellSlotTemp = this.characters[currCharacter].spellSlotsCurr
-        spellSlotTemp[level] = spellSlotTemp[level] - 1
+        if(spellSlotTemp[level]>0)
+            spellSlotTemp[level] = spellSlotTemp[level] - 1
 
         if(level==0 && spellSlotTemp[level] >= 0){
             this.refs.level1slot.value = spellSlotTemp[level]
