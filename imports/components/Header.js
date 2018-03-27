@@ -27,8 +27,8 @@ export default class Header extends React.Component{
             {
                 this.username = Meteor.users.findOne({_id : Meteor.userId()}).profile.username;
                 this.url = Meteor.users.findOne({_id : Meteor.userId()}).profile.accountPicture;
-                console.log(this.username);
-                console.log(this.url);
+                //console.log(this.username);
+                //console.log(this.url);
                 
                 this.forceUpdate();
             }

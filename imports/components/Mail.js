@@ -85,14 +85,6 @@ export default class Mail extends React.Component{
         }
         else
         {
-<<<<<<< HEAD
-            console.log(this.conversations);
-            alreadyFriends = false;
-            for (i = 0; i < this.conversations.length; i++){
-                if (contact._id == this.conversations[i].participants[0].id || contact._id == this.conversations[i].participants[1].id){
-                    alreadyFriends = true;
-=======
-            
             for(i = 0; i < this.conversations.length; i++)
             {
                 console.log(this.conversations[i]);
@@ -105,7 +97,6 @@ export default class Mail extends React.Component{
                 else if(contact._id == this.conversations[i].participants[1].id)
                 {
                     return;
->>>>>>> 686fa3a3a473ed1c006c706ee8f7b2be40050f41
                 }
             }
             

@@ -5,5 +5,4 @@ import '../imports/api/users';
 //import '../imports/api/character';
     
 Meteor.startup(() => {
-    Conversations.rawCollection().createIndex({participants: 1});
 });
