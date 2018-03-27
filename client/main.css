@@ -365,6 +365,15 @@ body{
     border-radius: 10px 10px 10px 10px;
 }
 
+.textBoxMini{
+    height:74px;
+    text-align: center;
+    margin-bottom:6px;
+    border:solid 1px #d5d5d5;
+}
+
+
+
 .objectCardMini{
     text-decoration: none;
     display: -webkit-flex;
@@ -1118,6 +1127,24 @@ a.menu_links{
       width:10px;
       margin-right:10px;
   }
+
+  .userNameCard{
+    height:30px;
+    background-color:rgba(255, 255, 255, 0.801);
+    display: flex;
+    margin:5px;
+    padding:5px;
+    overflow:hidden;
+    user-select: none;
+}
+.userNameCard:hover{
+    background: #1CA5B8;
+    color:#fff;
+}
+.userNameCard .select{
+    background: #FF404C;
+    color:#fff;
+}
 
 @media only screen and (max-width: 800px) {
     .logo{

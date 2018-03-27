@@ -85,7 +85,6 @@ export default class Mail extends React.Component{
         }
         else
         {
-            
             for(i = 0; i < this.conversations.length; i++)
             {
                 console.log(this.conversations[i]);

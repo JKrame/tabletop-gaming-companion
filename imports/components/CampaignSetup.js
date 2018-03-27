@@ -165,7 +165,6 @@ export default class CampaignSetup extends React.Component{
 
     addPlayer(username) {
         console.log("getting called");
-        console.log(this.id);
         if(username == null)
         {
             username = this.refs.username;

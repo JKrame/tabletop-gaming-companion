@@ -6,8 +6,11 @@ import OtherBubble from '../objects/OtherSpeechBubble';
 export default class ChatWindow extends React.Component{
     renderChatBubbles(){
         var cards = [];
+        var messages;
+
         if (this.props.conversation){
             messages = this.props.conversation.messages;
+
             for (i = 0; i < messages.length; i++){
                 if (messages[i].userID == Meteor.userId()){
                     cards.push(<UserBubble key={i} message={messages[i].message}/>);
@@ -15,6 +18,13 @@ export default class ChatWindow extends React.Component{
                 else{
                     cards.push(<OtherBubble key={i} message={messages[i].message}/>);
                 }
+            }
+        }
+        else if (this.props.gameLog){
+            messages = this.props.gameLog;
+
+            for (i = 0; i < messages.length; i++){
+                cards.push(<OtherBubble key={i} message={messages[i]}/>);
             }
         }
 

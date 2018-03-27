@@ -28,7 +28,8 @@ export default class CampaignScreen extends React.Component{
             showInitiativePopup: false,
             showCharacterPopup: false,
             characterClick: null,
-            conversation: null
+            conversation: null,
+            gameLog: null
         };
         var toggleCharacterPopup = this.toggleCharacterPopup.bind(this);
     }
@@ -52,18 +53,13 @@ export default class CampaignScreen extends React.Component{
     }
 
     componentWillMount(){
-        //console.log("props");
-        //console.log(this.props);
-
         this.charactersCampaignScreenTracker = Tracker.autorun(() => {
-            var id = this.props.match.params._id;
-            var UID = Meteor.userId();
+            campaignID = this.props.match.params._id;
+            this.campaignID = campaignID;
 
             const sub = Meteor.subscribe('characters');
             if(sub.ready())
             {
-                var campaignID = id.toString();
-                this.campaignID = campaignID;
                 //this.characters = Characters.find({campaignID: campaignID}).fetch();
                 this.characters = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $ne: "npc" } } ] }).fetch();
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
@@ -72,9 +68,11 @@ export default class CampaignScreen extends React.Component{
             const sub2 = Meteor.subscribe('campaigns');
             if(sub2.ready())
             {
-                //console.log(id);
-                this.campaign = Campaigns.findOne({_id: id});
-                //console.log(this.campaign);
+                this.campaign = Campaigns.findOne({_id: campaignID});
+                this.gameLog = this.campaign.gameLog;
+                this.setState({gameLog: this.gameLog});
+
+                this.gm = this.campaign.gm;
                 if(this.userID == this.campaign.gm)
                 {
                     this.setState({
@@ -95,7 +93,6 @@ export default class CampaignScreen extends React.Component{
             const sub3 = Meteor.subscribe('conversations');
             if(sub3.ready())
             {
-                id = Meteor.userId();
                 this.conversations = Conversations.find().fetch();
                 if (this.state.conversation != null){
                     for(i = 0; i < this.conversations.length; i++){
@@ -109,6 +106,7 @@ export default class CampaignScreen extends React.Component{
             const sub4 = Meteor.subscribe('userData');
             if(sub4.ready()){
                 this.user = Meteor.users.findOne({_id : Meteor.userId()});
+                this.users = Meteor.users.find({}).fetch();
             }
 
             this.forceUpdate();
@@ -482,8 +480,10 @@ export default class CampaignScreen extends React.Component{
             ToastStore.warning("You rolled a " + result);
         }
         else{
-            console.log("character rolled")
-            ToastStore.warning(this.myCharacter.characterName + " rolled a " + result);
+            console.log("character rolled");
+            message = this.myCharacter.characterName + " rolled a " + result;
+            ToastStore.warning(message);
+            Meteor.call('campaignsGameLog.push', this.campaignID, message);
         }
         
         this.refs.d4roller.value=""
@@ -492,7 +492,6 @@ export default class CampaignScreen extends React.Component{
         this.refs.d10roller.value=""
         this.refs.d12roller.value=""
         this.refs.d20roller.value=""
-
     }
 
     renderInitiativeOrder(){
@@ -645,35 +644,103 @@ export default class CampaignScreen extends React.Component{
         }
     }
 
-    loadConversation(conversation) {
-        if (conversation){ 
-            this.setState({conversation: conversation});
+    establishContact(){
+        needContactWithGm = true;
 
-            this.forceUpdate();
+        if (Meteor.userId() == this.gm){
+            needContactWithGm = false;
+        }
+
+        for (i = 0; i < this.conversations.length && needContactWithGm; i++){
+            partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
+
+            if (partner.id == this.gm){
+                needContactWithGm = false;
+            }
+        }
+
+        if (needContactWithGm){
+            this.addContact(this.gm);
+        }
+
+
+        for (i = 0; i < this.characters.length; i++){
+            needContact = true;
+            if (this.characters[i].UID == Meteor.userId()){
+                continue;
+            }
+
+            for (j = 0; j < this.conversations.length; j++){
+                partner = (this.conversations[j].participants[0].id == Meteor.userId()) ? this.conversations[j].participants[1] : this.conversations[j].participants[0];
+                
+                if (partner.id == this.characters[i].UID){
+                    needContact = false;
+                }
+            }
+
+            if (needContact){
+                this.addContact(this.characters[i].UID);
+            }
         }
     }
 
-    establishContact(){
-    }
-
-    renderContacts() {
-        if (!this.conversations){
+    addContact(UID){
+        if (!this.users){
             return;
         }
+        
+        for(var i = 0; i < this.users.length; i++)
+        {
+            if(this.users[i]._id == UID)
+            {
+                Meteor.call('conversations.insert', this.user, this.users[i]);
+                return;
+            }
+        }
+    }
 
+    renderContacts(){
         var cards = [];
-        if (this.conversations){
+
+        if (this.campaign){
+            gameLog = this.campaign.gameLog;
+
+            cards.push(<UserCard 
+                key={-1}
+                username="Game Log"
+                accountPicture={null}
+                param={gameLog}
+                func={this.loadGameLog.bind(this)}/>
+            );
+        }
+
+        if (this.conversations && this.characters){
+            this.establishContact();
+        
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                cards.push(
-                    <UserNameCard 
+                inCampaign = false;
+                
+                if (partner.id == this.gm){
+                    inCampaign = true;
+                }
+
+                for (j = 0; j < this.characters.length && !inCampaign; j++){
+                    if (this.characters[j].UID == partner.id)
+                    {
+                        inCampaign = true;
+                    }
+                }
+                
+                if (inCampaign){
+                    cards.push(<UserCard 
                         key={i} 
                         username={partner.name} 
                         accountPicture={partner.accountPicture} 
                         param={this.conversations[i]} 
-                        func={this.loadConversation.bind(this)}
-                    />
-                );
+                        func={this.loadConversation.bind(this)}/>
+                    );
+                }
             }
         }
 
@@ -683,6 +750,14 @@ export default class CampaignScreen extends React.Component{
     loadConversation(conversation) {
         if (conversation){ 
             this.setState({conversation: conversation});
+            this.forceUpdate();
+        }
+    }
+
+    loadGameLog(gameLog){
+        if (gameLog){
+            this.setState({conversation: null});
+            this.setState({gameLog: gameLog});
             this.forceUpdate();
         }
     }
@@ -759,7 +834,7 @@ export default class CampaignScreen extends React.Component{
 
                             <div className="col-sm-8 no-padding">
                                 <div className="col-sm-12 scrolling-container in-game-chat-window full-width">
-                                <ChatWindow conversation={this.state.conversation}/>
+                                <ChatWindow conversation={this.state.conversation} gameLog={this.state.gameLog}/>
 
                                 </div>
 
