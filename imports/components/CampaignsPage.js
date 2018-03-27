@@ -3,6 +3,8 @@ import CampaignCardVertical from '../objects/CampaignCardVertical';
 import { NavLink } from 'react-router-dom';
 import { Random } from 'meteor/random';
 import InvitePopup from '../objects/PendingInvitePopup';
+import PendingCampaignCard from '../objects/PendingCampaignCard';
+import PendingCampaignCardVertical from '../objects/PendingCampaignCardVertical';
 
 import Header from './Header';
 
@@ -23,10 +25,11 @@ export default class CampaignsPage extends React.Component{
         };
     }
 
-    toggleInvitePopup() {
+    toggleInvitePopup(campaignID) {
         this.setState({
             showInvitePopup: !this.state.showInvitePopup
         });
+        this.pendingInviteCampaignID = campaignID;
     }
     componentWillMount(){
         this.campaignsTracker = Tracker.autorun(() => {
@@ -40,6 +43,8 @@ export default class CampaignsPage extends React.Component{
                 {
                     this.campaigns = campaignsArray;
                     display = true;
+                    this.pendingInvites = Meteor.users.findOne({_id : Meteor.userId()}).profile.pendingInvites;
+                    this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
                 }
             }
             this.forceUpdate();
@@ -92,7 +97,45 @@ export default class CampaignsPage extends React.Component{
         for (var i = 0; i < this.campaigns.length; i++)
         {
             cards.push(
-                <CampaignCardVertical key={i} campaignImageURL={this.campaigns[i].campaignImageURL} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.campaigns} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+                <CampaignCardVertical
+                    key={i}
+                    campaignImageURL={this.campaigns[i].campaignImageURL}
+                    id={this.campaigns[i]._id}
+                    somehistory={this.props.history}
+                    func={this.loadCampaign}
+                    campaigns={this.campaigns}
+                    campaignName={this.campaigns[i].name}
+                    campaignDescription={this.campaigns[i].description}
+                />
+            );
+        }
+        for (var i = 0; i < this.otherCampaigns.length; i++)
+        {
+            cards.push(
+                <CampaignCardVertical 
+                    key={i} 
+                    campaignImageURL={this.otherCampaigns[i].campaignImageURL} 
+                    id={this.otherCampaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.otherCampaigns} 
+                    campaignName={this.otherCampaigns[i].name} 
+                    campaignDescription={this.otherCampaigns[i].description}
+                />
+            );
+        }
+        for (var i = 0; i < this.pendingInvites.length; i++)
+        {
+            console.log(this.pendingInvites[i][0]);
+            cards.push(
+                <div onClick={this.toggleInvitePopup.bind(this, this.pendingInvites[i][0])}>
+                    <PendingCampaignCardVertical
+                        key={i}
+                        campaignID={this.pendingInvites[i][0]}
+                        campaignImageURL={this.pendingInvites[i][1]}
+                        campaignName={this.pendingInvites[i][2]}
+                    />
+                </div>
             );
         }
         return <div>{cards}</div>;
@@ -152,18 +195,6 @@ export default class CampaignsPage extends React.Component{
                         <div className="scrolling-container-80">
                             {this.renderCampaignForm()}
 
-                            <NavLink to='#' onClick={this.toggleInvitePopup.bind(this)} className='nav-item nav-link'>
-                                <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
-                                    <div className="vertical-card-contents">
-                                        <div className="vertical-image">
-                                            <img src={'/images/photoMissing.png'} className="full-width vertical-image"/>
-                                        </div>
-                                        <div className="vertical-data">
-                                            <h3 className="no-margin-override">PENDING INVITE</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </NavLink>
                             <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>
                                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
                                     <div className="vertical-card-contents">
@@ -179,13 +210,15 @@ export default class CampaignsPage extends React.Component{
                         </div>
                     </div>
                 </div>
-                {this.state.showInvitePopup ? 
-                    <InvitePopup
-                        text='Close Me'
-                        closePopup={this.toggleInvitePopup.bind(this)}
-                    />
-                    : null
-                }
+            {this.state.showInvitePopup ? 
+                <InvitePopup
+                    key={6666}
+                    text='Close Me'
+                    closePopup={this.toggleInvitePopup.bind(this)}
+                    campaignID={this.pendingInviteCampaignID}
+                />
+                : null
+            }
             </div>
         );
     }
