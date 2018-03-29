@@ -188,7 +188,7 @@ export default class Mail extends React.Component{
                     </div>
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
-                    <div className="spacer col-sm-12"/>
+                    <div className="spacer col-sm-12 chat-panel"/>
                             <ChatWindow conversation={this.state.conversation}/>
                             <div className="col-sm-12 page-content">
                                 <div className="col-sm-9">
