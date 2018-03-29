@@ -14,7 +14,6 @@ import ImageAssetCard from '../objects/ImageAssetCard';
 import NPCCard from '../objects/NPCcard';
 import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
-import UserCard from '../objects/UserCard';
 import StaticCharacterSheet from '../objects/StaticCharacterSheet';
 import DynamicCharSheet from '../objects/DynamicCharacterForm';
 import UserNameCard from '../objects/UserNameCard';
@@ -755,7 +754,7 @@ export default class CampaignScreen extends React.Component{
             gameLog = this.campaign.gameLog;
 
             cards.push(
-                <UserCard 
+                <UserNameCard 
                     key={-1}
                     username="Game Log"
                     accountPicture={null}
@@ -785,7 +784,7 @@ export default class CampaignScreen extends React.Component{
                 
                 if (inCampaign){
                     cards.push(
-                        <UserCard 
+                        <UserNameCard 
                             key={i} 
                             username={partner.name} 
                             accountPicture={partner.accountPicture} 
