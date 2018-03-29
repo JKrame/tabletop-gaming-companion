@@ -507,6 +507,10 @@ export default class CampaignScreen extends React.Component{
             dice=20
             d=this.refs.d20roller.value
         }
+        if(this.refs.d100roller.value){
+            dice=100
+            d=this.refs.d100roller.value
+        }
         result=0
         for(i=0;i<d;i++){
             result = result + this.randomDice(dice);
@@ -529,6 +533,7 @@ export default class CampaignScreen extends React.Component{
         this.refs.d10roller.value=""
         this.refs.d12roller.value=""
         this.refs.d20roller.value=""
+        this.refs.d100roller.value=""
     }
 
     renderInitiativeOrder(){
