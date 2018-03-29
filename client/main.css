@@ -1182,11 +1182,20 @@ a.menu_links{
       float:left;
   }
 
+  .empty-spell-slot{
+    background-color:#999;
+    height:5px;
+    width:10px;
+    margin:2px;
+    float:left;
+}
+
   .spell-slot-container{
       float:left;
       width:10px;
       margin-right:10px;
   }
+
 
   .userNameCard{
     height:30px;

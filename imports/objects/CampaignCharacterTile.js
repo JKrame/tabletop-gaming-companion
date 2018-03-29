@@ -13,19 +13,22 @@ export default class CampaignCharacterTile extends React.Component{
         for(var i = 0; i < this.props.character.spellSlotsCurr.length; i++)
         {
             spellSlots = [];
-            for(var j = 0; j < this.props.character.spellSlotsCurr[i]; j++)
+            for(var j = 0; j < this.props.character.spellSlotsMax[i]; j++)
             {
-                spellSlots.push(<div className="spell-slot "></div>);
+                if(j < this.props.character.spellSlotsCurr[i])
+                {
+                    spellSlots.push(<div className="spell-slot"></div>)
+                }
+                else
+                {
+                    spellSlots.push(<div className="empty-spell-slot"></div>)
+                }
                 console.log(j);
             }
             //console.log(spellSlots);
             if(spellSlots.length != 0)
             {
                 spellSlotContainers.push(<div className="spell-slot-container">{spellSlots}</div>);
-            }
-            else
-            {
-                console.log("Jeremy please make special empty slot slot holder");
             }
         }
         //console.log(spellSlotContainers);
