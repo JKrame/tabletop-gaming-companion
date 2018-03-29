@@ -300,58 +300,58 @@ export default class CampaignScreen extends React.Component{
                         <hr/>
                         <div className="spell-slots scrolling-container" >
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 1</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 0)}>+</button>
-                                <input className="rollbox" ref="level1slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[0]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 1</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 0)}>-</button>
+                                <input className="spellbox" ref="level1slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[0]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 0)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 2</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 1)}>+</button>
-                                <input className="rollbox" ref="level2slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[1]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 2</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 1)}>-</button>
+                                <input className="spellbox" ref="level2slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[1]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 1)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 3</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 2)}>+</button>
-                                <input className="rollbox" ref="level3slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[2]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 3</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 2)}>-</button>
+                                <input className="spellbox" ref="level3slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[2]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 2)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 4</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 3)}>+</button>
-                                <input className="rollbox" ref="level4slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[3]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 4</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 3)}>-</button>
+                                <input className="spellbox" ref="level4slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[3]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 3)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 5</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 4)}>+</button>
-                                <input className="rollbox" ref="level5slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[4]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 5</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 4)}>-</button>
+                                <input className="spellbox" ref="level5slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[4]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 4)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 6</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 5)}>+</button>
-                                <input className="rollbox" ref="level6slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[5]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 6</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 5)}>-</button>
+                                <input className="spellbox" ref="level6slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[5]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 5)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 7</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 6)}>+</button>
-                                <input className="rollbox" ref="level7slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[6]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 7</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 6)}>-</button>
+                                <input className="spellbox" ref="level7slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[6]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 6)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 8</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 7)}>+</button>
-                                <input className="rollbox" ref="level8slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[7]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 8</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 7)}>-</button>
+                                <input className="spellbox" ref="level8slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[7]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 7)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 9</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
-                                <input className="rollbox" ref="level9slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[8]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 9</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 8)}>-</button>
+                                <input className="spellbox" ref="level9slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[8]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
                             </div>
                         </div>
                     </div>
@@ -833,7 +833,7 @@ export default class CampaignScreen extends React.Component{
                             </div>
 
                             <div className="col-sm-8 no-padding">
-                                <div className="col-sm-12 scrolling-container in-game-chat-window full-width">
+                                <div className="col-sm-12 in-game-chat-window full-width">
                                 <ChatWindow conversation={this.state.conversation} gameLog={this.state.gameLog}/>
 
                                 </div>
