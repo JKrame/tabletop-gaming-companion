@@ -361,12 +361,34 @@ export default class CampaignScreen extends React.Component{
                                 <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
                             </div>
                         </div>
+                        <div>
+                            <button className="submit-button" onClick={this.longRest.bind(this, currCharacter)}>Long Rest</button>
+                        </div>
                     </div>
                 );
             }
         }
         else{return;}
         
+    }
+    longRest(currCharacter){
+        maxSpells = this.characters[currCharacter].spellSlotsMax
+
+        Meteor.call("characters.updateSpells", this.characters[currCharacter]._id, maxSpells);
+        this.refs.level1slot.value = maxSpells[0]
+        this.refs.level2slot.value = maxSpells[1]
+        this.refs.level3slot.value = maxSpells[2]
+        this.refs.level4slot.value = maxSpells[3]
+        this.refs.level5slot.value = maxSpells[4]
+        this.refs.level6slot.value = maxSpells[5]
+        this.refs.level7slot.value = maxSpells[6]
+        this.refs.level8slot.value = maxSpells[7]
+        this.refs.level9slot.value = maxSpells[8]
+        
+        currHealth = this.characters[currCharacter].currHP
+        maxHealth = this.characters[currCharacter].maxHP
+        console.log(currHealth)
+        console.log(maxHealth)
     }
 
     addSpell(currCharacter, level){
