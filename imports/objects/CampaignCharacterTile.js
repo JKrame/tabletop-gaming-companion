@@ -6,6 +6,31 @@ export default class CampaignCharacterTile extends React.Component{
         super(props);
     }
 
+    renderSpellSlots()
+    {
+        var spellSlotContainers = [];
+        var spellSlots;
+        for(var i = 0; i < this.props.character.spellSlotsCurr.length; i++)
+        {
+            spellSlots = [];
+            for(var j = 0; j < this.props.character.spellSlotsCurr[i]; j++)
+            {
+                spellSlots.push(<div className="spell-slot "></div>);
+                console.log(j);
+            }
+            //console.log(spellSlots);
+            if(spellSlots.length != 0)
+            {
+                spellSlotContainers.push(<div className="spell-slot-container">{spellSlots}</div>);
+            }
+            else
+            {
+                console.log("Jeremy please make special empty slot slot holder");
+            }
+        }
+        //console.log(spellSlotContainers);
+        return <div className="col-xs-12 ">{spellSlotContainers}</div>;
+    }
 
     render() {
         return (
@@ -27,62 +52,7 @@ export default class CampaignCharacterTile extends React.Component{
                         <div className="spacer col-sm-12"/>
 
 
-                        <div className="col-xs-12 ">
-                            <div className="spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>
-                            <div className=" spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>
-                            <div className=" spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>
-                            <div className=" spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>
-                            <div className=" spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>
-                            <div className=" spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>                            
-                            <div className=" spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>
-                            <div className=" spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>
-                            <div className=" spell-slot-container">
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                                <div className="spell-slot "></div>
-                            </div>
-                        </div>
+                        {this.renderSpellSlots()}
                     </div>
                 </div>
             </NavLink>

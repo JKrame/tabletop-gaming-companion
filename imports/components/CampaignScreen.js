@@ -254,6 +254,7 @@ export default class CampaignScreen extends React.Component{
                     characterClass={this.characters[i].characterClass} 
                     level={this.characters[i].level} 
                     race={this.characters[i].race}
+                    spellSlotsCurr={this.characters[i].spellSlotsCurr}
                 />
             );
         }
@@ -705,12 +706,14 @@ export default class CampaignScreen extends React.Component{
         if (this.campaign){
             gameLog = this.campaign.gameLog;
 
-            cards.push(<UserCard 
-                key={-1}
-                username="Game Log"
-                accountPicture={null}
-                param={gameLog}
-                func={this.loadGameLog.bind(this)}/>
+            cards.push(
+                <UserCard 
+                    key={-1}
+                    username="Game Log"
+                    accountPicture={null}
+                    param={gameLog}
+                    func={this.loadGameLog.bind(this)}
+                />
             );
         }
 
@@ -733,12 +736,14 @@ export default class CampaignScreen extends React.Component{
                 }
                 
                 if (inCampaign){
-                    cards.push(<UserCard 
-                        key={i} 
-                        username={partner.name} 
-                        accountPicture={partner.accountPicture} 
-                        param={this.conversations[i]} 
-                        func={this.loadConversation.bind(this)}/>
+                    cards.push(
+                        <UserCard 
+                            key={i} 
+                            username={partner.name} 
+                            accountPicture={partner.accountPicture} 
+                            param={this.conversations[i]} 
+                            func={this.loadConversation.bind(this)}
+                        />
                     );
                 }
             }
