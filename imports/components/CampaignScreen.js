@@ -364,7 +364,7 @@ export default class CampaignScreen extends React.Component{
 
     addSpell(currCharacter, level){
         spellSlotTemp = this.characters[currCharacter].spellSlotsCurr
-        spellSlotTemp[level] = spellSlotTemp[level] + 1
+        spellSlotTemp[level] = (spellSlotTemp[level] - 0) + 1
 
         if(level==0){
             this.refs.level1slot.value = spellSlotTemp[level]
