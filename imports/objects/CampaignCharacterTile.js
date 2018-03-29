@@ -50,7 +50,7 @@ export default class CampaignCharacterTile extends React.Component{
                             <div className="col-xs-10 no-margin-override">
                                 <div className="full-width" style={{"backgroundColor":"red", "height":"15px"}}/>
                             </div>
-                            <div className="col-xs-2 no-margin-override"><p>x/x</p></div>
+                            <div className="col-xs-2 no-margin-override"><p>{Number(this.props.character.currHP) + Number(this.props.character.tempHP)}/{this.props.character.maxHP}</p></div>
                         </div>
                         <div className="spacer col-sm-12"/>
 
