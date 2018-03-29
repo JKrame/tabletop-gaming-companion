@@ -298,34 +298,34 @@ export default class CharacterForm extends React.Component{
                             <div className="col-sm-6">
                                 <p className="p-override">SAVING THROWS (ctrl+click for multi-select)</p>
                                 <select className="full-width no-scrollbar" ref="savingThrows" defaultValue={character.savingThrows != null ? character.savingThrows : ""} size={6} multiple>
-                                    <option value="savingThrowStrength">Strength</option>
-                                    <option value="savingThrowDexterity">Dexterity</option>
-                                    <option value="savingThrowConstitution">Constitution</option>
-                                    <option value="savingThrowIntelligence">Intelligence</option>
-                                    <option value="savingThrowWisdom">Wisdom</option>
-                                    <option value="savingThrowCharisma">Charisma</option>
+                                    <option value="Strength">Strength</option>
+                                    <option value="Dexterity">Dexterity</option>
+                                    <option value="Constitution">Constitution</option>
+                                    <option value="Intelligence">Intelligence</option>
+                                    <option value="Wisdom">Wisdom</option>
+                                    <option value="Charisma">Charisma</option>
                                 </select>
                             </div>
                             <div className="col-sm-6">
                                 <p className="p-override">SKILLS (ctrl+click for multi-select)</p>
                                 <select className="full-width no-scrollbar" ref="characterSkills" defaultValue={character.skills != null ? character.skills : ""} size={18} multiple>
-                                    <option value="skillAcrobatics">Acrobatics</option>
-                                    <option value="skillAnimalHandling">Animal handling</option>
-                                    <option value="skillArcana">Arcana</option>
-                                    <option value="skillAthletics">Athletics</option>
-                                    <option value="skillDeception">Deception</option>
-                                    <option value="skillHistory">History</option>
-                                    <option value="skillInsight">Insight</option>
-                                    <option value="skillIntimidation">Intimidation</option>
-                                    <option value="skillInvestigation">Investigation</option>
-                                    <option value="skillMedicine">Medicine</option>
-                                    <option value="skillNature">Nature</option>
-                                    <option value="skillPerception">Perception</option>
-                                    <option value="skillPersuasion">Persuasion</option>
-                                    <option value="skillRelgion">Religion</option>
-                                    <option value="skillSleightOfHand">Sleight Of Hand</option>
-                                    <option value="skillStealth">Stealth</option>
-                                    <option value="skillSurvival">Survival</option>
+                                    <option value="Acrobatics">Acrobatics</option>
+                                    <option value="Animal Handling">Animal handling</option>
+                                    <option value="Arcana">Arcana</option>
+                                    <option value="Athletics">Athletics</option>
+                                    <option value="Deception">Deception</option>
+                                    <option value="History">History</option>
+                                    <option value="Insight">Insight</option>
+                                    <option value="Intimidation">Intimidation</option>
+                                    <option value="Investigation">Investigation</option>
+                                    <option value="Medicine">Medicine</option>
+                                    <option value="Nature">Nature</option>
+                                    <option value="Perception">Perception</option>
+                                    <option value="Persuasion">Persuasion</option>
+                                    <option value="Relgion">Religion</option>
+                                    <option value="Sleight Of Hand">Sleight Of Hand</option>
+                                    <option value="Stealth">Stealth</option>
+                                    <option value="Survival">Survival</option>
                                 </select>
                             </div>
 

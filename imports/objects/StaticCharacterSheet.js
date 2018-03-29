@@ -133,7 +133,7 @@ export default class StaticCharacterSheet extends React.Component {
                                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-4">
-                                    <p className="p-override">INITIATIVE: <span className="chardata">{character.initiative != null ? character.initiative : ""} </span></p>
+                                    <p className="p-override">INITIATIVE: <span className="chardata">{character.characterInitiative != null ? character.characterInitiative : ""} </span></p>
                                 </div>
                                 <div className="col-sm-4">
                                     <p className="p-override">SPEED: <span className="chardata">{character.speed != null ? character.speed : ""}</span></p>
@@ -159,10 +159,10 @@ export default class StaticCharacterSheet extends React.Component {
                                             <div className="spacer col-sm-12"/>
     
                                 <div className="col-sm-4">
-                                    <p className="p-override">DEATH SAVE SUCCESSES:<span className="chardata"> {character.deathSaveSuccesses != null ? character.deathSaveSuccesses : ""}</span></p>
+                                    <p className="p-override">DEATH SAVE SUCCESSES:<span className="chardata"> {character.characterDeathSaveSuccesses != null ? character.characterDeathSaveSuccesses : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">DEATH SAVE FAILURES:<span className="chardata"> {character.deathSaveFailures != null ? character.deathSaveFailures : ""}</span></p>
+                                    <p className="p-override">DEATH SAVE FAILURES:<span className="chardata"> {character.characterDeathSaveFailures != null ? character.characterDeathSaveFailures : ""}</span></p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
@@ -197,10 +197,10 @@ export default class StaticCharacterSheet extends React.Component {
                                     <p className="p-override">PROFICIENCY BONUS: <span className="chardata">{character.profBonus != null ? character.profBonus : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">INSPIRATION: <span className="chardata"> {character.inspiration != null ? character.inspiration : ""}</span></p>
+                                    <p className="p-override">INSPIRATION: <span className="chardata"> {character.characterInspiration != null ? character.characterInspiration : ""}</span></p>
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="p-override">PERCEPTION: <span className="chardata">{character.perception != null ? character.perception : ""}  </span></p>
+                                    <p className="p-override">PERCEPTION: <span className="chardata">{character.characterPerception != null ? character.characterPerception : ""}  </span></p>
                                 </div>
                                             
                                         <div className="spacer col-sm-12"/>
@@ -209,17 +209,14 @@ export default class StaticCharacterSheet extends React.Component {
                                 <div className="col-sm-6">
                                     <p className="p-override">SAVING THROWS:</p>
                                     <span className="chardata">
-                                        {character.savingThrows.forEach(function(element) {
-                                            <p>{element}</p>
-                                        }, this)}
+                                        {character.savingThrows + ' \n'}
                                     </span>
                                 </div>
                                 <div className="col-sm-6">
                                     <p className="p-override">SKILLS:</p>
                                     <span className="chardata">
-                                        {character.skills.forEach(function(element) {
-                                            <p>{element}</p>
-                                        }, this)}
+                                        {character.skills+' \n'}
+
                                     </span>
                                 </div>
     
@@ -263,37 +260,37 @@ export default class StaticCharacterSheet extends React.Component {
                                 </div>
                                 <div className="col-sm-5">
                                     <p className="p-override"><strong>NAME</strong></p>
-                                    <p className="chardata">{character.currWeaponName != null ? character.currWeaponName : ""} </p>
+                                    <p className="chardata">{character.currWeapon.currWeaponName != null ? character.currWeapon.currWeaponName : ""} </p>
                                 </div>
                                 <div className="col-sm-2">
                                     <p className="p-override"><strong>ATK BONUS</strong></p>
-                                    <p className="chardata">{character.weapon1Atk != null ? character.weapon1Atk : ""}</p>
+                                    <p className="chardata">{character.currWeapon.currWeaponBonus != null ? character.currWeapon.currWeaponBonus : ""}</p>
                                 </div>
                                 <div className="col-sm-5">
                                     <p className="p-override"><strong>DAMAGE/TYPE</strong></p>
-                                    <p className="chardata">{character.weapon1DamageType != null ? character.weapon1DamageType : ""}</p>
+                                    <p className="chardata">{character.currWeapon.currWeaponDamage != null ? character.currWeapon.currWeaponDamage : ""}</p>
                                 </div>
                                 <div className="half-spacer col-sm-12"/>
                                 
                                 <div className="col-sm-5">
-                                    <p className="chardata">{character.weapon2Name != null ? character.weapon2Name : ""} </p>
+                                    <p className="chardata">{character.currWeapon.weapon2Name != null ? character.currWeapon.weapon2Name : ""} </p>
                                 </div>
                                 <div className="col-sm-2">
-                                    <p className="chardata">{character.weapon2Atk != null ? character.weapon2Atk : ""} </p>
+                                    <p className="chardata">{character.currWeapon.weapon2Bonus != null ? character.currWeapon.weapon2Bonus : ""} </p>
                                 </div>
                                 <div className="col-sm-5">
-                                    <p className="chardata">{character.weapon2DamageType != null ? character.weapon2DamageType : ""}</p>
+                                    <p className="chardata">{character.currWeapon.weapon2damage != null ? character.currWeapon.weapon2damage : ""}</p>
                                 </div>
                                 <div className="half-spacer col-sm-12"/>
                                 
                                 <div className="col-sm-5">
-                                    <p className="chardata">{character.weapon3Name != null ? character.weapon3Name : ""}</p>
+                                    <p className="chardata">{character.currWeapon.weapon3Name != null ? character.currWeapon.weapon3Name : ""}</p>
                                 </div>
                                 <div className="col-sm-2">
-                                    <p className="chardata">{character.weapon3Atk != null ? character.weapon3Atk : ""}</p>
+                                    <p className="chardata">{character.currWeapon.weapon3Bonus != null ? character.currWeapon.weapon3Bonus : ""}</p>
                                 </div>
                                 <div className="col-sm-5">
-                                    <p className="chardata">{character.weapon3DamageType != null ? character.weapon3DamageType : ""}</p>
+                                    <p className="chardata">{character.currWeapon.weapon3damage != null ? character.currWeapon.weapon3damage : ""}</p>
                                 </div>
                                 <div className="half-spacer col-sm-12"/>
     
@@ -320,7 +317,7 @@ export default class StaticCharacterSheet extends React.Component {
                                 </div>
                                 
                                 <div className="col-sm-12">
-                                    <p className="chardata">{character.equipment != null ? character.equipment : ""}</p>
+                                    <p className="chardata">{character.equipmentNotes!= null ? character.equipmentNotes : ""}</p>
                                 </div>
     
                                             <div className="spacer col-sm-12"/>
