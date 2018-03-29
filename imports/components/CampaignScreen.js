@@ -447,6 +447,42 @@ export default class CampaignScreen extends React.Component{
     rollDice(){
         d=null
         dice=0
+        mod=0
+        prof=0
+
+        for(var i=0;i<this.characters.length;i++){
+            if (this.characters[i].UID == Meteor.userId()){
+                currCharacter = i;
+            }
+        }
+        
+        if(this.refs.STR.checked){
+            //console.log(this.characters[currCharacter].attributes[0])
+            mod = this.characters[currCharacter].attributes[0]
+        }
+        if(this.refs.DEX.checked){
+            mod = this.characters[currCharacter].attributes[1]
+        }
+        if(this.refs.CON.checked){
+            mod = this.characters[currCharacter].attributes[2]
+        }
+        if(this.refs.INT.checked){
+            mod = this.characters[currCharacter].attributes[3]
+        }
+        if(this.refs.WIS.checked){
+            mod = this.characters[currCharacter].attributes[4]
+        }
+        if(this.refs.CHA.checked){
+            mod = this.characters[currCharacter].attributes[5]
+        }
+        //gets true mod
+        mod = Math.floor((mod/2) - 5)
+        //gets proficiency
+        if(this.refs.profMod.checked){
+            prof=this.characters[currCharacter].profBonus
+            prof = prof-0
+        }            
+
         if(this.refs.d4roller.value){
             dice=4
             d=this.refs.d4roller.value
@@ -474,6 +510,7 @@ export default class CampaignScreen extends React.Component{
         result=0
         for(i=0;i<d;i++){
             result = result + this.randomDice(dice);
+            result = result + mod + prof
         }
         if(Meteor.userId() == this.campaign.gm){
             console.log("gm rolled")
@@ -892,25 +929,25 @@ export default class CampaignScreen extends React.Component{
                                     <h4>ADD MODS</h4>
                                     <hr/>
                                     <div>
-                                        <input type="checkbox"/> STR
+                                        <input type="checkbox" ref="STR"/> STR
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> DEX
+                                        <input type="checkbox" ref="DEX"/> DEX
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> CON
+                                        <input type="checkbox" ref="CON"/> CON
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> INT
+                                        <input type="checkbox" ref="INT"/> INT
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> WIS
+                                        <input type="checkbox" ref="WIS"/> WIS
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> CHA
+                                        <input type="checkbox" ref="CHA"/> CHA
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> PROF
+                                        <input type="checkbox" ref="profMod"/> PROF
                                     </div>
                                 </div>
                             </div>
