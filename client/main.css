@@ -67,6 +67,13 @@ hr{
 
 }
 
+.editSheetBtn{
+    position:absolute;
+    bottom:20px;
+    align-content: center;
+    align-self:center;    
+}
+
 .hr-override-light{
     margin-top:5px !important;
     border-top: 2px solid #d5d5d5 !important;
@@ -471,6 +478,10 @@ body{
 
 .full-width{
     width:100%;
+}
+
+.width-80{
+    width:80%;
 }
 
 .full-height{
@@ -1118,6 +1129,21 @@ a.menu_links{
     bottom: 25%;
     margin: auto;
     background: white;
+  }
+
+  .dynamic-cs-popup{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height: 90vh;
+    width:70vw;
+    z-index: 999;
+    padding:30px;
+    margin:5vw auto;
+    background-color: rgba(200, 200, 200, 0.901);
+
   }
 
   .npc-qty{

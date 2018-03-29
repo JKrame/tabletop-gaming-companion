@@ -16,6 +16,7 @@ import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
 import UserCard from '../objects/UserCard';
 import StaticCharacterSheet from '../objects/StaticCharacterSheet';
+import DynamicCharSheet from '../objects/DynamicCharacterForm';
 import UserNameCard from '../objects/UserNameCard';
 
 var campaignID;
@@ -27,6 +28,7 @@ export default class CampaignScreen extends React.Component{
             isGm: false,
             showInitiativePopup: false,
             showCharacterPopup: false,
+            showEditablePopup:false,
             characterClick: null,
             conversation: null,
             gameLog: null
@@ -45,6 +47,10 @@ export default class CampaignScreen extends React.Component{
     
     closeCharacterPopup(){
         this.setState({showCharacterPopup: false});
+    }
+
+    closeEditablePopup(){
+        this.setState({showEditablePopup: false});
     }
 
     setCharacterTarget(character){
@@ -522,7 +528,7 @@ export default class CampaignScreen extends React.Component{
         }
         else{
             console.log("character rolled");
-            message = this.myCharacter.characterName + " rolled a " + result;
+            message = this.myCharacter.characterName + " rolled " + d + "xD" + dice + " |  Result: " + result ;
             ToastStore.warning(message);
             Meteor.call('campaignsGameLog.push', this.campaignID, message);
         }
@@ -747,7 +753,7 @@ export default class CampaignScreen extends React.Component{
         if (this.campaign){
             gameLog = this.campaign.gameLog;
 
-            cards.push(<UserCard 
+            cards.push(<UserNameCard 
                 key={-1}
                 username="Game Log"
                 accountPicture={null}
@@ -775,7 +781,7 @@ export default class CampaignScreen extends React.Component{
                 }
                 
                 if (inCampaign){
-                    cards.push(<UserCard 
+                    cards.push(<UserNameCard 
                         key={i} 
                         username={partner.name} 
                         accountPicture={partner.accountPicture} 
@@ -810,6 +816,10 @@ export default class CampaignScreen extends React.Component{
             Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
             this.loadConversation(this.state.conversation);
         }
+    }
+
+    editSheet(){
+        this.setState({showEditablePopup: !this.showEditablePopup});
     }
 
     render() {
@@ -856,6 +866,7 @@ export default class CampaignScreen extends React.Component{
                                     <div className="scrolling-container-content-top">
                                         {this.renderCharacterCard()}
                                     </div>
+                                    <button onClick={this.editSheet.bind(this)} className="width-80 blue-button editSheetBtn" style={{"height":"25px"}}>EDIT SHEET</button>
                                 </div>
                             </div>
 
@@ -986,13 +997,22 @@ export default class CampaignScreen extends React.Component{
                         />
                         : null
                     }
-                    {this.state.showCharacterPopup ? 
-                        <StaticCharacterSheet
-                            text='Close Me'
-                            closePopup={this.closeCharacterPopup.bind(this)}
-                            campaignID={this.campaignID}
-                            character ={this.state.characterClick}
-                        />                        
+                    {this.state.showCharacterPopup ?
+
+                            <StaticCharacterSheet
+                                text='Close Me'
+                                closePopup={this.closeCharacterPopup.bind(this)}
+                                character ={this.state.characterClick}
+                            />                        
+                        : null
+                    }
+                    {this.state.showEditablePopup ?
+
+                            <DynamicCharSheet
+                                text='Close Me'
+                                closePopup={this.closeEditablePopup.bind(this)}
+                                character ={this.myCharacter}
+                            />                        
                         : null
                     }
                         

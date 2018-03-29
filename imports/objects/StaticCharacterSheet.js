@@ -1,69 +1,10 @@
 import React from 'react'
 import UserCard from '../objects/UserCard';
+import CharacterForm from '../objects/CharacterForm';
 
 
 export default class StaticCharacterSheet extends React.Component {
     
-    componentWillMount(){
-        this.playerFormPopupTracker = Tracker.autorun(() => {
-            const sub = Meteor.subscribe('conversations');
-            if(sub.ready())
-            {
-                this.conversations = Conversations.find({ participants:{$elemMatch : {id : Meteor.userId()}}}).fetch();
-            }
-
-            const sub2 = Meteor.subscribe('userData');
-            if(sub2.ready())
-            {
-                this.users = Meteor.users.find({}).fetch();
-            }
-
-            this.forceUpdate();
-        });
-    }
-
-    componentWillUnmount(){
-        this.playerFormPopupTracker.stop();
-    }
-
-    renderContacts() {
-        var cards = [];
-        if (this.conversations){
-            for (var i = 0; i < this.conversations.length; i++){
-                console.log(this.conversations[i]);
-                partner = (this.conversations[i].participants[0].id === Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                console.log(partner);
-                if (!this.alreadyInvited(partner)){
-                    cards.push(
-                        <UserCard
-                            key={i}
-                            username={partner.name}
-                            accountPicture={partner.picture}
-                            func={this.props.addPlayer}
-                            param={partner.id}
-                        />
-                    );
-                }
-            }
-        }
-        return <div>{cards}</div>;
-    }
-
-    alreadyInvited(player){
-        for (var i = 0; i < this.props.pendingInvites.length; i++){
-            if (this.props.pendingInvites[i] == player._id){
-                return true;
-            }
-        }
-
-        for (var i = 0; i < this.props.characters.length; i++){
-            if (this.props.characters[i].UID == player._id){
-                return true;
-            }
-        }
-
-        return false;
-    }
 
 
     renderImage(){
@@ -73,8 +14,8 @@ export default class StaticCharacterSheet extends React.Component {
     render() {
         character = this.props.character;
 
-        return(
-            <div className='popup'>
+            return(
+                <div className='popup'>
                     <div className="static-cs-popup">
                         <div className="col-sm-4 split-page-left container">
                             <img src={character.characterImageURL != null && character.characterImageURL != "" ? character.characterImageURL : '/images/photoMissing.png'} className="full-width" draggable="false"/>
@@ -340,7 +281,9 @@ export default class StaticCharacterSheet extends React.Component {
 
                         </div>
                     </div>
-        </div>
-        );
+                </div>
+            
+            );
+        }
+    
     }
-}
