@@ -17,21 +17,9 @@ export default class InitiativePopup extends React.Component {
     }
 
     componentWillMount(){
-        this.playerFormPopupTracker = Tracker.autorun(() => {
-            const sub = Meteor.subscribe('conversations');
+        this.initiativePopupTracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('characters');
             if(sub.ready())
-            {
-                this.conversations = Conversations.find( {$or: [{"userOne._id": Meteor.userId()}, {"userTwo._id": Meteor.userId()}]}).fetch();
-            }
-
-            const sub2 = Meteor.subscribe('userData');
-            if(sub2.ready())
-            {
-                this.users = Meteor.users.find({}).fetch();
-            }
-            
-            const sub3 = Meteor.subscribe('characters');
-            if(sub3.ready())
             {
                 this.NPCs = Characters.find({ $and: [ { campaignID: { $eq: this.props.campaignID } }, { UID: { $eq: "npc" } } ] }).fetch();
             }
@@ -41,42 +29,7 @@ export default class InitiativePopup extends React.Component {
     }
 
     componentWillUnmount(){
-        this.playerFormPopupTracker.stop();
-    }
-
-    renderContacts() {
-        var cards = [];
-        if (this.conversations){
-            for (var i = 0; i < this.conversations.length; i++){
-                partner = (this.conversations[i].userOne._id == Meteor.userId()) ? this.conversations[i].userTwo : this.conversations[i].userOne;
-                if (!this.alreadyInvited(partner)){
-                    cards.push(
-                        <UserCard
-                            key={i}
-                            username={partner.profile.username}
-                            accountPicture={partner.profile.accountPicture}
-                            func={this.props.addPlayer}
-                            param={partner._id}
-                        />
-                    );
-                }
-            }
-        }
-        return <div>{cards}</div>;
-    }
-
-    alreadyInvited(player){
-        for (var i = 0; i < this.props.pendingInvites.length; i++){
-            if (this.props.pendingInvites[i] == player._id){
-                return true;
-            }
-        }
-        for (var i = 0; i < this.props.characters.length; i++){
-            if (this.props.characters[i].UID == player._id){
-                return true;
-            }
-        }
-        return false;
+        this.initiativePopupTracker.stop();
     }
 
     renderNPCs()
@@ -115,13 +68,6 @@ export default class InitiativePopup extends React.Component {
         return <div>{boxes}</div>;
     }
 
-    addPlayer(userID){
-        if (!userID){
-            userID = this.refs.username.value;
-        }
-        this.props.addPlayer(userID);
-    }
-
     endCombat()
     {
         this.props.endCombat();
@@ -133,20 +79,39 @@ export default class InitiativePopup extends React.Component {
         for(var i = 0; i < this.NPCs.length; i++)
         {
             var refID = "npc" + i;
-            var copies = ReactDOM.findDOMNode(this.refs[refID]).value;
+            var numCopies = ReactDOM.findDOMNode(this.refs[refID]).value;
             var npc_id = this.NPCs[i]._id;
-            for(var j = 0; j < copies; j++)
+            var tempHp = this.NPCs[i].tempHp == null ? 0 : this.NPCs[i].tempHp;
+            var currHp = this.NPCs[i].currHp == null ? 0 : this.NPCs[i].currHp;
+            var currHp = currHp + tempHp;
+            console.log(currHp);
+            var maxHp = this.NPCs[i].maxHp == null ? 0 : this.NPCs[i].maxHp;
+            var dex = this.NPCs[i].attributes[1];
+
+            for(var j = 0; j < numCopies; j++)
             {
                 var unique_id = Random.id();
-                var initiative = Math.round(Math.random() * 19 + 1);
+                var initiative = Math.floor(Math.random() * 20) + 1 + dex;
+
                 Meteor.call("campaignsActiveNPCs.addToSet",
                     this.props.campaignID,
+                    this.NPCs[i],
+                    unique_id
+                );
+
+                console.log(this.props.campaignID);
+                console.log(unique_id);
+                Meteor.call('campaigns.addToTurnOrder',
+                    this.props.campaignID,
                     unique_id,
-                    npc_id,
-                    initiative
+                    initiative,
+                    dex,
+                    0,
+                    true
                 );
             }
         }
+
         this.props.closePopup();
     }
 

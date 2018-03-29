@@ -8,6 +8,10 @@ export default class CampaignCharacterTile extends React.Component{
 
     renderSpellSlots()
     {
+        if (!this.props.character){
+            return null;
+        }
+
         var spellSlotContainers = [];
         var spellSlots;
         for(var i = 0; i < this.props.character.spellSlotsCurr.length; i++)

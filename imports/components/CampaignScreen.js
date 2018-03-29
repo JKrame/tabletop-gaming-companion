@@ -114,6 +114,10 @@ export default class CampaignScreen extends React.Component{
                 this.users = Meteor.users.find({}).fetch();
             }
 
+            if (sub.ready() && sub2.ready() && sub3.ready() && sub4.ready()){
+                this.establishContact();
+            }
+
             this.forceUpdate();
         });
     }
@@ -570,33 +574,58 @@ export default class CampaignScreen extends React.Component{
 
     renderInitiativeOrder(){
         isSorted = true;
-        prev = Number.MAX_SAFE_INTEGER;
+        var prev = null;
         cards = [];
 
         if (this.campaign && this.characters){
             for (i = 0; i < this.campaign.turnOrder.length; i++){
                 index = (i + this.campaign.turnIndex) % this.campaign.turnOrder.length;
 
-                if (this.campaign.turnOrder[index].initiative > prev){
+                if (prev != null && this.compareInitiative(this.campaign.turnOrder[index], prev) == -1){
+                    console.log("needs sort");
                     isSorted = false;
                     break;
                 }
 
-                for (j = 0; j < this.characters.length; j++){
-                    if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
-                        cards.push(
-                            <CharacterCard
-                                key={i}
-                                characterImageURL={this.characters[j].characterImageURL} 
-                                id={this.characters[j]._id} 
-                                somehistory={this.props.history} 
-                                func={this.loadCharacter} 
-                                characterName={this.characters[j].characterName} 
-                                characterClass={this.characters[j].characterClass} 
-                                level={this.characters[j].level} 
-                                race={this.characters[j].race}
-                            />
-                        );
+                prev = this.campaign.turnOrder[index];
+
+                if (this.campaign.turnOrder[index].npc){
+                    for (j = 0; j < this.campaign.activeNPCs.length; j++){
+                        if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[index].cid){
+                            console.log("NPC");
+                            cards.push(
+                                <CharacterCard
+                                    key={i}
+                                    characterImageURL={this.campaign.activeNPCs[j].characterImageURL} 
+                                    id={this.campaign.activeNPCs[j]._id} 
+                                    somehistory={this.props.history} 
+                                    func={null} 
+                                    characterName={this.campaign.activeNPCs[j].characterName + j} 
+                                    characterClass={this.campaign.activeNPCs[j].characterClass} 
+                                    level={this.campaign.activeNPCs[j].level} 
+                                    race={this.campaign.activeNPCs[j].race}
+                                />
+                            );
+                        }
+                    }
+                }
+                else{
+                    for (j = 0; j < this.characters.length; j++){
+                        if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
+                            cards.push(
+                                <CharacterCard
+                                    key={i}
+                                    characterImageURL={this.characters[j].characterImageURL} 
+                                    id={this.characters[j]._id} 
+                                    somehistory={this.props.history} 
+                                    func={null}
+                                    characterName={this.characters[j].characterName} 
+                                    characterClass={this.characters[j].characterClass} 
+                                    level={this.characters[j].level} 
+                                    race={this.characters[j].race}
+                                />
+                            );
+                        }
                     }
                 }
             }
@@ -618,19 +647,34 @@ export default class CampaignScreen extends React.Component{
     }
 
     compareInitiative(a, b){
-        if (a.initiative < b.initiative){
-            return -1;
-        }
-        if (a.initiative > b.initiative){
+        if (Number(a.initiative) < Number(b.initiative)){
             return 1;
         }
-        if (a.dex < b.dex){
+        if (Number(a.initiative) > Number(b.initiative)){
             return -1;
         }
-        if (a.dex > b.dex){
+        if (Number(a.dex) < Number(b.dex)){
             return 1;
         }
-        return Math.random() >= 0.5;
+        if (Number(a.dex) > Number(b.dex)){
+            return -1;
+        }
+        if (Number(a.tieBreaker) < Number(b.tieBreaker)){
+            return  1;
+        }
+        if (Number(a.tieBreaker) > Number(b.tieBreaker)){
+            return -1;
+        }
+
+        console.log("break tie");
+        if (Math.random() >= 0.5){
+            Meteor.call('campaignsTurnOrder.breakTie', this.campaignID, a);
+            return -1;
+        }
+        else{
+            Meteor.call('campaignsTurnOrder.breakTie', this.campaignID, b);
+            return 1;
+        }
     }
 
     startCombat() {
@@ -640,6 +684,7 @@ export default class CampaignScreen extends React.Component{
 
     endCombat() {
         Meteor.call("campaigns.endCombat", this.campaign._id);
+        Meteor.call("campaignActiveNPCs.clear", this.campaign._id);
     }
 
     endTurn() {
@@ -662,7 +707,7 @@ export default class CampaignScreen extends React.Component{
 
         dex = this.myCharacter.attributes[1];
         val = Math.floor(Math.random() * 20) + 1 + dex;
-        Meteor.call('campaigns.addToTurnOrder', this.campaign._id, this.myCharacter._id, val, dex);
+        Meteor.call('campaigns.addToTurnOrder', this.campaign._id, this.myCharacter._id, val, dex, 0, false);
     }
 
     alreadyInInitiative(){
@@ -690,6 +735,7 @@ export default class CampaignScreen extends React.Component{
     renderEndTurnButton(){
         if (this.campaign.combat && 
             this.campaign.turnOrder.length > 0 && 
+            this.myCharacter &&
             (this.campaign.gm == Meteor.userId() || this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id)
         ){
             return (
@@ -737,7 +783,6 @@ export default class CampaignScreen extends React.Component{
             this.addContact(this.gm);
         }
 
-
         for (i = 0; i < this.characters.length; i++){
             needContact = true;
             if (this.characters[i].UID == Meteor.userId()){
@@ -759,6 +804,7 @@ export default class CampaignScreen extends React.Component{
     }
 
     addContact(UID){
+        console.log(UID);
         if (!this.users){
             return;
         }
@@ -791,7 +837,6 @@ export default class CampaignScreen extends React.Component{
         }
 
         if (this.conversations && this.characters){
-            this.establishContact();
         
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
