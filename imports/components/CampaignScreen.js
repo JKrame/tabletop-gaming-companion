@@ -360,9 +360,6 @@ export default class CampaignScreen extends React.Component{
                                 <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
                             </div>
                         </div>
-                        <div>
-                            <button className="submit-button" onClick={this.longRest.bind(this, currCharacter)}>Long Rest</button>
-                        </div>
                     </div>
                 );
             }
@@ -370,7 +367,14 @@ export default class CampaignScreen extends React.Component{
         else{return;}
         
     }
-    longRest(currCharacter){
+    longRest(){
+
+        for(var i=0;i<this.characters.length;i++){
+            if (this.characters[i].UID == Meteor.userId()){
+                currCharacter = i;
+            }
+        }
+
         maxSpells = this.characters[currCharacter].spellSlotsMax
 
         Meteor.call("characters.updateSpells", this.characters[currCharacter]._id, maxSpells);
@@ -892,6 +896,7 @@ export default class CampaignScreen extends React.Component{
                                     <div className="scrolling-container-content-top">
                                         {this.renderCharacterCard()}
                                     </div>
+                                    <button className="submit-button" onClick={this.longRest.bind(this)}>Long Rest</button>
                                     <button onClick={this.editSheet.bind(this)} className="width-80 blue-button editSheetBtn" style={{"height":"25px"}}>EDIT SHEET</button>
                                 </div>
                             </div>
