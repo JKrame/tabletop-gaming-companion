@@ -39,8 +39,7 @@ export default class CharacterForm extends React.Component{
         itemName = null;
         itemDescription = null;
         //current weapon subdocuments
-        currWeaponType = null;
-        currWeaponDamage = null;
+
         //features subdocument
         featureName = null;
         featureDescription = null;
@@ -75,8 +74,14 @@ export default class CharacterForm extends React.Component{
             this.refs.notes.value.trim(),
             { 
                 currWeaponName : this.refs.currWeaponName.value.trim(),
-                currWeaponType,
-                currWeaponDamage
+                currWeaponBonus: this.refs.weapon1Atk.value.trim(),
+                currWeaponDamage : this.refs.weapon1DamageType.value.trim(),
+                weapon2Name : this.refs.weapon2Name.value.trim(),
+                weapon2Bonus : this.refs.weapon2Atk.value.trim(),
+                weapon2damage : this.refs.weapon2DamageType.value.trim(),
+                weapon3Name : this.refs.weapon3Name.value.trim(),
+                weapon3Bonus : this.refs.weapon3Atk.value.trim(),
+                weapon3damage : this.refs.weapon3DamageType.value.trim()
             },
             {
                 featureName,		
@@ -348,37 +353,37 @@ export default class CharacterForm extends React.Component{
                             </div>
                             <div className="col-sm-5">
                                 <p className="p-override">NAME</p>
-                                <input className="full-width" type="text" ref="currWeaponName" defaultValue={character.currWeaponName != null ? character.currWeaponName : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="currWeaponName" defaultValue={character.currWeapon.currWeaponName != null ? character.currWeapon.currWeaponName : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2">
                                 <p className="p-override">ATK BONUS</p>
-                                <input className="full-width" type="text" ref="weapon1Atk" defaultValue={character.weapon1Atk != null ? character.weapon1Atk : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="weapon1Atk" defaultValue={character.currWeapon.currWeaponBonus != null ? character.currWeapon.currWeaponBonus : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-5">
                                 <p className="p-override">DAMAGE/TYPE</p>
-                                <input className="full-width" type="text" ref="weapon1DamageType" defaultValue={character.weapon1DamageType != null ? character.weapon1DamageType : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="weapon1DamageType" defaultValue={character.currWeapon.currWeaponDamage != null ? character.currWeapon.currWeaponDamage : ""} placeholder=""/>
                             </div>
                             <div className="half-spacer col-sm-12"/>
                             
                             <div className="col-sm-5">
-                                <input className="full-width" type="text" ref="weapon2Name" defaultValue={character.weapon2Name != null ? character.weapon2Name : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="weapon2Name" defaultValue={character.currWeapon.weapon2Name != null ? character.currWeapon.weapon2Name : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2">
-                                <input className="full-width" type="text" ref="weapon2Atk" defaultValue={character.weapon2Atk != null ? character.weapon2Atk : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="weapon2Atk" defaultValue={character.currWeapon.weapon2Bonus != null ? character.currWeapon.weapon2Bonus : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-5">
-                                <input className="full-width" type="text" ref="weapon2DamageType" defaultValue={character.weapon2DamageType != null ? character.weapon2DamageType : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="weapon2DamageType" defaultValue={character.currWeapon.weapon2damage != null ? character.currWeapon.weapon2damage : ""} placeholder=""/>
                             </div>
                             <div className="half-spacer col-sm-12"/>
                             
                             <div className="col-sm-5">
-                                <input className="full-width" type="text" ref="weapon3Name" defaultValue={character.weapon3Name != null ? character.weapon3Name : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="weapon3Name" defaultValue={character.currWeapon.weapon3Name != null ? character.currWeapon.weapon3Name : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-2">
-                                <input className="full-width" type="text" ref="weapon3Atk" defaultValue={character.weapon3Atk != null ? character.weapon3Atk : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="weapon3Atk" defaultValue={character.currWeapon.weapon3Bonus != null ? character.currWeapon.weapon3Bonus : ""} placeholder=""/>
                             </div>
                             <div className="col-sm-5">
-                                <input className="full-width" type="text" ref="weapon3DamageType" defaultValue={character.weapon3DamageType != null ? character.weapon3DamageType : ""} placeholder=""/>
+                                <input className="full-width" type="text" ref="weapon3DamageType" defaultValue={character.currWeapon.weapon3damage != null ? character.currWeapon.weapon3damage : ""} placeholder=""/>
                             </div>
                             <div className="half-spacer col-sm-12"/>
 
