@@ -16,6 +16,7 @@ import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
 import UserCard from '../objects/UserCard';
 import StaticCharacterSheet from '../objects/StaticCharacterSheet';
+import DynamicCharSheet from '../objects/DynamicCharacterForm';
 import UserNameCard from '../objects/UserNameCard';
 
 var campaignID;
@@ -27,6 +28,7 @@ export default class CampaignScreen extends React.Component{
             isGm: false,
             showInitiativePopup: false,
             showCharacterPopup: false,
+            showEditablePopup:false,
             characterClick: null,
             conversation: null,
             gameLog: null
@@ -45,6 +47,10 @@ export default class CampaignScreen extends React.Component{
     
     closeCharacterPopup(){
         this.setState({showCharacterPopup: false});
+    }
+
+    closeEditablePopup(){
+        this.setState({showEditablePopup: false});
     }
 
     setCharacterTarget(character){
@@ -301,58 +307,58 @@ export default class CampaignScreen extends React.Component{
                         <hr/>
                         <div className="spell-slots scrolling-container" >
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 1</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 0)}>+</button>
-                                <input className="rollbox" ref="level1slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[0]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 1</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 0)}>-</button>
+                                <input className="spellbox" ref="level1slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[0]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 0)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 2</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 1)}>+</button>
-                                <input className="rollbox" ref="level2slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[1]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 2</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 1)}>-</button>
+                                <input className="spellbox" ref="level2slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[1]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 1)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 3</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 2)}>+</button>
-                                <input className="rollbox" ref="level3slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[2]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 3</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 2)}>-</button>
+                                <input className="spellbox" ref="level3slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[2]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 2)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 4</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 3)}>+</button>
-                                <input className="rollbox" ref="level4slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[3]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 4</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 3)}>-</button>
+                                <input className="spellbox" ref="level4slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[3]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 3)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 5</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 4)}>+</button>
-                                <input className="rollbox" ref="level5slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[4]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 5</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 4)}>-</button>
+                                <input className="spellbox" ref="level5slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[4]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 4)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 6</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 5)}>+</button>
-                                <input className="rollbox" ref="level6slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[5]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 6</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 5)}>-</button>
+                                <input className="spellbox" ref="level6slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[5]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 5)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 7</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 6)}>+</button>
-                                <input className="rollbox" ref="level7slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[6]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 7</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 6)}>-</button>
+                                <input className="spellbox" ref="level7slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[6]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 6)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 8</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 7)}>+</button>
-                                <input className="rollbox" ref="level8slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[7]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 8</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 7)}>-</button>
+                                <input className="spellbox" ref="level8slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[7]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 7)}>+</button>
                             </div>
                             <div className="spell-slot-panel ">
-                                <h5><strong>Level 9</strong></h5>
-                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
-                                <input className="rollbox" ref="level9slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[8]} placeholder=""/>
+                                <h5 className="spellHeader"><strong>Level 9</strong></h5>
                                 <button className="inc-button" onClick={this.removeSpell.bind(this, currCharacter, 8)}>-</button>
+                                <input className="spellbox" ref="level9slot" defaultValue={this.characters[currCharacter].spellSlotsCurr[8]} placeholder=""/>
+                                <button className="inc-button" onClick={this.addSpell.bind(this, currCharacter, 8)}>+</button>
                             </div>
                         </div>
                     </div>
@@ -448,6 +454,42 @@ export default class CampaignScreen extends React.Component{
     rollDice(){
         d=null
         dice=0
+        mod=0
+        prof=0
+
+        for(var i=0;i<this.characters.length;i++){
+            if (this.characters[i].UID == Meteor.userId()){
+                currCharacter = i;
+            }
+        }
+        
+        if(this.refs.STR.checked){
+            //console.log(this.characters[currCharacter].attributes[0])
+            mod = this.characters[currCharacter].attributes[0]
+        }
+        if(this.refs.DEX.checked){
+            mod = this.characters[currCharacter].attributes[1]
+        }
+        if(this.refs.CON.checked){
+            mod = this.characters[currCharacter].attributes[2]
+        }
+        if(this.refs.INT.checked){
+            mod = this.characters[currCharacter].attributes[3]
+        }
+        if(this.refs.WIS.checked){
+            mod = this.characters[currCharacter].attributes[4]
+        }
+        if(this.refs.CHA.checked){
+            mod = this.characters[currCharacter].attributes[5]
+        }
+        //gets true mod
+        mod = Math.floor((mod/2) - 5)
+        //gets proficiency
+        if(this.refs.profMod.checked){
+            prof=this.characters[currCharacter].profBonus
+            prof = prof-0
+        }            
+
         if(this.refs.d4roller.value){
             dice=4
             d=this.refs.d4roller.value
@@ -472,9 +514,14 @@ export default class CampaignScreen extends React.Component{
             dice=20
             d=this.refs.d20roller.value
         }
+        if(this.refs.d100roller.value){
+            dice=100
+            d=this.refs.d100roller.value
+        }
         result=0
         for(i=0;i<d;i++){
             result = result + this.randomDice(dice);
+            result = result + mod + prof
         }
         if(Meteor.userId() == this.campaign.gm){
             console.log("gm rolled")
@@ -482,7 +529,7 @@ export default class CampaignScreen extends React.Component{
         }
         else{
             console.log("character rolled");
-            message = this.myCharacter.characterName + " rolled a " + result;
+            message = this.myCharacter.characterName + " rolled " + d + "xD" + dice + " |  Result: " + result ;
             ToastStore.warning(message);
             Meteor.call('campaignsGameLog.push', this.campaignID, message);
         }
@@ -493,6 +540,7 @@ export default class CampaignScreen extends React.Component{
         this.refs.d10roller.value=""
         this.refs.d12roller.value=""
         this.refs.d20roller.value=""
+        this.refs.d100roller.value=""
     }
 
     renderInitiativeOrder(){
@@ -775,6 +823,10 @@ export default class CampaignScreen extends React.Component{
         }
     }
 
+    editSheet(){
+        this.setState({showEditablePopup: !this.showEditablePopup});
+    }
+
     render() {
         if (!this.characters || !this.campaign){
             return null;
@@ -819,6 +871,7 @@ export default class CampaignScreen extends React.Component{
                                     <div className="scrolling-container-content-top">
                                         {this.renderCharacterCard()}
                                     </div>
+                                    <button onClick={this.editSheet.bind(this)} className="width-80 blue-button editSheetBtn" style={{"height":"25px"}}>EDIT SHEET</button>
                                 </div>
                             </div>
 
@@ -838,7 +891,7 @@ export default class CampaignScreen extends React.Component{
                             </div>
 
                             <div className="col-sm-8 no-padding">
-                                <div className="col-sm-12 scrolling-container in-game-chat-window full-width">
+                                <div className="col-sm-12 in-game-chat-window full-width">
                                 <ChatWindow conversation={this.state.conversation} gameLog={this.state.gameLog}/>
 
                                 </div>
@@ -897,25 +950,25 @@ export default class CampaignScreen extends React.Component{
                                     <h4>ADD MODS</h4>
                                     <hr/>
                                     <div>
-                                        <input type="checkbox"/> STR
+                                        <input type="checkbox" ref="STR"/> STR
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> DEX
+                                        <input type="checkbox" ref="DEX"/> DEX
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> CON
+                                        <input type="checkbox" ref="CON"/> CON
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> INT
+                                        <input type="checkbox" ref="INT"/> INT
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> WIS
+                                        <input type="checkbox" ref="WIS"/> WIS
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> CHA
+                                        <input type="checkbox" ref="CHA"/> CHA
                                     </div>
                                     <div>
-                                        <input type="checkbox"/> PROF
+                                        <input type="checkbox" ref="profMod"/> PROF
                                     </div>
                                 </div>
                             </div>
@@ -949,13 +1002,22 @@ export default class CampaignScreen extends React.Component{
                         />
                         : null
                     }
-                    {this.state.showCharacterPopup ? 
-                        <StaticCharacterSheet
-                            text='Close Me'
-                            closePopup={this.closeCharacterPopup.bind(this)}
-                            campaignID={this.campaignID}
-                            character ={this.state.characterClick}
-                        />                        
+                    {this.state.showCharacterPopup ?
+
+                            <StaticCharacterSheet
+                                text='Close Me'
+                                closePopup={this.closeCharacterPopup.bind(this)}
+                                character ={this.state.characterClick}
+                            />                        
+                        : null
+                    }
+                    {this.state.showEditablePopup ?
+
+                            <DynamicCharSheet
+                                text='Close Me'
+                                closePopup={this.closeEditablePopup.bind(this)}
+                                character ={this.myCharacter}
+                            />                        
                         : null
                     }
                         

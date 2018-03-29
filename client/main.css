@@ -67,6 +67,13 @@ hr{
 
 }
 
+.editSheetBtn{
+    position:absolute;
+    bottom:20px;
+    align-content: center;
+    align-self:center;    
+}
+
 .hr-override-light{
     margin-top:5px !important;
     border-top: 2px solid #d5d5d5 !important;
@@ -473,6 +480,10 @@ body{
     width:100%;
 }
 
+.width-80{
+    width:80%;
+}
+
 .full-height{
     display:table;
 }
@@ -515,6 +526,12 @@ body{
 .scrolling-container-80{
     height:80vh;
     overflow-y:auto;
+}
+
+
+.chat-panel{
+    max-height:50vh;
+    overflow-y:scroll;
 }
 
 .scrolling-container-50{
@@ -860,14 +877,27 @@ center{
     margin-bottom:10%;
     display: -webkit-flex;
     display: flex;
+    flex-wrap:wrap;
     margin:0 auto;
+    align-self: center;    
+}
+
+.spellHeader{
+    align-self:center;
+    text-align: center;
 }
 
 .spell-slot-panel{
+    background-color:rgba(218, 235, 242, 0.9);
+    padding:10px;
+    flex-wrap:wrap;
+    align-self: center;
+    align-content: center;
+    text-align: center;
+    height:80px;
     width:100px;
-    margin:10 0;
-    margin-bottom:15px;
-    
+    margin-right:10px;
+    margin-bottom:10px;
 }
 
 .add-friend-box{
@@ -882,6 +912,13 @@ center{
     margin:5px;
     padding:5px;
     overflow:hidden;
+}
+
+.inc-button{
+    background-color:#1CA5B8;
+    color:#fff;
+    width:20px;
+    margin:0;
 }
 
 .userCardMiniImage{
@@ -905,11 +942,18 @@ center{
     border-radius: 20px;
     float:left;
     padding-top:10px;
+    padding-left:20px;
+    padding-right:20px;
 }
 a.menu_links{
     cursor:pointer;
 }
 
+.spellbox{
+    text-align: center;
+    width:40px;
+    margin:0px;
+}
 
 .player-near-you{
 }
@@ -1087,6 +1131,21 @@ a.menu_links{
     background: white;
   }
 
+  .dynamic-cs-popup{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height: 90vh;
+    width:70vw;
+    z-index: 999;
+    padding:30px;
+    margin:5vw auto;
+    background-color: rgba(200, 200, 200, 0.901);
+
+  }
+
   .npc-qty{
 
   }
@@ -1095,7 +1154,8 @@ a.menu_links{
       padding:0 0 !important;
   }
   .in-game-chat-window{
-      height:200px; 
+        max-height:200px;
+        overflow-y:scroll;
   }
   .in-game-chat-btn-container{
       max-height:300px;

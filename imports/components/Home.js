@@ -42,6 +42,7 @@ export default class Home extends React.Component {
         this.homeTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('characters');
             const sub2 = Meteor.subscribe('campaigns');
+            const sub3 = Meteor.subscribe('userData');
             var UID = Meteor.userId();
             if(sub.ready())
             {
@@ -56,6 +57,9 @@ export default class Home extends React.Component {
                 this.campaigns = Campaigns.find({gm: UID}).fetch();
                 this.pendingInvites = Meteor.users.findOne({_id : Meteor.userId()}).profile.pendingInvites;
                 this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
+            }
+            if(sub3.ready()){
+                this.user = Meteor.users.find({}).fetch();
             }
             this.forceUpdate();
         });
@@ -213,13 +217,14 @@ export default class Home extends React.Component {
         if(!this.user){
             return;
         }  
-
+        
         for(var i=0;i<this.user.length;i++){
             if(this.user[i]._id == Meteor.userId()){
                 if(this.user[i].profile.location == null){
                     return;
                 }
                 currUserLocation=this.user[i].profile.location;
+                console.log(currUserLocation)
             }
         }
 
