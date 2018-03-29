@@ -495,24 +495,29 @@ export default class CampaignScreen extends React.Component{
         if(this.refs.STR.checked){
             //console.log(this.characters[currCharacter].attributes[0])
             mod = this.characters[currCharacter].attributes[0]
+            mod = Math.floor((mod/2) - 5)
         }
         if(this.refs.DEX.checked){
             mod = this.characters[currCharacter].attributes[1]
+            mod = Math.floor((mod/2) - 5)
         }
         if(this.refs.CON.checked){
             mod = this.characters[currCharacter].attributes[2]
+            mod = Math.floor((mod/2) - 5)
         }
         if(this.refs.INT.checked){
             mod = this.characters[currCharacter].attributes[3]
+            mod = Math.floor((mod/2) - 5)
         }
         if(this.refs.WIS.checked){
             mod = this.characters[currCharacter].attributes[4]
+            mod = Math.floor((mod/2) - 5)
         }
         if(this.refs.CHA.checked){
             mod = this.characters[currCharacter].attributes[5]
+            mod = Math.floor((mod/2) - 5)
         }
-        //gets true mod
-        mod = Math.floor((mod/2) - 5)
+        
         //gets proficiency
         if(this.refs.profMod.checked){
             prof=this.characters[currCharacter].profBonus
@@ -550,15 +555,16 @@ export default class CampaignScreen extends React.Component{
         result=0
         for(i=0;i<d;i++){
             result = result + this.randomDice(dice);
-            result = result + mod + prof
+            resultmod = mod + prof
+            resultfinal=result+resultmod
         }
         if(Meteor.userId() == this.campaign.gm){
             console.log("gm rolled")
-            ToastStore.warning("You rolled a " + result);
+            ToastStore.warning("You rolled a " + result + " + " + resultmod + " = " + resultfinal);
         }
         else{
             console.log("character rolled");
-            message = this.myCharacter.characterName + " rolled " + d + "xD" + dice + " |  Result: " + result ;
+            message = this.myCharacter.characterName + " rolled " + d + "xD" + dice + " |  Result: " + result + " + " + resultmod + " = " + resultfinal;
             ToastStore.warning(message);
             Meteor.call('campaignsGameLog.push', this.campaignID, message);
         }
@@ -941,8 +947,8 @@ export default class CampaignScreen extends React.Component{
                                     <div className="scrolling-container-content-top">
                                         {this.renderCharacterCard()}
                                     </div>
-                                    <button className="submit-button" onClick={this.longRest.bind(this)}>Long Rest</button>
-                                    <button onClick={this.editSheet.bind(this)} className="width-80 blue-button editSheetBtn" style={{"height":"25px"}}>EDIT SHEET</button>
+                                    <button className="width-80 longRestBtn red-button" onClick={this.longRest.bind(this)}>LONG REST</button>
+                                    {Meteor.userId() != this.campaign.gm ? <button onClick={this.editSheet.bind(this)} className="width-80 blue-button editSheetBtn" style={{"height":"25px"}}>EDIT SHEET</button> : null}
                                 </div>
                             </div>
 

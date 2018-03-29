@@ -67,6 +67,13 @@ hr{
 
 }
 
+.longRestBtn{
+    position:absolute;
+    bottom:50px;
+    align-content: center;
+    align-self:center;    
+}
+
 .editSheetBtn{
     position:absolute;
     bottom:20px;
@@ -863,6 +870,12 @@ center{
     color:#eee;
     background-color:#1CA5B8;
 }
+
+.red-button{
+    color: #fff;
+    background-color:red;
+}
+
 
 .toggle-box{
     width:10px;
