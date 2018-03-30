@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export default class PendingCampaignCard extends React.Component {
     render() {
-        console.log("from within the card" + this.props.campaignID);
+        //console.log("from within the card" + this.props.campaignID);
         var campaignID = this.props.campaignID;
         return(
             <NavLink to="#" >

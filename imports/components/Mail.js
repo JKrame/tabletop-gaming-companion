@@ -21,7 +21,7 @@ export default class Mail extends React.Component{
             if(sub.ready())
             {
                 id = Meteor.userId();
-                console.log(id);
+                //console.log(id);
                 this.conversations = Conversations.find().fetch();
                 this.setState({conversationList: this.conversations});
                 if (this.state.conversation != null){
@@ -87,9 +87,9 @@ export default class Mail extends React.Component{
         {
             for(i = 0; i < this.conversations.length; i++)
             {
-                console.log(this.conversations[i]);
-                console.log(this.conversations[i].participants[0].id)
-                console.log(this.conversations[i].participants[1].id)
+                //console.log(this.conversations[i]);
+                //console.log(this.conversations[i].participants[0].id)
+                //console.log(this.conversations[i].participants[1].id)
                 if(contact._id == this.conversations[i].participants[0].id)
                 {
                     return;
@@ -102,7 +102,7 @@ export default class Mail extends React.Component{
             
             Meteor.call('conversations.insert', this.user, contact);
             
-            console.log(contact);
+            //console.log(contact);
             this.searchPlayerUsername = username;
             this.searchPlayer = contact;
             this.searchPlayerURL = image;

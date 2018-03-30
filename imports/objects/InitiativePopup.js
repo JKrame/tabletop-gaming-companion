@@ -84,7 +84,7 @@ export default class InitiativePopup extends React.Component {
             var tempHp = this.NPCs[i].tempHp == null ? 0 : this.NPCs[i].tempHp;
             var currHp = this.NPCs[i].currHp == null ? 0 : this.NPCs[i].currHp;
             var currHp = currHp + tempHp;
-            console.log(currHp);
+            //console.log(currHp);
             var maxHp = this.NPCs[i].maxHp == null ? 0 : this.NPCs[i].maxHp;
             var dex = this.NPCs[i].attributes[1];
 
@@ -99,8 +99,8 @@ export default class InitiativePopup extends React.Component {
                     unique_id
                 );
 
-                console.log(this.props.campaignID);
-                console.log(unique_id);
+                //console.log(this.props.campaignID);
+                //console.log(unique_id);
                 Meteor.call('campaigns.addToTurnOrder',
                     this.props.campaignID,
                     unique_id,

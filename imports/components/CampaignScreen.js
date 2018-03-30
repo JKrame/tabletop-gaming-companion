@@ -7,6 +7,7 @@ import Header from './Header';
 //import { Random } from 'meteor/random'
 
 import CharacterCard from '../objects/CampaignCharacterTile';
+import InitiativeCard from '../objects/InitiativeCard';
 import CampaignCard from '../objects/CampaignCardMini';
 import ChatWindow from '../objects/ChatWindow';
 import TextAssetcard from '../objects/TextAssetCard';
@@ -303,7 +304,7 @@ export default class CampaignScreen extends React.Component{
                         currCharacter = i;
                     }
                 }
-                //console.log(this.characters[currCharacter].spellSlotsCurr[0])
+
                 return(
                     <div> 
                         <h3>Spell Slots</h3>
@@ -394,8 +395,6 @@ export default class CampaignScreen extends React.Component{
         
         currHealth = this.characters[currCharacter].currHP
         maxHealth = this.characters[currCharacter].maxHP
-        console.log(currHealth)
-        console.log(maxHealth)
     }
 
     addSpell(currCharacter, level){
@@ -493,7 +492,6 @@ export default class CampaignScreen extends React.Component{
         }
         
         if(this.refs.STR.checked){
-            //console.log(this.characters[currCharacter].attributes[0])
             mod = this.characters[currCharacter].attributes[0]
             mod = Math.floor((mod/2) - 5)
         }
@@ -559,12 +557,11 @@ export default class CampaignScreen extends React.Component{
             resultfinal=result+resultmod
         }
         if(Meteor.userId() == this.campaign.gm){
-            console.log("gm rolled")
-            ToastStore.warning("You rolled a " + result + " + " + resultmod + " = " + resultfinal);
+            ToastStore.warning("You rolled " + result + " + " + resultmod + " = " + resultfinal);
         }
         else{
-            console.log("character rolled");
-            message = this.myCharacter.characterName + " rolled " + d + "xD" + dice + " |  Result: " + result + " + " + resultmod + " = " + resultfinal;
+            //message = this.myCharacter.characterName + " rolled " + d + "xD" + dice + " |  Result: " + result + " + " + resultmod + " = " + resultfinal;
+            message = this.myCharacter.characterName + " rolled " + d + "d" + dice + "+" + resultmod + " for " + resultfinal;
             ToastStore.warning(message);
             Meteor.call('campaignsGameLog.push', this.campaignID, message);
         }
@@ -578,38 +575,62 @@ export default class CampaignScreen extends React.Component{
         this.refs.d100roller.value=""
     }
 
+    raiseHealth(character){
+        if (character.currHP >= character.maxHP){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 0 + 1);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 0 + 1);
+        }
+    }
+
+    lowerHealth(character){
+        if (character.tempHP > 0){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 1);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 1);
+        }
+    }
+
+    setHealth(character, value){
+        if (value > character.maxHP){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, value - character.maxHP);
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.maxHP);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, value);
+        }
+    }
+
     renderInitiativeOrder(){
         isSorted = true;
-        var prev = null;
+        var prevIndex = null;
         cards = [];
 
         if (this.campaign && this.characters){
             for (i = 0; i < this.campaign.turnOrder.length; i++){
                 index = (i + this.campaign.turnIndex) % this.campaign.turnOrder.length;
 
-                if (prev != null && this.compareInitiative(this.campaign.turnOrder[index], prev) == -1){
-                    console.log("needs sort");
+                if (prevIndex != null && prevIndex < index && this.compareInitiative(this.campaign.turnOrder[index], this.campaign.turnOrder[prevIndex]) == -1){
                     isSorted = false;
                     break;
                 }
 
-                prev = this.campaign.turnOrder[index];
+                prevIndex = index;
 
                 if (this.campaign.turnOrder[index].npc){
                     for (j = 0; j < this.campaign.activeNPCs.length; j++){
                         if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[index].cid){
-                            console.log("NPC");
                             cards.push(
-                                <CharacterCard
+                                <InitiativeCard
                                     key={i}
-                                    characterImageURL={this.campaign.activeNPCs[j].characterImageURL} 
-                                    id={this.campaign.activeNPCs[j]._id} 
-                                    somehistory={this.props.history} 
-                                    func={null} 
-                                    characterName={this.campaign.activeNPCs[j].characterName + j} 
-                                    characterClass={this.campaign.activeNPCs[j].characterClass} 
-                                    level={this.campaign.activeNPCs[j].level} 
-                                    race={this.campaign.activeNPCs[j].race}
+                                    character={this.campaign.activeNPCs[j]}
+                                    characterName={this.campaign.activeNPCs[j].characterName + " " + j}
+                                    gm={this.campaign.gm}
+                                    raiseHealth={this.raiseHealth.bind(this)}
+                                    lowerHealth={this.lowerHealth.bind(this)}
+                                    setHealth={this.setHealth.bind(this)}
                                 />
                             );
                         }
@@ -621,6 +642,7 @@ export default class CampaignScreen extends React.Component{
                             cards.push(
                                 <CharacterCard
                                     key={i}
+                                    character={this.characters[j]}
                                     characterImageURL={this.characters[j].characterImageURL} 
                                     id={this.characters[j]._id} 
                                     somehistory={this.props.history} 
@@ -672,7 +694,6 @@ export default class CampaignScreen extends React.Component{
             return -1;
         }
 
-        console.log("break tie");
         if (Math.random() >= 0.5){
             Meteor.call('campaignsTurnOrder.breakTie', this.campaignID, a);
             return -1;
@@ -694,7 +715,7 @@ export default class CampaignScreen extends React.Component{
     }
 
     endTurn() {
-        Meteor.call("campaigns.endTurn", this.campaign._id, (this.campaign.turnIndex + 1) % this.campaign.turnOrder.length)
+        Meteor.call("campaigns.endTurn", this.campaign._id, (this.campaign.turnIndex + 1) % this.campaign.turnOrder.length);
     }
 
     showInitiativeButton(){
@@ -741,8 +762,7 @@ export default class CampaignScreen extends React.Component{
     renderEndTurnButton(){
         if (this.campaign.combat && 
             this.campaign.turnOrder.length > 0 && 
-            this.myCharacter &&
-            (this.campaign.gm == Meteor.userId() || this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id)
+            (this.campaign.gm == Meteor.userId() || (this.myCharacter && this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id))
         ){
             return (
                 <div className="col-sm-12">
@@ -810,7 +830,6 @@ export default class CampaignScreen extends React.Component{
     }
 
     addContact(UID){
-        console.log(UID);
         if (!this.users){
             return;
         }

@@ -35,7 +35,7 @@ export default class Home extends React.Component {
             showInvitePopup: !this.state.showInvitePopup
         });
         this.pendingInviteCampaignID = campaignID;
-        console.log(campaignID);
+        //(campaignID);
     }
 
     componentWillMount(){
@@ -151,7 +151,7 @@ export default class Home extends React.Component {
 
         for (var i = 0; i < this.pendingInvites.length; i++)
         {
-            console.log(this.pendingInvites[i][0]);
+            //console.log(this.pendingInvites[i][0]);
             cards.push(
                 <div onClick={this.toggleInvitePopup.bind(this, this.pendingInvites[i][0])}>
                     <PendingCampaignCard
@@ -224,7 +224,7 @@ export default class Home extends React.Component {
                     return;
                 }
                 currUserLocation=this.user[i].profile.location;
-                console.log(currUserLocation)
+                //console.log(currUserLocation)
             }
         }
 
@@ -243,7 +243,7 @@ export default class Home extends React.Component {
                 );
                 //30 miles
                 if (distance<48280){
-                    console.log("hit")
+                    //console.log("hit")
                     cards.push(
                         <PlayerNearYou
                             key={i}
