@@ -126,7 +126,7 @@ export default class CampaignsPage extends React.Component{
         }
         for (var i = 0; i < this.pendingInvites.length; i++)
         {
-            console.log(this.pendingInvites[i][0]);
+            //console.log(this.pendingInvites[i][0]);
             cards.push(
                 <div onClick={this.toggleInvitePopup.bind(this, this.pendingInvites[i][0])}>
                     <PendingCampaignCardVertical

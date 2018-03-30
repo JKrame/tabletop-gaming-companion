@@ -71,7 +71,7 @@ export default class PlayerFormPopup extends React.Component {
 
     addCharacter(characterid , somehistory, campaign, character){
         //console.log(characterid);
-        console.log(character);
+        //console.log(character);
         if(!campaign){
             campaign = this.props.campaign
         }

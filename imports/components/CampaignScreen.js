@@ -7,6 +7,7 @@ import Header from './Header';
 //import { Random } from 'meteor/random'
 
 import CharacterCard from '../objects/CampaignCharacterTile';
+import InitiativeCard from '../objects/InitiativeCard';
 import CampaignCard from '../objects/CampaignCardMini';
 import ChatWindow from '../objects/ChatWindow';
 import TextAssetcard from '../objects/TextAssetCard';
@@ -112,6 +113,10 @@ export default class CampaignScreen extends React.Component{
             if(sub4.ready()){
                 this.user = Meteor.users.findOne({_id : Meteor.userId()});
                 this.users = Meteor.users.find({}).fetch();
+            }
+
+            if (sub.ready() && sub2.ready() && sub3.ready() && sub4.ready()){
+                this.establishContact();
             }
 
             this.forceUpdate();
@@ -299,7 +304,7 @@ export default class CampaignScreen extends React.Component{
                         currCharacter = i;
                     }
                 }
-                //console.log(this.characters[currCharacter].spellSlotsCurr[0])
+
                 return(
                     <div> 
                         <h3>Spell Slots</h3>
@@ -390,8 +395,6 @@ export default class CampaignScreen extends React.Component{
         
         currHealth = this.characters[currCharacter].currHP
         maxHealth = this.characters[currCharacter].maxHP
-        console.log(currHealth)
-        console.log(maxHealth)
     }
 
     addSpell(currCharacter, level){
@@ -489,7 +492,6 @@ export default class CampaignScreen extends React.Component{
         }
         
         if(this.refs.STR.checked){
-            //console.log(this.characters[currCharacter].attributes[0])
             mod = this.characters[currCharacter].attributes[0]
             mod = Math.floor((mod/2) - 5)
         }
@@ -555,12 +557,11 @@ export default class CampaignScreen extends React.Component{
             resultfinal=result+resultmod
         }
         if(Meteor.userId() == this.campaign.gm){
-            console.log("gm rolled")
-            ToastStore.warning("You rolled a " + result + " + " + resultmod + " = " + resultfinal);
+            ToastStore.warning("You rolled " + result + " + " + resultmod + " = " + resultfinal);
         }
         else{
-            console.log("character rolled");
-            message = this.myCharacter.characterName + " rolled " + d + "xD" + dice + " |  Result: " + result + " + " + resultmod + " = " + resultfinal;
+            //message = this.myCharacter.characterName + " rolled " + d + "xD" + dice + " |  Result: " + result + " + " + resultmod + " = " + resultfinal;
+            message = this.myCharacter.characterName + " rolled " + d + "d" + dice + "+" + resultmod + " for " + resultfinal;
             ToastStore.warning(message);
             Meteor.call('campaignsGameLog.push', this.campaignID, message);
         }
@@ -574,35 +575,85 @@ export default class CampaignScreen extends React.Component{
         this.refs.d100roller.value=""
     }
 
+    raiseHealth(character){
+        if (character.currHP >= character.maxHP){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 0 + 1);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 0 + 1);
+        }
+    }
+
+    lowerHealth(character){
+        if (character.tempHP > 0){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 1);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 1);
+        }
+    }
+
+    setHealth(character, value){
+        if (value > character.maxHP){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, value - character.maxHP);
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.maxHP);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, value);
+        }
+    }
+
     renderInitiativeOrder(){
         isSorted = true;
-        prev = Number.MAX_SAFE_INTEGER;
+        var prevIndex = null;
         cards = [];
 
         if (this.campaign && this.characters){
             for (i = 0; i < this.campaign.turnOrder.length; i++){
                 index = (i + this.campaign.turnIndex) % this.campaign.turnOrder.length;
 
-                if (this.campaign.turnOrder[index].initiative > prev){
+                if (prevIndex != null && prevIndex < index && this.compareInitiative(this.campaign.turnOrder[index], this.campaign.turnOrder[prevIndex]) == -1){
                     isSorted = false;
                     break;
                 }
 
-                for (j = 0; j < this.characters.length; j++){
-                    if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
-                        cards.push(
-                            <CharacterCard
-                                key={i}
-                                characterImageURL={this.characters[j].characterImageURL} 
-                                id={this.characters[j]._id} 
-                                somehistory={this.props.history} 
-                                func={this.loadCharacter} 
-                                characterName={this.characters[j].characterName} 
-                                characterClass={this.characters[j].characterClass} 
-                                level={this.characters[j].level} 
-                                race={this.characters[j].race}
-                            />
-                        );
+                prevIndex = index;
+
+                if (this.campaign.turnOrder[index].npc){
+                    for (j = 0; j < this.campaign.activeNPCs.length; j++){
+                        if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[index].cid){
+                            cards.push(
+                                <InitiativeCard
+                                    key={i}
+                                    character={this.campaign.activeNPCs[j]}
+                                    characterName={this.campaign.activeNPCs[j].characterName + " " + j}
+                                    gm={this.campaign.gm}
+                                    raiseHealth={this.raiseHealth.bind(this)}
+                                    lowerHealth={this.lowerHealth.bind(this)}
+                                    setHealth={this.setHealth.bind(this)}
+                                />
+                            );
+                        }
+                    }
+                }
+                else{
+                    for (j = 0; j < this.characters.length; j++){
+                        if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
+                            cards.push(
+                                <CharacterCard
+                                    key={i}
+                                    character={this.characters[j]}
+                                    characterImageURL={this.characters[j].characterImageURL} 
+                                    id={this.characters[j]._id} 
+                                    somehistory={this.props.history} 
+                                    func={null}
+                                    characterName={this.characters[j].characterName} 
+                                    characterClass={this.characters[j].characterClass} 
+                                    level={this.characters[j].level} 
+                                    race={this.characters[j].race}
+                                />
+                            );
+                        }
                     }
                 }
             }
@@ -624,19 +675,33 @@ export default class CampaignScreen extends React.Component{
     }
 
     compareInitiative(a, b){
-        if (a.initiative < b.initiative){
-            return -1;
-        }
-        if (a.initiative > b.initiative){
+        if (Number(a.initiative) < Number(b.initiative)){
             return 1;
         }
-        if (a.dex < b.dex){
+        if (Number(a.initiative) > Number(b.initiative)){
             return -1;
         }
-        if (a.dex > b.dex){
+        if (Number(a.dex) < Number(b.dex)){
             return 1;
         }
-        return Math.random() >= 0.5;
+        if (Number(a.dex) > Number(b.dex)){
+            return -1;
+        }
+        if (Number(a.tieBreaker) < Number(b.tieBreaker)){
+            return  1;
+        }
+        if (Number(a.tieBreaker) > Number(b.tieBreaker)){
+            return -1;
+        }
+
+        if (Math.random() >= 0.5){
+            Meteor.call('campaignsTurnOrder.breakTie', this.campaignID, a);
+            return -1;
+        }
+        else{
+            Meteor.call('campaignsTurnOrder.breakTie', this.campaignID, b);
+            return 1;
+        }
     }
 
     startCombat() {
@@ -646,10 +711,11 @@ export default class CampaignScreen extends React.Component{
 
     endCombat() {
         Meteor.call("campaigns.endCombat", this.campaign._id);
+        Meteor.call("campaignActiveNPCs.clear", this.campaign._id);
     }
 
     endTurn() {
-        Meteor.call("campaigns.endTurn", this.campaign._id, (this.campaign.turnIndex + 1) % this.campaign.turnOrder.length)
+        Meteor.call("campaigns.endTurn", this.campaign._id, (this.campaign.turnIndex + 1) % this.campaign.turnOrder.length);
     }
 
     showInitiativeButton(){
@@ -668,7 +734,7 @@ export default class CampaignScreen extends React.Component{
 
         dex = this.myCharacter.attributes[1];
         val = Math.floor(Math.random() * 20) + 1 + dex;
-        Meteor.call('campaigns.addToTurnOrder', this.campaign._id, this.myCharacter._id, val, dex);
+        Meteor.call('campaigns.addToTurnOrder', this.campaign._id, this.myCharacter._id, val, dex, 0, false);
     }
 
     alreadyInInitiative(){
@@ -696,7 +762,7 @@ export default class CampaignScreen extends React.Component{
     renderEndTurnButton(){
         if (this.campaign.combat && 
             this.campaign.turnOrder.length > 0 && 
-            (this.campaign.gm == Meteor.userId() || this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id)
+            (this.campaign.gm == Meteor.userId() || (this.myCharacter && this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id))
         ){
             return (
                 <div className="col-sm-12">
@@ -742,7 +808,6 @@ export default class CampaignScreen extends React.Component{
         if (needContactWithGm){
             this.addContact(this.gm);
         }
-
 
         for (i = 0; i < this.characters.length; i++){
             needContact = true;
@@ -797,7 +862,6 @@ export default class CampaignScreen extends React.Component{
         }
 
         if (this.conversations && this.characters){
-            this.establishContact();
         
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
@@ -902,8 +966,8 @@ export default class CampaignScreen extends React.Component{
                                     <div className="scrolling-container-content-top">
                                         {this.renderCharacterCard()}
                                     </div>
-                                    <button className="submit-button" onClick={this.longRest.bind(this)}>Long Rest</button>
-                                    <button onClick={this.editSheet.bind(this)} className="width-80 blue-button editSheetBtn" style={{"height":"25px"}}>EDIT SHEET</button>
+                                    <button className="width-80 longRestBtn red-button" onClick={this.longRest.bind(this)}>LONG REST</button>
+                                    {Meteor.userId() != this.campaign.gm ? <button onClick={this.editSheet.bind(this)} className="width-80 blue-button editSheetBtn" style={{"height":"25px"}}>EDIT SHEET</button> : null}
                                 </div>
                             </div>
 

@@ -164,7 +164,7 @@ export default class CampaignSetup extends React.Component{
     }
 
     addPlayer(username) {
-        console.log("getting called");
+        //console.log("getting called");
         if(username == null)
         {
             username = this.refs.username;
@@ -262,10 +262,10 @@ export default class CampaignSetup extends React.Component{
     }
 
     loadNPC(cid, somehistory){
-        console.log("this hit");
+        //console.log("this hit");
         if (!cid)
         {
-            console.log("this hit2");
+            //console.log("this hit2");
             cid = Random.id();
             Meteor.call('characters.insert', cid, this.campaign._id, 'npc');
         }

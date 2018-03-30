@@ -32,18 +32,18 @@ export default class SettingsForm extends React.Component{
                 $set: {"profile.schedule": schedule}
             });
         }
-        console.log(this.props.user.profile.schedule)
+        //console.log(this.props.user.profile.schedule)
         
     }
 
     handleLocationChange({target}){
         if (target.checked){
             this.setLocation.call()
-            console.log("checked")
+            //console.log("checked")
             //target.removeAttribute('checked');
             
         } else {
-            console.log("unchecked")
+            //console.log("unchecked")
             this.removeLocation.call()
         }
     }
@@ -53,7 +53,7 @@ export default class SettingsForm extends React.Component{
         Tracker.autorun(function(computation) {
             latLng.set(Geolocation.latLng());
             if (latLng.get()) {
-                console.log(latLng)
+                //console.log(latLng)
                 computation.stop();
                 var lat = latLng.curValue.lat;
                 var lng = latLng.curValue.lng;
@@ -86,8 +86,8 @@ export default class SettingsForm extends React.Component{
     render() {
         user = this.props.user;
         //console.log(user.profile.schedule[0])
-        console.log(user.profile.accountPicture)
-        console.log(user.profile);
+        //console.log(user.profile.accountPicture)
+        //console.log(user.profile);
         
         return(
             <div>   

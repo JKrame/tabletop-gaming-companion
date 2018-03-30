@@ -31,12 +31,12 @@ export default class PlayerFormPopup extends React.Component {
         var cards = [];
         if (this.conversations)
         {
-            console.log(this.conversations)
+            //console.log(this.conversations)
             for (var i = 0; i < this.conversations.length; i++)
             {
-                console.log(this.conversations[i]);
+                //console.log(this.conversations[i]);
                 partner = (this.conversations[i].participants[0].id === Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                console.log(partner);
+                //console.log(partner);
                 if (!this.alreadyInvited(partner))
                 {
                     cards.push(
@@ -77,7 +77,7 @@ export default class PlayerFormPopup extends React.Component {
     addPlayer()
     {
         var username = this.refs.username.value;
-        console.log(username);
+        //console.log(username);
         var invitedUser = Meteor.users.findOne({"profile.username" : username});
         var currentCharacters = Campaigns.findOne({_id : this.props.campaignID}).characters;
 
