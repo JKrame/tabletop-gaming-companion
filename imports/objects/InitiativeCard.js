@@ -116,6 +116,18 @@ export default class InitiativeCard extends React.Component{
         }
     }
 
+    removeFromInitiative(){
+        Meteor.call('campaigns.removeFromInitiative', this.props.campaignID, this.props.character._id)
+    }
+
+    renderRemoveFromInitiativeButton(){
+        if (Meteor.userId() == this.props.gm){
+            return <button onClick={this.removeFromInitiative.bind(this)}>X</button>;
+        }
+
+        return null;
+    }
+
     render() {
         if (!this.props.character){
             return null;
@@ -136,6 +148,8 @@ export default class InitiativeCard extends React.Component{
                         <div className="spacer col-sm-12"/>
 
                         {this.renderSpellSlots()}
+
+                        {this.renderRemoveFromInitiativeButton()}
                     </div>
                 </div>
             </NavLink>

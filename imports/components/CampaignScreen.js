@@ -628,6 +628,7 @@ export default class CampaignScreen extends React.Component{
                                     character={this.campaign.activeNPCs[j]}
                                     characterName={this.campaign.activeNPCs[j].characterName + " " + j}
                                     gm={this.campaign.gm}
+                                    campaignID={this.campaign._id}
                                     raiseHealth={this.raiseHealth.bind(this)}
                                     lowerHealth={this.lowerHealth.bind(this)}
                                     setHealth={this.setHealth.bind(this)}
