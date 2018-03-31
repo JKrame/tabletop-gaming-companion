@@ -4,7 +4,11 @@ import { NavLink } from 'react-router-dom';
 export default class InitiativeCard extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {healthString : ""}
+        this.state = {
+            currHP : 0,
+            maxHP : 1,
+            percent : 0
+        }
     }
 
     componentWillMount(){
@@ -12,29 +16,15 @@ export default class InitiativeCard extends React.Component{
             return;
         }
 
-        var maxHP = this.props.character.maxHP;
-        var currHP = this.props.character.currHP;
-        var tempHP = this.props.character.tempHP;
+        var max = this.props.character.maxHP == 0 ? 1 : this.props.character.maxHP;
 
+        this.setState({maxHP : max});
+        this.setState({currHP : this.props.character.currHP});
+        //this.tempHP = this.props.character.tempHP;
 
-        if (maxHP == 0 || maxHP == null){
-            maxHP = 1;
-        }
-        if (currHP == null){
-            currHP = 1;
-        }
-        if (tempHP == null){
-            tempHP = 1;
-        }
-
-        this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
-        this.percent = (this.percent*100) + "%";
-
-        var numerator = Number(currHP) + Number(tempHP);
-
-        if (Meteor.userId() == this.props.gm){
-            this.setState({healthString: numerator + "/" + maxHP});
-        }
+        //this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
+        this.setState({percent : (Number(this.props.character.currHP) / Number(max) * 100) + "%"});
+        //this.percent = (this.percent*100) + "%";
     }
 
     renderSpellSlots(){
@@ -77,15 +67,16 @@ export default class InitiativeCard extends React.Component{
             return null;
         }
         
+        console.log(this.state.percent);
         return (
             <div className="col-xs-12 no-margin-override no-padding">
                 <div className="col-xs-10 no-margin-override">
                     <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative"}}>
-                        <div style={{"backgroundColor":"red", "height":"15px", "width":this.percent}}/>
+                        <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
                     </div>
                 </div>
                 <div className="col-xs-2 no-margin-override">
-                    <p>{this.state.healthString}</p>
+                    <p>{this.state.currHP + "/" + this.state.maxHP}</p>
                 </div>
             </div>
         );
@@ -98,22 +89,51 @@ export default class InitiativeCard extends React.Component{
 
         return (
             <div>
-                <button className="inc-button" onClick={() => this.props.lowerHealth(this.props.character)}>-</button>
-                <input className="spellbox" ref="healthBox" defaultValue={this.props.character.currHP + this.props.character.tempHP} onChange={this.setHealth.bind(this)} placeholder=""/>
-                <button className="inc-button" onClick={() => this.props.raiseHealth(this.props.character)}>+</button>
+                <button className="inc-button" onClick={() => this.lowerHealth(this.props.character)}>-</button>
+                <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={this.setHealth.bind(this)} placeholder=""/>
+                <button className="inc-button" onClick={() => this.raiseHealth(this.props.character)}>+</button>
             </div>
         );
     }
 
-    setHealth(){
-        if (!this.refs.healthBox){
-            return;
+    raiseHealth(character){
+        /*if (character.currHP >= character.maxHP){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 0 + 1);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, Number(character.currHP) + 1);
+        }*/
+
+        this.setHealth(character, this.state.currHP + 1);        
+    }
+
+    lowerHealth(character){
+        /*if (character.tempHP > 0){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 1);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 1);
+        }*/
+
+        this.setHealth(character, this.state.currHP - 1);
+    }
+
+    setHealth(character, value){
+        if (!value){
+            value = this.refs.healthBox.value;
         }
 
-        newHealth = this.refs.healthBox.value;
-        if (parseInt(newHealth) == newHealth){
-            this.props.setHealth(this.props.character, newHealth);
-        }
+        Meteor.call("campaigns.updateCurrHealth", this.props.campaignID, character, value);
+        this.refs.healthBox.value = value;
+        this.setState({currHP : value});
+        this.setState({percent : (value / this.state.maxHP * 100) + "%"})
+
+        //if (value > character.maxHP){
+            //Meteor.call("campaigns.updateTempHealth", this.campaignID, character, value - character.maxHP);
+            //Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.maxHP);
+       // }
+        //else{
+        //}
     }
 
     removeFromInitiative(){

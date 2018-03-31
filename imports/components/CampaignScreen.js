@@ -575,34 +575,6 @@ export default class CampaignScreen extends React.Component{
         this.refs.d100roller.value=""
     }
 
-    raiseHealth(character){
-        if (character.currHP >= character.maxHP){
-            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 0 + 1);
-        }
-        else{
-            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 0 + 1);
-        }
-    }
-
-    lowerHealth(character){
-        if (character.tempHP > 0){
-            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 1);
-        }
-        else{
-            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 1);
-        }
-    }
-
-    setHealth(character, value){
-        if (value > character.maxHP){
-            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, value - character.maxHP);
-            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.maxHP);
-        }
-        else{
-            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, value);
-        }
-    }
-
     renderInitiativeOrder(){
         isSorted = true;
         var prevIndex = null;
@@ -629,9 +601,6 @@ export default class CampaignScreen extends React.Component{
                                     characterName={this.campaign.activeNPCs[j].characterName + " " + j}
                                     gm={this.campaign.gm}
                                     campaignID={this.campaign._id}
-                                    raiseHealth={this.raiseHealth.bind(this)}
-                                    lowerHealth={this.lowerHealth.bind(this)}
-                                    setHealth={this.setHealth.bind(this)}
                                 />
                             );
                         }
