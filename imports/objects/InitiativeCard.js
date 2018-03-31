@@ -67,7 +67,6 @@ export default class InitiativeCard extends React.Component{
             return null;
         }
         
-        console.log(this.state.percent);
         return (
             <div className="col-xs-12 no-margin-override no-padding">
                 <div className="col-xs-10 no-margin-override">
@@ -90,7 +89,7 @@ export default class InitiativeCard extends React.Component{
         return (
             <div>
                 <button className="inc-button" onClick={() => this.lowerHealth(this.props.character)}>-</button>
-                <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={this.setHealth.bind(this)} placeholder=""/>
+                <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={() => this.setHealth(this.props.character).bind(this)} placeholder=""/>
                 <button className="inc-button" onClick={() => this.raiseHealth(this.props.character)}>+</button>
             </div>
         );
@@ -120,11 +119,12 @@ export default class InitiativeCard extends React.Component{
 
     setHealth(character, value){
         if (!value){
-            value = this.refs.healthBox.value;
+            value = Number(this.refs.healthBox.value);
+            console.log(value);
         }
 
         Meteor.call("campaigns.updateCurrHealth", this.props.campaignID, character, value);
-        this.refs.healthBox.value = value;
+        this.refs.healthBox.value = Number(value);
         this.setState({currHP : value});
         this.setState({percent : (value / this.state.maxHP * 100) + "%"})
 

@@ -4,7 +4,11 @@ import { NavLink } from 'react-router-dom';
 export default class CampaignCharacterTile extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {healthString : ""}
+        this.state = {
+            currHP : 0,
+            maxHP : 1,
+            percent : 0
+        }
     }
 
     componentWillMount(){
@@ -12,26 +16,15 @@ export default class CampaignCharacterTile extends React.Component{
             return;
         }
 
-        var maxHP = this.props.character.maxHP;
-        var currHP = this.props.character.currHP;
-        var tempHP = this.props.character.tempHP;
+        var max = this.props.character.maxHP == 0 ? 1 : this.props.character.maxHP;
 
+        this.setState({maxHP : max});
+        this.setState({currHP : this.props.character.currHP});
+        //this.tempHP = this.props.character.tempHP;
 
-        if (maxHP == 0 || maxHP == null){
-            maxHP = 1;
-        }
-        if (currHP == null){
-            currHP = 1;
-        }
-        if (tempHP == null){
-            tempHP = 1;
-        }
-
-        this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
-        this.percent = (this.percent*100) + "%";
-
-        var numerator = Number(currHP) + Number(tempHP);
-        this.setState({healthString: numerator + "/" + maxHP});
+        //this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
+        this.setState({percent : (Number(this.props.character.currHP) / Number(max) * 100) + "%"});
+        //this.percent = (this.percent*100) + "%";
     }
 
     renderSpellSlots()
@@ -82,10 +75,12 @@ export default class CampaignCharacterTile extends React.Component{
                         <div className="col-xs-12 no-margin-override no-padding">
                             <div className="col-xs-10 no-margin-override">
                                 <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative"}}>
-                                    <div style={{"backgroundColor":"red", "height":"15px", "width":this.percent}}/>
+                                    <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
                                 </div>
                             </div>
-                            <div className="col-xs-2 no-margin-override"><p>{this.state.healthString}</p></div>
+                            <div className="col-xs-2 no-margin-override">
+                                <p>{this.state.currHP + "/" + this.state.maxHP}</p>
+                            </div>
                         </div>
                         <div className="spacer col-sm-12"/>
 
