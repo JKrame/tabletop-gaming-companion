@@ -10,13 +10,13 @@ export default class CampaignCardMini extends React.Component{
                     <div className="objectCardMiniImage ">
                     <img src={this.props.campaignImageURL!=null && this.props.campaignImageURL!="" ? this.props.campaignImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
-                    <div className="objectCardMiniInfo container-fluid">
+                    <div className="objectCardMiniInfo col-xs-8 container-fluid">
                         <h5 className="no-margin-override h5-overflow-hidden">{this.props.campaignName}</h5>
                         <hr className="hr-override-light"/>
                         <p className="p-override no-margin-override small-text"> {this.props.campaignDescription}</p>
                     </div>
                     <div  className="campaignCardHalfButton">
-                        <button>SCHEDULE</button>
+                         <div className="cal-img" draggable="false"/>
                     </div>
                 </div>
             </NavLink>

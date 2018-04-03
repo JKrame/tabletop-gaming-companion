@@ -188,17 +188,19 @@ export default class Mail extends React.Component{
                     </div>
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
-                    <div className="spacer col-sm-12 chat-panel"/>
-                            <ChatWindow conversation={this.state.conversation}/>
-                            <div className="col-sm-12 page-content">
-                                <div className="col-sm-9">
-                                    <textarea type="text" ref="messageBox" style={{"height":"200px"}} className="full-width"/>
-                                </div>
-                                <div className="col-sm-3 negate-margins">
-                                        <button onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>
-                                </div>
+                    <div className="spacer col-sm-12"/>
+                    <div className="chat-panel full-width">
+                        <ChatWindow  conversation={this.state.conversation}/>
+                    </div>
+                        <div className="col-sm-12 page-content">
+                            <div className="col-sm-9">
+                                <textarea type="text" ref="messageBox" style={{"height":"200px"}} className="full-width"/>
                             </div>
-                        </div> 
+                            <div className="col-sm-3 negate-margins">
+                                    <button onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>
+                            </div>
+                        </div>
+                    </div> 
                 </div> 
             </div>
         </div>

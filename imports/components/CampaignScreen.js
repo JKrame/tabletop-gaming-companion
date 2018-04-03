@@ -393,9 +393,10 @@ export default class CampaignScreen extends React.Component{
         this.refs.level7slot.value = maxSpells[6]
         this.refs.level8slot.value = maxSpells[7]
         this.refs.level9slot.value = maxSpells[8]
-        
-        currHealth = this.characters[currCharacter].currHP
+
+
         maxHealth = this.characters[currCharacter].maxHP
+        Meteor.call("characters.updateHealth", this.characters[currCharacter]._id, maxHealth);
     }
 
     addSpell(currCharacter, level){
@@ -550,6 +551,9 @@ export default class CampaignScreen extends React.Component{
         if(this.refs.d100roller.value){
             dice=100
             d=this.refs.d100roller.value
+        }
+        if(d==null){
+            return;
         }
         result=0
         for(i=0;i<d;i++){

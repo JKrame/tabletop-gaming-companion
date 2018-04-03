@@ -15,7 +15,7 @@ export default class CampaignCardHalf extends React.Component{
                         <p className="p-override no-margin-override"> {this.props.campaignDescription}</p>
                     </div>
                     <div className="campaignCardHalfButton">
-                        <button>Scheduling</button>
+                        <button> <div className="cal-img" draggable="false"/></button>
                     </div>
                 </div>
             </NavLink>
