@@ -726,9 +726,7 @@ export default class CampaignScreen extends React.Component{
     renderEndCombatButton(){
         if (this.campaign.combat && this.campaign.gm == Meteor.userId()){
             return (
-                <div className="col-sm-12">
-                    <button className="full-width submit-button" onClick={this.endCombat.bind(this)}>END COMBAT</button>
-                </div>
+                    <button className="width-80 editSheetBtn red-button" onClick={this.endCombat.bind(this)}>END COMBAT</button>
             );
         }
     }
@@ -739,9 +737,7 @@ export default class CampaignScreen extends React.Component{
             (this.campaign.gm == Meteor.userId() || (this.myCharacter && this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id))
         ){
             return (
-                <div className="col-sm-12">
-                    <button className="full-width submit-button " onClick={this.endTurn.bind(this)}>END TURN</button>
-                </div>
+                    <button className="width-80 longRestBtn red-button" onClick={this.endTurn.bind(this)}>END TURN</button>
             );
         }
     }
@@ -749,9 +745,7 @@ export default class CampaignScreen extends React.Component{
     renderStartCombatButton(){
         if (!this.campaign.combat && this.campaign.gm == Meteor.userId()){
             return (
-                <div className="col-sm-12">
-                    <button className="full-width submit-button blue-button " onClick={this.startCombat.bind(this)}>START COMBAT</button>
-                </div>
+                    <button className="width-80 blue-button editSheetBtn" onClick={this.startCombat.bind(this)}>START COMBAT</button>
             );
         }
     }
@@ -912,7 +906,7 @@ export default class CampaignScreen extends React.Component{
 
                                     <h3>Initiative</h3>
                                     <hr/>
-                                    <div className="scrolling-container initiative">
+                                    <div className="scrolling-container-content-top">
                                         {this.renderInitiativeOrder()}
                                     </div>
 
