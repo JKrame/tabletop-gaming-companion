@@ -936,7 +936,7 @@ export default class CampaignScreen extends React.Component{
                                     <div className="scrolling-container-content-top">
                                         {this.renderCharacterCard()}
                                     </div>
-                                    <button className="width-80 longRestBtn red-button" onClick={this.longRest.bind(this)}>LONG REST</button>
+                                    {Meteor.userId() != this.campaign.gm ? <button className="width-80 longRestBtn red-button" onClick={this.longRest.bind(this)}>LONG REST</button> : null }
                                     {Meteor.userId() != this.campaign.gm ? <button onClick={this.editSheet.bind(this)} className="width-80 blue-button editSheetBtn" style={{"height":"25px"}}>EDIT SHEET</button> : null}
                                 </div>
                             </div>

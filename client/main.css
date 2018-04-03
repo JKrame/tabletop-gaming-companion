@@ -288,6 +288,15 @@ body{
     padding:10px;
 }
 
+.campaignCardHalfButton{
+    width:50px;
+    float:right;
+    display:absolute;
+    right:0;
+    bottom:0;
+    top:0;
+}
+
 .objectCardHalf{
     margin:10px 60px 10px 60px;
     padding:10px;

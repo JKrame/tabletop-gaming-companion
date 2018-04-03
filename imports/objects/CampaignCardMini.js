@@ -15,6 +15,9 @@ export default class CampaignCardMini extends React.Component{
                         <hr className="hr-override-light"/>
                         <p className="p-override no-margin-override small-text"> {this.props.campaignDescription}</p>
                     </div>
+                    <div  className="campaignCardHalfButton">
+                        <button>SCHEDULE</button>
+                    </div>
                 </div>
             </NavLink>
         );
