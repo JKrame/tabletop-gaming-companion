@@ -49,6 +49,7 @@ export default class SettingsForm extends React.Component{
     }
 
     setLocation() {
+        console.log("setLocation")
         var latLng = new ReactiveVar();
         Tracker.autorun(function(computation) {
             latLng.set(Geolocation.latLng());
@@ -58,6 +59,7 @@ export default class SettingsForm extends React.Component{
                 var lat = latLng.curValue.lat;
                 var lng = latLng.curValue.lng;
                 coord=[lat, lng]
+                console.log(coord)
                 Meteor.users.update(Meteor.userId(), {
                     $set: {"profile.location": coord}
                 });
