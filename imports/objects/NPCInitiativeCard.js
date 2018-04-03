@@ -164,6 +164,9 @@ export default class InitiativeCard extends React.Component{
                         <hr className="hr-override-light"/>
                         
                         {this.renderHealthBar()}
+                        <div className="spacer col-sm-12"/>
+                        <div className="spacer col-sm-12"/>
+                        
                         {this.renderHealthControls()}
                         <div className="spacer col-sm-12"/>
 
