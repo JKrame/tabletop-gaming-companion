@@ -70,7 +70,7 @@ export default class InitiativeCard extends React.Component{
         return (
             <div className="col-xs-12 no-margin-override no-padding">
                 <div className="col-xs-10 no-margin-override">
-                    <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative"}}>
+                    <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative", "overflow":"hidden"}}>
                         <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
                     </div>
                 </div>
