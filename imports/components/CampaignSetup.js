@@ -349,7 +349,7 @@ export default class CampaignSetup extends React.Component{
                                                 <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
                                             </div>
                                             <div className="col-xs-10">
-                                                <textarea rows={3} ref="newNoteText" defaultValue={this.campaign.description != null ? this.campaign.description : ""} className="fill-width"/>
+                                                <textarea rows={3} ref="newNoteText" className="fill-width"/>
                                                 
                                             </div>
                                         </div>
