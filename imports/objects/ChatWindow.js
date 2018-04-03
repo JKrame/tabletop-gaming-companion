@@ -34,7 +34,7 @@ export default class ChatWindow extends React.Component{
     render() {
         return (
             <div className="">
-                <div className="col-sm-12 full-width " >
+                <div className="col-sm-12 full-width scrolling-container" >
                     {this.renderChatBubbles()}
                 </div>
                 
