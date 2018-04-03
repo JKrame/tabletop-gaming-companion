@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import UserCard from '../objects/UserCard';
 import CharacterCardMini from '../objects/CharacterCardMini';
 import { BADQUERY } from 'dns';
-import NPCCard from '../objects/NPCcard';
+import NPCCard from '../objects/NPCInitiativeCard';
 import { Random } from 'meteor/random';
 
 var NPCs;
@@ -62,7 +62,7 @@ export default class InitiativePopup extends React.Component {
         for(var i = 0; i < this.NPCs.length; i++)
         {
             boxes.push(
-                <input type="text" ref={"npc" + i} className="npc-qty textBoxMini"/>
+                <input keyj={i} type="text" ref={"npc" + i} className="npc-qty textBoxMini"/>
             );
         }
         return <div>{boxes}</div>;
@@ -80,24 +80,22 @@ export default class InitiativePopup extends React.Component {
         {
             var refID = "npc" + i;
             var numCopies = ReactDOM.findDOMNode(this.refs[refID]).value;
-            var npc_id = this.NPCs[i]._id;
-            var tempHp = this.NPCs[i].tempHp == null ? 0 : this.NPCs[i].tempHp;
-            var currHp = this.NPCs[i].currHp == null ? 0 : this.NPCs[i].currHp;
-            var currHp = currHp + tempHp;
-            //console.log(currHp);
-            var maxHp = this.NPCs[i].maxHp == null ? 0 : this.NPCs[i].maxHp;
             var dex = this.NPCs[i].attributes[1];
 
             for(var j = 0; j < numCopies; j++)
             {
                 var unique_id = Random.id();
                 var initiative = Math.floor(Math.random() * 20) + 1 + dex;
+                var name = this.NPCs[i].characterName;
+                this.NPCs[i].characterName = name + j;
 
                 Meteor.call("campaignsActiveNPCs.addToSet",
                     this.props.campaignID,
                     this.NPCs[i],
                     unique_id
                 );
+
+                this.NPCs[i].characterName = name;
 
                 //console.log(this.props.campaignID);
                 //console.log(unique_id);
