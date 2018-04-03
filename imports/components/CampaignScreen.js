@@ -629,7 +629,9 @@ export default class CampaignScreen extends React.Component{
                 this.sortTurnOrder()
             }
 
-            return cards.map( card => <div>{card}</div>);
+            return(
+                        cards.map( card => <div>{card}</div>)
+            );
         }
 
         return cards;
@@ -899,10 +901,10 @@ export default class CampaignScreen extends React.Component{
 
                                     <h3>Initiative</h3>
                                     <hr/>
-                                    <div className="scrolling-container-content-top">
-                                        <FlipMove>
-                                            {this.renderInitiativeOrder()}
-                                        </FlipMove>                                    
+                                    <div className="scrolling-container-content-top width-90">
+                                        <FlipMove duration={750} easing="ease-out">
+                                                {this.renderInitiativeOrder()}
+                                        </FlipMove>
                                     </div>
 
 
@@ -926,7 +928,7 @@ export default class CampaignScreen extends React.Component{
                                     <div className="spacer col-sm-12"/>
                                     <h3>Characters</h3>
                                     <hr/>
-                                    <div className="scrolling-container-content-top">
+                                    <div className="scrolling-container-content-top width-90">
                                         {this.renderCharacterCard()}
                                     </div>
                                     {Meteor.userId() != this.campaign.gm ? <button className="width-80 longRestBtn red-button" onClick={this.longRest.bind(this)}>LONG REST</button> : null }
