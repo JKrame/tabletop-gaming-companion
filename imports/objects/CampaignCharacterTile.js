@@ -42,16 +42,16 @@ export default class CampaignCharacterTile extends React.Component{
             {
                 if(j < this.props.character.spellSlotsCurr[i])
                 {
-                    spellSlots.push(<div className="spell-slot"></div>)
+                    spellSlots.push(<div key={j} className="spell-slot"></div>)
                 }
                 else
                 {
-                    spellSlots.push(<div className="empty-spell-slot"></div>)
+                    spellSlots.push(<div key={j} className="empty-spell-slot"></div>)
                 }
             }
             if(spellSlots.length != 0)
             {
-                spellSlotContainers.push(<div className="spell-slot-container">{spellSlots}</div>);
+                spellSlotContainers.push(<div key={i} className="spell-slot-container">{spellSlots}</div>);
             }
         }
         return <div className="col-xs-12 ">{spellSlotContainers}</div>;
