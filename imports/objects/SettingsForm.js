@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { Geolocation } from 'meteor/mdg:geolocation';
 import { reverseGeocode } from 'meteor/jaymc:google-reverse-geocode';
+import { Accounts } from 'meteor/accounts-base'
 
 
 export default class SettingsForm extends React.Component{
@@ -14,6 +15,7 @@ export default class SettingsForm extends React.Component{
         this.handleLocationChange = this.handleLocationChange.bind(this);
         this.handleScheduleChange = this.handleScheduleChange.bind(this);
         this.setAccountImage = this.setAccountImage.bind(this);
+        this.changePassword = this.changePassword.bind(this);
     }
 
     handleScheduleChange({target}){
@@ -75,6 +77,28 @@ export default class SettingsForm extends React.Component{
             $set: {"profile.picture": this.refs.userImageURL.value.trim(), "profile.accountPicture": this.refs.userImageURL.value.trim()}
         });
         Meteor.call('conversations.update', Meteor.userId(), this.refs.userImageURL.value.trim());
+    }
+
+    changePassword(e){
+
+        e.preventDefault();
+        if(this.refs.newPass.value == "" || this.refs.newPassConf.value == "" || this.refs.oldPass.value == ""){
+            return;
+        }
+        if(this.refs.newPass.value != this.refs.newPassConf.value){
+            confirm('New passwords must match')
+            return;
+        }
+        Accounts.changePassword(this.refs.oldPass.value, this.refs.newPass.value, (err) => {
+            if (err){
+                confirm("Unable to change password, please try again")
+            } else {
+                confirm("Password was changed successfully")
+            }
+        });
+        this.refs.newPass.value = ""
+        this.refs.newPassConf.value = ""
+        this.refs.oldPass.value = ""
     }
 
     render() {
@@ -142,7 +166,20 @@ export default class SettingsForm extends React.Component{
                                         <label htmlFor={this.id}> Sunday</label>
                                         <br/>
                                         
-                                    </div>                        
+                                    </div>   
+                                    <div className="col-sm-12">
+                                        <p className="p-override no-margin-override">Update Password:</p>
+                                        <p className="p-override no-margin-override">Old Password:</p>
+                                        <input type="password" className="full-width" ref="oldPass"/>
+                                        <p className="p-override no-margin-override">New Password:</p>
+                                        <input type="password" className="full-width" ref="newPass"/>
+                                        <p className="p-override no-margin-override">Confirm New Password:</p>
+                                        <input type="password" className="full-width" ref="newPassConf"/>
+                                        <div>
+                                            <button onClick={this.changePassword}>Change Password</button>
+                                        </div>
+                                        
+                                    </div>                     
                        
                                     <div className="spacer col-sm-12"/>
                                     <div className="spacer col-sm-12"/>
