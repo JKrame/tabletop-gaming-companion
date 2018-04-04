@@ -49,29 +49,21 @@ export default class SettingsForm extends React.Component{
     }
 
     setLocation() {
-        console.log("setLocation")
         var latLng = new ReactiveVar();
         Tracker.autorun(function(computation) {
             latLng.set(Geolocation.latLng());
             if (latLng.get()) {
-                //console.log(latLng)
                 computation.stop();
                 var lat = latLng.curValue.lat;
-                var lng = latLng.curValue.lng;
+                var lng = latLng.curValue.lng;                
                 coord=[lat, lng]
-                console.log(coord)
+                //console.log(coord)
                 Meteor.users.update(Meteor.userId(), {
                     $set: {"profile.location": coord}
                 });
-                // reverseGeocode.getSecureLocation(lat, lng, function(location) {
-                //     Meteor.users.update(Meteor.userId(), {
-                //         $set: {"profile.location": reverseGeocode.getAddrStr()}
-                //     });
-                // });
             }
         })
     }
-
     removeLocation() {
         Meteor.users.update(Meteor.userId(), {
             $set: {"profile.location": null}

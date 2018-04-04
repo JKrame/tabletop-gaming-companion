@@ -214,10 +214,12 @@ export default class Home extends React.Component {
     PlayersNearYou(){
         var cards = [];
         var currUserLocation=null
-        if(!this.user){
+        var userLocation=null
+        //console.log(this.user)
+        if(this.user==undefined){
             return;
         }  
-        
+        //checks for user location
         for(var i=0;i<this.user.length;i++){
             if(this.user[i]._id == Meteor.userId()){
                 if(this.user[i].profile.location == null){
@@ -227,23 +229,29 @@ export default class Home extends React.Component {
                 //console.log(currUserLocation)
             }
         }
-
+        //gets all other locations
         for(var i=0;i<this.user.length;i++){
-            if(this.user._id != Meteor.userId()){
+            if(this.user[i]._id != Meteor.userId()){
+                //console.log(Meteor.userId())
+
                 if(this.user[i].profile.location == null){
                     return;
                 }
                 userLocation=this.user[i].profile.location;
+                //console.log(this.user[i].profile.username)
             }
             if(currUserLocation && userLocation != null)
             {
+                
                 distance = geolib.getDistance(
                     {latitude: currUserLocation[0], longitude: currUserLocation[1]},
                     {latitude: userLocation[0], longitude: userLocation[1]}
                 );
+                //console.log(distance)
                 //30 miles
                 if (distance<48280){
                     //console.log("hit")
+                    
                     cards.push(
                         <PlayerNearYou
                             key={i}
