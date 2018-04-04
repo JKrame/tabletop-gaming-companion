@@ -43,8 +43,8 @@ export default class Settings extends React.Component{
 
   render() {
     return(
-        <div className="col-xs-12">
-        <Header/>
+        <div>
+            <Header/>
             <div className="col-sm-8 col-sm-offset-2 ">
                 <div className=" page-content col-sm-12">
                     {this.renderForm()}

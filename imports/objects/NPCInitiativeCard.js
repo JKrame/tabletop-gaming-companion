@@ -70,7 +70,7 @@ export default class InitiativeCard extends React.Component{
         return (
             <div className="col-xs-12 no-margin-override no-padding">
                 <div className="col-xs-10 no-margin-override">
-                    <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative"}}>
+                    <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative", "overflow":"hidden"}}>
                         <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
                     </div>
                 </div>
@@ -103,7 +103,7 @@ export default class InitiativeCard extends React.Component{
             Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, Number(character.currHP) + 1);
         }*/
 
-        this.setHealth(character, this.state.currHP + 1);        
+        this.setHealth(character, this.state.currHP - 0 + 1);        
     }
 
     lowerHealth(character){
@@ -160,10 +160,13 @@ export default class InitiativeCard extends React.Component{
                         <img src={this.props.characterImageURL!=null && this.props.character.characterImageURL!="" ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className="objectCardMiniInfo container-fluid col-xs-10">
-                        <h5 className="no-margin-override h5-overflow-hidden">{this.props.characterName}</h5>
+                        <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
                         <hr className="hr-override-light"/>
                         
                         {this.renderHealthBar()}
+                        <div className="spacer col-sm-12"/>
+                        <div className="spacer col-sm-12"/>
+                        
                         {this.renderHealthControls()}
                         <div className="spacer col-sm-12"/>
 

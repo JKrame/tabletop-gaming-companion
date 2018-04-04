@@ -1,18 +1,19 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
-import ToggleButton from 'react-toggle-button'
+import ToggleButton from 'react-toggle-button';
+import FlipMove from 'react-flip-move';
 
 import Header from './Header';
-//import { Random } from 'meteor/random'
 
 import CharacterCard from '../objects/CampaignCharacterTile';
-import InitiativeCard from '../objects/InitiativeCard';
+import NPCInitiativeCard from '../objects/NPCInitiativeCard';
+import PCInitiativeCard from '../objects/PCInitiativeCard';
 import CampaignCard from '../objects/CampaignCardMini';
 import ChatWindow from '../objects/ChatWindow';
+import NPCCard from '../objects/NPCCard';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
-import NPCCard from '../objects/NPCcard';
 import InitiativePopup from '../objects/InitiativePopup';
 import {ToastContainer, ToastStore} from 'react-toasts';
 import StaticCharacterSheet from '../objects/StaticCharacterSheet';
@@ -599,10 +600,9 @@ export default class CampaignScreen extends React.Component{
                     for (j = 0; j < this.campaign.activeNPCs.length; j++){
                         if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[index].cid){
                             cards.push(
-                                <InitiativeCard
+                                <NPCInitiativeCard
                                     key={i}
                                     character={this.campaign.activeNPCs[j]}
-                                    characterName={this.campaign.activeNPCs[j].characterName + " " + j}
                                     gm={this.campaign.gm}
                                     campaignID={this.campaign._id}
                                 />
@@ -614,17 +614,10 @@ export default class CampaignScreen extends React.Component{
                     for (j = 0; j < this.characters.length; j++){
                         if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
                             cards.push(
-                                <CharacterCard
+                                <PCInitiativeCard
                                     key={i}
                                     character={this.characters[j]}
-                                    characterImageURL={this.characters[j].characterImageURL} 
-                                    id={this.characters[j]._id} 
-                                    somehistory={this.props.history} 
-                                    func={null}
-                                    characterName={this.characters[j].characterName} 
-                                    characterClass={this.characters[j].characterClass} 
-                                    level={this.characters[j].level} 
-                                    race={this.characters[j].race}
+                                    campaignID={this.campaign._id}
                                 />
                             );
                         }
@@ -636,10 +629,12 @@ export default class CampaignScreen extends React.Component{
                 this.sortTurnOrder()
             }
 
-            return <div>{cards}</div>;
+            return(
+                        cards.map( card => <div>{card}</div>)
+            );
         }
 
-        return null;
+        return cards;
     }
 
     sortTurnOrder(){
@@ -726,9 +721,7 @@ export default class CampaignScreen extends React.Component{
     renderEndCombatButton(){
         if (this.campaign.combat && this.campaign.gm == Meteor.userId()){
             return (
-                <div className="col-sm-12">
-                    <button className="full-width submit-button" onClick={this.endCombat.bind(this)}>END COMBAT</button>
-                </div>
+                    <button className="width-80 editSheetBtn red-button" onClick={this.endCombat.bind(this)}>END COMBAT</button>
             );
         }
     }
@@ -739,9 +732,7 @@ export default class CampaignScreen extends React.Component{
             (this.campaign.gm == Meteor.userId() || (this.myCharacter && this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id))
         ){
             return (
-                <div className="col-sm-12">
-                    <button className="full-width submit-button " onClick={this.endTurn.bind(this)}>END TURN</button>
-                </div>
+                    <button className="width-80 longRestBtn red-button" onClick={this.endTurn.bind(this)}>END TURN</button>
             );
         }
     }
@@ -749,9 +740,7 @@ export default class CampaignScreen extends React.Component{
     renderStartCombatButton(){
         if (!this.campaign.combat && this.campaign.gm == Meteor.userId()){
             return (
-                <div className="col-sm-12">
-                    <button className="full-width submit-button blue-button " onClick={this.startCombat.bind(this)}>START COMBAT</button>
-                </div>
+                    <button className="width-80 blue-button editSheetBtn" onClick={this.startCombat.bind(this)}>START COMBAT</button>
             );
         }
     }
@@ -902,7 +891,7 @@ export default class CampaignScreen extends React.Component{
         }
         return(
             <div className="page-wrapper">
-                <Header/>
+            <Header/>
                 <div className="col-md-12">
                     <div className=" game-screen">
 
@@ -912,8 +901,10 @@ export default class CampaignScreen extends React.Component{
 
                                     <h3>Initiative</h3>
                                     <hr/>
-                                    <div className="scrolling-container initiative">
-                                        {this.renderInitiativeOrder()}
+                                    <div className="scrolling-container-content-top width-90">
+                                        <FlipMove duration={750} easing="ease-out">
+                                                {this.renderInitiativeOrder()}
+                                        </FlipMove>
                                     </div>
 
 
@@ -937,7 +928,7 @@ export default class CampaignScreen extends React.Component{
                                     <div className="spacer col-sm-12"/>
                                     <h3>Characters</h3>
                                     <hr/>
-                                    <div className="scrolling-container-content-top">
+                                    <div className="scrolling-container-content-top width-90">
                                         {this.renderCharacterCard()}
                                     </div>
                                     {Meteor.userId() != this.campaign.gm ? <button className="width-80 longRestBtn red-button" onClick={this.longRest.bind(this)}>LONG REST</button> : null }

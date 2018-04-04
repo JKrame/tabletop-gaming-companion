@@ -346,10 +346,10 @@ export default class CampaignSetup extends React.Component{
                                                 <img src={'/images/addIcon.png'} className="stretch-image"/>
                                             </div>
                                             <div className="col-xs-5">
-                                                <input className="full-width" type="text" ref="newNoteTitle" placeholder=""/>
+                                                <input className="full-width" type="text" ref="newNoteTitle" placeholder="" style={{"border":"0px"}}/>
                                             </div>
                                             <div className="col-xs-10">
-                                                <textarea rows={3} ref="newNoteText" className="fill-width"/>
+                                                <textarea rows={1} ref="newNoteText" className="fill-width" style={{"border":"0px"}}/>
                                                 
                                             </div>
                                         </div>

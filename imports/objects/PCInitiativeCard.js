@@ -42,16 +42,16 @@ export default class CampaignCharacterTile extends React.Component{
             {
                 if(j < this.props.character.spellSlotsCurr[i])
                 {
-                    spellSlots.push(<div key={j} className="spell-slot"></div>)
+                    spellSlots.push(<div className="spell-slot"></div>)
                 }
                 else
                 {
-                    spellSlots.push(<div key={j} className="empty-spell-slot"></div>)
+                    spellSlots.push(<div className="empty-spell-slot"></div>)
                 }
             }
             if(spellSlots.length != 0)
             {
-                spellSlotContainers.push(<div key={i} className="spell-slot-container">{spellSlots}</div>);
+                spellSlotContainers.push(<div className="spell-slot-container">{spellSlots}</div>);
             }
         }
         return <div className="col-xs-12 ">{spellSlotContainers}</div>;
@@ -66,15 +66,15 @@ export default class CampaignCharacterTile extends React.Component{
             <NavLink to='#'  onClick={() => this.props.parent.toggleCharacterPopup(this.props.character)} className='nav-item nav-link'>
                 <div className="objectCardMini " draggable="false">
                     <div className="objectCardMiniImage">
-                        <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
+                        <img src={this.props.character.characterImageURL!=null ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className="objectCardMiniInfo container-fluid col-xs-10">
-                        <h5 className="no-margin-override h5-overflow-hidden">{this.props.characterName}</h5>
+                        <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
                         <hr className="hr-override-light"/>
 
                         <div className="col-xs-12 no-margin-override no-padding">
                             <div className="col-xs-10 no-margin-override">
-                                <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative"}}>
+                                <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative", "overflow":"hidden"}}>
                                     <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
                                 </div>
                             </div>

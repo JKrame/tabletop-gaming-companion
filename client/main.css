@@ -67,6 +67,10 @@ hr{
 
 }
 
+.relative{
+    display:relative;
+}
+
 .longRestBtn{
     position:absolute;
     bottom:50px;
@@ -518,6 +522,10 @@ body{
     width:80%;
 }
 
+.width-90{
+    width:90%;
+}
+
 .full-height{
     display:table;
 }
@@ -562,8 +570,12 @@ body{
     overflow-y:auto;
 }
 
+.logo{
+    background:url('/images/primohorizontal.png');
+}
 
 .chat-panel{
+    height:50vh;
     max-height:50vh;
     overflow-y:scroll;
 }
@@ -579,9 +591,10 @@ body{
     height:70vh;
 }
 .scrolling-container-content-top{
+    position: absolute;
     overflow-y:auto;
     overflow-x:hidden;
-    height:75%;
+    max-height:70%;
 }
 
 

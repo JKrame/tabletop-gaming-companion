@@ -48,7 +48,7 @@ export default class Header extends React.Component{
                     <nav className="navbar-inner">
                         <div className="container-fluid">
                             <div className="navbar-header">
-                                <NavLink to='/home' className='navbar-brand logo' style={{"marginTop":"-10px"}}><img className="full-width" src='images/primoHorizontal.png'/></NavLink>
+                                <NavLink to='/home' className='navbar-brand logo' style={{"marginTop":"-10px"}}><img className="full-width" src='images/primoHorizontal.png' className="logo"/></NavLink>
                                 <button className="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapsibleNavbarContent" aria-controls="collapsibleNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span className="icon-bar"></span>
                                     <span className="icon-bar"></span>
