@@ -6,6 +6,9 @@ import {Random} from 'meteor/random';
 import CharacterCard from '../objects/CharacterCardMini';
 import CampaignCard from '../objects/CampaignCardMini';
 import InvitePopup from '../objects/PendingInvitePopup';
+import PendingCampaignCard from '../objects/PendingCampaignCard';
+
+import FlipMove from 'react-flip-move';
 
 import Header from './Header';
 
@@ -46,12 +49,9 @@ export default class Binder extends React.Component{
             }
             if(sub2.ready())
             {
-                campaignsArray = Campaigns.find({gm: UID}).fetch();
-                if(campaignsArray != undefined)
-                {
-                    this.campaigns = campaignsArray;
-                    display = true;
-                }
+                this.campaigns = Campaigns.find({gm: UID}).fetch();
+                this.pendingInvites = Meteor.users.findOne({_id : Meteor.userId()}).profile.pendingInvites;
+                this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
             }
             this.forceUpdate();
         });
@@ -101,10 +101,55 @@ export default class Binder extends React.Component{
         for (var i = 0; i < this.campaigns.length; i++)
         {
             cards.push(
-                <CampaignCard key={i} campaignImageURL={this.campaigns[i].campaignImageURL} id={this.campaigns[i]._id} somehistory={this.props.history} func={this.loadCampaign} campaigns={this.campaigns} campaignName={this.campaigns[i].name} campaignDescription={this.campaigns[i].description}/>
+                <CampaignCard 
+                    key={i} 
+                    campaignImageURL={this.campaigns[i].campaignImageURL} 
+                    id={this.campaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.campaigns} 
+                    campaignName={this.campaigns[i].name} 
+                    campaignDescription={this.campaigns[i].description}
+                    campaignGM = {this.campaigns[i].gm}
+                />
             );
         }
-        return <div>{cards}</div>;
+
+        for (var i = 0; i < this.otherCampaigns.length; i++)
+        {
+            cards.push(
+                <CampaignCard 
+                    key={i} 
+                    campaignImageURL={this.otherCampaigns[i].campaignImageURL} 
+                    id={this.otherCampaigns[i]._id} 
+                    somehistory={this.props.history} 
+                    func={this.loadCampaign} 
+                    campaigns={this.otherCampaigns} 
+                    campaignName={this.otherCampaigns[i].name} 
+                    campaignDescription={this.otherCampaigns[i].description}
+                    campaignGM = {this.otherCampaigns[i].gm}
+                />
+            );
+        }
+
+        for (var i = 0; i < this.pendingInvites.length; i++)
+        {
+            //console.log(this.pendingInvites[i][0]);
+            cards.push(
+                <div onClick={this.toggleInvitePopup.bind(this, this.pendingInvites[i][0])}>
+                    <PendingCampaignCard
+                        key={i}
+                        campaignID={this.pendingInvites[i][0]}
+                        campaignImageURL={this.pendingInvites[i][1]}
+                        campaignName={this.pendingInvites[i][2]}
+                    />
+                </div>
+            );
+        }
+        return (                                        
+        <FlipMove duration={750} easing="ease-out">
+            <div>{cards}</div>
+        </FlipMove>);
     }
 
     loadCharacter(cid, somehistory){

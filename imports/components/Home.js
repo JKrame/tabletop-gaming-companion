@@ -60,7 +60,7 @@ export default class Home extends React.Component {
                 this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
             }
             if(sub3.ready()){
-                this.user = Meteor.users.find({}).fetch();
+                
             }
             this.forceUpdate();
         });
@@ -111,10 +111,7 @@ export default class Home extends React.Component {
                 />
             );
         }
-        return (
-            <FlipMove duration={750} easing="ease-out">
-                <div>{cards}</div>
-            </FlipMove>);
+        return <div>{cards}</div>;
     }
 
     renderCampaignCard() {
@@ -157,7 +154,7 @@ export default class Home extends React.Component {
 
         for (var i = 0; i < this.pendingInvites.length; i++)
         {
-            //console.log(this.pendingInvites[i][0]);
+            console.log(this.pendingInvites[i][0]);
             cards.push(
                 <div onClick={this.toggleInvitePopup.bind(this, this.pendingInvites[i][0])}>
                     <PendingCampaignCard
@@ -169,10 +166,7 @@ export default class Home extends React.Component {
                 </div>
             );
         }
-        return (                                        
-        <FlipMove duration={750} easing="ease-out">
-            <div>{cards}</div>
-        </FlipMove>);
+        return <div>{cards}</div>;
     }
 
     loadCharacter(cid, somehistory){
@@ -270,10 +264,7 @@ export default class Home extends React.Component {
                     );
                 
                 }
-                return (
-                    <FlipMove duration={750} easing="ease-out">
-                        <div>{cards}</div>
-                    </FlipMove>);
+                return <div>{cards}</div>;
             }
         }
     }

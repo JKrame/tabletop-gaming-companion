@@ -13,7 +13,7 @@ export default class NearbyPlayers extends React.Component{
                     <div className=" page-content col-sm-12">
                             
                         <div className="col-sm-4 split-page-left container">
-                                <h3>Players Nearby >></h3>
+                                <h3>Players Nearby</h3>
                             <hr className="hr-thicc"/>
                             <div className="scrolling-container negate-vertical-margins">
                                 <PlayerNearYou/>
@@ -32,7 +32,7 @@ export default class NearbyPlayers extends React.Component{
                         </div>
 
                         <div className="col-sm-8 split-page-right left-border container">
-                                <h3>Meeting Spots >></h3>
+                                <h3>Meeting Spots</h3>
 
                             <hr className="hr-thicc"/>
                             <iframe
