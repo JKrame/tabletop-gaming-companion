@@ -42,7 +42,7 @@ export default class Signup extends React.Component{
                 this.setState({error: err.reason});
             } else {
                 this.setState({error: ''});
-            }
+            }6
         });
     }
 

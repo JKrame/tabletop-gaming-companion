@@ -61,6 +61,7 @@ function RenderHeader()
 
 export class Main extends React.Component{
     render(){
+        
         if(!!Meteor.userId())
         return(
             <div>
