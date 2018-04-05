@@ -106,6 +106,7 @@ export default class CampaignsPage extends React.Component{
                     campaigns={this.campaigns}
                     campaignName={this.campaigns[i].name}
                     campaignDescription={this.campaigns[i].description}
+                    campaignGM = {this.campaigns[i].gm}
                 />
             );
         }
@@ -121,6 +122,7 @@ export default class CampaignsPage extends React.Component{
                     campaigns={this.otherCampaigns} 
                     campaignName={this.otherCampaigns[i].name} 
                     campaignDescription={this.otherCampaigns[i].description}
+                    campaignGM = {this.otherCampaigns[i].gm}
                 />
             );
         }

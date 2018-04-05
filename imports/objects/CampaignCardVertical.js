@@ -13,7 +13,7 @@ export default class CampaignCardVertical extends React.Component {
                         </div>
                         <div className="vertical-contents">
                             <div className="vertical-campaign-title">
-                                <h3>{this.props.campaignName}</h3>
+                                <h3>{this.props.campaignName}     <img src={this.props.campaignGM !=""  && Meteor.userId() == this.props.campaignGM ? '/images/dmicon.png' : '/images/playericon.png'}/> </h3>
                                 <hr className="hr-override-light"/>
                             </div>
                             <div className="vertical-data">

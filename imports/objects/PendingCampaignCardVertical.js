@@ -12,7 +12,7 @@ export default class PendingCampaignCardVertical extends React.Component {
                         </div>
                         <div className="vertical-contents">
                             <div className="vertical-campaign-title">
-                                <h3 className="no-margin-override">{this.props.campaignName} - PENDING INVITE</h3>
+                                <h3 className="no-margin-override">{this.props.campaignName} - PENDING INVITE <img src='/images/playericon.png'/></h3>
                                 <hr className="hr-override-light"/>
                             </div>
                             <div className="vertical-data">
