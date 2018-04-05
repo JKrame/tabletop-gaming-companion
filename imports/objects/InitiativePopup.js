@@ -62,7 +62,7 @@ export default class InitiativePopup extends React.Component {
         for(var i = 0; i < this.NPCs.length; i++)
         {
             boxes.push(
-                <input keyj={i} type="text" ref={"npc" + i} className="npc-qty textBoxMini"/>
+                <input key={i} type="text" ref={"npc" + i} className="npc-qty textBoxMini"/>
             );
         }
         return <div>{boxes}</div>;
@@ -84,29 +84,33 @@ export default class InitiativePopup extends React.Component {
 
             for(var j = 0; j < numCopies; j++)
             {
-                var unique_id = Random.id();
                 var initiative = Math.floor(Math.random() * 20) + 1 + dex;
-                var name = this.NPCs[i].characterName;
-                this.NPCs[i].characterName = name + j;
+                
+                var oldID = this.NPCs[i]._id;
+                var oldName = this.NPCs[i].characterName;
+                
+                this.NPCs[i]._id = Random.id();
+                this.NPCs[i].characterName = oldName + j;
 
                 Meteor.call("campaignsActiveNPCs.addToSet",
                     this.props.campaignID,
-                    this.NPCs[i],
-                    unique_id
+                    this.NPCs[i]
                 );
 
-                this.NPCs[i].characterName = name;
 
-                //console.log(this.props.campaignID);
-                //console.log(unique_id);
+
                 Meteor.call('campaigns.addToTurnOrder',
                     this.props.campaignID,
-                    unique_id,
+                    this.NPCs[i]._id,
                     initiative,
                     dex,
                     0,
+                    0,
                     true
                 );
+
+                this.NPCs[i].characterName = oldName;
+                this.NPCs[i]._id = oldID;
             }
         }
 

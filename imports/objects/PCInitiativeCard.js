@@ -57,6 +57,91 @@ export default class CampaignCharacterTile extends React.Component{
         return <div className="col-xs-12 ">{spellSlotContainers}</div>;
     }
 
+    renderHealthBar(){
+        if (Meteor.userId() != this.props.gm){
+            return null;
+        }
+        
+        return (
+            <div className="col-xs-12 no-margin-override no-padding">
+                <div className="col-xs-10 no-margin-override">
+                    <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative", "overflow":"hidden"}}>
+                        <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
+                    </div>
+                </div>
+                <div className="col-xs-2 no-margin-override">
+                    <p>{this.state.currHP + "/" + this.state.maxHP}</p>
+                </div>
+            </div>
+        );
+    }
+
+    renderHealthControls(){
+        if (Meteor.userId() != this.props.gm){
+            return null;
+        }
+
+        return (
+            <div>
+                <button className="inc-button" onClick={() => this.lowerHealth(this.props.character)}>-</button>
+                <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={() => this.setHealth(this.props.character).bind(this)} placeholder=""/>
+                <button className="inc-button" onClick={() => this.raiseHealth(this.props.character)}>+</button>
+            </div>
+        );
+    }
+
+    raiseHealth(character){
+        /*if (character.currHP >= character.maxHP){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 0 + 1);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, Number(character.currHP) + 1);
+        }*/
+
+        this.setHealth(character, this.state.currHP - 0 + 1);        
+    }
+
+    lowerHealth(character){
+        /*if (character.tempHP > 0){
+            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 1);
+        }
+        else{
+            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 1);
+        }*/
+
+        this.setHealth(character, this.state.currHP - 1);
+    }
+
+    setHealth(character, value){
+        if (!value){
+            value = Number(this.refs.healthBox.value);
+        }
+
+        Meteor.call("characters.updateHealth", character._id, value);
+        this.refs.healthBox.value = Number(value);
+        this.setState({currHP : value});
+        this.setState({percent : (value / this.state.maxHP * 100) + "%"})
+
+        //if (value > character.maxHP){
+            //Meteor.call("campaigns.updateTempHealth", this.campaignID, character, value - character.maxHP);
+            //Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.maxHP);
+       // }
+        //else{
+        //}
+    }
+
+    removeFromInitiative(){
+        Meteor.call('campaigns.removePCFromInitiative', this.props.campaignID, this.props.character._id)
+    }
+
+    renderRemoveFromInitiativeButton(){
+        if (Meteor.userId() == this.props.gm){
+            return <button onClick={this.removeFromInitiative.bind(this)}>X</button>;
+        }
+
+        return null;
+    }
+
     render() {
         if (!this.props.character){
             return null;

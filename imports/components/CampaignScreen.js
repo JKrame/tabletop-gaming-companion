@@ -95,6 +95,10 @@ export default class CampaignScreen extends React.Component{
                         }
                     }
                 }
+
+                if (this.campaign.combat){
+                    this.renderInitiativeOrder();
+                }
             }
 
             const sub3 = Meteor.subscribe('conversations');
@@ -581,45 +585,48 @@ export default class CampaignScreen extends React.Component{
     }
 
     renderInitiativeOrder(){
-        isSorted = true;
-        var prevIndex = null;
+        console.log("render initiative order");
         cards = [];
+        isSorted = true;
+        var prevChar;
 
         if (this.campaign && this.characters){
             for (i = 0; i < this.campaign.turnOrder.length; i++){
-                index = (i + this.campaign.turnIndex) % this.campaign.turnOrder.length;
 
-                if (prevIndex != null && prevIndex < index && this.compareInitiative(this.campaign.turnOrder[index], this.campaign.turnOrder[prevIndex]) == -1){
+                if (prevChar != null && this.compareInitiative(this.campaign.turnOrder[i], prevChar) == 1){
                     isSorted = false;
                     break;
                 }
 
-                prevIndex = index;
+                prevChar = this.campaign.turnOrder[i];
 
-                if (this.campaign.turnOrder[index].npc){
+                console.log("add " + this.campaign.turnOrder[i].cid);
+                if (this.campaign.turnOrder[i].npc){
                     for (j = 0; j < this.campaign.activeNPCs.length; j++){
-                        if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[index].cid){
+                        if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[i].cid){
                             cards.push(
                                 <NPCInitiativeCard
                                     key={i}
-                                    character={this.campaign.activeNPCs[j]}
-                                    gm={this.campaign.gm}
+                                    characterID={this.campaign.activeNPCs[j]._id}
                                     campaignID={this.campaign._id}
                                 />
                             );
+                            break;
                         }
                     }
                 }
                 else{
                     for (j = 0; j < this.characters.length; j++){
-                        if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
+                        if (this.campaign.turnOrder[i].cid == this.characters[j]._id){
                             cards.push(
                                 <PCInitiativeCard
                                     key={i}
                                     character={this.characters[j]}
                                     campaignID={this.campaign._id}
+                                    gm={this.campaign.gm}
                                 />
                             );
+                            break;
                         }
                     }
                 }
@@ -630,7 +637,7 @@ export default class CampaignScreen extends React.Component{
             }
 
             return(
-                        cards.map( card => <div>{card}</div>)
+                cards.map( card => <div>{card}</div>)
             );
         }
 
@@ -638,8 +645,14 @@ export default class CampaignScreen extends React.Component{
     }
 
     sortTurnOrder(){
+        console.log("sort turn");
         newTurnOrder = this.campaign.turnOrder;
         newTurnOrder.sort(this.compareInitiative);
+
+        for(i = 0; i < newTurnOrder.length; i++){
+            newTurnOrder[i].turnIndex = i;
+        }
+
         Meteor.call('campaigns.setTurnOrder', this.campaign._id, newTurnOrder);
     }
 
@@ -684,7 +697,9 @@ export default class CampaignScreen extends React.Component{
     }
 
     endTurn() {
-        Meteor.call("campaigns.endTurn", this.campaign._id, (this.campaign.turnIndex + 1) % this.campaign.turnOrder.length);
+        this.campaign.turnOrder[0] = this.campaigned.turnOrder.length - 1;
+        this.campaign.turnOrder.sort(this.compareInitiative);
+        Meteor.call("campaigns.setTurnOrd", this.campaign._id, this.campaign.turnOrder);
     }
 
     showInitiativeButton(){
@@ -729,7 +744,7 @@ export default class CampaignScreen extends React.Component{
     renderEndTurnButton(){
         if (this.campaign.combat && 
             this.campaign.turnOrder.length > 0 && 
-            (this.campaign.gm == Meteor.userId() || (this.myCharacter && this.campaign.turnOrder[this.campaign.turnIndex].cid == this.myCharacter._id))
+            (this.campaign.gm == Meteor.userId() || (this.myCharacter && this.campaign.turnOrder[0].cid == this.myCharacter._id))
         ){
             return (
                     <button className="width-80 longRestBtn red-button" onClick={this.endTurn.bind(this)}>END TURN</button>
