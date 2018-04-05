@@ -325,18 +325,16 @@ body{
     height:50px;
 }
 .cal-img{
-    padding:10px;
-    min-width:60px;
-    min-height: 50px;
+    width:35px;
+    height:45px;
+    max-width:50px;
+    max-height: 50px;
     display:flex;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("/images/calendar.png");
+    background-image: url("/images/if_calendar.png");
 }
 
-.cal-img:hover{
-    background-image: url("/images/calendar-hover.png");
-}
 
 .objectCardHalfInfo{
     margin:0px;
@@ -420,6 +418,7 @@ body{
 
 
 .objectCardMini{
+    position:relative;
     text-decoration: none;
     display: -webkit-flex;
     display: flex;
@@ -449,8 +448,8 @@ body{
 }
 .objectCardMiniImage{
     float:left;
-    width:60px;
-    height:60px;
+    max-width:60px;
+    max-height:60px;
     border-radius: 5px 5px 5px 5px;
     overflow: hidden;    
 }
@@ -596,32 +595,59 @@ body{
     overflow-x:hidden;
     max-height:70%;
 }
-
+.objectCardMiniImage{
+    float:left;
+    width:60px;
+    height:60px;
+ 
+    overflow: hidden;    
+}
 
 .vertical-image{
-    height:300px;
+    float:left;
+    width:100%;
+    max-height:250px;
+    border-radius: 5px 5px 5px 5px;
     overflow:hidden;
 }
 
 .vertical-card{
     padding:10px;
+	display:relative;
 }
 
+.vertical-card-contents:hover{
+    transition:.5s;
+    background-color:rgba(28, 168, 184, 0.415) ;
+}
+
+.vertical-campaign-title{
+    font-weight:bolder;
+
+}
 .vertical-card-contents{
+    display:relative;
     height:450px;
     padding:10px;
-    height:440px;
-    border: solid 2px #606060;
+    border: solid 2px #fff;
     overflow:hidden;
     border-radius: 10px 10px 10px 10px;
 }
 
+.vertical-contents{
+    position:absolute;
+    bottom:10px;
+    left:20px;
+    right:20px;
+}
+
 .vertical-data{
+    overflow-y:auto;
+    height:100px;
     margin:10px;
 }
 
 .stretch-image{
-    height:100%;
     width:100%;
 }
 
@@ -663,6 +689,56 @@ body{
    position:relative;
     width:130px;
     height:130px;
+}
+.kill-button{
+    background: url('/images/killicon.png');
+    width:30px;
+    height:30px;
+    float:right;
+}
+
+.kill-button:hover{
+    background: url('/images/killicon-hover.png');
+}
+
+.vert-cal-buttons{
+    position: absolute;
+    bottom:0;
+    left:0;
+    padding-left:60%;
+    right:0;    
+    opacity: 0;
+    overflow: hidden;
+    height:500px;
+    z-index: 999;
+}
+
+.vert-cal-buttons:hover{
+    top:0px;
+    padding-left:80%;
+    opacity:100;
+    transition:.5s;
+    display:visible !important;
+}
+
+.cal-buttons{
+    position: absolute;
+    bottom:0;
+    left:0;
+    padding-left:80%;
+    right:0;    
+    opacity: 0;
+    overflow: hidden;
+    height:500px;
+    z-index: 999;
+}
+
+.cal-buttons:hover{
+    top:0px;
+    padding-left:90%;
+    opacity:100;
+    transition:.5s;
+    display:visible !important;
 }
 
 .image-buttons{
@@ -965,6 +1041,11 @@ center{
     margin:5px;
     padding:5px;
     overflow:hidden;
+}
+
+.userCardMini:hover{
+    transition:.5s;
+    background-color:rgba(28, 168, 184, 0.415) ;
 }
 
 .inc-button{

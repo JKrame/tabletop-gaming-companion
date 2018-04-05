@@ -38,7 +38,6 @@ export default class CharacterSheet extends React.Component{
     render() {
         return(
             <div className="page-wrapper">
-            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height">
                         <h3>Character Sheet >></h3>

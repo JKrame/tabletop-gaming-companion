@@ -151,13 +151,13 @@ export default class Mail extends React.Component{
             message = this.refs.messageBox.value;
             Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
             this.loadConversation(this.state.conversation);
+            document.getElementById("output").value = "";
         }
     }
 
   render() {
     return(
         <div className="page-wrapper">
-        <Header/>
             <div className="col-lg-8 col-lg-offset-2">
                 <div className=" col-xs-12 fill-height scrolling-container" >
                     <div className="col-lg-4">
@@ -194,7 +194,7 @@ export default class Mail extends React.Component{
                     </div>
                         <div className="col-sm-12 page-content">
                             <div className="col-sm-9">
-                                <textarea type="text" ref="messageBox" style={{"height":"200px"}} className="full-width"/>
+                                <textarea type="text" id="output" ref="messageBox" style={{"height":"200px"}} className="full-width"/>
                             </div>
                             <div className="col-sm-3 negate-margins">
                                     <button onClick={this.sendMessage.bind(this)} className="full-width blue-button" style={{"height":"50px", "marginTop":"150px"}}>SEND</button>

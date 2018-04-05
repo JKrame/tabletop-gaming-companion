@@ -760,14 +760,6 @@ export default class CampaignScreen extends React.Component{
         }
     }
 
-    sendMessage(){
-        if (this.state.conversation){
-            message = this.refs.messageBox.value;
-            Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
-            this.loadConversation(this.state.conversation);
-        }
-    }
-
     establishContact(){
         needContactWithGm = true;
 
@@ -893,6 +885,7 @@ export default class CampaignScreen extends React.Component{
             message = this.refs.messageBox.value;
             Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
             this.loadConversation(this.state.conversation);
+            document.getElementById("output").value = "";
         }
     }
 
@@ -906,7 +899,6 @@ export default class CampaignScreen extends React.Component{
         }
         return(
             <div className="page-wrapper">
-            <Header/>
                 <div className="col-md-12">
                     <div className=" game-screen">
 
@@ -973,7 +965,7 @@ export default class CampaignScreen extends React.Component{
                                 </div>
 
                                 <div className="col-sm-12"  style={{"marginTop":"10px"}}>
-                                    <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"40px"}}/>
+                                    <textarea rows={4} id="output" ref="messageBox" className="full-width"  style={{"height":"40px"}}/>
                                 </div>
 
                                 <div className="col-sm-12 negate-margins" style={{"marginTop":"5px"}}>

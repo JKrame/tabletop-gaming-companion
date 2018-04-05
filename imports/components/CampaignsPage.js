@@ -106,6 +106,7 @@ export default class CampaignsPage extends React.Component{
                     campaigns={this.campaigns}
                     campaignName={this.campaigns[i].name}
                     campaignDescription={this.campaigns[i].description}
+                    campaignGM = {this.campaigns[i].gm}
                 />
             );
         }
@@ -121,6 +122,7 @@ export default class CampaignsPage extends React.Component{
                     campaigns={this.otherCampaigns} 
                     campaignName={this.otherCampaigns[i].name} 
                     campaignDescription={this.otherCampaigns[i].description}
+                    campaignGM = {this.otherCampaigns[i].gm}
                 />
             );
         }
@@ -187,7 +189,6 @@ export default class CampaignsPage extends React.Component{
     render() {
         return(
             <div className="page-wrapper">
-            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height">
                         <h3>Your Campaigns</h3>
@@ -197,13 +198,8 @@ export default class CampaignsPage extends React.Component{
 
                             <NavLink to='#' onClick={() => this.loadCampaign()} className='nav-item nav-link'>
                                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container">
-                                    <div className="vertical-card-contents">
-                                        <div className="vertical-image">
-                                            <img src={'/images/addIcon.png'} className="full-width vertical-image"/>
-                                        </div>
-                                        <div className="vertical-data">
-                                            <h3 className="no-margin-override">CREATE NEW CAMPAIGN</h3>
-                                        </div>
+                                    <div className="vertical-card-contents grow">
+                                      <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/add-image-card-icon.png'} className="stretch-image"/>
                                     </div>
                                 </div>
                             </NavLink>

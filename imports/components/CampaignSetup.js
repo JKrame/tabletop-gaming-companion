@@ -284,7 +284,6 @@ export default class CampaignSetup extends React.Component{
 
         return(
             <div className="page-wrapper">
-            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height scrolling-container" >
                         <div className="col-lg-8">

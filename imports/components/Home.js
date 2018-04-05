@@ -8,6 +8,7 @@ import CampaignCardHalf from '../objects/CampaignCardMini';
 import PendingCampaignCard from '../objects/PendingCampaignCard';
 import PlayerNearYou from '../objects/PlayerNearYou';
 import InvitePopup from '../objects/PendingInvitePopup';
+import FlipMove from 'react-flip-move';
 
 import Header from './Header';
 
@@ -59,7 +60,7 @@ export default class Home extends React.Component {
                 this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
             }
             if(sub3.ready()){
-                this.user = Meteor.users.find({}).fetch();
+                
             }
             this.forceUpdate();
         });
@@ -129,6 +130,7 @@ export default class Home extends React.Component {
                     campaigns={this.campaigns} 
                     campaignName={this.campaigns[i].name} 
                     campaignDescription={this.campaigns[i].description}
+                    campaignGM = {this.campaigns[i].gm}
                 />
             );
         }
@@ -145,13 +147,14 @@ export default class Home extends React.Component {
                     campaigns={this.otherCampaigns} 
                     campaignName={this.otherCampaigns[i].name} 
                     campaignDescription={this.otherCampaigns[i].description}
+                    campaignGM = {this.otherCampaigns[i].gm}
                 />
             );
         }
 
         for (var i = 0; i < this.pendingInvites.length; i++)
         {
-            //console.log(this.pendingInvites[i][0]);
+            console.log(this.pendingInvites[i][0]);
             cards.push(
                 <div onClick={this.toggleInvitePopup.bind(this, this.pendingInvites[i][0])}>
                     <PendingCampaignCard
@@ -272,7 +275,6 @@ export default class Home extends React.Component {
         return(
         
         <div className="page-wrapper">
-        <Header/>
             <div className="col-lg-8 col-lg-offset-2">
                 <div className="col-lg-6 ">
                     <div className="page-content-half">
