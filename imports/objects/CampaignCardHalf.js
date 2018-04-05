@@ -14,8 +14,8 @@ export default class CampaignCardHalf extends React.Component{
                         <hr className="hr-override-light" style={{"marginLeft":"100px", "marginRight":"10px"}}/>
                         <p className="p-override no-margin-override"> {this.props.campaignDescription}</p>
                     </div>
-                    <div className="campaignCardHalfButton">
-                        <button> <div className="cal-img" draggable="false"/></button>
+                    <div  className=" adventure-cal-buttons">
+                        <div className="cal-img stretch-image" draggable="false"/>
                     </div>
                 </div>
             </NavLink>
