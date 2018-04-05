@@ -690,6 +690,16 @@ body{
     width:130px;
     height:130px;
 }
+.kill-button{
+    background: url('/images/killicon.png');
+    width:30px;
+    height:30px;
+    float:right;
+}
+
+.kill-button:hover{
+    background: url('/images/killicon-hover.png');
+}
 
 .vert-cal-buttons{
     position: absolute;

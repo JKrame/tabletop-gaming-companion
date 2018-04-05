@@ -91,6 +91,7 @@ export default class InitiativeCard extends React.Component{
                 <button className="inc-button" onClick={() => this.lowerHealth(this.props.character)}>-</button>
                 <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={() => this.setHealth(this.props.character).bind(this)} placeholder=""/>
                 <button className="inc-button" onClick={() => this.raiseHealth(this.props.character)}>+</button>
+                <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}></div>;
             </div>
         );
     }
@@ -140,13 +141,6 @@ export default class InitiativeCard extends React.Component{
         Meteor.call('campaigns.removeFromInitiative', this.props.campaignID, this.props.character._id)
     }
 
-    renderRemoveFromInitiativeButton(){
-        if (Meteor.userId() == this.props.gm){
-            return <button onClick={this.removeFromInitiative.bind(this)}>X</button>;
-        }
-
-        return null;
-    }
 
     render() {
         if (!this.props.character){
@@ -167,12 +161,11 @@ export default class InitiativeCard extends React.Component{
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
                         
-                        {this.renderHealthControls()}
+                        {this.renderHealthControls()}                   
                         <div className="spacer col-sm-12"/>
 
                         {this.renderSpellSlots()}
 
-                        {this.renderRemoveFromInitiativeButton()}
                     </div>
                 </div>
             </NavLink>
