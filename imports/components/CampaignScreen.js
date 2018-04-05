@@ -891,7 +891,6 @@ export default class CampaignScreen extends React.Component{
         }
         return(
             <div className="page-wrapper">
-            <Header/>
                 <div className="col-md-12">
                     <div className=" game-screen">
 

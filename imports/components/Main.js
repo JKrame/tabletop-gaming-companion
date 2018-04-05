@@ -7,6 +7,7 @@ import CampaignScreen from './CampaignScreen';
 import CampaignSetup from './CampaignSetup';
 import CharactersPage from './CharactersPage';
 import CharacterSheet from './CharacterSheet';
+import Header from './Header';
 import Home from './Home';
 import Mail from './Mail';
 import NearbyPlayers from './NearbyPlayers';
@@ -49,28 +50,52 @@ Tracker.autorun(() => {
     else onEnterPrivatePage();
     });
 
+function RenderHeader()
+{
+    if(isAuthenticated)
+    {
+        return <Header/>;
+    }
+    return null;
+}
+
 export class Main extends React.Component{
     render(){
+        if(!!Meteor.userId())
         return(
             <div>
-                <Switch>
-                    <Route exact path='/adventureboard' component={AdventureBoard}/>
-                    <Route exact path='/binder' component={Binder}/>
-                    <Route exact path='/campaigns' component={CampaignsPage}/>
-                    <Route exact path='/campaigns/:_id' component={CampaignScreen}/>
-                    <Route exact path='/campaign/edit/:_id' component={CampaignSetup}/>
-                    <Route exact path='/characters' component={CharactersPage}/>
-                    <Route exact path='/character/edit/:_id' component={CharacterSheet}/>
-                    <Route exact path='/home' component={Home}/>
-                    <Route exact path='/mail' component={Mail}/>
-                    <Route exact path='/nearbyplayers' component={NearbyPlayers}/>
-                    <Route exact path='/settings' component={Settings}/>
-                    <Route exact path='/signin' component={Signin}/>
-                    <Route exact path='/signup' component={Signup}/>
-                    <Route exact path='/*' component={Home}/>
-                    
-                </Switch>
-            </div>
-        );  
+                {RenderHeader()}
+    
+                    <Switch>
+                        <Route exact path='/adventureboard' component={AdventureBoard}/>
+                        <Route exact path='/binder' component={Binder}/>
+                        <Route exact path='/campaigns' component={CampaignsPage}/>
+                        <Route exact path='/campaigns/:_id' component={CampaignScreen}/>
+                        <Route exact path='/campaign/edit/:_id' component={CampaignSetup}/>
+                        <Route exact path='/characters' component={CharactersPage}/>
+                        <Route exact path='/character/edit/:_id' component={CharacterSheet}/>
+                        <Route exact path='/home' component={Home}/>
+                        <Route exact path='/mail' component={Mail}/>
+                        <Route exact path='/nearbyplayers' component={NearbyPlayers}/>
+                        <Route exact path='/settings' component={Settings}/>
+                        <Route exact path='/*' component={Home}/>
+                        
+                    </Switch>
+                </div>
+                
+        )
+        else{
+            return(
+                <div>
+                    <Switch>
+
+                        <Route exact path='/signin' component={Signin}/>
+                        <Route exact path='/signup' component={Signup}/>
+                        <Route exact path='/*' component={Signin}/>
+                        
+                    </Switch>
+                </div>
+            );  
+        }
     }
 }

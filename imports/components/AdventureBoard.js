@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 import {Random} from 'meteor/random';
+import FlipMove from 'react-flip-move';
 
 import CampaignCardHalf from '../objects/CampaignCardHalf';
 import InvitePopup from '../objects/PendingInvitePopup';
@@ -96,13 +97,15 @@ export default class AdventureBoard extends React.Component{
             }
         }
 
-        return <div>{cards}</div>;
+        return (
+            <FlipMove duration={750} easing="ease-out">
+                <div>{cards}</div>
+            </FlipMove>);
     }
 
   render() {
     return(
         <div className="page-wrapper">
-            <Header/>
                 <div className="col-lg-8 col-lg-offset-2">
                     <div className="page-content col-xs-12 fill-height" >
 

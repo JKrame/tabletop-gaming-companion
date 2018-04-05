@@ -8,6 +8,7 @@ import CampaignCardHalf from '../objects/CampaignCardMini';
 import PendingCampaignCard from '../objects/PendingCampaignCard';
 import PlayerNearYou from '../objects/PlayerNearYou';
 import InvitePopup from '../objects/PendingInvitePopup';
+import FlipMove from 'react-flip-move';
 
 import Header from './Header';
 
@@ -110,7 +111,10 @@ export default class Home extends React.Component {
                 />
             );
         }
-        return <div>{cards}</div>;
+        return (
+            <FlipMove duration={750} easing="ease-out">
+                <div>{cards}</div>
+            </FlipMove>);
     }
 
     renderCampaignCard() {
@@ -163,7 +167,10 @@ export default class Home extends React.Component {
                 </div>
             );
         }
-        return <div>{cards}</div>;
+        return (                                        
+        <FlipMove duration={750} easing="ease-out">
+            <div>{cards}</div>
+        </FlipMove>);
     }
 
     loadCharacter(cid, somehistory){
@@ -261,7 +268,10 @@ export default class Home extends React.Component {
                     );
                 
                 }
-                return <div>{cards}</div>;
+                return (
+                    <FlipMove duration={750} easing="ease-out">
+                        <div>{cards}</div>
+                    </FlipMove>);
             }
         }
     }
@@ -272,7 +282,6 @@ export default class Home extends React.Component {
         return(
         
         <div className="page-wrapper">
-        <Header/>
             <div className="col-lg-8 col-lg-offset-2">
                 <div className="col-lg-6 ">
                     <div className="page-content-half">
