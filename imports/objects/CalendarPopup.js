@@ -1,5 +1,4 @@
 import React from 'react'
-import UserCard from '../objects/UserCard';
 
 
 export default class PlayerFormPopup extends React.Component {
@@ -26,33 +25,6 @@ export default class PlayerFormPopup extends React.Component {
         this.playerFormPopupTracker.stop();
     }
 
-    renderContacts()
-    {
-        var cards = [];
-        if (this.conversations)
-        {
-            //console.log(this.conversations)
-            for (var i = 0; i < this.conversations.length; i++)
-            {
-                //console.log(this.conversations[i]);
-                partner = (this.conversations[i].participants[0].id === Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                //console.log(partner);
-                if (!this.alreadyInvited(partner))
-                {
-                    cards.push(
-                        <UserCard
-                            key={i}
-                            username={partner.name}
-                            accountPicture={partner.picture}
-                            func={this.props.addPlayer}
-                            param={partner.id}
-                        />
-                    );
-                }
-            }
-        }
-        return <div>{cards}</div>;
-    }
 
     alreadyInvited(player)
     {
@@ -121,7 +93,6 @@ export default class PlayerFormPopup extends React.Component {
                         <h4>Or select from Contacts</h4>
                         <div className="full-height">
                             <div className="scrolling-container" style={{"height":"250px", "width":"340px"}}>
-                                {this.renderContacts()}
                             </div>
                         </div>
                     </div>
