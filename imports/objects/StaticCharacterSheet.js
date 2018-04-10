@@ -1,5 +1,4 @@
 import React from 'react'
-import UserCard from '../objects/UserCard';
 import CharacterForm from '../objects/CharacterForm';
 
 

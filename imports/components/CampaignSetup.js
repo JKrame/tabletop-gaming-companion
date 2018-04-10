@@ -6,7 +6,6 @@ import CharacterCardMiniWithOwner from '../objects/CharacterCardMiniWithOwner';
 import CharacterCardHalf from '../objects/CharacterCardHalf';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
-import UserCardMini from '../objects/UserCard';
 import ImagePopup from '../objects/ImageFormPopup';
 import PlayerPopup from '../objects/PlayerFormPopup';
 
@@ -189,7 +188,8 @@ export default class CampaignSetup extends React.Component{
         );
         this.togglePlayerPopup();
     }
-    
+
+
     updateTextAssets(){
     }
 
