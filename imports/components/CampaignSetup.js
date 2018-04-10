@@ -211,6 +211,11 @@ export default class CampaignSetup extends React.Component{
 
     deleteCampaign(){
         if(confirm('Delete this campaign?')) {
+            oldCampaignID = this.campaign._id
+            for(var i=0;i<this.characters.length;i++){
+                Meteor.call('characters.pullCampaign', this.characters[i]._id, oldCampaignID);
+            }
+
             Meteor.call('campaigns.remove', this.id);
             window.location.replace("/home");
         }
