@@ -39,13 +39,15 @@ export default class PlayerFormPopup extends React.Component {
                 //console.log(partner);
                 if (!this.alreadyInvited(partner))
                 {
+                    console.log(partner.id + " " + partner.name)
                     cards.push(
                         <UserCard
                             key={i}
                             username={partner.name}
                             accountPicture={partner.picture}
                             func={this.props.addPlayer}
-                            param={partner.id}
+                            id={partner.id}
+                            param={partner.name}
                         />
                     );
                 }

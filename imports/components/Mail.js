@@ -50,6 +50,7 @@ export default class Mail extends React.Component{
                 }
             }
 
+
             this.forceUpdate();
         });
     }
@@ -189,7 +190,7 @@ export default class Mail extends React.Component{
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
                     <div className="spacer col-sm-12"/>
-                    <div className="chat-panel full-width">
+                    <div className="chat-panel full-width" id="chatWin">
                         <ChatWindow  conversation={this.state.conversation}/>
                     </div>
                         <div className="col-sm-12 page-content">

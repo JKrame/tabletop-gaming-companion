@@ -31,11 +31,24 @@ export default class ChatWindow extends React.Component{
         return cards;
     }
 
+    componentDidMount(){
+        this.ScrollToBottom();
+    }
+
+    componentDidUpdate(){
+        this.ScrollToBottom();
+    }
+
+    ScrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({behavior:"smooth"});
+    }
+
     render() {
         return (
             <div className="">
-                <div className="col-sm-12 full-width scrolling-container" >
+                <div ref="chatWin" className="col-sm-12 full-width scrolling-container" >
                     {this.renderChatBubbles()}
+                    <div style={{float:"left", clear:"both"}} ref={(el) => {this.messagesEnd = el; }}/>
                 </div>
                 
             </div>

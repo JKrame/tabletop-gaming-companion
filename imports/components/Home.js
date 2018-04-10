@@ -78,7 +78,7 @@ export default class Home extends React.Component {
                 this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
             }
             if(sub3.ready()){
-                
+                this.user = Meteor.users.find({}).fetch();
             }
             this.forceUpdate();
         });
@@ -98,6 +98,7 @@ export default class Home extends React.Component {
             return this.renderCharacterCard();
         }
     }
+
 
     renderCampaignForm(){
         if(this.campaigns == undefined)
@@ -183,6 +184,7 @@ export default class Home extends React.Component {
                         campaignID={this.pendingInvites[i][0]}
                         campaignImageURL={this.pendingInvites[i][1]}
                         campaignName={this.pendingInvites[i][2]}
+                        obj = {this.pendingInvites[i]}
                     />
                 </div>
             );
