@@ -60,7 +60,7 @@ export default class Home extends React.Component {
                 this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
             }
             if(sub3.ready()){
-                
+                this.user = Meteor.users.find({}).fetch();
             }
             this.forceUpdate();
         });
