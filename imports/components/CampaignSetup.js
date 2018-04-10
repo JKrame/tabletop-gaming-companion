@@ -452,14 +452,15 @@ export default class CampaignSetup extends React.Component{
                             <div className="spacer col-sm-12"/>
                             <div className="spacer col-sm-12"/>                      
                             <div className="spacer col-sm-12"/>
-                            <div className="col-sm-12">
-                                <button onClick={this.addToAdventureBoard.bind(this)} className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
-                            </div>
-                            <div className="spacer col-sm-12"/>
-                            <div className="col-sm-12">
-                                <button onClick={this.removeFromAdventureBoard.bind(this)} className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
-                            </div>
                             
+                            {!this.campaign.isPublic ? 
+                                <div className="col-sm-12">
+                                    <button onClick={this.addToAdventureBoard.bind(this)} className="full-width submit-button blue-button">ADD TO ADVENTURE BOARD</button>
+                                </div> :
+                                <div className="col-sm-12">
+                                    <button onClick={this.removeFromAdventureBoard.bind(this)} className="full-width submit-button ">REMOVE FROM ADVENTURE BOARD</button>
+                                </div>
+                            }
                         </div>
                         {this.state.showImagePopup ? 
                             <ImagePopup
