@@ -8,19 +8,19 @@ export default class InitiativeCard extends React.Component{
             currHP : 0,
             maxHP : 1,
             percent : 0
-        }
+            }
     }
 
     componentWillMount(){
-        if (!this.props.campaignID){
+        if (!this.props.campaignID || !this.props.characterID){
             return;
         }
-        console.log("NPC");
+        console.log("NPCinitiativeCard");
         console.log(this.props.characterID);
+        this.campaignID = this.props.campaignID;
+        this.characterID = this.props.characterID;
 
         this.tracker = Tracker.autorun(() => {
-            this.campaignID = this.props.campaignID;
-            this.characterID = this.props.characterID;
 
             const sub = Meteor.subscribe('campaigns');
             if(sub.ready())
@@ -117,9 +117,9 @@ export default class InitiativeCard extends React.Component{
 
         return (
             <div>
-                <button className="inc-button" onClick={() => this.lowerHealth(this.props.character)}>-</button>
-                <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={() => this.setHealth(this.props.character, Number(this.refs.healthBox.value)).bind(this)} placeholder=""/>
-                <button className="inc-button" onClick={() => this.raiseHealth(this.props.character)}>+</button>
+                <button className="inc-button" onClick={() => this.lowerHealth(this.character)}>-</button>
+                <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={() => this.setHealth(this.character, Number(this.refs.healthBox.value)).bind(this)} placeholder=""/>
+                <button className="inc-button" onClick={() => this.raiseHealth(this.character)}>+</button>
                 <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}></div>;
             </div>
         );

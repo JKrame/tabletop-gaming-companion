@@ -32,7 +32,8 @@ export default class CampaignScreen extends React.Component{
             showEditablePopup:false,
             characterClick: null,
             conversation: null,
-            gameLog: null
+            gameLog: null,
+            turnOrder: []
         };
         var toggleCharacterPopup = this.toggleCharacterPopup.bind(this);
     }
@@ -97,7 +98,7 @@ export default class CampaignScreen extends React.Component{
                 }
 
                 if (this.campaign.combat){
-                    this.renderInitiativeOrder();
+                    this.renderTurnOrder();
                 }
             }
 
@@ -584,16 +585,21 @@ export default class CampaignScreen extends React.Component{
         this.refs.d100roller.value=""
     }
 
-    renderInitiativeOrder(){
-        console.log("render initiative order");
-        cards = [];
+    renderTurnOrder(){
+        console.log("render turn order");
+        console.log(this.campaign.turnOrder);
         isSorted = true;
         var prevChar;
+        var cards = [];
 
         if (this.campaign && this.characters){
             for (i = 0; i < this.campaign.turnOrder.length; i++){
+                if (!this.campaign.turnOrder[i].cid){
+                    continue;
+                }
 
-                if (prevChar != null && this.compareInitiative(this.campaign.turnOrder[i], prevChar) == 1){
+                if (prevChar != null && this.compareInitiative(this.campaign.turnOrder[i], prevChar) == -1){
+                    console.log("needs sort");
                     isSorted = false;
                     break;
                 }
@@ -601,47 +607,34 @@ export default class CampaignScreen extends React.Component{
                 prevChar = this.campaign.turnOrder[i];
 
                 console.log("add " + this.campaign.turnOrder[i].cid);
+
                 if (this.campaign.turnOrder[i].npc){
-                    for (j = 0; j < this.campaign.activeNPCs.length; j++){
-                        if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[i].cid){
-                            cards.push(
-                                <NPCInitiativeCard
-                                    key={i}
-                                    characterID={this.campaign.activeNPCs[j]._id}
-                                    campaignID={this.campaign._id}
-                                />
-                            );
-                            break;
-                        }
-                    }
+                    cards.push(
+                        <NPCInitiativeCard
+                            key={this.campaign.turnOrder[i].turnIndex}
+                            characterID={this.campaign.turnOrder[i].cid}
+                            campaignID={this.campaign._id}
+                        />
+                    );
                 }
                 else{
-                    for (j = 0; j < this.characters.length; j++){
-                        if (this.campaign.turnOrder[i].cid == this.characters[j]._id){
-                            cards.push(
-                                <PCInitiativeCard
-                                    key={i}
-                                    character={this.characters[j]}
-                                    campaignID={this.campaign._id}
-                                    gm={this.campaign.gm}
-                                />
-                            );
-                            break;
-                        }
-                    }
+                    cards.push(
+                        <PCInitiativeCard
+                            key={this.campaign.turnOrder[i].turnIndex}
+                            characterID={this.campaign.turnOrder[i].cid}
+                            campaignID={this.campaign._id}
+                        />
+                    );
                 }
             }
 
             if (Meteor.userId() == this.campaign.gm && !isSorted){
-                this.sortTurnOrder()
+                this.sortTurnOrder();
+                return;
             }
-
-            return(
-                cards.map( card => <div>{card}</div>)
-            );
         }
 
-        return cards;
+        this.setState({turnOrder : cards});
     }
 
     sortTurnOrder(){
@@ -653,10 +646,19 @@ export default class CampaignScreen extends React.Component{
             newTurnOrder[i].turnIndex = i;
         }
 
+        console.log(newTurnOrder);
         Meteor.call('campaigns.setTurnOrder', this.campaign._id, newTurnOrder);
+        this.campaign.turnOrder = newTurnOrder;
+        this.renderTurnOrder();
     }
 
     compareInitiative(a, b){
+        if (Number(a.turnOrder) < Number(b.turnOrder)){
+            return 1;
+        }
+        if (Number(a.turnOrder) > Number(b.turnOrder)){
+            return -1;
+        }
         if (Number(a.initiative) < Number(b.initiative)){
             return 1;
         }
@@ -692,14 +694,21 @@ export default class CampaignScreen extends React.Component{
     }
 
     endCombat() {
+        this.setState({turnOrder : []});
         Meteor.call("campaigns.endCombat", this.campaign._id);
         Meteor.call("campaignActiveNPCs.clear", this.campaign._id);
     }
 
     endTurn() {
-        this.campaign.turnOrder[0] = this.campaigned.turnOrder.length - 1;
-        this.campaign.turnOrder.sort(this.compareInitiative);
-        Meteor.call("campaigns.setTurnOrd", this.campaign._id, this.campaign.turnOrder);
+        max = 0;
+        for (i = 0; i < this.campaign.turnOrder.length; i++){
+            if (this.campaign.turnOrder[i].turnIndex > max){
+                max = this.campaign.turnOrder[i].turnIndex;
+            }
+        }
+
+        this.campaign.turnOrder[0].turnIndex = max + 1;
+        this.sortTurnOrder()
     }
 
     showInitiativeButton(){
@@ -757,6 +766,14 @@ export default class CampaignScreen extends React.Component{
             return (
                     <button className="width-80 blue-button editSheetBtn" onClick={this.startCombat.bind(this)}>START COMBAT</button>
             );
+        }
+    }
+
+    sendMessage(){
+        if (this.state.conversation){
+            message = this.refs.messageBox.value;
+            Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
+            this.loadConversation(this.state.conversation);
         }
     }
 
@@ -885,7 +902,6 @@ export default class CampaignScreen extends React.Component{
             message = this.refs.messageBox.value;
             Meteor.call('conversations.sendMessage', this.state.conversation._id, message);
             this.loadConversation(this.state.conversation);
-            document.getElementById("output").value = "";
         }
     }
 
@@ -899,6 +915,7 @@ export default class CampaignScreen extends React.Component{
         }
         return(
             <div className="page-wrapper">
+            <Header/>
                 <div className="col-md-12">
                     <div className=" game-screen">
 
@@ -910,7 +927,7 @@ export default class CampaignScreen extends React.Component{
                                     <hr/>
                                     <div className="scrolling-container-content-top width-90">
                                         <FlipMove duration={750} easing="ease-out">
-                                                {this.renderInitiativeOrder()}
+                                                {this.state.turnOrder}
                                         </FlipMove>
                                     </div>
 
@@ -965,7 +982,7 @@ export default class CampaignScreen extends React.Component{
                                 </div>
 
                                 <div className="col-sm-12"  style={{"marginTop":"10px"}}>
-                                    <textarea rows={4} id="output" ref="messageBox" className="full-width"  style={{"height":"40px"}}/>
+                                    <textarea rows={4} ref="messageBox" className="full-width"  style={{"height":"40px"}}/>
                                 </div>
 
                                 <div className="col-sm-12 negate-margins" style={{"marginTop":"5px"}}>
