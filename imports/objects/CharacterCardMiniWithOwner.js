@@ -9,6 +9,11 @@ export default class CharacterCardMiniWithOwner extends React.Component{
                     <div className="objectCardMiniImage">
                         <img src={this.props.character.characterImageURL!=null && this.props.character.characterImageURL!="" ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
+                    <div className={this.props.isCampaignScreen ? "invis" : "character-buttons"}>
+                        <button onClick={'#'} className="tiny-delete-btn">
+                            <p  className="tiny-button-txt"><img src={'/images/x-icon.png'} className=""/>  DELETE</p>
+                        </button>
+                    </div>
                     <div className="objectCardMiniInfo container-fluid">
                         <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
                         <hr className="hr-override-light"/>

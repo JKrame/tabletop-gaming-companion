@@ -742,6 +742,10 @@ body{
     display:visible !important;
 }
 
+.invis{
+    visibility: collapse;
+}
+
 .notif-circle{
     position: relative;
     margin-top:-12px;
@@ -768,6 +772,24 @@ body{
     top:0px;
     padding-left:90%;
     opacity:100;
+    transition:.5s;
+    display:visible !important;
+}
+
+.character-buttons{
+    position: absolute;
+    opacity: 0;
+    padding:0;
+    z-index: 999;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+.character-buttons:hover{
+    opacity:100;
+    margin-top:0px;
     transition:.5s;
     display:visible !important;
 }
