@@ -8,6 +8,7 @@ import CampaignCardHalf from '../objects/CampaignCardMini';
 import PendingCampaignCard from '../objects/PendingCampaignCard';
 import PlayerNearYou from '../objects/PlayerNearYou';
 import InvitePopup from '../objects/PendingInvitePopup';
+import CalendarPopup from '../objects/CalendarPopup';
 import FlipMove from 'react-flip-move';
 
 import Header from './Header';
@@ -23,12 +24,20 @@ var username;
 
 var pendingInviteCampaignID;
 
+//Variables for calendarpopup
+var calCampaignName;
+var calSchedule;
+var allPlayerProfiles;
+var gmProfile;
+
 export default class Home extends React.Component {
     constructor() {
         super();
         this.state = {
-            showInvitePopup: false
+            showInvitePopup: false,
+            showCalendarPopup: false
         };
+        this.toggleCalendarPopup = this.toggleCalendarPopup.bind(this);
     }
 
     toggleInvitePopup(campaignID) {
@@ -36,7 +45,16 @@ export default class Home extends React.Component {
             showInvitePopup: !this.state.showInvitePopup
         });
         this.pendingInviteCampaignID = campaignID;
-        //(campaignID);
+    }
+
+    toggleCalendarPopup(campaignName, schedule, allPlayerProfiles, gmProfile) {
+        this.setState({
+            showCalendarPopup: !this.state.showCalendarPopup
+        });
+        this.calCampaignName = campaignName;
+        this.calSchedule = schedule;
+        this.allPlayerProfiles = allPlayerProfiles;
+        this.gmProfile = gmProfile;
     }
 
     componentWillMount(){
@@ -132,6 +150,7 @@ export default class Home extends React.Component {
                     campaignDescription={this.campaigns[i].description}
                     campaignGM={this.campaigns[i].gm}
                     characters={this.campaigns[i].characters}
+                    toggleCalendarPopup={this.toggleCalendarPopup}
                 />
             );
         }
@@ -149,6 +168,7 @@ export default class Home extends React.Component {
                     campaignName={this.otherCampaigns[i].name} 
                     campaignDescription={this.otherCampaigns[i].description}
                     campaignGM = {this.otherCampaigns[i].gm}
+                    toggleCalendarPopup={this.toggleCalendarPopup}
                 />
             );
         }
@@ -355,6 +375,19 @@ export default class Home extends React.Component {
                     text='Close Me'
                     closePopup={this.toggleInvitePopup.bind(this)}
                     campaignID={this.pendingInviteCampaignID}
+                />
+                : null
+            }
+            {this.state.showCalendarPopup ? 
+                <CalendarPopup
+                    key={6166}
+                    text='Close Me'
+                    closePopup={this.toggleCalendarPopup.bind(this)}
+                    campaignID={this.pendingInviteCampaignID}
+                    campaignName={this.calCampaignName}
+                    availableDays={this.calSchedule}
+                    allPlayerProfiles={this.allPlayerProfiles}
+                    gmProfile={this.gmProfile}
                 />
                 : null
             }
