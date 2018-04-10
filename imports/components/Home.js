@@ -130,7 +130,8 @@ export default class Home extends React.Component {
                     campaigns={this.campaigns} 
                     campaignName={this.campaigns[i].name} 
                     campaignDescription={this.campaigns[i].description}
-                    campaignGM = {this.campaigns[i].gm}
+                    campaignGM={this.campaigns[i].gm}
+                    characters={this.campaigns[i].characters}
                 />
             );
         }
