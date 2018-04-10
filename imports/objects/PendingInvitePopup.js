@@ -1,5 +1,4 @@
 import React from 'react'
-import UserCardMini from '../objects/UserCard';
 import CharacterCardHalf from '../objects/CharacterCardMini';
 
 import { NavLink } from 'react-router-dom';
@@ -131,6 +130,29 @@ export default class PlayerFormPopup extends React.Component {
         }
     }
 
+    declineInvitation()
+    {
+        var campaignToBePulled = [3];
+        
+        var campaignObject = Campaigns.findOne({_id : this.props.campaignID});
+        if (campaignObject){
+
+            campaignToBePulled[0] = this.props.campaignID;
+            campaignToBePulled[1] = campaignObject.campaignImageURL;
+            campaignToBePulled[2] = campaignObject.name;
+            Meteor.call("userPendingInvites.pull",
+                Meteor.userId(),
+                campaignToBePulled
+            );
+
+            
+        }
+
+        this.props.closePopup();
+    }
+
+
+
     render() {
         this.campaign=this.props.campaign
         return (
@@ -144,6 +166,7 @@ export default class PlayerFormPopup extends React.Component {
                         </div>
                     </div>
                     <div className="right-align">
+                        <button onClick={this.declineInvitation.bind(this, this.campaign)} className=" submit-button button">Decline</button>
                         <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
                     </div>
                     <div className="spacer col-sm-12"/>
