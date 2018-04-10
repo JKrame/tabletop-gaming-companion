@@ -692,6 +692,7 @@ body{
 }
 .kill-button{
     background: url('/images/killicon.png');
+    margin-right:10px;
     width:30px;
     height:30px;
     float:right;
@@ -715,10 +716,40 @@ body{
 
 .vert-cal-buttons:hover{
     top:0px;
-    padding-left:80%;
+    padding-left:90%;
     opacity:100;
     transition:.5s;
     display:visible !important;
+}
+
+.adventure-cal-buttons{
+    position: absolute;
+    bottom:0;
+    left:0;
+    padding-left:90%;
+    right:0;    
+    opacity: 0;
+    overflow: hidden;
+    height:500px;
+    z-index: 999;
+}
+
+.adventure-cal-buttons:hover{
+    top:0px;
+    padding-left:95%;
+    opacity:100;
+    transition:.5s;
+    display:visible !important;
+}
+
+.notif-circle{
+    position: relative;
+    margin-top:-12px;
+    margin-left:30px;
+    width:7px;
+    height:7px;
+    background-color: red;
+    border-radius:5px;
 }
 
 .cal-buttons{

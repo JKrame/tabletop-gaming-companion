@@ -2,6 +2,7 @@ import React from 'react';
 import CharacterCardVertical from '../objects/CharacterCardVertical';
 import { NavLink } from 'react-router-dom';
 import Header from './Header';
+import { Random } from 'meteor/random';
 
 
 var characters;
@@ -111,6 +112,16 @@ export default class CharactersPage extends React.Component{
     }
 
     loadCharacter(cid, somehistory){
+        if (!cid)
+        {
+            cid = Random.id();
+            Meteor.call('characters.insert', cid);
+        }
+
+        if (!somehistory){
+            somehistory = this.props.history;
+        }
+
         somehistory.push('/character/edit/' + cid);
     }
 
@@ -124,7 +135,7 @@ export default class CharactersPage extends React.Component{
                         <hr/>
                         <div className="scrolling-container-80">
                             {this.renderForm()}
-                            <NavLink to='#' onClick={() => this.props.func(this.props.id, this.props.somehistory)} className='nav-item nav-link'>
+                            <NavLink to='#' onClick={() => this.loadCharacter()} className='nav-item nav-link'>
                                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container ">
                                     <div className="vertical-card-contents grow">
                                         <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/add-image-card-icon.png'} className="stretch-image"/>

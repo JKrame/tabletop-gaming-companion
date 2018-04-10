@@ -61,7 +61,7 @@ export default class Header extends React.Component{
                                     <li ><NavLink to="/home">Home</NavLink></li>
                                     <li ><NavLink to="/adventureboard">Adventure Board</NavLink></li>
                                     <li ><NavLink to="/binder">Binder</NavLink></li>
-                                    <li ><NavLink to="/mail">Mail</NavLink></li>
+                                    <li ><NavLink to="/mail">Mail <div className="notif-circle"/></NavLink></li>
                                     <li ><NavLink to="/settings"><div><img src={this.url != null && this.url != "" ? this.url : '/images/photoMissing.png'} style={{"maxWidth":"50px","maxHeight":"20px", "padding":"0px"}}/>    <strong>{this.username}</strong></div></NavLink></li>
                                     <li ><NavLink to="/signin" onClick={this.logOut}>Log Out</NavLink></li>
                                 </ul>
