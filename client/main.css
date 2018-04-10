@@ -742,6 +742,15 @@ body{
     display:visible !important;
 }
 
+.notif-circle{
+    position: relative;
+    margin-top:-12px;
+    margin-left:30px;
+    width:7px;
+    height:7px;
+    background-color: red;
+    border-radius:5px;
+}
 
 .cal-buttons{
     position: absolute;
