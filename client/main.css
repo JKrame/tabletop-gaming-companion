@@ -260,7 +260,7 @@ body{
     color: #012C40;
 }
   
-  .page-content-half{
+.page-content-half{
     background-color: rgba(255, 255, 255, 0.801);
     display:flex;
     flex-direction:column;
@@ -270,6 +270,7 @@ body{
     padding:10px;
     overflow: hidden;
 }
+
 .page-content-scroller{
     height:350px;
     overflow-y:auto;
@@ -556,6 +557,22 @@ body{
     background-color:red;
 }
 
+.userName-schedule-label{
+    font-weight: bolder;
+    font-size:16px;
+    text-align: center;
+}
+
+
+.close-button{
+    position: absolute;
+    right:0;
+    bottom:50px;
+    height:50px;
+    color: #fff;
+    background-color:red;
+}
+
 .scrolling-container{
     overflow-y:auto;
 }
@@ -774,6 +791,53 @@ body{
     opacity:100;
     transition:.5s;
     display:visible !important;
+}
+
+.scrolling-schedule{
+    max-height:150px;
+    height:200px;
+}
+.schedule-scroller{
+    overflow-y:auto;
+    max-height:40vh;
+}
+
+.schedule-labels{
+    display:flex;
+    flex-wrap:horizontal;
+    align-items:center;
+    height:20px;
+    justify-content: center;
+}
+
+.schedule-label{
+    text-align: center;
+    font-weight: bolder;
+    width:10%;
+    height:20px;
+    margin:5px;
+}
+
+.schedule-view{
+    display:flex;
+    flex-wrap: horizontal;
+    height: 40px;
+    justify-content: center;
+}
+
+.open-sched{
+    width:10%;
+    height:30px;
+    background:green;
+    margin:5px;
+}
+
+.close-sched{
+    width:10%;
+    height:30px;
+    background:grey;
+    margin:5px;
+
 }
 
 .character-buttons{
@@ -1217,6 +1281,20 @@ a.menu_links{
     background-color: rgba(255, 255, 255, 1);
 }
 
+.schedule-popup{
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    width:60vw;
+    height:60vh;
+    z-index: 999;
+    padding:30px;
+    margin:auto;
+    background-color: rgba(255, 255, 255, 1);
+}
+
 .broadcast-screen{
     display:flex;
     height:100%;
@@ -1318,6 +1396,9 @@ a.menu_links{
     background: white;
   }
 
+  .schedule-content{
+      position: relative;
+  }
   .dynamic-cs-popup{
     position: absolute;
     top:0;
