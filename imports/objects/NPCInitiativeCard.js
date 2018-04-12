@@ -1,49 +1,83 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-export default class InitiativeCard extends React.Component{
+export default class NPCInitiativeCard extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             currHP : 0,
             maxHP : 1,
-            percent : 0
-        }
+            percent : 0,
+            yourTurn : false
+            }
     }
 
     componentWillMount(){
-        if (!this.props.character){
+        if (!this.props.campaignID || !this.props.characterID){
             return;
         }
 
-        var max = this.props.character.maxHP == 0 ? 1 : this.props.character.maxHP;
+        this.campaignID = this.props.campaignID;
+        this.characterID = this.props.characterID;
 
-        this.setState({maxHP : max});
-        this.setState({currHP : this.props.character.currHP});
-        //this.tempHP = this.props.character.tempHP;
+        this.tracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('campaigns');
+            if(sub.ready())
+            {
+                this.campaign = Campaigns.findOne({_id: this.campaignID});
+                this.gm = this.campaign.gm;
+                if (this.campaign.turnIndex == this.props.key){
+                    this.setState({yourTurn : true});
+                }
 
-        //this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
-        this.setState({percent : (Number(this.props.character.currHP) / Number(max) * 100) + "%"});
-        //this.percent = (this.percent*100) + "%";
+                for (i = 0; i < this.campaign.activeNPCs.length; i++){
+                    if (this.campaign.activeNPCs[i]._id == this.characterID){
+                        this.character = this.campaign.activeNPCs[i];
+                    }
+                }
+
+                console.log(this.character.characterName);
+                console.log(this.state.yourTurn);
+
+                var max = this.character.maxHP == 0 ? 1 : this.character.maxHP;
+        
+                this.setState({maxHP : max});
+                this.setState({currHP : this.character.currHP});
+                //this.tempHP = this.character.tempHP;
+        
+                percent = Number(this.character.currHP) / Number(max) * 100;
+                if (percent < 0 || isNaN(percent)){
+                    percent = 0;
+                }
+        
+                percent = percent + "%";
+        
+                this.setState({percent});
+            }
+        });
+    }
+
+    componentWillUnmount(){
+        this.tracker.stop();
     }
 
     renderSpellSlots(){
-        if (!this.props.character){
+        if (!this.character){
             return null;
         }
 
-        if (Meteor.userId() != this.props.gm){
+        if (Meteor.userId() != this.gm){
             return null;
         }
 
         var spellSlotContainers = [];
         var spellSlots;
-        for(var i = 0; i < this.props.character.spellSlotsCurr.length; i++)
+        for(var i = 0; i < this.character.spellSlotsCurr.length; i++)
         {
             spellSlots = [];
-            for(var j = 0; j < this.props.character.spellSlotsMax[i]; j++)
+            for(var j = 0; j < this.character.spellSlotsMax[i]; j++)
             {
-                if(j < this.props.character.spellSlotsCurr[i])
+                if(j < this.character.spellSlotsCurr[i])
                 {
                     spellSlots.push(<div className="spell-slot"></div>)
                 }
@@ -63,7 +97,7 @@ export default class InitiativeCard extends React.Component{
     }
 
     renderHealthBar(){
-        if (Meteor.userId() != this.props.gm){
+        if (Meteor.userId() != this.gm){
             return null;
         }
         
@@ -81,16 +115,16 @@ export default class InitiativeCard extends React.Component{
         );
     }
 
-    renderHealthControls(){
-        if (Meteor.userId() != this.props.gm){
+    renderControls(){
+        if (Meteor.userId() != this.gm){
             return null;
         }
 
         return (
             <div>
-                <button className="inc-button" onClick={() => this.lowerHealth(this.props.character)}>-</button>
-                <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={() => this.setHealth(this.props.character).bind(this)} placeholder=""/>
-                <button className="inc-button" onClick={() => this.raiseHealth(this.props.character)}>+</button>
+                <button className="inc-button" onClick={() => this.lowerHealth(this.character)}>-</button>
+                <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={() => this.setHealth(this.character, Number(this.refs.healthBox.value)).bind(this)} placeholder=""/>
+                <button className="inc-button" onClick={() => this.raiseHealth(this.character)}>+</button>
                 <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}></div>;
             </div>
         );
@@ -116,15 +150,15 @@ export default class InitiativeCard extends React.Component{
         }*/
 
         this.setHealth(character, this.state.currHP - 1);
+
     }
 
     setHealth(character, value){
-        if (!value){
-            value = Number(this.refs.healthBox.value);
-            console.log(value);
+        if (isNaN(value)){
+            return;
         }
 
-        Meteor.call("campaigns.updateCurrHealth", this.props.campaignID, character, value);
+        Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, value);
         this.refs.healthBox.value = Number(value);
         this.setState({currHP : value});
         this.setState({percent : (value / this.state.maxHP * 100) + "%"})
@@ -138,30 +172,30 @@ export default class InitiativeCard extends React.Component{
     }
 
     removeFromInitiative(){
-        Meteor.call('campaigns.removeFromInitiative', this.props.campaignID, this.props.character._id)
+        Meteor.call('campaigns.removeNPCFromInitiative', this.campaignID, this.characterID)
     }
 
-
     render() {
-        if (!this.props.character){
+        if (!this.character){
             return null;
         }
 
         return (
-            <NavLink to='#'  /*onClick={() => this.props.parent.toggleCharacterPopup(this.props.character)}*/ className='nav-item nav-link'>
+            <NavLink to='#'  /*onClick={() => this.props.parent.toggleCharacterPopup(this.character)}*/ className='nav-item nav-link'>
+            <p>{this.state.yourTurn}</p>
                 <div className="objectCardMini " draggable="false">
                     <div className="objectCardMiniImage">
-                        <img src={this.props.characterImageURL!=null && this.props.character.characterImageURL!="" ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
+                        <img src={this.character.characterImageURL != null && this.character.characterImageURL != "" ? this.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className="objectCardMiniInfo container-fluid col-xs-10">
-                        <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
+                        <h5 className="no-margin-override h5-overflow-hidden">{this.character.characterName}</h5>
                         <hr className="hr-override-light"/>
                         
                         {this.renderHealthBar()}
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
                         
-                        {this.renderHealthControls()}                   
+                        {this.renderControls()}                   
                         <div className="spacer col-sm-12"/>
 
                         {this.renderSpellSlots()}

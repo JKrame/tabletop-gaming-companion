@@ -1,46 +1,78 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-export default class CampaignCharacterTile extends React.Component{
+export default class PCInitiativeCard extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             currHP : 0,
             maxHP : 1,
-            percent : 0
+            percent : 0,
+            yourTurn : false
         }
     }
 
     componentWillMount(){
-        if (!this.props.character){
+        if (!this.props.campaignID || !this.props.characterID){
             return;
         }
+        
+        this.campaignID = this.props.campaignID;
+        this.characterID = this.props.characterID;
 
-        var max = this.props.character.maxHP == 0 ? 1 : this.props.character.maxHP;
+        this.tracker = Tracker.autorun(() => {
+            const sub = Meteor.subscribe('campaigns');
+            if(sub.ready())
+            {
+                this.campaign = Campaigns.findOne({_id: this.campaignID});
+                this.gm = this.campaign.gm;
+                if (this.campaign.turnIndex == this.props.key){
+                    this.setState({yourTurn : true});
+                }
 
-        this.setState({maxHP : max});
-        this.setState({currHP : this.props.character.currHP});
-        //this.tempHP = this.props.character.tempHP;
+                console.log(this.state.yourTurn);
+            }
 
-        //this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
-        this.setState({percent : (Number(this.props.character.currHP) / Number(max) * 100) + "%"});
-        //this.percent = (this.percent*100) + "%";
+            const sub2 = Meteor.subscribe('characters');
+            if (sub2.ready()){
+                this.character = Characters.findOne({_id:this.characterID});
+
+                var max = this.character.maxHP == 0 ? 1 : this.character.maxHP;
+        
+                this.setState({maxHP : max});
+                this.setState({currHP : this.character.currHP});
+                //this.tempHP = this.character.tempHP;
+        
+                percent = Number(this.character.currHP) / Number(max) * 100;
+                if (percent < 0 || isNaN(percent)){
+                    percent = 0;
+                }
+        
+                percent = percent + "%";
+        
+                this.setState({percent});
+            }
+        });
+    }
+
+    componentWillUnmount(){
+        this.tracker.stop();
     }
 
     renderSpellSlots()
     {
-        if (!this.props.character ){
+        if (!this.character ){
             return null;
         }
 
         var spellSlotContainers = [];
         var spellSlots;
-        for(var i = 0; i < this.props.character.spellSlotsCurr.length; i++)
+        for(var i = 0; i < this.character.spellSlotsCurr.length; i++)
         {
             spellSlots = [];
-            for(var j = 0; j < this.props.character.spellSlotsMax[i]; j++)
+            for(var j = 0; j < this.character.spellSlotsMax[i]; j++)
             {
-                if(j < this.props.character.spellSlotsCurr[i])
+                if(j < this.character.spellSlotsCurr[i])
                 {
                     spellSlots.push(<div className="spell-slot"></div>)
                 }
@@ -57,19 +89,46 @@ export default class CampaignCharacterTile extends React.Component{
         return <div className="col-xs-12 ">{spellSlotContainers}</div>;
     }
 
+    renderHealthBar(){
+        return (
+            <div className="col-xs-12 no-margin-override no-padding">
+                <div className="col-xs-10 no-margin-override">
+                    <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative", "overflow":"hidden"}}>
+                        <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
+                    </div>
+                </div>
+                <div className="col-xs-2 no-margin-override">
+                    <p>{this.state.currHP + "/" + this.state.maxHP}</p>
+                </div>
+            </div>
+        );
+    }
+
+    removeFromInitiative(){
+        Meteor.call('campaigns.removePCFromInitiative', this.campaignID, this.characterID)
+    }
+
+    renderRemoveFromInitiativeButton(){
+        if (Meteor.userId() == this.gm){
+            return <button onClick={this.removeFromInitiative.bind(this)}>X</button>;
+        }
+
+        return null;
+    }
+
     render() {
-        if (!this.props.character){
+        if (!this.character){
             return null;
         }
 
         return (
-            <NavLink to='#'  onClick={() => this.props.parent.toggleCharacterPopup(this.props.character)} className='nav-item nav-link'>
+            <NavLink to='#'  /*onClick={() => this.props.parent.toggleCharacterPopup(this.props.character)}*/ className='nav-item nav-link'>
                 <div className="objectCardMini " draggable="false">
                     <div className="objectCardMiniImage">
-                        <img src={this.props.character.characterImageURL!=null ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
+                        <img src={this.character.characterImageURL != null && this.character.characterImageURL != "" ? this.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className="objectCardMiniInfo container-fluid col-xs-10">
-                        <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
+                        <h5 className="no-margin-override h5-overflow-hidden">{this.character.characterName}</h5>
                         <hr className="hr-override-light"/>
 
                         <div className="col-xs-12 no-margin-override no-padding">
@@ -83,7 +142,6 @@ export default class CampaignCharacterTile extends React.Component{
                             </div>
                         </div>
                         <div className="spacer col-sm-12"/>
-
 
                         {this.renderSpellSlots()}
                     </div>

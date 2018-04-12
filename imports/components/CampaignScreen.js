@@ -601,57 +601,37 @@ export default class CampaignScreen extends React.Component{
     }
 
     renderInitiativeOrder(){
+        console.log("render turn order");
         isSorted = true;
         var prevIndex = null;
         cards = [];
 
         if (this.campaign && this.characters){
             for (i = 0; i < this.campaign.turnOrder.length; i++){
-                index = (i + this.campaign.turnIndex) % this.campaign.turnOrder.length;
-
-                if (prevIndex != null && prevIndex < index && this.compareInitiative(this.campaign.turnOrder[index], this.campaign.turnOrder[prevIndex]) == -1){
-                    isSorted = false;
-                    break;
-                }
-
-                prevIndex = index;
-
-                if (this.campaign.turnOrder[index].npc){
-                    for (j = 0; j < this.campaign.activeNPCs.length; j++){
-                        if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[index].cid){
-                            cards.push(
-                                <NPCInitiativeCard
-                                    key={i}
-                                    character={this.campaign.activeNPCs[j]}
-                                    gm={this.campaign.gm}
-                                    campaignID={this.campaign._id}
-                                />
-                            );
-                        }
-                    }
+                if (this.campaign.turnOrder[i].npc){
+                    cards.push(
+                        <NPCInitiativeCard
+                            key={i}
+                            characterID={this.campaign.turnOrder[i].cid}
+                            campaignID={this.campaignID}
+                        />
+                    );
                 }
                 else{
-                    for (j = 0; j < this.characters.length; j++){
-                        if (this.campaign.turnOrder[index].cid == this.characters[j]._id){
-                            cards.push(
-                                <PCInitiativeCard
-                                    key={i}
-                                    character={this.characters[j]}
-                                    campaignID={this.campaign._id}
-                                />
-                            );
-                        }
-                    }
+                    cards.push(
+                        <PCInitiativeCard
+                            key={i}
+                            characterID={this.campaign.turnOrder[i].cid}
+                            campaignID={this.campaignID}
+                        />
+                    );
                 }
             }
 
             if (Meteor.userId() == this.campaign.gm && !isSorted){
-                this.sortTurnOrder()
+                this.sortTurnOrder();
+                return;
             }
-
-            return(
-                        cards.map( card => <div>{card}</div>)
-            );
         }
 
         return cards;
