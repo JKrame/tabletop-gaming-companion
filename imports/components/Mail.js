@@ -119,12 +119,15 @@ export default class Mail extends React.Component{
         if (this.conversations){
             for (var i = 0; i < this.conversations.length; i++){
                 partner = (this.conversations[i].participants[0].id == Meteor.userId()) ? this.conversations[i].participants[1] : this.conversations[i].participants[0];
-                cards.push(<UserCard
-                    key={i} 
-                    username={partner.name} 
-                    accountPicture={partner.picture} 
-                    param={this.conversations[i]} 
-                    func={this.loadConversation.bind(this)}/>);
+                cards.push(
+                    <UserCard
+                        key={i} 
+                        username={partner.name} 
+                        accountPicture={partner.picture} 
+                        param={this.conversations[i]} 
+                        func={this.loadConversation.bind(this)}
+                    />
+                );
             }
         }
 
@@ -137,10 +140,11 @@ export default class Mail extends React.Component{
 
             if (conversation.participants[0].id == Meteor.userId()){
                 this.setState({contactUsername : conversation.participants[1].name, contactImage : conversation.participants[1].image});
-                
+                Meteor.call('conversations.markRead', conversation._id);
             }
             else{
                 this.setState({contactUsername : conversation.participants[0].name, contactImage : conversation.participants[0].image});
+                Meteor.call('conversations.markRead', conversation._id);
             }
 
             this.forceUpdate();
