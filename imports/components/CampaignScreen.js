@@ -77,6 +77,7 @@ export default class CampaignScreen extends React.Component{
             {
                 this.campaign = Campaigns.findOne({_id: campaignID});
                 this.gameLog = this.campaign.gameLog;
+                this.activeNPCs = this.campaign.activeNPCs;
                 this.setState({gameLog: this.gameLog});
 
                 this.gm = this.campaign.gm;
@@ -617,12 +618,14 @@ export default class CampaignScreen extends React.Component{
                 prevIndex = index;
 
                 if (this.campaign.turnOrder[index].npc){
-                    for (j = 0; j < this.campaign.activeNPCs.length; j++){
-                        if (this.campaign.activeNPCs[j]._id == this.campaign.turnOrder[index].cid){
+                    for (j = 0; j < this.activeNPCs.length; j++){
+                        if (this.activeNPCs[j]._id == this.campaign.turnOrder[index].cid){
                             cards.push(
                                 <NPCInitiativeCard
                                     key={i}
-                                    character={this.campaign.activeNPCs[j]}
+                                    position={i}
+                                    index={this.campaign.turnIndex}
+                                    character={this.activeNPCs[j]}
                                     gm={this.campaign.gm}
                                     campaignID={this.campaign._id}
                                 />
@@ -636,6 +639,8 @@ export default class CampaignScreen extends React.Component{
                             cards.push(
                                 <PCInitiativeCard
                                     key={i}
+                                    position={i}
+                                    index={this.campaign.turnIndex}
                                     character={this.characters[j]}
                                     campaignID={this.campaign._id}
                                 />
@@ -648,10 +653,6 @@ export default class CampaignScreen extends React.Component{
             if (Meteor.userId() == this.campaign.gm && !isSorted){
                 this.sortTurnOrder()
             }
-
-            return(
-                        cards.map( card => <div>{card}</div>)
-            );
         }
 
         return cards;
@@ -914,11 +915,8 @@ export default class CampaignScreen extends React.Component{
                                     <h3>Initiative</h3>
                                     <hr/>
                                     <div className="scrolling-container-content-top width-90">
-                                        <FlipMove duration={750} easing="ease-out">
-                                                {this.renderInitiativeOrder()}
-                                        </FlipMove>
+                                        {this.renderInitiativeOrder()}
                                     </div>
-
 
                                     {this.renderEndTurnButton()}
                                     {this.renderEndCombatButton()}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-export default class InitiativeCard extends React.Component{
+export default class NPCInitiativeCard extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -20,11 +20,7 @@ export default class InitiativeCard extends React.Component{
 
         this.setState({maxHP : max});
         this.setState({currHP : this.props.character.currHP});
-        //this.tempHP = this.props.character.tempHP;
-
-        //this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
         this.setState({percent : (Number(this.props.character.currHP) / Number(max) * 100) + "%"});
-        //this.percent = (this.percent*100) + "%";
     }
 
     renderSpellSlots(){
@@ -81,7 +77,7 @@ export default class InitiativeCard extends React.Component{
         );
     }
 
-    renderHealthControls(){
+    renderControls(){
         if (Meteor.userId() != this.props.gm){
             return null;
         }
@@ -97,50 +93,32 @@ export default class InitiativeCard extends React.Component{
     }
 
     raiseHealth(character){
-        /*if (character.currHP >= character.maxHP){
-            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 0 + 1);
-        }
-        else{
-            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, Number(character.currHP) + 1);
-        }*/
-
         this.setHealth(character, this.state.currHP - 0 + 1);        
     }
 
     lowerHealth(character){
-        /*if (character.tempHP > 0){
-            Meteor.call("campaigns.updateTempHealth", this.campaignID, character, character.tempHP - 1);
-        }
-        else{
-            Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.currHP - 1);
-        }*/
-
         this.setHealth(character, this.state.currHP - 1);
     }
 
     setHealth(character, value){
         if (!value){
             value = Number(this.refs.healthBox.value);
-            console.log(value);
         }
 
         Meteor.call("campaigns.updateCurrHealth", this.props.campaignID, character, value);
         this.refs.healthBox.value = Number(value);
         this.setState({currHP : value});
         this.setState({percent : (value / this.state.maxHP * 100) + "%"})
-
-        //if (value > character.maxHP){
-            //Meteor.call("campaigns.updateTempHealth", this.campaignID, character, value - character.maxHP);
-            //Meteor.call("campaigns.updateCurrHealth", this.campaignID, character, character.maxHP);
-       // }
-        //else{
-        //}
     }
 
     removeFromInitiative(){
+        console.log(this.props.position);
+        console.log(this.props.index);
+        if (this.props.position <= this.props.index && this.props.index > 0){
+            Meteor.call('campaigns.endTurn', this.campaignID, this.props.index - 1);
+        }
         Meteor.call('campaigns.removeFromInitiative', this.props.campaignID, this.props.character._id)
     }
-
 
     render() {
         if (!this.props.character){
@@ -151,7 +129,7 @@ export default class InitiativeCard extends React.Component{
             <NavLink to='#'  /*onClick={() => this.props.parent.toggleCharacterPopup(this.props.character)}*/ className='nav-item nav-link'>
                 <div className="objectCardMini " draggable="false">
                     <div className="objectCardMiniImage">
-                        <img src={this.props.characterImageURL!=null && this.props.character.characterImageURL!="" ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
+                        <img src={this.props.character.characterImageURL != null && this.props.character.characterImageURL != "" ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className="objectCardMiniInfo container-fluid col-xs-10">
                         <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
@@ -161,7 +139,7 @@ export default class InitiativeCard extends React.Component{
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
                         
-                        {this.renderHealthControls()}                   
+                        {this.renderControls()}                   
                         <div className="spacer col-sm-12"/>
 
                         {this.renderSpellSlots()}

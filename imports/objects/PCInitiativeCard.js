@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-export default class CampaignCharacterTile extends React.Component{
+export default class PCInitiativeCard extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -20,15 +20,10 @@ export default class CampaignCharacterTile extends React.Component{
 
         this.setState({maxHP : max});
         this.setState({currHP : this.props.character.currHP});
-        //this.tempHP = this.props.character.tempHP;
-
-        //this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
         this.setState({percent : (Number(this.props.character.currHP) / Number(max) * 100) + "%"});
-        //this.percent = (this.percent*100) + "%";
     }
 
-    renderSpellSlots()
-    {
+    renderSpellSlots(){
         if (!this.props.character ){
             return null;
         }
@@ -57,6 +52,25 @@ export default class CampaignCharacterTile extends React.Component{
         return <div className="col-xs-12 ">{spellSlotContainers}</div>;
     }
 
+    renderControls(){
+        if (Meteor.userId() != this.props.gm){
+            return null;
+        }
+
+        return (
+            <div>
+                <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}></div>;
+            </div>
+        );
+    }
+
+    removeFromInitiative(){
+        if (this.props.position <= this.props.index && this.props.index > 0){
+            Meteor.call('campaigns.endTurn', this.campaignID, this.props.index - 1);
+        }
+        Meteor.call('campaigns.removeFromInitiative', this.props.campaignID, this.props.character._id)
+    }
+
     render() {
         if (!this.props.character){
             return null;
@@ -66,7 +80,7 @@ export default class CampaignCharacterTile extends React.Component{
             <NavLink to='#'  onClick={() => this.props.parent.toggleCharacterPopup(this.props.character)} className='nav-item nav-link'>
                 <div className="objectCardMini " draggable="false">
                     <div className="objectCardMiniImage">
-                        <img src={this.props.character.characterImageURL!=null ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
+                        <img src={this.props.character.characterImageURL != null || this.props.character.characterImageURL != "" ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className="objectCardMiniInfo container-fluid col-xs-10">
                         <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
@@ -83,7 +97,10 @@ export default class CampaignCharacterTile extends React.Component{
                             </div>
                         </div>
                         <div className="spacer col-sm-12"/>
-
+                        <div className="spacer col-sm-12"/>
+                        
+                        {this.renderControls()}                   
+                        <div className="spacer col-sm-12"/>
 
                         {this.renderSpellSlots()}
                     </div>
