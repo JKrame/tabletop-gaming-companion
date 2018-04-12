@@ -111,9 +111,11 @@ export default class CharacterForm extends React.Component{
             this.refs.equipmentNotes.value.trim()
         );
     }
-
     deleteCharacter(id) {
         if(confirm('Delete this character?')) {
+
+            Meteor.call("campaigns.removeCharacter", this.props.character.campaignID, this.props.character._id)
+
             Meteor.call('characters.remove', id);
             window.location.replace("/home");
         }

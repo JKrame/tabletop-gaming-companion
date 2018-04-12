@@ -313,6 +313,11 @@ export default class CampaignScreen extends React.Component{
 
                 return(
                     <div> 
+                        <h3>Health</h3>
+                        <hr/>
+                            <button className="inc-button" onClick={this.decreaseHealth.bind(this, currCharacter)}>-</button>
+                            <input className="spellbox" ref="health" placeholder=""/>
+                            <button className="inc-button" onClick={this.increaseHealth.bind(this, currCharacter)}>+</button>
                         <h3>Spell Slots</h3>
                         <hr/>
                         <div className="spell-slots scrolling-container" >
@@ -402,6 +407,18 @@ export default class CampaignScreen extends React.Component{
 
         maxHealth = this.characters[currCharacter].maxHP
         Meteor.call("characters.updateHealth", this.characters[currCharacter]._id, maxHealth);
+    }
+    increaseHealth(currCharacter){
+        //console.log("increase " + this.refs.health.value)
+        newHP = (this.characters[currCharacter].currHP-0) + (this.refs.health.value-0)
+        Meteor.call("characters.updateHealth", this.characters[currCharacter]._id, newHP);
+        this.refs.health.value = ""
+    }
+    decreaseHealth(currCharacter){
+        //console.log("decrease " + this.refs.health.value)
+        newHP = (this.characters[currCharacter].currHP-0) - (this.refs.health.value-0)
+        Meteor.call("characters.updateHealth", this.characters[currCharacter]._id, newHP);
+        this.refs.health.value = ""
     }
 
     addSpell(currCharacter, level){
