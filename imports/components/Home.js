@@ -169,6 +169,7 @@ export default class Home extends React.Component {
                     campaignName={this.otherCampaigns[i].name} 
                     campaignDescription={this.otherCampaigns[i].description}
                     campaignGM = {this.otherCampaigns[i].gm}
+                    characters={this.otherCampaigns[i].characters}
                     toggleCalendarPopup={this.toggleCalendarPopup}
                 />
             );
