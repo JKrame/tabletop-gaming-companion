@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-export default class InitiativeCard extends React.Component{
+export default class NPCInitiativeCard extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -15,13 +15,11 @@ export default class InitiativeCard extends React.Component{
         if (!this.props.campaignID || !this.props.characterID){
             return;
         }
-        console.log("NPCinitiativeCard");
-        console.log(this.props.characterID);
+
         this.campaignID = this.props.campaignID;
         this.characterID = this.props.characterID;
 
         this.tracker = Tracker.autorun(() => {
-
             const sub = Meteor.subscribe('campaigns');
             if(sub.ready())
             {
@@ -110,7 +108,7 @@ export default class InitiativeCard extends React.Component{
         );
     }
 
-    renderHealthControls(){
+    renderControls(){
         if (Meteor.userId() != this.gm){
             return null;
         }
@@ -189,7 +187,7 @@ export default class InitiativeCard extends React.Component{
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
                         
-                        {this.renderHealthControls()}                   
+                        {this.renderControls()}                   
                         <div className="spacer col-sm-12"/>
 
                         {this.renderSpellSlots()}

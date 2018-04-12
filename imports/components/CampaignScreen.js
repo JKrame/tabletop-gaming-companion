@@ -607,7 +607,7 @@ export default class CampaignScreen extends React.Component{
         console.log(this.campaign.turnOrder);
         isSorted = true;
         var prevChar;
-        var cards = [];
+        this.turnOrderCards = [];
 
         if (this.campaign && this.characters){
             for (i = 0; i < this.campaign.turnOrder.length; i++){
@@ -624,7 +624,7 @@ export default class CampaignScreen extends React.Component{
                 prevChar = this.campaign.turnOrder[i];
 
                 if (this.campaign.turnOrder[i].npc){
-                    cards.push(
+                    this.turnOrderCards.push(
                         <NPCInitiativeCard
                             key={this.campaign.turnOrder[i].turnIndex}
                             characterID={this.campaign.turnOrder[i].cid}
@@ -633,7 +633,7 @@ export default class CampaignScreen extends React.Component{
                     );
                 }
                 else{
-                    cards.push(
+                    this.turnOrderCards.push(
                         <PCInitiativeCard
                             key={this.campaign.turnOrder[i].turnIndex}
                             characterID={this.campaign.turnOrder[i].cid}
@@ -649,24 +649,27 @@ export default class CampaignScreen extends React.Component{
             }
         }
 
-        this.setState({turnOrder : cards});
+        console.log("set state");
+        this.setState({turnOrder : this.turnOrderCards});
+        console.log(this.state.turnOrder);
     }
 
     sortTurnOrder(){
         console.log("sort turn");
-        newTurnOrder = this.campaign.turnOrder;
-        newTurnOrder.sort(this.compareInitiative);
+        var newTurnOrder = this.campaign.turnOrder;
 
         if (newTurnOrder.length >= 2 && newTurnOrder[0].turnIndex == newTurnOrder[1].turnIndex){
+            console.log("sort by initiative");
+            newTurnOrder.sort(this.compareInitiative);
             for(i = 0; i < newTurnOrder.length; i++){
                 newTurnOrder[i].turnIndex = i;
             }
         }
 
+        newTurnOrder.sort(this.compareTurnIndex);
+
         console.log(newTurnOrder);
         Meteor.call('campaigns.setTurnOrder', this.campaign._id, newTurnOrder);
-        this.campaign.turnOrder = newTurnOrder;
-        this.renderTurnOrder();
     }
 
     needsSort(a, b){
@@ -681,13 +684,18 @@ export default class CampaignScreen extends React.Component{
         return false;
     }
 
-    compareInitiative(a, b){
+    compareTurnIndex(a, b){
         if (Number(a.turnIndex) < Number(b.turnIndex)){
-            return 1;
-        }
-        if (Number(a.turnIndex) > Number(b.turnIndex)){
             return -1;
         }
+        if (Number(a.turnIndex) > Number(b.turnIndex)){
+            return 1;
+        }
+
+        return 0;
+    }
+
+    compareInitiative(a, b){
         if (Number(a.initiative) < Number(b.initiative)){
             return 1;
         }
@@ -955,9 +963,7 @@ export default class CampaignScreen extends React.Component{
                                     <h3>Initiative</h3>
                                     <hr/>
                                     <div className="scrolling-container-content-top width-90">
-                                        <FlipMove duration={750} easing="ease-out">
-                                                {this.state.turnOrder}
-                                        </FlipMove>
+                                        {this.turnOrderCards}
                                     </div>
 
 
