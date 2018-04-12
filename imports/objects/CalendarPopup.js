@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default class PlayerFormPopup extends React.Component {
+export default class CalendarPopup extends React.Component {
     componentWillMount(){
         this.playerFormPopupTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('conversations');
@@ -25,72 +25,129 @@ export default class PlayerFormPopup extends React.Component {
         this.playerFormPopupTracker.stop();
     }
 
-
-    alreadyInvited(player)
+    renderSchedule()
     {
-        for (var i = 0; i < this.props.pendingInvites.length; i++)
+        var days = "";
+        if(this.props.availableDays[0]) //Monday
         {
-            if (this.props.pendingInvites[i] == player._id)
-            {
-                return true;
-            }
+            days += "Monday\n";
+        }
+        if(this.props.availableDays[1]) //Tuesday
+        {
+            days += "Tuesday\n";
+        }
+        if(this.props.availableDays[2]) //Wednesday
+        {
+            days += "Wednesday\n";
+        }
+        if(this.props.availableDays[3]) //Thursday
+        {
+            days += "Thursday\n";
+        }
+        if(this.props.availableDays[4]) //Friday
+        {
+            days += "Friday\n";
+        }
+        if(this.props.availableDays[5]) //Saturday
+        {
+            days += "Saturday\n";
+        }
+        if(this.props.availableDays[6]) //Sunday
+        {
+            days += "Sunday\n";
         }
 
-        for (var i = 0; i < this.props.characters.length; i++)
+        if(days == "")
         {
-            if (this.props.characters[i].UID == player._id)
-            {
-                return true;
-            }
+            days = "There are no days where all players and GM are available.";
         }
-        return false;
+
+        return <div>{days}</div>;
     }
 
-    addPlayer()
+    renderProfiles()
     {
-        var username = this.refs.username.value;
-        //console.log(username);
-        var invitedUser = Meteor.users.findOne({"profile.username" : username});
-        var currentCharacters = Campaigns.findOne({_id : this.props.campaignID}).characters;
+        var profiles = "";
+        var days = "";
+        if(this.props.gmProfile.schedule[0]) //Monday
+        {
+            days += "Monday ";
+        }
+        if(this.props.gmProfile.schedule[1]) //Tuesday
+        {
+            days += "Tuesday ";
+        }
+        if(this.props.gmProfile.schedule[2]) //Wednesday
+        {
+            days += "Wednesday ";
+        }
+        if(this.props.gmProfile.schedule[3]) //Thursday
+        {
+            days += "Thursday ";
+        }
+        if(this.props.gmProfile.schedule[4]) //Friday
+        {
+            days += "Friday ";
+        }
+        if(this.props.gmProfile.schedule[5]) //Saturday
+        {
+            days += "Saturday ";
+        }
+        if(this.props.gmProfile.schedule[6]) //Sunday
+        {
+            days += "Sunday ";
+        }
+        profiles += this.props.gmProfile.username + " (GM) is available " + days;
 
-        if (invitedUser == null || invitedUser == undefined)
+        for(var i = 0; i < this.props.allPlayerProfiles.length; i++)
         {
-            alert("Username does not exist.");
-            return;
-        }
-        var invitedUserID = invitedUser._id;
-        if (invitedUserID == Meteor.userId())
-        {
-            alert("You cannot add yourself to your own campaign.");
-            return;
-        }
-        
-        for (var i = 0; i < currentCharacters.length; i++)
-        {
-            if (currentCharacters[i].UID == invitedUserID)
+            days = "";
+            if(this.props.allPlayerProfiles[i].schedule[0]) //Monday
             {
-                alert("Player already invited.");
-                return;
+                days += "Monday ";
             }
+            if(this.props.allPlayerProfiles[i].schedule[1]) //Tuesday
+            {
+                days += "Tuesday ";
+            }
+            if(this.props.allPlayerProfiles[i].schedule[2]) //Wednesday
+            {
+                days += "Wednesday ";
+            }
+            if(this.props.allPlayerProfiles[i].schedule[3]) //Thursday
+            {
+                days += "Thursday ";
+            }
+            if(this.props.allPlayerProfiles[i].schedule[4]) //Friday
+            {
+                days += "Friday ";
+            }
+            if(this.props.allPlayerProfiles[i].schedule[5]) //Saturday
+            {
+                days += "Saturday ";
+            }
+            if(this.props.allPlayerProfiles[i].schedule[6]) //Sunday
+            {
+                days += "Sunday ";
+            }
+            profiles += this.props.allPlayerProfiles[i].username + " is available " + days;
         }
-
-        this.props.addPlayer(username);
+        return <div>{profiles}</div>;
     }
 
     render() {
         return (
             <div className='popup'>
                 <div className="add-player-popup popup_inner">
-                    <h2>Enter Player Username</h2>
-                    <input type="text" ref="username" className="full-width"/>
+                    <h2>{this.props.campaignName} Player Scheduling</h2>
                     <div className="col-sm-12">
+                        {this.renderSchedule()}
+                        {this.renderProfiles()}
                         <div className="right-align">
-                            <button onClick={this.props.closePopup} className=" submit-button button">Cancel</button>
-                            <button onClick={this.addPlayer.bind(this)} className="submit-button blue-button button">Add Player</button>
+                            <button onClick={this.props.closePopup} className=" submit-button button">Close</button>
                         </div>       
                         <div className="spacer col-sm-12"/>                      
                         <div className="spacer col-sm-12"/>
-                        <h4>Or select from Contacts</h4>
                         <div className="full-height">
                             <div className="scrolling-container" style={{"height":"250px", "width":"340px"}}>
                             </div>

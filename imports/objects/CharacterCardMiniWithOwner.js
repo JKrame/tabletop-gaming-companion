@@ -2,6 +2,11 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 export default class CharacterCardMiniWithOwner extends React.Component{
+
+    kickPlayer(){
+        Meteor.call('characters.pullCampaign', this.props.character._id, this.props.character.campaignID);
+        Meteor.call("campaigns.removeCharacter", this.props.character.campaignID, this.props.character._id)
+    }
     render() {
         return (
             <NavLink to='#' className='nav-item nav-link'>
@@ -10,7 +15,7 @@ export default class CharacterCardMiniWithOwner extends React.Component{
                         <img src={this.props.character.characterImageURL!=null && this.props.character.characterImageURL!="" ? this.props.character.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
                     <div className={this.props.isCampaignScreen ? "invis" : "character-buttons"}>
-                        <button onClick={'#'} className="tiny-delete-btn">
+                        <button onClick={this.kickPlayer.bind(this)} className="tiny-delete-btn">
                             <p  className="tiny-button-txt"><img src={'/images/x-icon.png'} className=""/>  DELETE</p>
                         </button>
                     </div>

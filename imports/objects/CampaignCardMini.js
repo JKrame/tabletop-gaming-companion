@@ -1,13 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-
+import { PropTypes } from 'react';
 
 var gmSchedule;
 var characters;
 export default class CampaignCardMini extends React.Component{
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
+        this.schedule = this.schedule.bind(this);
     }
     schedule(e)
     {
@@ -24,6 +25,7 @@ export default class CampaignCardMini extends React.Component{
         if(this.props.characters == undefined)
         {
             console.log("No characters in Campaign");
+            alert("No characters in Campaign. Unable to Schedule.");
             return;
         }
 
@@ -36,8 +38,10 @@ export default class CampaignCardMini extends React.Component{
         days.push(false); //Saturday
         days.push(false); //Sunday
 
-        var gmSchedule = Meteor.users.findOne({_id: this.props.campaignGM}).profile.schedule;
+        var gmProfile = Meteor.users.findOne({_id: this.props.campaignGM}).profile;
+        var gmSchedule = gmProfile.schedule;
         var userSchedule;
+        var allPlayerProfiles = [];
         var available;
         for(var i = 0; i < days.length; i++)
         {
@@ -46,7 +50,10 @@ export default class CampaignCardMini extends React.Component{
             {
                 for(var j = 0; j < this.props.characters.length; j++)
                 {
-                    userSchedule = Meteor.users.findOne({_id: this.props.characters[j].UID}).profile.schedule;
+                    userSchedule = Meteor.users.findOne({_id: this.props.characters[j].UID}).profile;
+                    if(i == 0) allPlayerProfiles.push(userSchedule);
+                    console.log(this.props.characters.length);
+                    userSchedule = userSchedule.schedule;
                     if(userSchedule[i] == false)
                     {
                         available = false;
@@ -60,6 +67,7 @@ export default class CampaignCardMini extends React.Component{
             }
         }
         console.log(days);
+        this.props.toggleCalendarPopup(this.props.campaignName, days, allPlayerProfiles, gmProfile);
     }
     render() {
         return (
@@ -74,7 +82,7 @@ export default class CampaignCardMini extends React.Component{
                         <p className="p-override no-margin-override small-text"> {this.props.campaignDescription}</p>
                     </div>
                     <div  className=" cal-buttons">
-                         <div onClick={this.schedule.bind(this)} className="cal-img stretch-image" draggable="false"/>
+                         <div onClick={this.schedule} className="cal-img stretch-image" draggable="false"/>
                     </div>
                 </div>
             </NavLink>
