@@ -2,30 +2,6 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 export default class CampaignCharacterTile extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            currHP : 0,
-            maxHP : 1,
-            percent : 0
-        }
-    }
-
-    componentWillMount(){
-        if (!this.props.character){
-            return;
-        }
-
-        var max = this.props.character.maxHP == 0 ? 1 : this.props.character.maxHP;
-
-        this.setState({maxHP : max});
-        this.setState({currHP : this.props.character.currHP});
-        //this.tempHP = this.props.character.tempHP;
-
-        //this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
-        this.setState({percent : (Number(this.props.character.currHP) / Number(max) * 100) + "%"});
-        //this.percent = (this.percent*100) + "%";
-    }
 
     renderSpellSlots()
     {
@@ -56,15 +32,23 @@ export default class CampaignCharacterTile extends React.Component{
         }
         return <div className="col-xs-12 ">{spellSlotContainers}</div>;
     }
+    renderHealth(){
 
-    render() {
         if (!this.props.character){
-            return null;
+            return;
         }
 
-        return (
-            <NavLink to='#'  onClick={() => this.props.parent.toggleCharacterPopup(this.props.character)} className='nav-item nav-link'>
-                <div className="objectCardMini " draggable="false">
+        var maxHP = this.props.character.maxHP == 0 ? 1 : this.props.character.maxHP;
+
+        
+        var currHP = this.props.character.currHP
+        //this.tempHP = this.props.character.tempHP;
+        
+        //this.percent = (Number(currHP) + Number(tempHP)) / Number(maxHP);
+        var percent = (Number(this.props.character.currHP) / Number(maxHP) * 100) + "%"
+
+        return(
+            <div className="objectCardMini " draggable="false">
                     <div className="objectCardMiniImage">
                         <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                     </div>
@@ -75,11 +59,11 @@ export default class CampaignCharacterTile extends React.Component{
                         <div className="col-xs-12 no-margin-override no-padding">
                             <div className="col-xs-10 no-margin-override">
                                 <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative"}}>
-                                    <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
+                                    <div style={{"backgroundColor":"red", "height":"15px", "width": percent}}/>
                                 </div>
                             </div>
                             <div className="col-xs-2 no-margin-override">
-                                <p>{this.state.currHP + "/" + this.state.maxHP}</p>
+                                <p>{currHP + "/" + maxHP}</p>
                             </div>
                         </div>
                         <div className="spacer col-sm-12"/>
@@ -88,6 +72,17 @@ export default class CampaignCharacterTile extends React.Component{
                         {this.renderSpellSlots()}
                     </div>
                 </div>
+        )
+    }
+
+    render() {
+        if (!this.props.character){
+            return null;
+        }
+
+        return (
+            <NavLink to='#'  onClick={() => this.props.parent.toggleCharacterPopup(this.props.character)} className='nav-item nav-link'>
+                {this.renderHealth()}
             </NavLink>
         );
     }

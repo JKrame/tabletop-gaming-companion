@@ -309,12 +309,15 @@ export default class CampaignScreen extends React.Component{
                 return(
                     <div> 
                         <h3>Health</h3>
-                        <hr/>
-                            <button className="inc-button" onClick={this.decreaseHealth.bind(this, currCharacter)}>-</button>
-                            <input className="spellbox" ref="health" placeholder=""/>
-                            <button className="inc-button" onClick={this.increaseHealth.bind(this, currCharacter)}>+</button>
+                            <hr/>
+                                <div className="spell-slots scrolling-container" >
+                                    <button className="inc-button" onClick={this.decreaseHealth.bind(this, currCharacter)}>-</button>
+                                    <input className="spellbox" ref="health" placeholder=""/>
+                                    <button className="inc-button" onClick={this.increaseHealth.bind(this, currCharacter)}>+</button>
+                                
+                                </div>
+                            <hr/>
                         <h3>Spell Slots</h3>
-                        <hr/>
                         <div className="spell-slots scrolling-container" >
                             <div className="spell-slot-panel ">
                                 <h5 className="spellHeader"><strong>Level 1</strong></h5>
