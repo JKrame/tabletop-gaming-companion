@@ -598,15 +598,13 @@ export default class CampaignScreen extends React.Component{
                     continue;
                 }
 
-                if (prevChar != null && this.compareInitiative(this.campaign.turnOrder[i], prevChar) == -1){
+                if (prevChar != null && this.needsSort(this.campaign.turnOrder[i], prevChar)){
                     console.log("needs sort");
                     isSorted = false;
                     break;
                 }
 
                 prevChar = this.campaign.turnOrder[i];
-
-                console.log("add " + this.campaign.turnOrder[i].cid);
 
                 if (this.campaign.turnOrder[i].npc){
                     cards.push(
@@ -642,8 +640,10 @@ export default class CampaignScreen extends React.Component{
         newTurnOrder = this.campaign.turnOrder;
         newTurnOrder.sort(this.compareInitiative);
 
-        for(i = 0; i < newTurnOrder.length; i++){
-            newTurnOrder[i].turnIndex = i;
+        if (newTurnOrder.length >= 2 && newTurnOrder[0].turnIndex == newTurnOrder[1].turnIndex){
+            for(i = 0; i < newTurnOrder.length; i++){
+                newTurnOrder[i].turnIndex = i;
+            }
         }
 
         console.log(newTurnOrder);
@@ -652,11 +652,23 @@ export default class CampaignScreen extends React.Component{
         this.renderTurnOrder();
     }
 
+    needsSort(a, b){
+        if (a.turnIndex == b.turnIndex){
+            return true;
+        }
+
+        if (a.turnIndex < b.turnIndex){
+            return true;
+        }
+
+        return false;
+    }
+
     compareInitiative(a, b){
-        if (Number(a.turnOrder) < Number(b.turnOrder)){
+        if (Number(a.turnIndex) < Number(b.turnIndex)){
             return 1;
         }
-        if (Number(a.turnOrder) > Number(b.turnOrder)){
+        if (Number(a.turnIndex) > Number(b.turnIndex)){
             return -1;
         }
         if (Number(a.initiative) < Number(b.initiative)){
@@ -672,7 +684,7 @@ export default class CampaignScreen extends React.Component{
             return -1;
         }
         if (Number(a.tieBreaker) < Number(b.tieBreaker)){
-            return  1;
+            return 1;
         }
         if (Number(a.tieBreaker) > Number(b.tieBreaker)){
             return -1;
@@ -690,6 +702,7 @@ export default class CampaignScreen extends React.Component{
 
     startCombat() {
         this.toggleInitiativePopup();
+        console.log("start comnbat");
         Meteor.call("campaigns.startCombat", this.campaign._id);
     }
 
@@ -707,8 +720,7 @@ export default class CampaignScreen extends React.Component{
             }
         }
 
-        this.campaign.turnOrder[0].turnIndex = max + 1;
-        this.sortTurnOrder()
+        Meteor.call('campaigns.updateTurnIndex', this.campaignID, this.campaign.turnOrder[0].cid, max+1);
     }
 
     showInitiativeButton(){

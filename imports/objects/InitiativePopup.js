@@ -84,7 +84,7 @@ export default class InitiativePopup extends React.Component {
 
             for(var j = 0; j < numCopies; j++)
             {
-                var initiative = Math.floor(Math.random() * 20) + 1 + dex;
+                var initiative = Number(Math.floor(Math.random() * 20)) + 1 + dex;
                 
                 var oldID = this.NPCs[i]._id;
                 var oldName = this.NPCs[i].characterName;
@@ -102,7 +102,7 @@ export default class InitiativePopup extends React.Component {
                 Meteor.call('campaigns.addToTurnOrder',
                     this.props.campaignID,
                     this.NPCs[i]._id,
-                    initiative,
+                    Number(initiative),
                     dex,
                     0,
                     0,
