@@ -24,6 +24,8 @@ const unauthenticatedPages = ['/signin', '/signup'];
 const authenticatedPages = ['/', '/*', '/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
                             '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
 
+
+
 const onEnterPublicPage = () => {
     if (!!Meteor.userId()) {
         browserHistory.push('/home');
@@ -36,36 +38,80 @@ const onEnterPrivatePage = () => {
     }
 };
 
-Tracker.autorun(() => {
-    const pathname = browserHistory.location.pathname;
-    
-    const isAuthenticated = !!Meteor.userId();
-    const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
-    const isAuthenticatedPage = authenticatedPages.includes(pathname);
-
-    if(isUnauthenticatedPage)
-    {
-        onEnterPublicPage();
-    }
-    else onEnterPrivatePage();
-    });
-
-function RenderHeader()
-{
-    if(isAuthenticated)
-    {
-        return <Header/>;
-    }
-    return null;
-}
-
 export class Main extends React.Component{
+
+    constructor(props){
+        super();
+        this.state = { authenticated: false };
+    }
+
+    reupdate()
+    {
+        const pathname = this.browserHistory.location.pathname;
+        
+        const isAuthenticated = !!Meteor.userId();
+        const isUnauthenticatedPage = this.unauthenticatedPages.includes(pathname);
+        const isAuthenticatedPage = this.authenticatedPages.includes(pathname);
+    
+        if(this.state.authenticated != isAuthenticated)
+        {
+            this.forceUpdate();
+            this.setState({
+                authenticated: !!Meteor.userId()
+            });
+        }
+    
+        if(isUnauthenticatedPage)
+        {
+            onEnterPublicPage();
+        }
+        else onEnterPrivatePage();
+        
+    }
+
+
+    ComponentDidMount(){
+        Tracker.autorun(() => {
+            
+                const pathname = this.browserHistory.location.pathname;
+                
+                const isAuthenticated = !!Meteor.userId();
+                const isUnauthenticatedPage = this.unauthenticatedPages.includes(pathname);
+                const isAuthenticatedPage = this.authenticatedPages.includes(pathname);
+            
+                if(this.state.authenticated != isAuthenticated)
+                {
+                    this.forceUpdate();
+                    this.setState({
+                        authenticated: !!Meteor.userId()
+                    });
+                }
+            
+                if(isUnauthenticatedPage)
+                {
+                    onEnterPublicPage();
+                }
+                else onEnterPrivatePage();
+                });
+    }
+
+    
+    RenderHeader()
+    {
+        if(isAuthenticated)
+        {
+            return <Header history = {this.browserHistory} func = {this.reupdate.bind(this)}/>;
+        }
+        return null;
+    }
+
+
     render(){
         
         if(!!Meteor.userId())
         return(
             <div>
-                {RenderHeader()}
+                {this.RenderHeader()}
     
                     <Switch>
                         <Route exact path='/adventureboard' component={AdventureBoard}/>
@@ -81,6 +127,7 @@ export class Main extends React.Component{
                         <Route exact path='/settings' component={Settings}/>
                         <Route exact path='/*' component={Home}/>
                         
+
                     </Switch>
                 </div>
                 

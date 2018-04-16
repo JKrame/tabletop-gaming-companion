@@ -10,12 +10,14 @@ import {Accounts} from 'meteor/accounts-base';
 
 var username;
 var url;
+var conversations;
+var newMessages;
+
 
 export default class Header extends React.Component{
 
     logOut(){
         Meteor.logout();
-
         //this.state.isLoggedIn = !Meteor.userId();
         //this.forceUpdate();
     }
@@ -23,6 +25,7 @@ export default class Header extends React.Component{
     componentWillMount(){
         this.headerTracker = Tracker.autorun(() => {
             const sub = Meteor.subscribe('userData');
+            const sub2 = Meteor.subscribe('conversations');
             if(sub.ready())
             {
                 this.username = Meteor.users.findOne({_id : Meteor.userId()}).profile.username;
@@ -32,12 +35,43 @@ export default class Header extends React.Component{
                 
                 this.forceUpdate();
             }
+            if(sub2.ready())
+            {
+                this.conversations = Conversations.find({}).fetch();
+                this.newMessages = false;
+                for (var i = 0; i < this.conversations.length; i++)
+                {
+                    if (this.conversations[i].participants[0].id == Meteor.userId() && this.conversations[i].userOneUnread == true)
+                    {
+                        this.newMessages = true;
+                        break;
+                    }
+                    else if (this.conversations[i].participants[1].id == Meteor.userId() && this.conversations[i].userTwoUnread == true)
+                    {
+                        this.newMessages = true;
+                        break;
+                    }
+                }
+                this.forceUpdate();
+            }
 
         });
     }
 
     componentWillUnmount(){
         this.headerTracker.stop();
+    }
+
+    renderNotifyDot()
+    {
+        if(this.newMessages)
+        {
+            return <div className="notif-circle"/>;
+        }
+        else
+        {
+            return;
+        }
     }
 
     render(){
@@ -61,7 +95,7 @@ export default class Header extends React.Component{
                                     <li ><NavLink to="/home">Home</NavLink></li>
                                     <li ><NavLink to="/adventureboard">Adventure Board</NavLink></li>
                                     <li ><NavLink to="/binder">Binder</NavLink></li>
-                                    <li ><NavLink to="/mail">Mail <div className="notif-circle"/></NavLink></li>
+                                    <li ><NavLink to="/mail">Mail {this.renderNotifyDot()}</NavLink></li>
                                     <li ><NavLink to="/settings"><div><img src={this.url != null && this.url != "" ? this.url : '/images/photoMissing.png'} style={{"maxWidth":"50px","maxHeight":"20px", "padding":"0px"}}/>    <strong>{this.username}</strong></div></NavLink></li>
                                     <li ><NavLink to="/signin" onClick={this.logOut}>Log Out</NavLink></li>
                                 </ul>
