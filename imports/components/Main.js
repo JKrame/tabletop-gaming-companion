@@ -123,7 +123,6 @@ export class Main extends React.Component{
             );
         }
         else{
-            console.log("unauthenticated");
             return(
                 <div>
                     <Switch>
