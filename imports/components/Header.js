@@ -21,6 +21,9 @@ export default class Header extends React.Component{
 
     logOut(){
         this.loggedOut = true;
+        Meteor._localStorage.removeItem('Meteor.loginToken');
+        Meteor._localStorage.removeItem('Meteor.loginTokenExpires');
+        Meteor._localStorage.removeItem('Meteor.userId');
         Meteor.logout();
         this.props.history.push('/signin');
     }

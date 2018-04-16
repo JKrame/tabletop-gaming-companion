@@ -101,6 +101,7 @@ export default class Mail extends React.Component{
                 }
             }
             
+            this.refs.friendSearchInput.value = "";
             Meteor.call('conversations.insert', this.user, contact);
             
             //console.log(contact);
@@ -139,11 +140,11 @@ export default class Mail extends React.Component{
             this.setState({conversation: conversation});
 
             if (conversation.participants[0].id == Meteor.userId()){
-                this.setState({contactUsername : conversation.participants[1].name, contactImage : conversation.participants[1].image});
+                this.setState({contactUsername : conversation.participants[1].name, contactImage : conversation.participants[1].picture});
                 Meteor.call('conversations.markRead', conversation._id);
             }
             else{
-                this.setState({contactUsername : conversation.participants[0].name, contactImage : conversation.participants[0].image});
+                this.setState({contactUsername : conversation.participants[0].name, contactImage : conversation.participants[0].picture});
                 Meteor.call('conversations.markRead', conversation._id);
             }
 
@@ -166,16 +167,15 @@ export default class Mail extends React.Component{
             <div className="col-lg-8 col-lg-offset-2">
                 <div className=" col-xs-12 fill-height scrolling-container" >
                     <div className="col-lg-4">
-                        <div className="page-content col-sm-12" style={{"height":"200px"}}>
-                            <p>Find Friends</p>
+                        <div className="page-content col-sm-12" style={{"height":"100px"}}>
+                            <p>Add Contact by Username</p>
                             <input type="text" ref="friendSearchInput" className="full-width"/>
-                            <button onClick={() => this.findPlayer()} className="full-width blue-button" >Find</button>
-                            <UserCardMicro userImageURL={this.searchPlayerURL} username={this.searchPlayerUsername} contact={this.searchPlayer} user={this.user}/>
+                            <button onClick={() => this.findPlayer()} className="full-width blue-button" >Add</button>
                         </div>
                         <div className="spacer col-sm-12"/>                      
                         <div className="spacer col-sm-12"/>
                         <div className="col-sm-12">
-                            <h3>Friend List</h3>
+                            <h3>Contact List</h3>
                             <hr/>
                             <div className="scrolling-container"  style={{"height":"545px"}}>
                                 {this.renderPlayers()}
