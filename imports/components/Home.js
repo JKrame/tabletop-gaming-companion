@@ -59,6 +59,10 @@ export default class Home extends React.Component {
 
     componentWillMount(){
         this.homeTracker = Tracker.autorun(() => {
+            if (Meteor.user() == null){
+                return;
+            }
+            
             const sub = Meteor.subscribe('characters');
             const sub2 = Meteor.subscribe('campaigns');
             const sub3 = Meteor.subscribe('userData');
@@ -74,7 +78,7 @@ export default class Home extends React.Component {
             if(sub2.ready())
             {
                 this.campaigns = Campaigns.find({gm: UID}).fetch();
-                this.pendingInvites = Meteor.users.findOne({_id : Meteor.userId()}).profile.pendingInvites;
+                this.pendingInvites = Meteor.user().profile.pendingInvites;
                 this.otherCampaigns = Campaigns.find({"characters.UID": UID}).fetch();
             }
             if(sub3.ready()){

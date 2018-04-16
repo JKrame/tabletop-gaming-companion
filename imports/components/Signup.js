@@ -42,7 +42,9 @@ export default class Signup extends React.Component{
                 this.setState({error: err.reason});
             } else {
                 this.setState({error: ''});
-            }6
+                this.props.history.push('/home');
+                this.forceUpdate();
+            }
         });
     }
 
@@ -71,8 +73,8 @@ export default class Signup extends React.Component{
                                 </label>
                             </div>
                             <div style={{"float":"right"}} className="margin-5">
-                                <NavLink to='/signin' className='nav-item nav-link'><button className="margin-5 cancel-button" style={{"float":"right", "color": "#000000"}}>Cancel</button></NavLink>
                                 <button type="submit" style={{"float":"right", "color": "#000000", "marginRight": "0px"}} className="margin-5 nav-item nav-link">Sign Up</button>
+                                <NavLink to='/signin' className='nav-item nav-link'><button className="margin-5 cancel-button" style={{"float":"right", "color": "#000000"}}>Cancel</button></NavLink>
                             </div>
                         </form>  
                         <div style={{"height":"20px", "clear":"both"}}></div>

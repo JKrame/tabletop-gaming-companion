@@ -21,9 +21,8 @@ const browserHistory = createBrowserHistory();
 const isAuthenticated = !!Meteor.userId();
 
 const unauthenticatedPages = ['/signin', '/signup'];
-const authenticatedPages = ['/', '/*', '/adventureboard', '/binder', '/campaign', 'campaign/*', '/campaign/edit/*', 
+const authenticatedPages = ['/', '/*', '/adventureboard', '/binder', '/campaign', 'campaigns/*', '/campaign/edit/*', 
                             '/characters', 'characters/edit/*', '/home', '/mail', '/nearbyplayers', '/settings'];
-
 
 
 const onEnterPublicPage = () => {
@@ -48,71 +47,64 @@ export class Main extends React.Component{
     reupdate()
     {
         const pathname = this.browserHistory.location.pathname;
-        
         const isAuthenticated = !!Meteor.userId();
         const isUnauthenticatedPage = this.unauthenticatedPages.includes(pathname);
         const isAuthenticatedPage = this.authenticatedPages.includes(pathname);
     
-        if(this.state.authenticated != isAuthenticated)
-        {
+        if(this.state.authenticated != isAuthenticated) {
             this.forceUpdate();
             this.setState({
                 authenticated: !!Meteor.userId()
             });
         }
     
-        if(isUnauthenticatedPage)
-        {
+        if(isUnauthenticatedPage) {
             onEnterPublicPage();
         }
-        else onEnterPrivatePage();
+        else {
+            onEnterPrivatePage();
+        }
         
     }
 
-
     ComponentDidMount(){
         Tracker.autorun(() => {
-            
-                const pathname = this.browserHistory.location.pathname;
-                
-                const isAuthenticated = !!Meteor.userId();
-                const isUnauthenticatedPage = this.unauthenticatedPages.includes(pathname);
-                const isAuthenticatedPage = this.authenticatedPages.includes(pathname);
-            
-                if(this.state.authenticated != isAuthenticated)
-                {
-                    this.forceUpdate();
-                    this.setState({
-                        authenticated: !!Meteor.userId()
-                    });
-                }
-            
-                if(isUnauthenticatedPage)
-                {
-                    onEnterPublicPage();
-                }
-                else onEnterPrivatePage();
+            const pathname = this.browserHistory.location.pathname;
+            const isAuthenticated = !!Meteor.userId();
+            const isUnauthenticatedPage = this.unauthenticatedPages.includes(pathname);
+            const isAuthenticatedPage = this.authenticatedPages.includes(pathname);
+        
+            if(this.state.authenticated != isAuthenticated) {
+                this.forceUpdate();
+                this.setState({
+                    authenticated: !!Meteor.userId()
                 });
+            }
+        
+            if(isUnauthenticatedPage) {
+                onEnterPublicPage();
+            }
+            else {
+                onEnterPrivatePage();
+            }
+        });
     }
 
     
-    RenderHeader()
-    {
-        if(isAuthenticated)
-        {
+    RenderHeader() {
+        if(!!Meteor.userId()) {
             return <Header history = {this.browserHistory} func = {this.reupdate.bind(this)}/>;
         }
+
         return null;
     }
 
 
     render(){
-        
         if(!!Meteor.userId())
-        return(
-            <div>
-                {this.RenderHeader()}
-    
+            return(
+                <div>
+                    {this.RenderHeader()}
                     <Switch>
                         <Route exact path='/adventureboard' component={AdventureBoard}/>
                         <Route exact path='/binder' component={Binder}/>
@@ -126,21 +118,16 @@ export class Main extends React.Component{
                         <Route exact path='/nearbyplayers' component={NearbyPlayers}/>
                         <Route exact path='/settings' component={Settings}/>
                         <Route exact path='/*' component={Home}/>
-                        
-
                     </Switch>
                 </div>
-                
-        )
+            );
         else{
             return(
                 <div>
                     <Switch>
-
                         <Route exact path='/signin' component={Signin}/>
                         <Route exact path='/signup' component={Signup}/>
                         <Route exact path='/*' component={Signin}/>
-                        
                     </Switch>
                 </div>
             );  

@@ -15,26 +15,36 @@ var newMessages;
 
 
 export default class Header extends React.Component{
+    constructor(props){
+        super(props);
+    }
 
     logOut(){
+        this.loggedOut = true;
         Meteor.logout();
-        //this.state.isLoggedIn = !Meteor.userId();
+        this.props.history.push('/signin');
         //this.forceUpdate();
     }
 
     componentWillMount(){
+        this.loggedOut = false;
+        
         this.headerTracker = Tracker.autorun(() => {
+            if (this.loggedOut){
+                return;
+            }
+
             const sub = Meteor.subscribe('userData');
-            const sub2 = Meteor.subscribe('conversations');
             if(sub.ready())
             {
-                this.username = Meteor.users.findOne({_id : Meteor.userId()}).profile.username;
-                this.url = Meteor.users.findOne({_id : Meteor.userId()}).profile.accountPicture;
-                //console.log(this.username);
-                //console.log(this.url);
-                
-                this.forceUpdate();
+                this.user = Meteor.user();
+                if (this.user){
+                    this.username = this.user.profile.username;
+                    this.url = this.user.profile.accountPicture;
+                }
             }
+
+            const sub2 = Meteor.subscribe('conversations');
             if(sub2.ready())
             {
                 this.conversations = Conversations.find({}).fetch();
@@ -52,9 +62,9 @@ export default class Header extends React.Component{
                         break;
                     }
                 }
-                this.forceUpdate();
             }
 
+            this.forceUpdate();
         });
     }
 
@@ -62,21 +72,17 @@ export default class Header extends React.Component{
         this.headerTracker.stop();
     }
 
-    renderNotifyDot()
-    {
-        if(this.newMessages)
-        {
+    renderNotifyDot(){
+        if(this.newMessages) {
             return <div className="notif-circle"/>;
         }
-        else
-        {
+        else {
             return;
         }
     }
 
     render(){
-        if(!!Meteor.userId())
-        {
+        if(Meteor.userId() != null && !this.loggedOut) {
             return(
                 <header className="navbar full-width">
                     <nav className="navbar-inner">
@@ -97,7 +103,7 @@ export default class Header extends React.Component{
                                     <li ><NavLink to="/binder">Binder</NavLink></li>
                                     <li ><NavLink to="/mail">Mail {this.renderNotifyDot()}</NavLink></li>
                                     <li ><NavLink to="/settings"><div><img src={this.url != null && this.url != "" ? this.url : '/images/photoMissing.png'} style={{"maxWidth":"50px","maxHeight":"20px", "padding":"0px"}}/>    <strong>{this.username}</strong></div></NavLink></li>
-                                    <li ><NavLink to="/signin" onClick={this.logOut}>Log Out</NavLink></li>
+                                    <li ><NavLink to="/signin" onClick={this.logOut.bind(this)}>Log Out</NavLink></li>
                                 </ul>
                             </div>
                         </div>
@@ -106,9 +112,7 @@ export default class Header extends React.Component{
             );
         }
         else{
-            return(
-                <header></header>
-            );
+            return null;
         }
     }
 }

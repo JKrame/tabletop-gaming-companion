@@ -52,15 +52,13 @@ export default class PCInitiativeCard extends React.Component{
         return <div className="col-xs-12 ">{spellSlotContainers}</div>;
     }
 
-    renderControls(){
+    renderRemoveFromInitiative(){
         if (Meteor.userId() != this.props.gm){
             return null;
         }
-
+        
         return (
-            <div>
-                <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}></div>;
-            </div>
+            <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}/>
         );
     }
 
@@ -86,13 +84,8 @@ export default class PCInitiativeCard extends React.Component{
                         <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
                         <hr className="hr-override-light"/>
 
+                        {this.renderRemoveFromInitiative()}                   
                         <div className="spacer col-sm-12"/>
-                        <div className="spacer col-sm-12"/>
-                        
-                        {this.renderControls()}                   
-                        <div className="spacer col-sm-12"/>
-
-                        {this.renderSpellSlots()}
                     </div>
                 </div>
             </NavLink>

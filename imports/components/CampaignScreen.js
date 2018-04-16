@@ -642,6 +642,7 @@ export default class CampaignScreen extends React.Component{
                                     position={i}
                                     index={this.campaign.turnIndex}
                                     character={this.characters[j]}
+                                    gm={this.campaign.gm}
                                     campaignID={this.campaign._id}
                                 />
                             );
@@ -722,8 +723,14 @@ export default class CampaignScreen extends React.Component{
             return;
         }
 
-        dex = this.myCharacter.attributes[1];
-        val = Math.floor(Math.random() * 20) + 1 + dex;
+        dex = Math.floor(Number(this.myCharacter.attributes[1])/2 - 5);
+        console.log(this.myCharacter.characterInitiative);
+        if (this.myCharacter.characterInitiative != null && this.myCharacter.characterInitiative != NaN && this.myCharacter.characterInitiative != ""){
+            val = Number(this.myCharacter.characterInitiative) + dex;
+        }
+        else{
+            val = Math.floor(Math.random() * 20) + 1 + dex;
+        }
         Meteor.call('campaigns.addToTurnOrder', this.campaign._id, this.myCharacter._id, val, dex, 0, false);
     }
 

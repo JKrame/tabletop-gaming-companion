@@ -92,6 +92,10 @@ export default class NPCInitiativeCard extends React.Component{
     }
 
     renderRemoveFromInitiative(){
+        if (Meteor.userId() != this.props.gm){
+            return null;
+        }
+        
         return (
             <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}/>
         );
@@ -141,7 +145,6 @@ export default class NPCInitiativeCard extends React.Component{
                         <hr className="hr-override-light"/>
                         
                         {/*this.renderHealthBar()*/}
-                        
                         {/*this.renderControls()*/}
                         {this.renderRemoveFromInitiative()}                   
                         <div className="spacer col-sm-12"/>

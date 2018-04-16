@@ -108,7 +108,8 @@ export default class CharacterForm extends React.Component{
             this.refs.characterInspiration.value.trim(),
             this.refs.characterPerception.value.trim(),
             this.refs.attackNotes.value.trim(),
-            this.refs.equipmentNotes.value.trim()
+            this.refs.equipmentNotes.value.trim(),
+            this.refs.characterBackstory.value.trim()
         );
     }
     deleteCharacter(id) {
@@ -157,7 +158,7 @@ export default class CharacterForm extends React.Component{
 
                             <div className="col-sm-12">
                                 <p className="p-override">BACKSTORY</p>
-                                <textarea rows={10} className="full-width"  ref="characterBackstory" defaultValue={character.characterName != null ? character.characterName : undefined}/>
+                                <textarea rows={10} className="full-width"  ref="characterBackstory" defaultValue={character.backstory != null ? character.backstory : undefined}/>
                             </div>
 
                                 <div className="spacer col-sm-12"/>

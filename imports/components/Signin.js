@@ -23,12 +23,12 @@ export default class Signin extends React.Component{
         Meteor.loginWithPassword({email}, password, (err) => {
             if (err) {
                 this.setState({error: err.reason});
-              //this.setState({error: 'Unable to login. Check email and password.'});
             } else {
-              this.setState({error: ''});
-              this.props.history.push('/home');
+                this.setState({error: ''});
+                this.props.history.push('/home');
+                this.forceUpdate();
             }
-          });
+        });
     }
 
     render(){
