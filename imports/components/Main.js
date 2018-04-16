@@ -101,7 +101,7 @@ export class Main extends React.Component{
 
 
     render(){
-        if(!!Meteor.userId())
+        if(Meteor.user()){
             return(
                 <div>
                     {this.RenderHeader()}
@@ -121,7 +121,9 @@ export class Main extends React.Component{
                     </Switch>
                 </div>
             );
+        }
         else{
+            console.log("unauthenticated");
             return(
                 <div>
                     <Switch>

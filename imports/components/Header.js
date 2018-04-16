@@ -23,7 +23,6 @@ export default class Header extends React.Component{
         this.loggedOut = true;
         Meteor.logout();
         this.props.history.push('/signin');
-        //this.forceUpdate();
     }
 
     componentWillMount(){
