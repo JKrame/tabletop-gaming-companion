@@ -8,7 +8,7 @@ export default class CharacterCardVertical extends React.Component {
                 <div className="vertical-card col-lg-3 col-md-4 col-sm-6 col-xs-12 highlight-container " draggable="false">
                     <div className="vertical-card-contents grow">
                         <div className="vertical-image">
-                            <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/photoMissing.png'} className="full-width vertical-image" draggable="false"/>
+                            <img src={this.props.characterImageURL!=null && this.props.characterImageURL!="" ? this.props.characterImageURL : '/images/photoMissing.png'} className="stretch-image" draggable="false"/>
                         </div>
                         <div className="vertical-contents">     
                             <div className="vertical-campaign-title">
