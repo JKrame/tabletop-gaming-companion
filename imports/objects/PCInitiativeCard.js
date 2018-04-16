@@ -86,16 +86,6 @@ export default class PCInitiativeCard extends React.Component{
                         <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
                         <hr className="hr-override-light"/>
 
-                        <div className="col-xs-12 no-margin-override no-padding">
-                            <div className="col-xs-10 no-margin-override">
-                                <div className="full-width" style={{"backgroundColor":"Grey", "height":"15px", "display":"relative", "overflow":"hidden"}}>
-                                    <div style={{"backgroundColor":"red", "height":"15px", "width": this.state.percent}}/>
-                                </div>
-                            </div>
-                            <div className="col-xs-2 no-margin-override">
-                                <p>{this.state.currHP + "/" + this.state.maxHP}</p>
-                            </div>
-                        </div>
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
                         

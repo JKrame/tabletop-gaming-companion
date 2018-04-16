@@ -87,8 +87,13 @@ export default class NPCInitiativeCard extends React.Component{
                 <button className="inc-button" onClick={() => this.lowerHealth(this.props.character)}>-</button>
                 <input className="spellbox" ref="healthBox" defaultValue={this.state.currHP} onChange={() => this.setHealth(this.props.character).bind(this)} placeholder=""/>
                 <button className="inc-button" onClick={() => this.raiseHealth(this.props.character)}>+</button>
-                <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}></div>;
             </div>
+        );
+    }
+
+    renderRemoveFromInitiative(){
+        return (
+            <div className="kill-button" onClick={this.removeFromInitiative.bind(this)}/>
         );
     }
 
@@ -135,11 +140,12 @@ export default class NPCInitiativeCard extends React.Component{
                         <h5 className="no-margin-override h5-overflow-hidden">{this.props.character.characterName}</h5>
                         <hr className="hr-override-light"/>
                         
-                        {this.renderHealthBar()}
+                        {/*this.renderHealthBar()*/}
                         <div className="spacer col-sm-12"/>
                         <div className="spacer col-sm-12"/>
                         
-                        {this.renderControls()}                   
+                        {/*this.renderControls()*/}
+                        {this.renderRemoveFromInitiative()}                   
                         <div className="spacer col-sm-12"/>
 
                         {this.renderSpellSlots()}
