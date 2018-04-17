@@ -1412,6 +1412,16 @@ a.menu_links{
     background: white;
   }
 
+
+
+  .img_asset_popup{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        /* bring your own prefixes */
+        transform: translate(-50%, -50%);
+      }
+
   .schedule-content{
       position: relative;
   }
@@ -1430,9 +1440,6 @@ a.menu_links{
 
   }
 
-  .npc-qty{
-
-  }
 
   .no-padding{
       padding:0 0 !important;
@@ -1443,8 +1450,6 @@ a.menu_links{
   }
   .in-game-chat-btn-container{
       max-height:300px;
-  }
-  .in-game-chat-btn{
   }
 
   .chat-box{
