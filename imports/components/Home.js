@@ -273,7 +273,7 @@ export default class Home extends React.Component {
                     continue;
                 }
                 userLocation=this.user[i].profile.location;
-                //console.log(this.user[i].profile.username)
+                console.log(this.user[i].profile.username)
                 //console.log(userLocation)
             }
             if(currUserLocation && userLocation != null)
@@ -296,9 +296,10 @@ export default class Home extends React.Component {
                     );
                 
                 }
-                return <div>{cards}</div>;
+                
             }
         }
+        return <div>{cards}</div>;
     }
 
 
