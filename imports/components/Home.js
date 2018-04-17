@@ -16,6 +16,8 @@ import Header from './Header';
 var characters;
 var charactersArray;
 
+var user;
+
 var campaigns;
 var campaignsArray;
 
@@ -35,7 +37,8 @@ export default class Home extends React.Component {
         super();
         this.state = {
             showInvitePopup: false,
-            showCalendarPopup: false
+            showCalendarPopup: false,
+            locationPopulated: false
         };
         this.toggleCalendarPopup = this.toggleCalendarPopup.bind(this);
     }
@@ -245,8 +248,10 @@ export default class Home extends React.Component {
         var cards = [];
         var currUserLocation=null
         var userLocation=null
-        //console.log(this.user)
-        if(this.user==undefined){
+
+        this.state.locationPopulated = !this.state.locationPopulated
+
+        if(this.user==null){
             return;
         }  
         //checks for user location
@@ -264,15 +269,15 @@ export default class Home extends React.Component {
             if(this.user[i]._id != Meteor.userId()){
                 //console.log(Meteor.userId())
 
-                if(this.user[i].profile.location == null){
-                    return;
+                if(!this.user[i].profile.location){
+                    continue;
                 }
                 userLocation=this.user[i].profile.location;
                 //console.log(this.user[i].profile.username)
+                //console.log(userLocation)
             }
             if(currUserLocation && userLocation != null)
             {
-                
                 distance = geolib.getDistance(
                     {latitude: currUserLocation[0], longitude: currUserLocation[1]},
                     {latitude: userLocation[0], longitude: userLocation[1]}
