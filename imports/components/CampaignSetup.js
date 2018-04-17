@@ -7,6 +7,7 @@ import CharacterCardHalf from '../objects/CharacterCardHalf';
 import TextAssetcard from '../objects/TextAssetCard';
 import ImageAssetCard from '../objects/ImageAssetCard';
 import ImagePopup from '../objects/ImageFormPopup';
+import ImageAssetPopup from '../objects/ImageAssetPopup';
 import PlayerPopup from '../objects/PlayerFormPopup';
 
 import Header from './Header';
@@ -23,6 +24,7 @@ var turnOrder;
 var URLs;
 var characters;
 var user;
+var currentImage;
 
 var popupStyle = {
     display: 'none'
@@ -34,6 +36,7 @@ export default class CampaignSetup extends React.Component{
         this.state = {
             showImagePopup: false,
             showPlayerPopup: false,
+            showImageAssetPopup: false,
             isGm: false
         };
     }
@@ -47,6 +50,12 @@ export default class CampaignSetup extends React.Component{
     togglePlayerPopup() {
         this.setState({
             showPlayerPopup: !this.state.showPlayerPopup
+        }); 
+    }
+
+    toggleImageAssetPopup() {
+        this.setState({
+            showImageAssetPopup: !this.state.showImageAssetPopup
         }); 
     }
 
@@ -101,6 +110,11 @@ export default class CampaignSetup extends React.Component{
             }
         }
         return <div>{cards}</div>;
+    }
+
+    openImage(url){
+        this.currentImage = url;
+        this.toggleImageAssetPopup()
     }
 
     loadCharacter(characterID){
@@ -203,10 +217,16 @@ export default class CampaignSetup extends React.Component{
                     URL={this.campaign.URLs[i]}
                     _id ={this.id}
                     campaignID={this.campaign._id}
+                    func = {this.openImage.bind(this)}
                 />
             );
         }
         return <div>{cards}</div>;
+    }
+
+    loadImage(url)
+    {
+        $("<a>").attr("href", url).attr("target", "_blank")[0].click();
     }
 
     deleteCampaign(){
@@ -481,7 +501,13 @@ export default class CampaignSetup extends React.Component{
                             />
                             : null
                         }
-                        
+                        {this.state.showImageAssetPopup ? 
+                            <ImageAssetPopup
+                                closePopup={this.toggleImageAssetPopup.bind(this)}
+                                img = {this.currentImage}
+                            />
+                            : null
+                        }   
                     </div>
                 </div>
 
