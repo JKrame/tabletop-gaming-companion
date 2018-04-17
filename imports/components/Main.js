@@ -101,7 +101,7 @@ export class Main extends React.Component{
 
 
     render(){
-        if(Meteor.user()){
+        if(Meteor.userId()){
             return(
                 <div>
                     {this.RenderHeader()}

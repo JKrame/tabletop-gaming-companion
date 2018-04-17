@@ -115,7 +115,8 @@ export default class CalendarPopup extends React.Component {
                     )
                 })}
             </div>
-        )
+        );
+        /*
         for(var i = 0; i < this.props.allPlayerProfiles.length; i++)
         {
             days = "";
@@ -154,8 +155,8 @@ export default class CalendarPopup extends React.Component {
             <div>
                 <div className="userName-schedule-label">{this.props.gmProfile.username}</div>
             </div>
-        )
-
+        );
+        */
     }
 
     render() {

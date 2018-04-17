@@ -8,12 +8,7 @@ export default class Signin extends React.Component{
             error: ''
         };
     }
-
-    ComponentDidMount()
-    {
-        //this.forceUpdate();
-    }
-
+    
     onSubmit(e){
         e.preventDefault();
 
@@ -26,7 +21,6 @@ export default class Signin extends React.Component{
             } else {
                 this.setState({error: ''});
                 this.props.history.push('/home');
-                this.forceUpdate();
             }
         });
     }
